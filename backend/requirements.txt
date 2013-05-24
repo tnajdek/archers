@@ -1,4 +1,4 @@
 box2d
 tornado
 autobahn
-tmxlib
+-e git+git://github.com/encukou/pytmxlib.git#egg=tmxlib

@@ -1,7 +1,7 @@
-from twisted.internet import reactor
+from twisted.internet import reactor, task
 from autobahn.websocket import listenWS
 from autobahn.wamp import WampServerFactory, WampServerProtocol, exportRpc
-
+import sys
 
 DOMAIN = 'http://localhost/'
 
@@ -23,8 +23,24 @@ class UserActionsHandler(WampServerProtocol):
 		self.registerForRpc(self, "%s%s#" % (DOMAIN, 'rpc'))
 		self.registerForPubSub("%s%s#" % (DOMAIN, 'pubsub'))
 
+
+class Archers():
+	def startNetworking(self):
+		factory = WampServerFactory("ws://localhost:9000")
+		factory.protocol = UserActionsHandler
+		listenWS(factory)
+
+	def startCore(self):
+		task.LoopingCall(sys.stderr.write, '.').start(.4)
+		reactor.run()
+
+	def start(self):
+		self.startCore()
+		self.startNetworking()
+
+
+
 if __name__ == '__main__':
-	factory = WampServerFactory("ws://localhost:9000")
-	factory.protocol = UserActionsHandler
-	listenWS(factory)
-	reactor.run()
+	archers = Archers()
+	Archers.start()
+	
