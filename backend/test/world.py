@@ -10,8 +10,6 @@ from archers.world import World
 # from archers.player import Player
 
 
-
-
 class TestWorldGeneration(unittest.TestCase):
 
 	def setUp(self):
@@ -22,15 +20,18 @@ class TestWorldGeneration(unittest.TestCase):
 		# self.spawnPoint = self.world.getSpawnPoints()[0]
 		# self.world.spawn(self.player, self.spawnPoint)
 
-
-	def spawn_points_found(self):
-		spawn_point = self.map.get_spawn_points()[0]
+	def test_spawn_points_found(self):
+		spawn_point = self.world.get_spawn_points()[0]
 		self.assertEqual(spawn_point.x, 2)
 		self.assertEqual(spawn_point.y, 3)
-	
 
-	def test(self):
-		pass
+	def test_collidables_created(self):
+		barrel = self.world.physics.bodies[0]
+		self.assertEqual(barrel.position.x, 6)
+		self.assertEqual(barrel.position.y, 3)
+		# @TODO: check size 1.0, 1.312
+
+
 
 	# def player_spawned(self):
 	# 	self.player.spatial.x == self.spawnPoint.spatial.x
@@ -49,4 +50,4 @@ class TestWorldGeneration(unittest.TestCase):
 	# 	self.assertEqual(self.player.spatial.y, self.spawnPoint.spatial.y)
 
 if __name__ == '__main__':
-    unittest.main(verbosity=5)
+    unittest.main()
