@@ -20,12 +20,15 @@ class ListWithCounter(list):
 
 
 class WorldObject(object):
+	default_type = 'unknown'
+
 	def __init__(self, world, type=None, name=None):
+		self.world = world
 		self.type = type
 		self.name = name
 
 		if(not self.type):
-			self.type = 'Unknown'
+			self.type = self.__class__.default_type
 		if(not self.type in world.object_lookup_by_type.keys()):
 			world.object_lookup_by_type[self.type] = ListWithCounter()
 		objects_of_this_type = world.object_lookup_by_type[self.type]
@@ -38,21 +41,35 @@ class WorldObject(object):
 		world.object_lookup_by_name[self.name] = self
 
 
-class Collidable(WorldObject):
+class MapObject(WorldObject):
 	def __init__(self, world, data, **kwargs):
-		self.physics = world.physics.CreateStaticBody(
-				position=(data.x, data.y),
-				shapes=b2PolygonShape(box=data.size),
-		)
 		type_ = data.type
 		if 'type' in kwargs:
 			type_ = kwargs['type']
 		name = data.name
 		if 'name' in kwargs:
 			name = kwargs['name']
+		super(MapObject, self).__init__(world, type=type_, name=name)
 
-		self.world = world
-		super(Collidable, self).__init__(world, type=type_, name=name)
+
+class Collidable(MapObject):
+	default_type = 'collidable'
+
+	def __init__(self, world, data, **kwargs):
+		self.physics = world.physics.CreateStaticBody(
+				position=(data.x, data.y),
+				shapes=b2PolygonShape(box=data.size),
+		)
+		super(Collidable, self).__init__(world, data, **kwargs)
+
+
+class SpawnPoint(MapObject):
+	default_type = 'spawn'
+
+	def __init__(self, world, data, **kwargs):
+		self.x = data.x
+		self.y = data.y
+		super(SpawnPoint, self).__init__(world, data, **kwargs)
 
 
 class World(object):
@@ -64,17 +81,28 @@ class World(object):
 		for layer in self.map.layers:
 			self.layers[layer.name] = layer
 		self.physics = b2World(gravity=(0, 0))
-		self.build_collidable_bodies(self.layers['collision'])
+		self.init_collidable_bodies(self.layers['collision'])
+		self.init_spawn_points(self.layers['spawn'])
 
-	def build_collidable_bodies(self, layer):
+	def init_collidable_bodies(self, layer):
 		for collidable in layer.all_objects():
 			Collidable(self, collidable)
 
+	def init_spawn_points(self, layer):
+		for sp in layer.all_objects():
+				SpawnPoint(self, sp)
+
 	def get_spawn_points(self):
-		return self.layers['spawn'].all_objects()
+		return self.object_lookup_by_type['spawn']
 
 	def get_collidables(self, type, name):
 		return self.layers['collision'].all_objects()
+
+	def get_objects_by_type(self, type_):
+		return self.object_lookup_by_type[type_]
+
+	def get_object_by_name(self, name):
+		return self.object_lookup_by_name[name]
 
 	def step(self):
 		self.physics.Step(settings.TIME_STEP, 10, 10)
