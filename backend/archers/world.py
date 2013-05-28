@@ -9,41 +9,33 @@ directions = {
 	'west': b2Vec2(-1, 0),
 }
 
+
 class ListWithCounter(list):
 	def __init__(self):
 		self.counter = 0
+
 	def append(self, item):
 		self.counter = self.counter + 1
 		return super(ListWithCounter, self).append(item)
 
 
 class WorldObject(object):
-	type_lookup = dict()
-	name_lookup = dict()
-
-	@classmethod
-	find_by_type(class_, type_):
-		return class_.type_lookup[type_]
-
-	@classmethod
-	find_by_name(class_, name):
-		return class_.name_lookup[name]
-
-	def __init__(self, type=None, name=None):
-		class_ = self.__class__
+	def __init__(self, world, type=None, name=None):
 		self.type = type
+		self.name = name
+
 		if(not self.type):
 			self.type = 'Unknown'
-		if(not self.type in self.__class__.type_lookup.keys()):
-			class_.type_lookup[self.type] = ListWithCounter()
-		objects_of_this_type = class_.type_lookup[self.type]
-		self.name = name
+		if(not self.type in world.object_lookup_by_type.keys()):
+			world.object_lookup_by_type[self.type] = ListWithCounter()
+		objects_of_this_type = world.object_lookup_by_type[self.type]
+
 		if(not self.name):
 			self.name = "%s_%s" % (self.type, objects_of_this_type.counter)
 		objects_of_this_type.append(self)
-		if(self.name in class_.name_lookup.keys()):
+		if(self.name in world.object_lookup_by_name.keys()):
 			raise Exception("Duplicate WorldObject with name %s found" % self.name)
-		class_.name_lookup[self.name] = self
+		world.object_lookup_by_name[self.name] = self
 
 
 class Collidable(WorldObject):
@@ -59,13 +51,16 @@ class Collidable(WorldObject):
 		if 'name' in kwargs:
 			name = kwargs['name']
 
-		super(Collidable, self).__init__(type=type_, name=name)
+		self.world = world
+		super(Collidable, self).__init__(world, type=type_, name=name)
 
 
 class World(object):
 	def __init__(self, map_filename):
 		self.map = tmxlib.Map.open(map_filename)
 		self.layers = dict()
+		self.object_lookup_by_type = dict()
+		self.object_lookup_by_name = dict()
 		for layer in self.map.layers:
 			self.layers[layer.name] = layer
 		self.physics = b2World(gravity=(0, 0))
