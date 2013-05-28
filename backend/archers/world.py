@@ -1,6 +1,13 @@
 import tmxlib
 from Box2D import *
+import settings
 
+directions = {
+	'north': b2Vec2(1, 0),
+	'south': b2Vec2(-1, 0),
+	'east': b2Vec2(0, 1),
+	'west': b2Vec2(0, -1),
+}
 
 class World():
 	def __init__(self, map_filename):
@@ -22,4 +29,5 @@ class World():
 		return self.layers['spawn'].all_objects()
 
 	def step(self):
-		self.physics.Step(1.0/60, 10, 10)
+		print '.'
+		self.physics.Step(settings.TIME_STEP, 10, 10)

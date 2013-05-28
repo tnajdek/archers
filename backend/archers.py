@@ -1,11 +1,11 @@
+#!/usr/bin/env python2
 from twisted.internet import reactor, task
 from autobahn.websocket import listenWS
 from autobahn.wamp import WampServerFactory, WampServerProtocol, exportRpc
-import sys
 from archers.world import World
 import settings
-
 from Box2D import *
+
 class UserActionsHandler(WampServerProtocol):
 
 	@exportRpc
@@ -32,7 +32,7 @@ class Archers():
 
 	def init_world(self):
 		self.world = World('../common/map.tmx')
-		task.LoopingCall(self.world.step).start(1.0/60)
+		task.LoopingCall(self.world.step).start(settings.TIME_STEP)
 		#spawn test
 		# from archers.player import Player
 		# self.player = Player(self.world)
@@ -54,11 +54,9 @@ class Archers():
 		self.init_networking()
 		if(settings.DEBUG):
 			self.init_debug_renderer()
-			from archers.debug import Renderer
 		reactor.run()
 
 
 if __name__ == '__main__':
 	archers = Archers()
 	archers.start()
-	

@@ -1,5 +1,5 @@
-import unittest
-import time
+#!/usr/bin/env python2
+from twisted.trial import unittest
 import os
 import sys
 
@@ -16,9 +16,6 @@ class TestWorldGeneration(unittest.TestCase):
 		path = os.path.dirname(os.path.os.path.realpath(__file__))
 		path = os.path.join(path, 'assets/test1.tmx')
 		self.world = World(path)
-		# self.player = Player()
-		# self.spawnPoint = self.world.getSpawnPoints()[0]
-		# self.world.spawn(self.player, self.spawnPoint)
 
 	def test_spawn_points_found(self):
 		spawn_point = self.world.get_spawn_points()[0]
