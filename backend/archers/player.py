@@ -18,6 +18,7 @@ class Player():
 		self.world.physics.Destroybody(self.physics)
 
 	def want_move(self, direction):
+		import ipdb; ipdb.set_trace()
 		speed_vector = direction*self.speed
 		self.physics.ApplyLinearImpulse(
 			impulse=self.physics.GetWorldVector(speed_vector),

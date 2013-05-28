@@ -10,6 +10,7 @@ from archers.world import World, directions
 from archers.player import Player
 import settings
 
+
 class TestPlayer(unittest.TestCase):
 	def setUp(self):
 		self.clock = task.Clock()
@@ -20,11 +21,11 @@ class TestPlayer(unittest.TestCase):
 		self.player = Player(self.world)
 		self.player.spawn(self.spawn_point)
 		self.world_update_task = task.LoopingCall(self.world.step)
+		self.world_update_task.clock = self.clock
 		self.world_update_task.start(settings.TIME_STEP)
 
 	def tearDown(self):
 		self.world_update_task.stop()
-		del self.world_update_task
 
 	def test_player_spawned(self):
 		self.assertEqual(self.spawn_point.x, self.player.physics.position.x)
@@ -32,7 +33,8 @@ class TestPlayer(unittest.TestCase):
 
 	def test_player_moved(self):
 		self.player.want_move(directions['north'])
-		self.clock.advance(10)
+		for i in range(120):
+			self.clock.advance(settings.TIME_STEP * i)
 		self.assertGreater(self.player.physics.position.y, self.spawn_point.y)
 
 if __name__ == '__main__':

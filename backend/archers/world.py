@@ -29,5 +29,4 @@ class World():
 		return self.layers['spawn'].all_objects()
 
 	def step(self):
-		print '.'
 		self.physics.Step(settings.TIME_STEP, 10, 10)
