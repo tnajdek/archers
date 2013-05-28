@@ -5,6 +5,7 @@ from archers.world import WorldObject
 class Player(WorldObject):
 	speed = 50
 	default_type = 'player'
+
 	def __init__(self, world):
 		super(Player, self).__init__(world, type="player")
 
@@ -30,3 +31,10 @@ class Player(WorldObject):
 
 	def want_attack(self):
 		pass
+
+class SelfDestructableMixin(WorldObject):
+
+	def __init__(self, *args, **kwargs):
+
+
+class Arrow(WorldObject)

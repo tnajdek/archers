@@ -6,6 +6,7 @@ from archers.world import World
 import settings
 from Box2D import *
 
+
 class UserActionsHandler(WampServerProtocol):
 
 	@exportRpc

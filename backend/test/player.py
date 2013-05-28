@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 import os
 from twisted.trial import unittest
 from twisted.internet import task
@@ -42,9 +41,3 @@ class TestPlayer(unittest.TestCase):
 		self.advance_clock(100)
 		self.assertLess(self.player.physics.position.x, 6.0)
 		self.assertGreater(self.player.physics.position.x, self.spawn_point.x)
-
-
-
-
-if __name__ == '__main__':
-	unittest.main()

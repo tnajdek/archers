@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 from twisted.trial import unittest
 import os
 from archers.world import World
