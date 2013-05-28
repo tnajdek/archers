@@ -1,18 +1,18 @@
 from Box2D import *
-from archers.world import directions
+from archers.world import WorldObject
 
 
-class Player():
+class Player(WorldObject):
 	speed = 50
+	default_type = 'player'
 	def __init__(self, world):
-		self.world = world
+		super(Player, self).__init__(world, type="player")
 
-	def spawn(self, spawnPoint):
+	def spawn(self, spawn_point):
 		self.physics = self.world.physics.CreateDynamicBody(
-			position=(spawnPoint.x, spawnPoint.y)
+			position=(spawn_point.x, spawn_point.y)
 		)
 		self.physics.CreatePolygonFixture(box=(1, 1), density=1, friction=0.3)
-		# self.physics.ApplyTorque(5.0, wake=True)
 
 	def destroy(self):
 		self.world.physics.DestroyBody(self.physics)
@@ -28,5 +28,5 @@ class Player():
 	def want_stop(self):
 		self.physics.setLinearVelocity(0, 0)
 
-	def wat_attack(self):
+	def want_attack(self):
 		pass
