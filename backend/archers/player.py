@@ -15,10 +15,9 @@ class Player():
 		# self.physics.ApplyTorque(5.0, wake=True)
 
 	def destroy(self):
-		self.world.physics.Destroybody(self.physics)
+		self.world.physics.DestroyBody(self.physics)
 
 	def want_move(self, direction):
-		import ipdb; ipdb.set_trace()
 		speed_vector = direction*self.speed
 		self.physics.ApplyLinearImpulse(
 			impulse=self.physics.GetWorldVector(speed_vector),

@@ -1,13 +1,7 @@
 #!/usr/bin/env python2
 from twisted.trial import unittest
 import os
-import sys
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.os.path.realpath(__file__))))
-# import ipdb; ipdb.set_trace()
-
 from archers.world import World
-# from archers.player import Player
 
 
 class TestWorldGeneration(unittest.TestCase):
@@ -26,25 +20,3 @@ class TestWorldGeneration(unittest.TestCase):
 		barrel = self.world.physics.bodies[0]
 		self.assertEqual(barrel.position.x, 6)
 		self.assertEqual(barrel.position.y, 3)
-		# @TODO: check size 1.0, 1.312
-
-
-
-	# def player_spawned(self):
-	# 	self.player.spatial.x == self.spawnPoint.spatial.x
-	# 	self.player.spatial.y == self.spawnPoint.spatial.y
-
-	# doesn't belong here
-	# def move_player(self):
-	# 	"""
-	# 	Check if player object moves in the right direction
-	# 	after applying force
-	# 	"""
-	# 	self.player.physics.applyForce(10, 0)
-	# 	time.sleep(1)
-	# 	self.player.physics.setLinearVelocity(0, 0)
-	# 	self.assertGreater(self.player.spatial.x, self.spawnPoint.spatial.x)
-	# 	self.assertEqual(self.player.spatial.y, self.spawnPoint.spatial.y)
-
-if __name__ == '__main__':
-    unittest.main()
