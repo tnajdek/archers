@@ -1,14 +1,14 @@
 from Box2D import *
-from archers.world import WorldObject
+from archers.world import WorldObject, SelfDestructable
 
 
-class Player(WorldObject):
+class Player(WorldObject, ReactorMixin):
 	default_type = 'player'
 
-	def __init__(self, world):
+	def __init__(self, world, *args, **kwargs):
 		self.speed = 50
 		self.arrows_shot = list()
-		super(Player, self).__init__(world, type="player")
+		super(Player, self).__init__(world, type="player", *args, **kwargs)
 
 	def spawn(self, spawn_point):
 		self.physics = self.world.physics.CreateDynamicBody(
@@ -18,6 +18,7 @@ class Player(WorldObject):
 
 	def destroy(self):
 		self.world.physics.DestroyBody(self.physics)
+		super(Player, self).destroy()
 
 	def want_move(self, direction):
 		speed_vector = direction*self.speed
@@ -31,12 +32,7 @@ class Player(WorldObject):
 		self.physics.setLinearVelocity(0, 0)
 
 	def want_attack(self):
-		pass
-
-
-class SelfDestructable(WorldObject):
-	def __init__(self, *args, **kwargs):
-		pass
+		self.
 
 
 class Arrow(SelfDestructable):

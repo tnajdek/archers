@@ -1,14 +1,14 @@
 import os
-from twisted.trial import unittest
 from twisted.internet import task
 from archers.world import World, directions
 from archers.player import Player
 import settings
+from .base import BaseTestCase
 
 
-class TestPlayer(unittest.TestCase):
+class TestPlayer(BaseTestCase):
 	def setUp(self):
-		self.clock = task.Clock()
+		super(TestPlayer, self).setUp()
 		path = os.path.dirname(os.path.os.path.realpath(__file__))
 		path = os.path.join(path, 'assets/test1.tmx')
 		self.world = World(path)
@@ -18,10 +18,6 @@ class TestPlayer(unittest.TestCase):
 		self.world_update_task.start(settings.TIME_STEP)
 		self.player = Player(self.world)
 		self.player.spawn(self.spawn_point)
-
-	def advance_clock(self, steps):
-		for i in range(steps):
-			self.clock.advance(settings.TIME_STEP*steps)
 
 	def tearDown(self):
 		self.player.destroy()

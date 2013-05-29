@@ -1,6 +1,7 @@
 import tmxlib
 from Box2D import *
 import settings
+from twisted.internet import reactor
 
 directions = {
 	'north': b2Vec2(0, -1),
@@ -19,10 +20,21 @@ class ListWithCounter(list):
 		return super(ListWithCounter, self).append(item)
 
 
-class WorldObject(object):
+class Base(object):
+	def __init__(*args, **kwargs):
+		pass
+
+
+class ReactorMixin(Base):
+	def __init__(self, reactor=reactor, *args, **kwargs):
+		self.reactor = reactor
+		super(ReactorMixin, self).__init__(*args, **kwargs)
+
+
+class WorldObject(Base):
 	default_type = 'unknown'
 
-	def __init__(self, world, type=None, name=None):
+	def __init__(self, world, type=None, name=None, *args, **kwargs):
 		self.world = world
 		self.type = type
 		self.name = name
@@ -39,6 +51,11 @@ class WorldObject(object):
 		if(self.name in world.object_lookup_by_name.keys()):
 			raise Exception("Duplicate WorldObject with name %s found" % self.name)
 		world.object_lookup_by_name[self.name] = self
+		super(WorldObject, self).__init__(*args, **kwargs)
+
+	def destroy(self):
+		self.world.object_lookup_by_name.pop(self.name)
+		self.world.object_lookup_by_type[self.type].remove(self)
 
 
 class MapObject(WorldObject):
@@ -70,6 +87,12 @@ class SpawnPoint(MapObject):
 		self.x = data.x
 		self.y = data.y
 		super(SpawnPoint, self).__init__(world, data, **kwargs)
+
+
+class SelfDestructable(WorldObject, ReactorMixin):
+	def __init__(self, *args, **kwargs):
+		super(SelfDestructable, self).__init__(*args, **kwargs)
+		self.reactor.callLater(self.destroy)
 
 
 class World(object):

@@ -1,9 +1,10 @@
 from twisted.trial import unittest
 import os
-from archers.world import World
+from archers.world import World, SelfDestructable
+from .base import BaseTestCase
 
 
-class TestWorldGeneration(unittest.TestCase):
+class TestWorldGeneration(BaseTestCase):
 
 	def setUp(self):
 		path = os.path.dirname(os.path.os.path.realpath(__file__))
@@ -19,3 +20,6 @@ class TestWorldGeneration(unittest.TestCase):
 		barrel = self.world.get_objects_by_type('barrel')[0]
 		self.assertEqual(barrel.physics.position.x, 6)
 		self.assertEqual(barrel.physics.position.y, 3)
+
+	def test_self_destructable(self):
+		item = SelfDestructable()
