@@ -26,8 +26,8 @@ class Base(object):
 
 
 class ReactorMixin(Base):
-	def __init__(self, reactor=reactor, *args, **kwargs):
-		self.reactor = reactor
+	def __init__(self, *args, **kwargs):
+		self.reactor = kwargs.pop('reactor', reactor)
 		super(ReactorMixin, self).__init__(*args, **kwargs)
 
 
@@ -91,8 +91,12 @@ class SpawnPoint(MapObject):
 
 class SelfDestructable(WorldObject, ReactorMixin):
 	def __init__(self, *args, **kwargs):
+		lifetime = kwargs.pop('lifetime', 1.0)
 		super(SelfDestructable, self).__init__(*args, **kwargs)
-		self.reactor.callLater(self.destroy)
+		self.self_destruction_task = self.reactor.callLater(lifetime, self.destroy)
+
+	def destroy(self):
+		super(SelfDestructable, self).destroy()
 
 
 class World(object):

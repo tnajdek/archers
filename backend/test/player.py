@@ -16,7 +16,7 @@ class TestPlayer(BaseTestCase):
 		self.world_update_task = task.LoopingCall(self.world.step)
 		self.world_update_task.clock = self.clock
 		self.world_update_task.start(settings.TIME_STEP)
-		self.player = Player(self.world)
+		self.player = Player(self.world, reactor=self.clock)
 		self.player.spawn(self.spawn_point)
 
 	def tearDown(self):
@@ -39,8 +39,8 @@ class TestPlayer(BaseTestCase):
 		self.assertGreater(self.player.physics.position.x, self.spawn_point.x)
 
 	def test_player_shoots(self):
-		self.player.want_shoot(directions['south'])
-		self.advance_clock(30)  # modify this value based on shooting anim
+		self.player.want_attack(directions['south'])
+		self.advance_clock(10)
 		self.assertEqual(len(self.player.arrows_shot), 1)
-		self.advance_clock(120)
+		self.advance_clock(100)
 		self.assertEqual(len(self.player.arrows_shot), 0)
