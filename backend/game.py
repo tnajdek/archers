@@ -63,3 +63,4 @@ class Archers():
 if __name__ == '__main__':
 	archers = Archers()
 	archers.start()
+	

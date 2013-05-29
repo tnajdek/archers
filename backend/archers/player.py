@@ -17,6 +17,7 @@ class Player(WorldObject, ReactorMixin):
 		self.physics = self.world.physics.CreateDynamicBody(
 			position=(spawn_point.x, spawn_point.y)
 		)
+		self.physics.fixedRotation = True
 		self.physics.CreatePolygonFixture(box=(1, 1), density=1, friction=0.3)
 
 	def destroy(self):
@@ -26,6 +27,7 @@ class Player(WorldObject, ReactorMixin):
 
 	def want_move(self, direction):
 		self.cancel_pending()
+		self.physics.linearVelocity = (0,0)
 		speed_vector = direction*self.speed*50
 		self.physics.ApplyLinearImpulse(
 			impulse=self.physics.GetWorldVector(speed_vector),
@@ -35,7 +37,7 @@ class Player(WorldObject, ReactorMixin):
 
 	def want_stop(self):
 		self.cancel_pending()
-		self.physics.setLinearVelocity(0, 0)
+		self.physics.linearVelocity = (0,0)
 
 	def want_attack(self, direction):
 		if(not hasattr(self, 'delayed_attack') or not self.delayed_attack.active()):
