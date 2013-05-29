@@ -41,3 +41,10 @@ class TestPlayer(unittest.TestCase):
 		self.advance_clock(100)
 		self.assertLess(self.player.physics.position.x, 6.0)
 		self.assertGreater(self.player.physics.position.x, self.spawn_point.x)
+
+	def test_player_shoots(self):
+		self.player.want_shoot(directions['south'])
+		self.advance_clock(30)  # modify this value based on shooting anim
+		self.assertEqual(len(self.player.arrows_shot), 1)
+		self.advance_clock(120)
+		self.assertEqual(len(self.player.arrows_shot), 0)

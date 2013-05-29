@@ -3,10 +3,11 @@ from archers.world import WorldObject
 
 
 class Player(WorldObject):
-	speed = 50
 	default_type = 'player'
 
 	def __init__(self, world):
+		self.speed = 50
+		self.arrows_shot = list()
 		super(Player, self).__init__(world, type="player")
 
 	def spawn(self, spawn_point):
@@ -32,9 +33,11 @@ class Player(WorldObject):
 	def want_attack(self):
 		pass
 
-class SelfDestructableMixin(WorldObject):
 
+class SelfDestructable(WorldObject):
 	def __init__(self, *args, **kwargs):
+		pass
 
 
-class Arrow(WorldObject)
+class Arrow(SelfDestructable):
+	pass
