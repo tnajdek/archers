@@ -27,8 +27,15 @@ def attack(direction):
 	global player
 	player.want_attack(directions[direction])
 
+def spawn_sucker():
+	world = archers.world
+	spawn_point = world.get_spawn_points()[2]
+	sucker = Player(world)
+	sucker.spawn(spawn_point)
+
 archers = Archers()
 reactor.callLater(0.1, spawn_player)
+reactor.callLater(0.1, spawn_sucker)
 reactor.callLater(0.2, move_player, 'east')
 reactor.callLater(0.6, stop_player)
 reactor.callLater(0.7, move_player, 'south')
@@ -41,7 +48,7 @@ reactor.callLater(4.0, move_player, 'south')
 reactor.callLater(4.2, stop_player)
 reactor.callLater(4.3, attack, 'west')
 reactor.callLater(5.0, move_player, 'south')
-reactor.callLater(5.5, stop_player)
+reactor.callLater(5.8, stop_player)
 reactor.callLater(6.5, attack, 'west')
 reactor.callLater(7.5, attack, 'north')
 reactor.callLater(8.5, attack, 'east')

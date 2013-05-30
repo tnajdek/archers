@@ -10,12 +10,20 @@ class Player(WorldObject, ReactorMixin):
 		self.attack_speed = 1.0
 		self.arrows_speed = 1.0
 		self.arrows_shot = list()
+		self.dead = True
 		super(Player, self).__init__(world, type="player", *args, **kwargs)
 
 	def spawn(self, spawn_point):
+		self.dead = False
 		self.create_dynamic_box_body(spawn_point.x, spawn_point.y, 1, 1)
 		self.physics.fixedRotation = True
 		self.physics.angle = rotations['east']
+
+	def kill(self):
+		self.cancel_pending()
+		self.dead = True
+		self.world.physics.DestroyBody(self.physics)
+		self.physics = None
 
 	def destroy(self):
 		self.cancel_pending()
@@ -87,7 +95,7 @@ class Arrow(SelfDestructable):
 			wake=True
 		)
 
-	def destroy(self):
+	def destroy(self, source="dupa"):
 		self.owner.arrows_shot.remove(self)
 		self.world.physics.DestroyBody(self.physics)
 		super(Arrow, self).destroy()

@@ -32,6 +32,9 @@ class Base(object):
 	def __init__(*args, **kwargs):
 		pass
 
+	def get_class_name(self):
+		return self.__class__.__name__
+
 
 class ReactorMixin(Base):
 	def __init__(self, *args, **kwargs):
@@ -51,6 +54,8 @@ class WorldObject(Base):
 				shapes=b2PolygonShape(box=(w*0.5, h*0.5)),
 		)
 
+		self.physics.fixtures[0].userData = self
+
 	def create_dynamic_box_body(self, x, y, w, h, **kwargs):
 		self.width = w
 		self.height = h
@@ -61,6 +66,7 @@ class WorldObject(Base):
 		kwargs['box'] = kwargs.get('box', (0.5*w, 0.5*h))
 		kwargs['density'] = kwargs.get('density', 1)
 		kwargs['friction'] = kwargs.get('friction', 0.3)
+		kwargs['userData'] = self
 
 		self.physics.CreatePolygonFixture(**kwargs)
 
@@ -123,9 +129,12 @@ class SelfDestructable(WorldObject, ReactorMixin):
 		self.self_destruction_task = self.reactor.callLater(lifetime, self.destroy)
 
 	def destroy(self):
+		if(hasattr(self, 'self_destruction_task') and self.self_destruction_task.active()):
+			self.self_destruction_task.cancel()
 		super(SelfDestructable, self).destroy()
 
 
+#  very lame for the time being
 class Collisions(b2ContactListener):
 	def __init__(self, world):
 		b2ContactListener.__init__(self)
@@ -137,8 +146,17 @@ class Collisions(b2ContactListener):
 	def EndContact(self, contact):
 		pass
 
-	def PreSolve(self, contact, oldManifold):
-		pass
+	def PreSolve(self, contact, old_manifold):
+		if(contact.fixtureA.userData.get_class_name() != 'Arrow'
+			and contact.fixtureB.userData.get_class_name() != 'Arrow'):
+			return
+
+		if(contact.fixtureA.userData.get_class_name() != 'Player'
+			and contact.fixtureB.userData.get_class_name() != 'Player'):
+			return
+
+		self.world.kill(contact.fixtureA.userData)
+		self.world.kill(contact.fixtureB.userData)
 
 	def PostSolve(self, contact, impulse):
 		pass
@@ -150,6 +168,7 @@ class World(object):
 		self.layers = dict()
 		self.object_lookup_by_type = dict()
 		self.object_lookup_by_name = dict()
+		self.objects_to_be_destroyed = list()
 		for layer in self.map.layers:
 			self.layers[layer.name] = layer
 		self.physics = b2World(
@@ -179,5 +198,16 @@ class World(object):
 	def get_object_by_name(self, name):
 		return self.object_lookup_by_name[name]
 
+	def kill(self, killme):
+		if not killme in self.objects_to_be_destroyed:
+			self.objects_to_be_destroyed.append(killme)
+
 	def step(self):
+		while self.objects_to_be_destroyed:
+			killme = self.objects_to_be_destroyed.pop()
+			if(hasattr(killme, 'kill') and callable(getattr(killme, 'kill'))):
+				killme.kill()
+			else:
+				killme.destroy(source="step")
+
 		self.physics.Step(settings.TIME_STEP, 10, 10)

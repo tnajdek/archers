@@ -60,5 +60,25 @@ class TestPlayer(BaseTestCase):
 		self.assertLess(arrow.physics.position.x, 6.0)
 		self.assertGreater(arrow.physics.position.x, self.player.physics.position.x)
 
+	def test_player_kills_player(self):
+		attacker_spawn = self.world.get_object_by_name('spawn2')
+		defender_spawn = self.world.get_object_by_name('spawn3')
+		attacker = Player(self.world, name="attacker", reactor=self.clock)
+		defender = Player(self.world, name="defender", reactor=self.clock)
+		attacker.spawn(attacker_spawn)
+		defender.spawn(defender_spawn)
+		self.assertFalse(defender.dead)
+		self.assertIsNotNone(defender.physics)
+		attacker.want_attack(directions['south'])
+		self.advance_clock(30)
+
+		self.assertTrue(defender.dead)
+		self.assertIsNone(defender.physics)
+		self.assertFalse(attacker.dead)
+		self.assertIsNotNone(attacker.physics)
+
+
+
+
 
 		
