@@ -1,8 +1,17 @@
 import pygame
 from pygame.locals import *
+from archers.utils import rad2vec
 
 PPM = 32.0
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
+
+colors = {
+	"background": (0, 0, 0, 0),
+	"collidables": (255, 255, 255, 255),
+	"direction_arrows": (255, 0, 0, 255),
+	"players": (0, 255, 0, 255),
+}
+
 
 class Renderer():
 
@@ -12,10 +21,10 @@ class Renderer():
 		self.world = world.physics
 
 	def render_frame(self):
-		self.screen.fill((0,0,0,0))
+		self.screen.fill(colors['background'])
 		for body in self.world.bodies:
 			for fixture in body.fixtures:
 				shape = fixture.shape
 				vertices = [(body.transform*v)*PPM for v in shape.vertices]
-				pygame.draw.polygon(self.screen, (255,255,255,255), vertices)
-		pygame.display.flip()
+				pygame.draw.polygon(self.screen, colors['collidables'], vertices)
+		pygame.display.flip() 

@@ -1,5 +1,5 @@
 from Box2D import *
-from archers.world import WorldObject, ReactorMixin, SelfDestructable
+from archers.world import WorldObject, ReactorMixin, SelfDestructable, rotations
 
 
 class Player(WorldObject, ReactorMixin):
@@ -18,6 +18,7 @@ class Player(WorldObject, ReactorMixin):
 			position=(spawn_point.x, spawn_point.y)
 		)
 		self.physics.fixedRotation = True
+		self.physics.angle = rotations['east']
 		self.physics.CreatePolygonFixture(box=(1, 1), density=1, friction=0.3)
 
 	def destroy(self):
@@ -27,7 +28,8 @@ class Player(WorldObject, ReactorMixin):
 
 	def want_move(self, direction):
 		self.cancel_pending()
-		self.physics.linearVelocity = (0,0)
+		self.physics.linearVelocity = (0, 0)
+		self.physics.angle = rotations[direction]
 		speed_vector = direction*self.speed*50
 		self.physics.ApplyLinearImpulse(
 			impulse=self.physics.GetWorldVector(speed_vector),
@@ -37,9 +39,10 @@ class Player(WorldObject, ReactorMixin):
 
 	def want_stop(self):
 		self.cancel_pending()
-		self.physics.linearVelocity = (0,0)
+		self.physics.linearVelocity = (0, 0)
 
 	def want_attack(self, direction):
+		self.physics.angle = rotations[direction]
 		if(not hasattr(self, 'delayed_attack') or not self.delayed_attack.active()):
 			self.delayed_attack = self.reactor.callLater(
 				0.5*self.attack_speed,

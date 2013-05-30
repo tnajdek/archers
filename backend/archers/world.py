@@ -2,12 +2,20 @@ import tmxlib
 from Box2D import *
 import settings
 from twisted.internet import reactor
+from archers.utils import vec2rad
 
 directions = {
 	'north': b2Vec2(0, -1),
 	'south': b2Vec2(0, 1),
 	'east': b2Vec2(1, 0),
 	'west': b2Vec2(-1, 0),
+}
+
+rotations = {
+	'north': vec2rad(directions['north']),
+	'south': vec2rad(directions['south']),
+	'east': vec2rad(directions['east']),
+	'west': vec2rad(directions['west']),
 }
 
 
