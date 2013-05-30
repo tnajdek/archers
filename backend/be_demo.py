@@ -25,7 +25,7 @@ def stop_player():
 
 def attack(direction):
 	global player
-	player.want_attack(direction)
+	player.want_attack(directions[direction])
 
 archers = Archers()
 reactor.callLater(0.1, spawn_player)

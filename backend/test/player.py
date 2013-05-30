@@ -44,3 +44,21 @@ class TestPlayer(BaseTestCase):
 		self.assertEqual(len(self.player.arrows_shot), 1)
 		self.advance_clock(100)
 		self.assertEqual(len(self.player.arrows_shot), 0)
+
+	def test_arrow_flies(self):
+		self.player.want_attack(directions['south'])
+		self.advance_clock(10)
+		arrow = self.player.arrows_shot[0]
+		self.assertEqual(self.player.physics.position.x, arrow.physics.position.x)
+		player_position_plus_2m = self.player.physics.position + directions['south']*2
+		self.assertGreater(arrow.physics.position.y, player_position_plus_2m.y)
+
+	def test_arrow_collides(self):
+		self.player.want_attack(directions['east'])
+		self.advance_clock(10)
+		arrow = self.player.arrows_shot[0]
+		self.assertLess(arrow.physics.position.x, 6.0)
+		self.assertGreater(arrow.physics.position.x, self.player.physics.position.x)
+
+
+		

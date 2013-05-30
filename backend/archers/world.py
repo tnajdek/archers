@@ -42,6 +42,28 @@ class ReactorMixin(Base):
 class WorldObject(Base):
 	default_type = 'unknown'
 
+	def create_static_box_body(self, x, y, w, h):
+		self.width = w
+		self.height = h
+
+		self.physics = self.world.physics.CreateStaticBody(
+				position=(x, y),
+				shapes=b2PolygonShape(box=(w*0.5, h*0.5)),
+		)
+
+	def create_dynamic_box_body(self, x, y, w, h, **kwargs):
+		self.width = w
+		self.height = h
+
+		self.physics = self.world.physics.CreateDynamicBody(
+			position=(x, y)
+		)
+		kwargs['box'] = kwargs.get('box', (0.5*w, 0.5*h))
+		kwargs['density'] = kwargs.get('density', 1)
+		kwargs['friction'] = kwargs.get('friction', 0.3)
+
+		self.physics.CreatePolygonFixture(**kwargs)
+
 	def __init__(self, world, type=None, name=None, *args, **kwargs):
 		self.world = world
 		self.type = type
@@ -81,11 +103,8 @@ class Collidable(MapObject):
 	default_type = 'collidable'
 
 	def __init__(self, world, data, **kwargs):
-		self.physics = world.physics.CreateStaticBody(
-				position=(data.x, data.y),
-				shapes=b2PolygonShape(box=data.size),
-		)
 		super(Collidable, self).__init__(world, data, **kwargs)
+		self.create_static_box_body(data.x, data.y, data.size[0], data.size[1])
 
 
 class SpawnPoint(MapObject):
