@@ -14,9 +14,11 @@ class UserActionsHandler(WampServerProtocol):
 		#self.session_id
 		pass
 
+	@exportRpc
 	def stop(self):
 		pass
 
+	@exportRpc
 	def attack(self, direction):
 		pass
 

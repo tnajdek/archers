@@ -126,6 +126,24 @@ class SelfDestructable(WorldObject, ReactorMixin):
 		super(SelfDestructable, self).destroy()
 
 
+class Collisions(b2ContactListener):
+	def __init__(self, world):
+		b2ContactListener.__init__(self)
+		self.world = world
+
+	def BeginContact(self, contact):
+		pass
+
+	def EndContact(self, contact):
+		pass
+
+	def PreSolve(self, contact, oldManifold):
+		pass
+
+	def PostSolve(self, contact, impulse):
+		pass
+
+
 class World(object):
 	def __init__(self, map_filename):
 		self.map = tmxlib.Map.open(map_filename)
@@ -134,7 +152,10 @@ class World(object):
 		self.object_lookup_by_name = dict()
 		for layer in self.map.layers:
 			self.layers[layer.name] = layer
-		self.physics = b2World(gravity=(0, 0))
+		self.physics = b2World(
+			gravity=(0, 0),
+			contactListener=Collisions(self)
+		)
 		self.init_collidable_bodies(self.layers['collision'])
 		self.init_spawn_points(self.layers['spawn'])
 
