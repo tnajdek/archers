@@ -28,6 +28,16 @@ class ListWithCounter(list):
 		return super(ListWithCounter, self).append(item)
 
 
+class UniqueIndex(dict):
+	def __init__(self):
+		self.counter = 0
+
+	def index(self, item):
+		self.counter = self.counter + 1
+		super(UniqueIndex, self).__setitem__(item, self.counter)
+		return self.counter
+
+
 class Base(object):
 	def __init__(*args, **kwargs):
 		pass
@@ -72,6 +82,7 @@ class WorldObject(Base):
 
 	def __init__(self, world, type=None, name=None, *args, **kwargs):
 		self.world = world
+		self.world.add_object(self)
 		self.type = type
 		self.name = name
 
@@ -140,11 +151,11 @@ class Collisions(b2ContactListener):
 		b2ContactListener.__init__(self)
 		self.world = world
 
-	def BeginContact(self, contact):
-		pass
+	# def BeginContact(self, contact):
+	# 	pass
 
-	def EndContact(self, contact):
-		pass
+	# def EndContact(self, contact):
+	# 	pass
 
 	def PreSolve(self, contact, old_manifold):
 		if(contact.fixtureA.userData.get_class_name() != 'Arrow'
@@ -155,11 +166,12 @@ class Collisions(b2ContactListener):
 			and contact.fixtureB.userData.get_class_name() != 'Player'):
 			return
 
+		#  TODO: need better kill/destroy logic
 		self.world.kill(contact.fixtureA.userData)
 		self.world.kill(contact.fixtureB.userData)
 
-	def PostSolve(self, contact, impulse):
-		pass
+	# def PostSolve(self, contact, impulse):
+	# 	pass
 
 
 class World(object):
@@ -169,6 +181,7 @@ class World(object):
 		self.object_lookup_by_type = dict()
 		self.object_lookup_by_name = dict()
 		self.objects_to_be_destroyed = list()
+		self.object_index = UniqueIndex()
 		for layer in self.map.layers:
 			self.layers[layer.name] = layer
 		self.physics = b2World(
@@ -198,9 +211,19 @@ class World(object):
 	def get_object_by_name(self, name):
 		return self.object_lookup_by_name[name]
 
+	def get_object_id(self, object_):
+		return self.object_index.get(object_, None)
+
+	def add_object(self, world_object):
+		id = self.object_index.index(world_object)
+		world_object.id = id
+
 	def kill(self, killme):
 		if not killme in self.objects_to_be_destroyed:
 			self.objects_to_be_destroyed.append(killme)
+
+	def build_frame(self):
+		pass
 
 	def step(self):
 		while self.objects_to_be_destroyed:
@@ -209,5 +232,6 @@ class World(object):
 				killme.kill()
 			else:
 				killme.destroy(source="step")
+			del self.object_index[killme]
 
 		self.physics.Step(settings.TIME_STEP, 10, 10)

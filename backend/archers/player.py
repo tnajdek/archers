@@ -22,8 +22,8 @@ class Player(WorldObject, ReactorMixin):
 	def kill(self):
 		self.cancel_pending()
 		self.dead = True
-		self.world.physics.DestroyBody(self.physics)
-		self.physics = None
+		# self.world.physics.DestroyBody(self.physics)
+		# self.physics = None
 
 	def destroy(self):
 		self.cancel_pending()
