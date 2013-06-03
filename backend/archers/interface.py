@@ -1,25 +1,41 @@
 
 
-class Message(object):
+class Message(dict):
 	def __init__(self, **kwargs):
 		pass
 
+	def hydrate(self, data):
+		items = dict()
+		for data_item in data:
+			item = dict()
+			for key in schema:
+				item[key] = data_item.shift()
+			(item['id'], item['name'], item['center']) = data_item
+			items[item['id']] = item
+		self.items = items
+
 
 class FullUpdateMessage(Message):
+	schema = ['id', 'name', 'center']
 	def __init__(self):
 		self.items = dict()
 
-	def simplify(self):
+	def dehydrate(self):
 		simplified = list()
-		for item in self.items.keys():
+		for item_id, item in self.items.iteritems():
 			simplified_item = list()
 			simplified_item.append(item['id'])
 			simplified_item.append(item['name'])
-			# simplified_item.append(item['x'])
-			# simplified_item.append(item['y'])
-			# simplified_item.append(item['direction'])
 			simplified_item.append(item['center'])
 		simplified.append(simplified_item)
+
+	def hydrate(self, data):
+		items = dict()
+		for data_item in data:
+			item = dict()
+			(item['id'], item['name'], item['center']) = data_item
+			items[item['id']] = item
+		self.items = items
 
 
 class FrameMessage(Message):
