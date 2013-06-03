@@ -2,7 +2,7 @@ import tmxlib
 from Box2D import *
 import settings
 from twisted.internet import reactor
-from archers.utils import vec2rad
+from archers.utils import vec2rad, EventsMixins
 
 directions = {
 	'north': b2Vec2(0, -1),
@@ -30,12 +30,26 @@ class ListWithCounter(list):
 
 class UniqueIndex(dict):
 	def __init__(self):
-		self.counter = 0
+		self.index = 0
+		self.reverse = dict()
 
-	def index(self, item):
-		self.counter = self.counter + 1
-		super(UniqueIndex, self).__setitem__(item, self.counter)
-		return self.counter
+	def __delitem__(self, id_):
+		if(id_ in self.keys()):
+			item = self.get(id_)
+		elif(id_ in self.reverse.keys()):
+			item = id_
+			id_ = self.get_by_value(item)
+		super(UniqueIndex, self).__delitem__(id_)
+		del self.reverse[item]
+
+	def append(self, item):
+		self.index = self.index + 1
+		super(UniqueIndex, self).__setitem__(self.index, item)
+		self.reverse[item] = self.index
+		return self.index
+
+	def get_by_value(self, *args):
+		return self.reverse.get(*args)
 
 
 class Base(object):
@@ -174,7 +188,7 @@ class Collisions(b2ContactListener):
 	# 	pass
 
 
-class World(object):
+class World(EventsMixins):
 	def __init__(self, map_filename):
 		self.map = tmxlib.Map.open(map_filename)
 		self.layers = dict()
@@ -182,6 +196,7 @@ class World(object):
 		self.object_lookup_by_name = dict()
 		self.objects_to_be_destroyed = list()
 		self.object_index = UniqueIndex()
+		self.callbacks = list()
 		for layer in self.map.layers:
 			self.layers[layer.name] = layer
 		self.physics = b2World(
@@ -211,12 +226,14 @@ class World(object):
 	def get_object_by_name(self, name):
 		return self.object_lookup_by_name[name]
 
+	def get_object_by_id(self, id):
+		return self.object_index[id]
+
 	def get_object_id(self, object_):
-		return self.object_index.get(object_, None)
+		return self.object_index.get_by_value(object_, None)
 
 	def add_object(self, world_object):
-		id = self.object_index.index(world_object)
-		world_object.id = id
+		world_object.id = self.object_index.append(world_object)
 
 	def kill(self, killme):
 		if not killme in self.objects_to_be_destroyed:
@@ -226,6 +243,8 @@ class World(object):
 		pass
 
 	def step(self):
+		self.trigger('step', self)
+
 		while self.objects_to_be_destroyed:
 			killme = self.objects_to_be_destroyed.pop()
 			if(hasattr(killme, 'kill') and callable(getattr(killme, 'kill'))):
