@@ -1,46 +1,40 @@
 #!/usr/bin/env python2
 from twisted.internet import reactor, task
-from autobahn.websocket import listenWS
-from autobahn.wamp import WampServerFactory, WampServerProtocol, exportRpc
+# from autobahn.websocket import listenWS
+# from autobahn.wamp import WampServerFactory, WampServerProtocol, exportRpc
 from archers.world import World
 import settings
 from Box2D import *
 
+# from twisted.internet import reactor
+from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS
 
-class UserActionsHandler(WampServerProtocol):
 
-	@exportRpc
-	def move(self, direction):
-		#self.session_id
-		pass
+class UserCommunication(WebSocketServerProtocol):
+	# def __init__(self, world, *args, **kwargs):
+	# 	self.world = world
+	# 	# WebSocketServerProtocol.__init__(self)
 
-	@exportRpc
-	def stop(self):
-		pass
+	def onMessage(self, msg, binary):
+		self.sendMessage(msg, binary)
 
-	@exportRpc
-	def attack(self, direction):
-		pass
+	def onOpen(self):
+		self.factory.world.on('update', self.send_update)
 
-	def onSessionOpen(self):
-		self.registerForRpc(self, "%s%s#" % (settings.DOMAIN, 'rpc'))
-		self.registerForPubSub("%s%s#" % (settings.DOMAIN, 'pubsub'))
-
+	def send_update(self):
+		import ipdb; ipdb.set_trace()
 
 class Archers():
 	def init_networking(self):
-		factory = WampServerFactory("ws://localhost:9000")
-		factory.protocol = UserActionsHandler
+		factory = WebSocketServerFactory("ws://localhost:9000")
+		factory.world = self.world
+		factory.protocol = UserCommunication
 		listenWS(factory)
 
 	def init_world(self):
 		self.world = World('../common/map.tmx')
 		task.LoopingCall(self.world.step).start(settings.TIME_STEP)
 		task.clock = self.reactor
-		#spawn test
-		# from archers. player import Player
-		# self.player = Player(self.world)
-		# self.player.spawn(self.world.get_spawn_points()[0])
 
 	def init_debug_renderer(self):
 		"""
