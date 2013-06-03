@@ -8,15 +8,15 @@ class Message(dict):
 		items = dict()
 		for data_item in data:
 			item = dict()
-			for key in schema:
-				item[key] = data_item.shift()
-			(item['id'], item['name'], item['center']) = data_item
-			items[item['id']] = item
+			for key in self.schema:
+				item[key] = data_item.pop(0)
+			items[item[self.schema_key]] = item
 		self.items = items
 
 
 class FullUpdateMessage(Message):
-	schema = ['id', 'name', 'center']
+	schema_key = 'id'
+	schema_item = ['id', 'name', 'center']
 	def __init__(self):
 		self.items = dict()
 
