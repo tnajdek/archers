@@ -146,7 +146,7 @@ class Connection(EventsMixins):
 				data['x'] = item.physics.position.x
 				data['y'] = item.physics.position.y
 				data['direction'] = item.physics.angle
-				data['state'] = 'todo'
+				data['state'] = 0
 				if not(item in self.known.keys() and self.known[item] == data):
 					update[item.id] = data
 					self.known[item] = data

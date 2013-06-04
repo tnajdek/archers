@@ -17,8 +17,6 @@ class UserCommunication(WebSocketServerProtocol):
 	# 	# WebSocketServerProtocol.__init__(self)
 
 	def onMessage(self, msg, binary):
-		if(binary):
-			import ipdb; ipdb.set_trace()
 		self.sendMessage(msg, binary)
 
 	def onOpen(self):
@@ -27,10 +25,10 @@ class UserCommunication(WebSocketServerProtocol):
 		self.interface.on('frame', self.send_frame)
 
 	def send_update(self, items):
-		self.sendMessage(items, True)
+		self.sendMessage(items.pack(), True)
 
 	def send_frame(self, frame):
-		self.sendMessage(frame, True)
+		self.sendMessage(frame.pack(), True)
 
 
 class Archers():
