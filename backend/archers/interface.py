@@ -1,4 +1,13 @@
 from archers.utils import EventsMixins
+from archers.world import rotations
+import struct
+
+# B	unsigned char	integer	1	(3)
+# ?	_Bool	bool	1	(1)
+# H	unsigned short	integer	2	(3)
+# I	unsigned int	integer	4	(3)
+# Q	unsigned long long	integer	8	(2), (3)
+# f	float
 
 
 class Message(dict):
@@ -6,22 +15,54 @@ class Message(dict):
 		if(args):
 			self.hydrate(args[0])
 
-	def hydrate(self, data):
-		self.clear()
+	@classmethod
+	def from_dehydrated(class_, data):
+		self = class_()
 		for data_item in data:
 			item = dict()
-			for key in self.schema:
-				item[key] = data_item.pop(0)
+			for key in self.schema_item:
+				value = data_item.pop(0)
+				if(hasattr(self, 'hydrate_%s' % key)):
+					hydrator = getattr(self, 'hydrate_%s' % key)
+					if(hasattr(hydrator, '__call__')):
+						value = hydrator(value)
+				item[key] = value
 			self.__setitem__(item[self.schema_key], item)
+		return self
 
 	def dehydrate(self):
 		dehydrated = list()
 		for item_id, item in self.iteritems():
 			dehydrated_item = list()
-			for key in self.schema:
-				dehydrated_item.append(self.get(key, 0))
+			for key in self.schema_item:
+				value = item.get(key, 0)
+				if(hasattr(self, 'dehydrate_%s' % key)):
+					hydrator = getattr(self, 'dehydrate_%s' % key)
+					if(hasattr(hydrator, '__call__')):
+						value = hydrator(value)
+				dehydrated_item.append(value)
 			dehydrated.append(dehydrated_item)
 		return dehydrated
+
+	def pack(self):
+		buffer_ = ''
+		dehydrated = self.dehydrate()
+		for dehydrated_item in dehydrated:
+			buffer_ = buffer_ + struct.pack(self.schema_item_format, *dehydrated_item)
+		return buffer_
+
+	@classmethod
+	def from_packed(class_, data):
+		items = list()
+		item_size = struct.calcsize(class_.schema_item_format)
+		pointer = 0
+		buffer_ = buffer(data)
+		while(pointer < len(buffer_)):
+			item_buffer = buffer_[pointer:pointer+item_size]
+			pointer = pointer+item_size
+			item = struct.unpack_from(class_.schema_item_format, item_buffer)
+			items.append(list(item))
+		return class_.from_dehydrated(items)
 
 	def append(self, item):
 		return self.__setitem__(item[self.schema_key], item)
@@ -29,12 +70,33 @@ class Message(dict):
 
 class UpdateMessage(Message):
 	schema_key = 'id'
-	schema_item = ['id', 'name', 'center']
+	schema_item = ['id', 'center']
+	schema_item_format = 'I?'
 
 
 class FrameMessage(Message):
 	schema_key = 'id'
-	schema_item = ['x', 'y', 'direction', 'state']
+	schema_item = ['id', 'x', 'y', 'direction', 'state']
+	schema_item_format = 'IffBB'
+	direction_lookup = {
+		rotations['north']: 1,
+		rotations['south']: 2,
+		rotations['east']: 3,
+		rotations['west']: 4,
+	}
+
+	direction_reverse_lookup = {
+		1: rotations['north'],
+		2: rotations['south'],
+		3: rotations['east'],
+		4: rotations['west'],
+	}
+
+	def hydrate_direction(self, value):
+		return self.direction_reverse_lookup.get(value, None)
+
+	def dehydrate_direction(self, value):
+		return self.direction_lookup.get(value, 0)
 
 
 class Connection(EventsMixins):
@@ -42,7 +104,9 @@ class Connection(EventsMixins):
 		self.world = world
 		self.known = dict()
 		self.last_world_index = 0
+		self.last_frame_index = 0
 		self.world.on('step', self.on_update)
+		self.world.on('step', self.frame_maybe)
 
 	def on_update(self, world):
 		if(self.last_world_index != world.object_index.index):
@@ -58,6 +122,9 @@ class Connection(EventsMixins):
 					items.append(item)
 				self.last_world_index = index
 			self.trigger('update', items)
+
+	def frame_maybe(self, world):
+		self.trigger('frame', self.get_frame())
 
 	def get_full_update(self):
 		update = UpdateMessage()

@@ -3,6 +3,7 @@ from twisted.internet import reactor, task
 # from autobahn.websocket import listenWS
 # from autobahn.wamp import WampServerFactory, WampServerProtocol, exportRpc
 from archers.world import World
+from archers.interface import Connection
 import settings
 from Box2D import *
 
@@ -16,13 +17,21 @@ class UserCommunication(WebSocketServerProtocol):
 	# 	# WebSocketServerProtocol.__init__(self)
 
 	def onMessage(self, msg, binary):
+		if(binary):
+			import ipdb; ipdb.set_trace()
 		self.sendMessage(msg, binary)
 
 	def onOpen(self):
-		self.factory.world.on('update', self.send_update)
+		self.interface = Connection(self.factory.world)
+		self.interface.on('update', self.send_update)
+		self.interface.on('frame', self.send_frame)
 
-	def send_update(self):
-		import ipdb; ipdb.set_trace()
+	def send_update(self, items):
+		self.sendMessage(items, True)
+
+	def send_frame(self, frame):
+		self.sendMessage(frame, True)
+
 
 class Archers():
 	def init_networking(self):
