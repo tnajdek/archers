@@ -27,7 +27,12 @@ class Message(dict):
 					if(hasattr(hydrator, '__call__')):
 						value = hydrator(value)
 				item[key] = value
-			self.__setitem__(item[self.schema_key], item)
+			if(hasattr(self, 'schema_key')):
+				self.__setitem__(item[self.schema_key], item)
+			else:
+				super(Message, self).__init__(item)
+
+
 		return self
 
 	def dehydrate(self):
@@ -41,7 +46,10 @@ class Message(dict):
 					if(hasattr(hydrator, '__call__')):
 						value = hydrator(value)
 				dehydrated_item.append(value)
-			dehydrated.append(dehydrated_item)
+			if(hasattr(self, 'schema_key')):
+				dehydrated.append(dehydrated_item)
+			else:
+				dehydrated = dehydrated_item
 		return dehydrated
 
 	def pack(self):
@@ -73,11 +81,8 @@ class UpdateMessage(Message):
 	schema_item = ['id', 'center']
 	schema_item_format = 'I?'
 
-
-class FrameMessage(Message):
-	schema_key = 'id'
-	schema_item = ['id', 'x', 'y', 'direction', 'state']
-	schema_item_format = 'IffBB'
+#  TODO: more clever, general lookup-mixin?
+class DirectionMessageMixin(object):
 	direction_lookup = {
 		rotations['north']: 1,
 		rotations['south']: 2,
@@ -97,6 +102,35 @@ class FrameMessage(Message):
 
 	def dehydrate_direction(self, value):
 		return self.direction_lookup.get(value, 0)
+
+
+class FrameMessage(Message, DirectionMessageMixin):
+	schema_key = 'id'
+	schema_item = ['id', 'x', 'y', 'direction', 'state']
+	schema_item_format = 'IffBB'
+
+
+class UserActionMessage(Message, DirectionMessageMixin):
+	schema_item = ['action', 'direction']
+	schema_item_format = 'BB'
+
+	action_lookup = {
+		'stand': 1,
+		'move': 2,
+		'attack': 3
+	}
+
+	action_reverse_lookup = {
+		1: 'stand',
+		2: 'move',
+		3: 'attack'
+	}
+
+	def hydrate_action(self, value):
+		return self.action_reverse_lookup.get(value, None)
+
+	def dehydrate_action(self, value):
+		return self.action_lookup.get(value, 0)
 
 
 class Connection(EventsMixins):
