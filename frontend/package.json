@@ -1,0 +1,20 @@
+{
+  "name": "archers-frontend",
+  "version": "0.1.0",
+  "description": "Archers",
+  "main": "archers.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "Tom Najdek",
+  "license": "BSD",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-mocha": "~0.3.4",
+    "grunt-contrib-uglify": "~0.2.2"
+  },
+  "dependencies": {
+    "grunt": "~0.4.1"
+  }
+}
