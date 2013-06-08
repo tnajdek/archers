@@ -1,7 +1,8 @@
 
 describe('FrameMessage', function() {
-	it('should ', function() {
+	it('should parse array buffer into message object', function() {
 		var buffer = new ArrayBuffer(14);
+		// phantom js can't do this, argh!
 		var id = new Uint32Array(buffer, 0, 1);
 		var x = new Float32Array(buffer, 4, 1);
 		var y = new Float32Array(buffer, 8, 1);
