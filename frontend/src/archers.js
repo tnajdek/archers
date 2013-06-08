@@ -7,6 +7,6 @@
 //    }
 // };
 
-requirejs(['interface'], function (interface) {
-	
+requirejs(['interface'], function (interface_) {
+	console.log(interface_);
 });
