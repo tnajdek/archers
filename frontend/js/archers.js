@@ -1,0 +1,1 @@
+define("interface",[],function(){var e={};return"bla"}),requirejs(["interface"],function(e){console.log(e)}),define("archers",function(){});

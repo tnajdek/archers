@@ -1,12 +1,10 @@
 module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		mocha: {
-			test: {
-				src: ['test/*.html'],
-				options: {
-					run: true
-				}
+		karma: {
+			unit: {
+				configFile: 'karma.conf.js',
+				autoWatch: true
 			}
 		},
 		requirejs: {
@@ -23,9 +21,9 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-mocha');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
+	grunt.loadNpmTasks('grunt-karma');
 
 	grunt.registerTask('build', ['requirejs']);
-	grunt.registerTask('test', ['requirejs', 'mocha']);
+	grunt.registerTask('test', ['karma']);
 };

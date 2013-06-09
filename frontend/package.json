@@ -11,8 +11,8 @@
   "license": "BSD",
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-mocha": "~0.3.4",
-    "grunt-contrib-requirejs": "~0.4.1"
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-karma": "~0.4.4"
   },
   "dependencies": {
     "grunt": "~0.4.1"
