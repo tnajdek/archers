@@ -7,6 +7,6 @@
 //    }
 // };
 
-requirejs(['interface'], function (interface_) {
-	console.log(interface_);
+requirejs(['messaging'], function (messaging) {
+	// console.log(messaging);
 });

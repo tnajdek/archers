@@ -7,7 +7,10 @@ requirejs.config({
 	// Karma serves files from '/base'
 	baseUrl: '/base/src',
 
-	// paths: {},
+	paths: {
+		'lib': '/base/lib',
+		'test': '/base/test'
+	},
 	// shim: {},
 
 	// ask Require.js to load these files (all our tests)
