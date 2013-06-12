@@ -1,4 +1,5 @@
-define(['require', 'messaging/frame'], function(require, FrameMessage) {
+define(['require', 'lib/lodash', 'messaging/frame', 'messaging/update', 'messaging/useraction'],
+function(require, _, FrameMessage, UpdateMessage, UserActionMessage) {
 	var Messaging = {
 		format: {
 			'b': 'Int8',
@@ -13,7 +14,15 @@ define(['require', 'messaging/frame'], function(require, FrameMessage) {
 		},
 
 		messages: {
-			'1': FrameMessage
+			'1': FrameMessage,
+			'2': UpdateMessage,
+			'3': UserActionMessage
+
+		},
+
+		copyBytes: function(aSource, aTarget, aSourceOffset, aTargetOffset, aLength) {
+			var view = new Uint8Array(aTarget, aTargetOffset);
+			view.set(new Uint8Array(aSource, aSourceOffset, aLength));
 		},
 
 
@@ -52,8 +61,31 @@ define(['require', 'messaging/frame'], function(require, FrameMessage) {
 				pointer += messageByteLength;
 			}
 			return messages;
-		}
+		},
 
+		toBuffer: function(messages) {
+			var byteCount = 1,
+				bytePointer = 0,
+				messagesType, buffer, dv, messageByteLength, msg;
+
+			if(messages.length) {
+				messagesType = this.messages[messages[0].constructor.schema.id];
+				messageByteLength = this.calcByteSize(messages[0].constructor.schema);
+				byteCount += messages.length*messageByteLength;
+				buffer = new ArrayBuffer(byteCount);
+				dv = new DataView(buffer);
+				dv.setUint8(0, messages[0].constructor.schema.id);
+				bytePointer = 1;
+				while(messages.length) {
+					msg = messages.shift();
+					this.copyBytes(msg.toBuffer(), buffer, 0, bytePointer, messageByteLength);
+					bytePointer += messageByteLength;
+				}
+				return buffer;
+			} else {
+				return new ArrayBuffer(0);
+			}
+		}
 	};
 	return Messaging;
 });

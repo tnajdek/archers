@@ -4,6 +4,7 @@ define(['lib/lodash', 'messaging'], function(_) {
 	Message.from = function(schema) {
 		var prototype = new this();
 
+
 		prototype.toBuffer = function() {
 			var Messaging = require('messaging'),
 				bufferLength = Messaging.calcByteSize(schema),
@@ -45,8 +46,9 @@ define(['lib/lodash', 'messaging'], function(_) {
 				_.extend(this, buffer);
 			}
 		};
+
 		ChildMessage.prototype = prototype;
-		ChildMessage.constructor = ChildMessage;
+		ChildMessage.prototype.constructor = ChildMessage;
 		ChildMessage.extend = arguments.calee;
 		ChildMessage.schema = schema;
 		return ChildMessage;

@@ -1,7 +1,7 @@
-define(['test/chai', 'messaging', 'messaging/frame'], 
+define(['test/chai', 'messaging', 'messaging/frame'],
 function(chai, Messaging, FrameMessage) {
 	var assert = chai.assert;
-	describe('FrameMessage', function() {
+	describe("Messaging", function() {
 		it('should parse array buffer into message object', function() {
 			var message, messages,
 				buffer = new ArrayBuffer(29),
@@ -39,6 +39,33 @@ function(chai, Messaging, FrameMessage) {
 			assert.closeTo(message.x, 89.123, 0.1);
 			assert.closeTo(message.y, 11.1, 0.1);
 		});
+
+		it('should build array buffer out of messages', function() {
+			var msg = new FrameMessage({
+				id: 123,
+				x: 1.25,
+				y: 2.25,
+				direction: 1,
+				state: 10
+			}),
+				buffer = Messaging.toBuffer([msg]),
+				dv;
+
+			assert.instanceOf(buffer, ArrayBuffer);
+			assert.equal(buffer.byteLength, 15);
+			dv = new DataView(buffer);
+
+			console.log(dv.getUint32(0));
+
+			assert.equal(dv.getUint8(0), 1);
+			assert.equal(dv.getUint32(1), 123);
+			assert.equal(dv.getFloat32(5), 1.25);
+			assert.equal(dv.getFloat32(9), 2.25);
+			assert.equal(dv.getUint8(13), 1);
+			assert.equal(dv.getUint8(14), 10);
+		});
+	});
+	describe('FrameMessage', function() {
 		it('Should build ArrayBuffer from message', function() {
 			var msg = new FrameMessage({
 				id: 123,
@@ -59,7 +86,6 @@ function(chai, Messaging, FrameMessage) {
 			assert.equal(dv.getFloat32(8), 2.25);
 			assert.equal(dv.getUint8(12), 1);
 			assert.equal(dv.getUint8(13), 10);
-
 		});
 	});
 });
