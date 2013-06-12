@@ -12,6 +12,9 @@ module.exports = function(grunt) {
 				options: {
 					name: "archers",
 					baseUrl: "src/",
+					paths: {
+						'lib': '../lib'
+					},
 					mainConfigFile: "src/archers.js",
 					out: "js/archers.js"
 				}
