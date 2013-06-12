@@ -13,6 +13,14 @@
 		<p>
 			Open development console (press F12) to watch.
 		</p>
-		<script src="archers.js"></script>
+		<script>
+		var require = {
+			baseUrl: "src/",
+			paths: {
+				'lib': '../lib'
+			},
+		};
+		</script>
+		<script data-main="archers.js" src="lib/require.js"></script>
 	</body>
  </html>
