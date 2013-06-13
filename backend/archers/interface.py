@@ -18,38 +18,29 @@ class Message(dict):
 	@classmethod
 	def from_dehydrated(class_, data):
 		self = class_()
-		for data_item in data:
-			item = dict()
-			for key in self.schema_item:
-				value = data_item.pop(0)
-				if(hasattr(self, 'hydrate_%s' % key)):
-					hydrator = getattr(self, 'hydrate_%s' % key)
-					if(hasattr(hydrator, '__call__')):
-						value = hydrator(value)
-				item[key] = value
-			if(hasattr(self, 'schema_key')):
-				self.__setitem__(item[self.schema_key], item)
-			else:
-				super(Message, self).__init__(item)
+		item = dict()
+		for idx, key in enumerate(self.schema_item):
+			value = data[idx]
 
-
-		return self
+			if(hasattr(self, 'hydrate_%s' % key)):
+				hydrator = getattr(self, 'hydrate_%s' % key)
+				if(hasattr(hydrator, '__call__')):
+					value = hydrator(value)
+			item[key] = value
+		import ipdb; ipdb.set_trace()
+		return super(Message, self).__init__(item)
 
 	def dehydrate(self):
 		dehydrated = list()
 		for item_id, item in self.iteritems():
-			dehydrated_item = list()
+			dehydrated = list()
 			for key in self.schema_item:
 				value = item.get(key, 0)
 				if(hasattr(self, 'dehydrate_%s' % key)):
 					hydrator = getattr(self, 'dehydrate_%s' % key)
 					if(hasattr(hydrator, '__call__')):
 						value = hydrator(value)
-				dehydrated_item.append(value)
-			if(hasattr(self, 'schema_key')):
-				dehydrated.append(dehydrated_item)
-			else:
-				dehydrated = dehydrated_item
+				dehydrated.append(value)
 		return dehydrated
 
 	def pack(self):
@@ -61,16 +52,23 @@ class Message(dict):
 
 	@classmethod
 	def from_packed(class_, data):
-		items = list()
-		item_size = struct.calcsize(class_.schema_item_format)
-		pointer = 0
 		buffer_ = buffer(data)
-		while(pointer < len(buffer_)):
-			item_buffer = buffer_[pointer:pointer+item_size]
-			pointer = pointer+item_size
-			item = struct.unpack_from(class_.schema_item_format, item_buffer)
-			items.append(list(item))
-		return class_.from_dehydrated(items)
+		item = struct.unpack_from(class_.schema_item_format, buffer_)
+		item = list(item)
+		return class_.from_dehydrated(item)
+
+
+	# @classmethod
+	# def from_packed(class_, data):
+	# 	items = list()
+	# 	item_size = struct.calcsize(class_.schema_item_format)
+	# 	pointer = 0
+	# 	buffer_ = buffer(data)
+	# 		item_buffer = buffer_[pointer:pointer+item_size]
+	# 		pointer = pointer+item_size
+	# 		item = struct.unpack_from(class_.schema_item_format, item_buffer)
+	# 		items.append(list(item))
+	# 	return class_.from_dehydrated(items)
 
 	def append(self, item):
 		return self.__setitem__(item[self.schema_key], item)

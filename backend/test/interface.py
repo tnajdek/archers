@@ -107,14 +107,6 @@ class TestInterface(BaseTestCase):
 		msg.append(part)
 		return msg
 
-	def test_dehydration(self):
-		msg = self.get_fake_msg()
-		self.assertEqual(dehydrated_item[0], 1)
-		self.assertEqual(dehydrated_item[1], 1.25)
-		self.assertEqual(dehydrated_item[2], 2.25)
-		self.assertEqual(dehydrated_item[3], 2)
-		self.assertEqual(dehydrated_item[4], 10)
-
 	def test_packing(self):
 		msg = self.get_fake_msg()
 		packed = msg.pack()
@@ -126,8 +118,7 @@ class TestInterface(BaseTestCase):
 
 	def test_dehydration(self):
 		dehydrated_item = [1, 1.25, 2.25, 2, 10]
-		msg = FrameMessage.from_dehydrated([dehydrated_item])
-		msg = msg[1]
+		msg = FrameMessage.from_dehydrated(dehydrated_item)
 		self.assertEqual(msg['id'], 1)
 		self.assertEqual(msg['x'], 1.25)
 		self.assertEqual(msg['y'], 2.25)
@@ -137,7 +128,7 @@ class TestInterface(BaseTestCase):
 	def test_unpacking(self):
 		packed = '\x01\x00\x00\x00\x00\x00\xa0?\x00\x00\x10@\x02\n'
 		msg = FrameMessage.from_packed(packed)
-		msg = msg[1]
+		msg = msg
 		self.assertEqual(msg['id'], 1)
 		self.assertEqual(msg['x'], 1.25)
 		self.assertEqual(msg['y'], 2.25)
