@@ -30,15 +30,13 @@ class Message(dict):
 
 	def dehydrate(self):
 		dehydrated = list()
-		for item_id, item in self.iteritems():
-			dehydrated = list()
-			for key in self.schema_item:
-				value = item.get(key, 0)
-				if(hasattr(self, 'dehydrate_%s' % key)):
-					hydrator = getattr(self, 'dehydrate_%s' % key)
-					if(hasattr(hydrator, '__call__')):
-						value = hydrator(value)
-				dehydrated.append(value)
+		for key in self.schema_item:
+			value = self.get(key, 0)
+			if(hasattr(self, 'dehydrate_%s' % key)):
+				hydrator = getattr(self, 'dehydrate_%s' % key)
+				if(hasattr(hydrator, '__call__')):
+					value = hydrator(value)
+			dehydrated.append(value)
 		return dehydrated
 
 	def pack(self):
@@ -65,9 +63,6 @@ class Message(dict):
 	# 		item = struct.unpack_from(class_.schema_item_format, item_buffer)
 	# 		items.append(list(item))
 	# 	return class_.from_dehydrated(items)
-
-	def append(self, item):
-		return self.__setitem__(item[self.schema_key], item)
 
 
 class UpdateMessage(Message):
@@ -138,44 +133,46 @@ class Connection(EventsMixins):
 
 	def on_update(self, world):
 		if(self.last_world_index != world.object_index.index):
-			items = UpdateMessage()
+			messages = list()
 			for index in range(self.last_world_index, world.object_index.index):
 				index = index+1
 				world_object = world.get_object_by_id(index)
 				if(hasattr(world_object, 'physics')):
-					item = dict()
-					item['name'] = world_object.name
-					item['id'] = world_object.id
-					item['center'] = False
-					items.append(item)
+					msg = UpdateMessage()
+					# msg['name'] = world_object.name
+					msg['id'] = world_object.id
+					msg['center'] = False
+					messages.append(msg)
 				self.last_world_index = index
-			self.trigger('update', items)
+			self.trigger('update', messages)
 
 	def frame_maybe(self, world):
 		self.trigger('frame', self.get_frame())
 
-	def get_full_update(self):
-		update = UpdateMessage()
-		for item in self.world.object_index.values():
-			if(hasattr(item, 'physics')):
-				data = dict()
-				data['name'] = item.name
-				data['id'] = item.id
-				data['center'] = False
-				update[item.id] = data
-		return update
+	# redundant, just reset the counter on_update?
+	# def get_full_update(self):
+	# 	update = UpdateMessage()
+	# 	for item in self.world.object_index.values():
+	# 		if(hasattr(item, 'physics')):
+	# 			data = dict()
+	# 			data['name'] = item.name
+	# 			data['id'] = item.id
+	# 			data['center'] = False
+	# 			update[item.id] = data
+	# 	return update
 
 	def get_frame(self, updated_only=True):
-		update = FrameMessage()
+		update = list()
 
 		for item in self.world.object_index.values():
 			if(hasattr(item, 'physics')):
-				data = dict()
+				data = FrameMessage()
+				data['id'] = item.id
 				data['x'] = item.physics.position.x
 				data['y'] = item.physics.position.y
 				data['direction'] = item.physics.angle
 				data['state'] = 0
 				if not(item in self.known.keys() and self.known[item] == data):
-					update[item.id] = data
+					update.append(data)
 					self.known[item] = data
 		return update
