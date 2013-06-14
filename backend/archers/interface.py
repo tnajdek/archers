@@ -17,18 +17,16 @@ class Message(dict):
 
 	@classmethod
 	def from_dehydrated(class_, data):
-		self = class_()
-		item = dict()
-		for idx, key in enumerate(self.schema_item):
+		item = class_()
+		for idx, key in enumerate(item.schema_item):
 			value = data[idx]
 
-			if(hasattr(self, 'hydrate_%s' % key)):
-				hydrator = getattr(self, 'hydrate_%s' % key)
+			if(hasattr(item, 'hydrate_%s' % key)):
+				hydrator = getattr(item, 'hydrate_%s' % key)
 				if(hasattr(hydrator, '__call__')):
 					value = hydrator(value)
 			item[key] = value
-		import ipdb; ipdb.set_trace()
-		return super(Message, self).__init__(item)
+		return item
 
 	def dehydrate(self):
 		dehydrated = list()
@@ -44,10 +42,8 @@ class Message(dict):
 		return dehydrated
 
 	def pack(self):
-		buffer_ = ''
 		dehydrated = self.dehydrate()
-		for dehydrated_item in dehydrated:
-			buffer_ = buffer_ + struct.pack(self.schema_item_format, *dehydrated_item)
+		buffer_ = struct.pack(self.schema_item_format, *dehydrated)
 		return buffer_
 
 	@classmethod
