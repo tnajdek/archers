@@ -115,11 +115,12 @@ class TestInterface(BaseTestCase):
 	def test_packing(self):
 		msg = self.get_fake_msg()
 		packed = msg.pack()
-		self.assertEqual(packed[0:4], struct.pack('I', 1))
-		self.assertEqual(packed[4:8], struct.pack('f', 1.25))
-		self.assertEqual(packed[8:12], struct.pack('f', 2.25))
-		self.assertEqual(packed[12:13], struct.pack('B', 2))
-		self.assertEqual(packed[13:14], struct.pack('B', 10))
+		self.assertEqual(packed[0:4], struct.pack('!I', 1))
+		self.assertEqual(packed[4:8], struct.pack('!f', 1.25))
+		self.assertEqual(packed[8:12], struct.pack('!f', 2.25))
+		self.assertEqual(packed[12:13], struct.pack('!B', 2))
+		self.assertEqual(packed[13:14], struct.pack('!B', 10))
+
 
 	def test_dehydration(self):
 		dehydrated_item = [1, 1.25, 2.25, 2, 10]
@@ -131,7 +132,7 @@ class TestInterface(BaseTestCase):
 		self.assertEqual(msg['state'], 10)
 
 	def test_unpacking(self):
-		packed = '\x01\x00\x00\x00\x00\x00\xa0?\x00\x00\x10@\x02\n'
+		packed = '\x00\x00\x00\x01?\xa0\x00\x00@\x10\x00\x00\x02\n'
 		msg = FrameMessage.from_packed(packed)
 		msg = msg
 		self.assertEqual(msg['id'], 1)
@@ -148,10 +149,19 @@ class TestInterface(BaseTestCase):
 		self.assertEqual(len(result), expected_byte_length)
 
 	def test_message_unpacking(self):
-		packed_msgs = '\x01\x01\x00\x00\x00\x00\x00\xa0?\x00\x00\x10@\x02\n\x02\x00\x00\x00\x00\x00\xa0@\x00\x00 A\x02\n'
+		packed_msgs = '\x01\x00\x00\x00\x01?\xa0\x00\x00@\x10\x00\x00\x02\n\x00\x00\x00\x02@\xa0\x00\x00A \x00\x00\x02\n'
 		messages = unpack_mesages(packed_msgs)
 		self.assertEqual(len(messages), 2)
 		self.assertEqual(messages[0]['id'], 1)
 		self.assertEqual(messages[0]['x'], 1.25)
 		self.assertEqual(messages[1]['id'], 2)
 		self.assertEqual(messages[1]['x'], 5)
+
+	def test_update_message_packing(self):
+		msg = UpdateMessage()
+		msg['id'] = 12
+		msg['center'] = False
+		msg['remove'] = True
+		packed = msg.pack()
+		unpacked = UpdateMessage.from_packed(packed)
+		self.assertEqual(msg, unpacked)

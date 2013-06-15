@@ -233,11 +233,14 @@ class World(EventsMixins):
 		return self.object_index.get_by_value(object_, None)
 
 	def add_object(self, world_object):
+		self.trigger('add_object', self)
 		world_object.id = self.object_index.append(world_object)
 
 	def kill(self, killme):
 		if not killme in self.objects_to_be_destroyed:
+			self.trigger('destroy_object', killme.id)
 			self.objects_to_be_destroyed.append(killme)
+
 
 	def build_frame(self):
 		pass

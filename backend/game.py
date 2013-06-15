@@ -26,6 +26,7 @@ class UserCommunication(WebSocketServerProtocol):
 
 	def send_update(self, items):
 		if(len(items)):
+			print items
 			self.sendMessage(pack_messages(items), True)
 
 	def send_frame(self, frame):

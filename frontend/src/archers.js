@@ -12,7 +12,10 @@ requirejs(['messaging'], function (Messaging) {
 	ws.binaryType = 'arraybuffer'
 	ws.onopen = function() {
 		ws.onmessage = function(e) {
-		console.log(Messaging.fromBuffer(e.data));
+		messages = Messaging.fromBuffer(e.data);
+		if(messages[0].schema.id === 2) {
+			console.log(messages);
+		}
 		// console.log(e.data);
 		}
 	};

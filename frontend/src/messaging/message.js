@@ -45,6 +45,7 @@ define(['lib/lodash', 'messaging'], function(_) {
 			return buffer;
 		};
 
+		prototype.schema = schema;
 
 		MessageClass.prototype = prototype;
 		MessageClass.prototype.constructor = MessageClass;

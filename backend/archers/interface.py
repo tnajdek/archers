@@ -60,7 +60,7 @@ class UpdateMessage(Message):
 	schema = {
 		'id': 2,
 		'format': ['id', 'center', 'remove'],
-		'byteformat': 'I??',
+		'byteformat': '!I??',
 	}
 
 
@@ -91,7 +91,7 @@ class FrameMessage(Message, DirectionMessageMixin):
 	schema = {
 		'id': 1,
 		'format': ['id', 'x', 'y', 'direction', 'state'],
-		'byteformat': 'IffBB'
+		'byteformat': '!IffBB'
 	}
 
 
@@ -99,7 +99,7 @@ class UserActionMessage(Message, DirectionMessageMixin):
 	schema = {
 		'id': 3,
 		'format': ['action', 'direction'],
-		'byteformat': 'BB'
+		'byteformat': '!BB'
 	}
 
 	action_lookup = {
@@ -127,6 +127,7 @@ class Connection(EventsMixins):
 		self.known = dict()
 		self.last_world_index = 0
 		self.last_frame_index = 0
+		self.world.on('destroy_object', self.on_destroy)
 		self.world.on('step', self.on_update)
 		self.world.on('step', self.frame_maybe)
 
@@ -141,9 +142,19 @@ class Connection(EventsMixins):
 					# msg['name'] = world_object.name
 					msg['id'] = world_object.id
 					msg['center'] = False
+					msg['remove'] = False
 					messages.append(msg)
 				self.last_world_index = index
 			self.trigger('update', messages)
+
+	def on_destroy(self, id):
+		messages = list()
+		msg = UpdateMessage()
+		msg['id'] = id
+		msg['center'] = False
+		msg['remove'] = True
+		messages.append(msg)
+		self.trigger('update', messages)
 
 	def frame_maybe(self, world):
 		self.trigger('frame', self.get_frame())

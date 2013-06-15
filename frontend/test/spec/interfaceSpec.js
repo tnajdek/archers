@@ -25,7 +25,7 @@ function(chai, Messaging, FrameMessage) {
 			assert.equal(messages.length, 2);
 			message = messages[0];
 
-			assert.isUndefined(message.schema);
+			assert.instanceOf(message, FrameMessage);
 
 			assert.equal(message.id, 123);
 			assert.closeTo(message.x, 1.25, 0.1);
