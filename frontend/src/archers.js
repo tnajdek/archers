@@ -12,8 +12,8 @@ requirejs(['messaging'], function (Messaging) {
 	ws.binaryType = 'arraybuffer'
 	ws.onopen = function() {
 		ws.onmessage = function(e) {
-		// console.log(Messaging.fromBuffer(e.data));
-		console.log(e.data);
+		console.log(Messaging.fromBuffer(e.data));
+		// console.log(e.data);
 		}
 	};
 });

@@ -57,7 +57,7 @@ class Message(dict):
 
 
 class UpdateMessage(Message):
-	scheam = {
+	schema = {
 		'id': 2,
 		'format': ['id', 'center'],
 		'byteformat': 'I?',
