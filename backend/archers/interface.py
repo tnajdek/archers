@@ -15,22 +15,9 @@ class Message(dict):
 		if(args):
 			self.hydrate(args[0])
 
-	@classmethod
-	def from_dehydrated(class_, data):
-		item = class_()
-		for idx, key in enumerate(item.schema_item):
-			value = data[idx]
-
-			if(hasattr(item, 'hydrate_%s' % key)):
-				hydrator = getattr(item, 'hydrate_%s' % key)
-				if(hasattr(hydrator, '__call__')):
-					value = hydrator(value)
-			item[key] = value
-		return item
-
 	def dehydrate(self):
 		dehydrated = list()
-		for key in self.schema_item:
+		for key in self.schema['format']:
 			value = self.get(key, 0)
 			if(hasattr(self, 'dehydrate_%s' % key)):
 				hydrator = getattr(self, 'dehydrate_%s' % key)
@@ -41,34 +28,41 @@ class Message(dict):
 
 	def pack(self):
 		dehydrated = self.dehydrate()
-		buffer_ = struct.pack(self.schema_item_format, *dehydrated)
+		buffer_ = struct.pack(self.schema['byteformat'], *dehydrated)
 		return buffer_
 
 	@classmethod
-	def from_packed(class_, data):
+	def from_packed(cls, data):
 		buffer_ = buffer(data)
-		item = struct.unpack_from(class_.schema_item_format, buffer_)
+		item = struct.unpack_from(cls.schema['byteformat'], buffer_)
 		item = list(item)
-		return class_.from_dehydrated(item)
+		return cls.from_dehydrated(item)
 
+	@classmethod
+	def from_dehydrated(cls, data):
+		item = cls()
+		for idx, key in enumerate(item.schema['format']):
+			value = data[idx]
 
-	# @classmethod
-	# def from_packed(class_, data):
-	# 	items = list()
-	# 	item_size = struct.calcsize(class_.schema_item_format)
-	# 	pointer = 0
-	# 	buffer_ = buffer(data)
-	# 		item_buffer = buffer_[pointer:pointer+item_size]
-	# 		pointer = pointer+item_size
-	# 		item = struct.unpack_from(class_.schema_item_format, item_buffer)
-	# 		items.append(list(item))
-	# 	return class_.from_dehydrated(items)
+			if(hasattr(item, 'hydrate_%s' % key)):
+				hydrator = getattr(item, 'hydrate_%s' % key)
+				if(hasattr(hydrator, '__call__')):
+					value = hydrator(value)
+			item[key] = value
+		return item
+
+	@classmethod
+	def get_byte_length(self):
+		return struct.calcsize(self.schema['byteformat'])
 
 
 class UpdateMessage(Message):
-	schema_key = 'id'
-	schema_item = ['id', 'center']
-	schema_item_format = 'I?'
+	scheam = {
+		'id': 2,
+		'format': ['id', 'center'],
+		'byteformat': 'I?',
+	}
+
 
 #  TODO: more clever, general lookup-mixin?
 class DirectionMessageMixin(object):
@@ -94,14 +88,19 @@ class DirectionMessageMixin(object):
 
 
 class FrameMessage(Message, DirectionMessageMixin):
-	schema_key = 'id'
-	schema_item = ['id', 'x', 'y', 'direction', 'state']
-	schema_item_format = 'IffBB'
+	schema = {
+		'id': 1,
+		'format': ['id', 'x', 'y', 'direction', 'state'],
+		'byteformat': 'IffBB'
+	}
 
 
 class UserActionMessage(Message, DirectionMessageMixin):
-	schema_item = ['action', 'direction']
-	schema_item_format = 'BB'
+	schema = {
+		'id': 3,
+		'format': ['action', 'direction'],
+		'byteformat': 'BB'
+	}
 
 	action_lookup = {
 		'stand': 1,
@@ -176,3 +175,30 @@ class Connection(EventsMixins):
 					update.append(data)
 					self.known[item] = data
 		return update
+
+message_types = {
+	1: FrameMessage,
+	2: UpdateMessage,
+	3: UserActionMessage
+}
+
+
+def pack_messages(messages):
+	if(len(messages) == 0):
+		return ''
+
+	buffer_ = struct.pack('B', messages[0].schema['id'])
+	for message in messages:
+		buffer_ += message.pack()
+	return buffer_
+
+
+def unpack_mesages(data):
+	buffer_ = buffer(data)
+	messages = list()
+	message_cls = message_types[struct.unpack('B', buffer_[0])[0]]
+	message_count = (len(buffer_)-1)/message_cls.get_byte_length()
+	for i in range(message_count):
+		msg_buffer = buffer_[1+i*message_cls.get_byte_length():1+(i+1)*message_cls.get_byte_length()]
+		messages.append(message_cls.from_packed(msg_buffer))
+	return messages

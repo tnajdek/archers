@@ -3,7 +3,7 @@ from archers.world import World, directions, rotations
 from archers.player import Player
 from twisted.internet import task
 from .base import BaseTestCase
-from archers.interface import UpdateMessage, FrameMessage, Connection
+from archers.interface import UpdateMessage, FrameMessage, Connection, pack_messages, unpack_mesages
 import struct
 import settings
 
@@ -103,13 +103,13 @@ class TestInterface(BaseTestCase):
 		update = out['result']
 		self.assertEqual(len(update), 1)
 
-	def get_fake_msg(self):
+	def get_fake_msg(self, id=1, x=1.25, y=2.25, direction=rotations['south'], state=10):
 		msg = FrameMessage()
-		msg['id'] = 1
-		msg['x'] = 1.25
-		msg['y'] = 2.25
-		msg['direction'] = rotations['south']
-		msg['state'] = 10
+		msg['id'] = id
+		msg['x'] = x
+		msg['y'] = y
+		msg['direction'] = direction
+		msg['state'] = state
 		return msg
 
 	def test_packing(self):
@@ -140,9 +140,18 @@ class TestInterface(BaseTestCase):
 		self.assertEqual(msg['direction'], rotations['south'])
 		self.assertEqual(msg['state'], 10)
 
-	# def test_message_building(self):
+	def test_message_packing(self):
+		msg = self.get_fake_msg()
+		msg2 = self.get_fake_msg(id=2, x=5, y=10)
+		result = pack_messages([msg, msg2])
+		expected_byte_length = 1 + 2 * msg.get_byte_length()
+		self.assertEqual(len(result), expected_byte_length)
 
-
-
-
-
+	def test_message_unpacking(self):
+		packed_msgs = '\x01\x01\x00\x00\x00\x00\x00\xa0?\x00\x00\x10@\x02\n\x02\x00\x00\x00\x00\x00\xa0@\x00\x00 A\x02\n'
+		messages = unpack_mesages(packed_msgs)
+		self.assertEqual(len(messages), 2)
+		self.assertEqual(messages[0]['id'], 1)
+		self.assertEqual(messages[0]['x'], 1.25)
+		self.assertEqual(messages[1]['id'], 2)
+		self.assertEqual(messages[1]['x'], 5)
