@@ -59,8 +59,8 @@ class Message(dict):
 class UpdateMessage(Message):
 	schema = {
 		'id': 2,
-		'format': ['id', 'center'],
-		'byteformat': 'I?',
+		'format': ['id', 'center', 'remove'],
+		'byteformat': 'I??',
 	}
 
 

@@ -2,30 +2,8 @@ define(['lib/lodash', 'messaging'], function(_) {
 	Message = function() {};
 
 	Message.from = function(schema) {
-		var prototype = new this();
-
-
-		prototype.toBuffer = function() {
-			var Messaging = require('messaging'),
-				bufferLength = Messaging.calcByteSize(schema),
-				buffer = ArrayBuffer(bufferLength),
-				dv = new DataView(buffer),
-				pointer = 0, bytePointer = 0,
-				format, letterType, value;
-
-			while(pointer < schema.byteformat.length) {
-					letterType = schema.byteformat.charAt(pointer);
-					format = Messaging.format[letterType];
-					value = this[schema.format[pointer]];
-					dv['set'+format](bytePointer, value);
-
-					bytePointer += Messaging.getTypeByteLength(format);
-					pointer++;
-				}
-			return buffer;
-		};
-
-		ChildMessage = function(buffer) {
+		var prototype = new this(),
+			MessageClass = function(buffer) {
 			if(buffer instanceof ArrayBuffer) {
 				var Messaging = require('messaging'),
 					dv = new DataView(buffer),
@@ -47,11 +25,32 @@ define(['lib/lodash', 'messaging'], function(_) {
 			}
 		};
 
-		ChildMessage.prototype = prototype;
-		ChildMessage.prototype.constructor = ChildMessage;
-		ChildMessage.extend = arguments.calee;
-		ChildMessage.schema = schema;
-		return ChildMessage;
+		prototype.toBuffer = function() {
+			var Messaging = require('messaging'),
+				bufferLength = Messaging.calcByteSize(schema),
+				buffer = ArrayBuffer(bufferLength),
+				dv = new DataView(buffer),
+				pointer = 0, bytePointer = 0,
+				format, letterType, value;
+
+			while(pointer < schema.byteformat.length) {
+					letterType = schema.byteformat.charAt(pointer);
+					format = Messaging.format[letterType];
+					value = this[schema.format[pointer]];
+					dv['set'+format](bytePointer, value);
+
+					bytePointer += Messaging.getTypeByteLength(format);
+					pointer++;
+				}
+			return buffer;
+		};
+
+
+		MessageClass.prototype = prototype;
+		MessageClass.prototype.constructor = MessageClass;
+		MessageClass.extend = arguments.calee;
+		MessageClass.schema = schema;
+		return MessageClass;
 	}
 
 	return Message;
