@@ -37,3 +37,4 @@ media/*
 *.db
 
 node_modules
+frontend/components

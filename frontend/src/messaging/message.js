@@ -1,4 +1,4 @@
-define(['lib/lodash', 'messaging'], function(_) {
+define(['lodash', 'messaging'], function(_) {
 	Message = function() {};
 
 	Message.from = function(schema) {

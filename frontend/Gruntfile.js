@@ -7,14 +7,16 @@ module.exports = function(grunt) {
 				autoWatch: true
 			}
 		},
+		bower: {
+			target: {
+				rjsConfig: 'src/archers.js'
+			}
+		},
 		requirejs: {
 			compile: {
 				options: {
 					name: "archers",
 					baseUrl: "src/",
-					paths: {
-						'lib': '../lib'
-					},
 					mainConfigFile: "src/archers.js",
 					out: "js/archers.js"
 				}
@@ -23,8 +25,9 @@ module.exports = function(grunt) {
 
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-uglify');
+
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
+	grunt.loadNpmTasks('grunt-bower-requirejs');
 	grunt.loadNpmTasks('grunt-karma');
 
 	grunt.registerTask('build', ['requirejs']);

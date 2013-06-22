@@ -1,4 +1,4 @@
-define(['require', 'lib/lodash', 'messaging/frame', 'messaging/update', 'messaging/useraction'],
+define(['require', 'lodash', 'messaging/frame', 'messaging/update', 'messaging/useraction'],
 function(require, _, FrameMessage, UpdateMessage, UserActionMessage) {
 	var Messaging = {
 		format: {

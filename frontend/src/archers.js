@@ -1,13 +1,11 @@
-// var ws = new WebSocket("ws://localhost:9000");
-// ws.binaryType = 'arraybuffer'
+requirejs.config({
+	baseUrl: 'src/',
+	paths: {
+		lodash: '../components/lodash/dist/lodash.compat'
+	}
+});
 
-// ws.onopen = function() {
-//    ws.onmessage = function(e) {
-//       console.log(e.data);
-//    }
-// };
-
-requirejs(['messaging', 'lib/lodash'], function (Messaging, _) {
+requirejs(['messaging', 'lodash'], function (Messaging, _) {
 	var ws = new WebSocket("ws://localhost:9000");
 	ws.binaryType = 'arraybuffer'
 	ws.onopen = function() {
@@ -19,6 +17,7 @@ requirejs(['messaging', 'lib/lodash'], function (Messaging, _) {
 			if(messages[0].schema.id === 2) {
 				messages.forEach(function(msg) {
 					if(msg.remove) {
+						console.log(msg);
 						delete objects[messages[0].id];
 					} else {
 						objects[msg.id] = {
@@ -35,7 +34,6 @@ requirejs(['messaging', 'lib/lodash'], function (Messaging, _) {
 					}
 				});
 			}
-			console.log(objects);
 			domel.textContent = '';
 			_.forEach(objects, function(object) {
 				domel.textContent += 'object '+object.id+':  x:'+object.x+', y:'+object.y+"\n";
