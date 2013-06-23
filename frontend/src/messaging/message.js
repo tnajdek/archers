@@ -1,8 +1,9 @@
 define(['lodash', 'messaging'], function(_) {
 	Message = function() {};
 
-	Message.from = function(schema) {
-		var prototype = new this(),
+	Message.from = function(schema, base) {
+		var base = base || {},
+			prototype = new this(),
 			MessageClass = function(buffer) {
 			if(buffer instanceof ArrayBuffer) {
 				var Messaging = require('messaging'),
@@ -15,6 +16,10 @@ define(['lodash', 'messaging'], function(_) {
 					format = Messaging.format[letterType];
 
 					value = Messaging.extractValue(dv['get'+format](bytePointer), letterType);
+					hydrator = base['hydrate'+schema.format[pointer].charAt(0).toUpperCase() + schema.format[pointer].substring(1)];
+					if(hydrator) {
+						value = hydrator.call(base, value);
+					}
 					this[schema.format[pointer]] = value;
 
 					bytePointer += Messaging.getTypeByteLength(format);

@@ -56,14 +56,6 @@ class Message(dict):
 		return struct.calcsize(self.schema['byteformat'])
 
 
-class UpdateMessage(Message):
-	schema = {
-		'id': 2,
-		'format': ['id', 'center', 'remove'],
-		'byteformat': '!I??',
-	}
-
-
 #  TODO: more clever, general lookup-mixin?
 class DirectionMessageMixin(object):
 	direction_lookup = {
@@ -85,6 +77,36 @@ class DirectionMessageMixin(object):
 
 	def dehydrate_direction(self, value):
 		return self.direction_lookup.get(value, 0)
+
+
+class EntityMessageMixin(object):
+	entity_type_lookup = {
+		'Unknown': 0,
+		'Collidable': 1,
+		'Player': 2,
+		'Arrow': 3,
+	}
+
+	entity_type_reverse_lookup = {
+		0: 'Unknown',
+		1: 'Collidable',
+		2: 'Player',
+		3: 'Arrow',
+	}
+
+	def hydrate_entity_type(self, value):
+		return self.entity_type_reverse_lookup.get(value, None)
+
+	def dehydrate_entity_type(self, value):
+		return self.entity_type_lookup.get(value, 0)
+
+
+class UpdateMessage(Message, EntityMessageMixin):
+	schema = {
+		'id': 2,
+		'format': ['id', 'entity_type', 'remove'],
+		'byteformat': '!IB?',
+	}
 
 
 class FrameMessage(Message, DirectionMessageMixin):
@@ -141,7 +163,7 @@ class Connection(EventsMixins):
 					msg = UpdateMessage()
 					# msg['name'] = world_object.name
 					msg['id'] = world_object.id
-					msg['center'] = False
+					msg['entity_type'] = world_object.__class__.__name__
 					msg['remove'] = False
 					messages.append(msg)
 				self.last_world_index = index

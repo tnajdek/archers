@@ -1,43 +1,33 @@
 requirejs.config({
 	baseUrl: 'src/',
 	paths: {
-		lodash: '../components/lodash/dist/lodash.compat'
+		lodash: '../components/lodash/dist/lodash.compat',
+		MelonJS: '../components/MelonJS/build/melonJS-0.9.7-amd'
 	}
 });
 
-requirejs(['messaging', 'lodash'], function (Messaging, _) {
-	var ws = new WebSocket("ws://localhost:9000");
-	ws.binaryType = 'arraybuffer'
-	ws.onopen = function() {
-		var objects = {},
+requirejs(['lodash', 'MelonJS', 'resources', 'networking', "screens/main", 'entities/archer'],
+	function (_, me, resources, Networking, MainScreen, Archer) {
+	me.sys.useNativeAnimFrame = true;
+	me.video.init("game", window.innerWidth, window.innerHeight, true, "auto");
+	// window.onresize = function() {
+	// 	me.video.init("game", window.innerWidth, window.innerHeight, true, 1.0);
+	// }
 
-		domel = document.getElementById('update');
-		ws.onmessage = function(e) {
-			messages = Messaging.fromBuffer(e.data);
-			if(messages[0].schema.id === 2) {
-				messages.forEach(function(msg) {
-					if(msg.remove) {
-						console.log(msg);
-						delete objects[messages[0].id];
-					} else {
-						objects[msg.id] = {
-							id: msg.id
-						}
-					}
-				});
-			}
-			if(messages[0].schema.id === 1) {
-				messages.forEach(function(msg) {
-					if(objects[msg.id]) {
-						objects[msg.id].x = msg.x;
-						objects[msg.id].y = msg.y;
-					}
-				});
-			}
-			domel.textContent = '';
-			_.forEach(objects, function(object) {
-				domel.textContent += 'object '+object.id+':  x:'+object.x+', y:'+object.y+"\n";
-			});
-		}
+	me.sys.dirtyRegion = true;
+	me.debug.renderDirty = false;
+
+	me.loader.onload = function() {
+		// debugger;
+		me.state.set(me.state.PLAY, new MainScreen(true));
+		me.state.change(me.state.PLAY);
+		me.entityPool.add("archer", Archer);
+		Networking.init();
 	};
+
+	me.loader.preload(resources);
+	me.state.change(me.state.LOADING);
+
+
+	
 });

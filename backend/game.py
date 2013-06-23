@@ -41,7 +41,7 @@ class Archers():
 		listenWS(factory)
 
 	def init_world(self):
-		self.world = World('../common/map.tmx')
+		self.world = World('../resources/map.tmx')
 		task.LoopingCall(self.world.step).start(settings.TIME_STEP)
 		task.clock = self.reactor
 
