@@ -1,4 +1,4 @@
-define(['pc', 'scenes/game'], function(pc, GameScene) {
+define(['pc', 'vent', 'networking', 'scenes/game'], function(pc, vent, Networking, GameScene) {
 	var Archers = pc.Game.extend('Archers', {
 	// statics
 	}, {
@@ -19,6 +19,9 @@ define(['pc', 'scenes/game'], function(pc, GameScene) {
 				'archer',
 				'/resources/archer.png'
 			));
+			vent.on('hello', function() {
+				console.log('hello world');
+			});
 
 			pc.device.loader.start(this.onLoading.bind(this), this.onLoaded.bind(this));
 		},
@@ -48,7 +51,13 @@ define(['pc', 'scenes/game'], function(pc, GameScene) {
 			// // resources are all ready, start the main game scene
 			// // (or a menu if you have one of those)
 			this.activateScene(this.gameScene);
-			console.warn('LOADED');
+			vent.on('update', function(msg) {
+				console.log(msg);
+			});
+			vent.on('frame', function(msg) {
+				console.log(msg);
+			});
+			this.networking = new Networking();
 		},
 	});
 	return Archers;
