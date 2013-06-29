@@ -9,6 +9,8 @@ Build f/e
 ---------
     cd frontend
     grunt build
+    cd components
+    wget playcraft
 
 Run devel env
 -------------

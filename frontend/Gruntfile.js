@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 		},
 		bower: {
 			target: {
-				rjsConfig: 'src/archers.js'
+				rjsConfig: 'src/bootstrap.js'
 			}
 		},
 		requirejs: {
@@ -17,12 +17,16 @@ module.exports = function(grunt) {
 				options: {
 					name: "archers",
 					baseUrl: "src/",
-					mainConfigFile: "src/archers.js",
-					out: "js/archers.js"
+					mainConfigFile: "src/bootstrap.js",
+					out: "js/archers.js",
+					optimize: 'uglify',
+					preserveLicenseComments: false,
+					wrap: {
+						start: "if(!window.pc) { window.pc = {}; pc.VERSION = '0.5.6'; }",
+					},
 				}
 			}
 		}
-
 	});
 
 
