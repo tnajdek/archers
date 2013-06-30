@@ -1,8 +1,8 @@
 define(['messaging/message'], function(Message) {
 	var schema = {
 		id: 2,
-		format: ['id', 'entityType', 'remove'],
-		byteformat: 'IB?'
+		format: ['id', 'entityType', 'width', 'height', 'x', 'y', 'direction', 'state'],
+		byteformat: 'IBIIIIBB'
 	},
 		base = {
 			entityTypeLookup: {

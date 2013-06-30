@@ -1,5 +1,5 @@
-define(['require', 'lodash', 'messaging/frame', 'messaging/update', 'messaging/useraction'],
-function(require, _, FrameMessage, UpdateMessage, UserActionMessage) {
+define(['require', 'lodash', 'messaging/frame', 'messaging/update', 'messaging/useraction', 'messaging/remove'],
+function(require, _, FrameMessage, UpdateMessage, UserActionMessage, RemoveMessage) {
 	var Messaging = {
 		format: {
 			'b': 'Int8',
@@ -16,7 +16,9 @@ function(require, _, FrameMessage, UpdateMessage, UserActionMessage) {
 		messages: {
 			'1': FrameMessage,
 			'2': UpdateMessage,
-			'3': UserActionMessage
+			'3': UserActionMessage,
+			'4': RemoveMessage
+
 
 		},
 

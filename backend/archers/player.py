@@ -84,7 +84,7 @@ class Arrow(SelfDestructable):
 		self.create_dynamic_box_body(
 			target_position.x,
 			target_position.y,
-			0.1, 0.1, friction=0.9
+			0.2, 0.2, friction=0.9
 		)
 		self.physics.fixedRotation = True
 		self.physics.angle = vec2rad(direction)

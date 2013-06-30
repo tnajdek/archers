@@ -53,8 +53,8 @@ class TestInterface(BaseTestCase):
 
 		for message in frame:
 			matching_expected_item = items_expected.pop(message['id'])
-			self.assertEqual(message['x'], matching_expected_item.physics.position.x)
-			self.assertEqual(message['y'], matching_expected_item.physics.position.y)
+			self.assertEqual(message['x'], int(settings.PPM*matching_expected_item.physics.position.x))
+			self.assertEqual(message['y'], int(settings.PPM*matching_expected_item.physics.position.y))
 			self.assertEqual(message['direction'], matching_expected_item.physics.angle)
 
 		self.assertEqual(len(items_expected), 0)
@@ -68,8 +68,8 @@ class TestInterface(BaseTestCase):
 		frame = self.connection.get_frame()
 		self.assertEqual(len(frame), 1)
 		message = frame.pop()
-		self.assertEqual(message['x'], self.player.physics.position.x)
-		self.assertEqual(message['y'], self.player.physics.position.y)
+		self.assertEqual(message['x'], int(settings.PPM*self.player.physics.position.x))
+		self.assertEqual(message['y'], int(settings.PPM*self.player.physics.position.y))
 		self.assertEqual(message['direction'], self.player.physics.angle)
 
 	def test_get_update(self):
@@ -90,7 +90,7 @@ class TestInterface(BaseTestCase):
 			self.assertIsInstance(message, UpdateMessage)
 			matching_expected_item = items_expected.pop(message['id'])
 			self.assertEqual(message['id'], matching_expected_item.id)
-			self.assertEqual(message['center'], False)
+			# self.assertEqual(message['center'], False)
 			#TEST MORE
 		self.assertEqual(len(items_expected), 0)
 
@@ -103,7 +103,7 @@ class TestInterface(BaseTestCase):
 		update = out['result']
 		self.assertEqual(len(update), 1)
 
-	def get_fake_msg(self, id=1, x=1.25, y=2.25, direction=rotations['south'], state=10):
+	def get_fake_msg(self, id=1, x=1, y=2, direction=rotations['south'], state=10):
 		msg = FrameMessage()
 		msg['id'] = id
 		msg['x'] = x
@@ -116,28 +116,28 @@ class TestInterface(BaseTestCase):
 		msg = self.get_fake_msg()
 		packed = msg.pack()
 		self.assertEqual(packed[0:4], struct.pack('!I', 1))
-		self.assertEqual(packed[4:8], struct.pack('!f', 1.25))
-		self.assertEqual(packed[8:12], struct.pack('!f', 2.25))
+		self.assertEqual(packed[4:8], struct.pack('!I', 1))
+		self.assertEqual(packed[8:12], struct.pack('!I', 2))
 		self.assertEqual(packed[12:13], struct.pack('!B', 2))
 		self.assertEqual(packed[13:14], struct.pack('!B', 10))
 
 
 	def test_dehydration(self):
-		dehydrated_item = [1, 1.25, 2.25, 2, 10]
+		dehydrated_item = [1, 1, 2, 2, 10]
 		msg = FrameMessage.from_dehydrated(dehydrated_item)
 		self.assertEqual(msg['id'], 1)
-		self.assertEqual(msg['x'], 1.25)
-		self.assertEqual(msg['y'], 2.25)
+		self.assertEqual(msg['x'], 1)
+		self.assertEqual(msg['y'], 2)
 		self.assertEqual(msg['direction'], rotations['south'])
 		self.assertEqual(msg['state'], 10)
 
 	def test_unpacking(self):
-		packed = '\x00\x00\x00\x01?\xa0\x00\x00@\x10\x00\x00\x02\n'
+		packed = '\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x02\x02\n'
 		msg = FrameMessage.from_packed(packed)
 		msg = msg
 		self.assertEqual(msg['id'], 1)
-		self.assertEqual(msg['x'], 1.25)
-		self.assertEqual(msg['y'], 2.25)
+		self.assertEqual(msg['x'], 1)
+		self.assertEqual(msg['y'], 2)
 		self.assertEqual(msg['direction'], rotations['south'])
 		self.assertEqual(msg['state'], 10)
 
@@ -149,19 +149,24 @@ class TestInterface(BaseTestCase):
 		self.assertEqual(len(result), expected_byte_length)
 
 	def test_message_unpacking(self):
-		packed_msgs = '\x01\x00\x00\x00\x01?\xa0\x00\x00@\x10\x00\x00\x02\n\x00\x00\x00\x02@\xa0\x00\x00A \x00\x00\x02\n'
+		packed_msgs = '\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x02\x02\n\x00\x00\x00\x02\x00\x00\x00\x05\x00\x00\x00\n\x02\n'
 		messages = unpack_mesages(packed_msgs)
 		self.assertEqual(len(messages), 2)
 		self.assertEqual(messages[0]['id'], 1)
-		self.assertEqual(messages[0]['x'], 1.25)
+		self.assertEqual(messages[0]['x'], 1)
 		self.assertEqual(messages[1]['id'], 2)
 		self.assertEqual(messages[1]['x'], 5)
 
 	def test_update_message_packing(self):
 		msg = UpdateMessage()
 		msg['id'] = 12
-		msg['center'] = False
-		msg['remove'] = True
+		msg['entity_type'] = 'Collidable'
+		msg['width'] = 300
+		msg['height'] = 42
+		msg['x'] = 5
+		msg['y'] = 10
+		msg['direction'] = rotations['west']
+		msg['state'] = 1
 		packed = msg.pack()
 		unpacked = UpdateMessage.from_packed(packed)
 		self.assertEqual(msg, unpacked)

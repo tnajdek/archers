@@ -1,146 +1,7 @@
 from archers.utils import EventsMixins
-from archers.world import rotations
+from archers.messages import message_types, UpdateMessage, FrameMessage, RemoveMessage
 import struct
-
-# B	unsigned char	integer	1	(3)
-# ?	_Bool	bool	1	(1)
-# H	unsigned short	integer	2	(3)
-# I	unsigned int	integer	4	(3)
-# Q	unsigned long long	integer	8	(2), (3)
-# f	float
-
-
-class Message(dict):
-	def __init__(self, *args, **kwargs):
-		if(args):
-			self.hydrate(args[0])
-
-	def dehydrate(self):
-		dehydrated = list()
-		for key in self.schema['format']:
-			value = self.get(key, 0)
-			if(hasattr(self, 'dehydrate_%s' % key)):
-				hydrator = getattr(self, 'dehydrate_%s' % key)
-				if(hasattr(hydrator, '__call__')):
-					value = hydrator(value)
-			dehydrated.append(value)
-		return dehydrated
-
-	def pack(self):
-		dehydrated = self.dehydrate()
-		buffer_ = struct.pack(self.schema['byteformat'], *dehydrated)
-		return buffer_
-
-	@classmethod
-	def from_packed(cls, data):
-		buffer_ = buffer(data)
-		item = struct.unpack_from(cls.schema['byteformat'], buffer_)
-		item = list(item)
-		return cls.from_dehydrated(item)
-
-	@classmethod
-	def from_dehydrated(cls, data):
-		item = cls()
-		for idx, key in enumerate(item.schema['format']):
-			value = data[idx]
-
-			if(hasattr(item, 'hydrate_%s' % key)):
-				hydrator = getattr(item, 'hydrate_%s' % key)
-				if(hasattr(hydrator, '__call__')):
-					value = hydrator(value)
-			item[key] = value
-		return item
-
-	@classmethod
-	def get_byte_length(self):
-		return struct.calcsize(self.schema['byteformat'])
-
-
-#  TODO: more clever, general lookup-mixin?
-class DirectionMessageMixin(object):
-	direction_lookup = {
-		rotations['north']: 1,
-		rotations['south']: 2,
-		rotations['east']: 3,
-		rotations['west']: 4,
-	}
-
-	direction_reverse_lookup = {
-		1: rotations['north'],
-		2: rotations['south'],
-		3: rotations['east'],
-		4: rotations['west'],
-	}
-
-	def hydrate_direction(self, value):
-		return self.direction_reverse_lookup.get(value, None)
-
-	def dehydrate_direction(self, value):
-		return self.direction_lookup.get(value, 0)
-
-
-class EntityMessageMixin(object):
-	entity_type_lookup = {
-		'Unknown': 0,
-		'Collidable': 1,
-		'Player': 2,
-		'Arrow': 3,
-	}
-
-	entity_type_reverse_lookup = {
-		0: 'Unknown',
-		1: 'Collidable',
-		2: 'Player',
-		3: 'Arrow',
-	}
-
-	def hydrate_entity_type(self, value):
-		return self.entity_type_reverse_lookup.get(value, None)
-
-	def dehydrate_entity_type(self, value):
-		return self.entity_type_lookup.get(value, 0)
-
-
-class UpdateMessage(Message, EntityMessageMixin):
-	schema = {
-		'id': 2,
-		'format': ['id', 'entity_type', 'remove'],
-		'byteformat': '!IB?',
-	}
-
-
-class FrameMessage(Message, DirectionMessageMixin):
-	schema = {
-		'id': 1,
-		'format': ['id', 'x', 'y', 'direction', 'state'],
-		'byteformat': '!IffBB'
-	}
-
-
-class UserActionMessage(Message, DirectionMessageMixin):
-	schema = {
-		'id': 3,
-		'format': ['action', 'direction'],
-		'byteformat': '!BB'
-	}
-
-	action_lookup = {
-		'stand': 1,
-		'move': 2,
-		'attack': 3
-	}
-
-	action_reverse_lookup = {
-		1: 'stand',
-		2: 'move',
-		3: 'attack'
-	}
-
-	def hydrate_action(self, value):
-		return self.action_reverse_lookup.get(value, None)
-
-	def dehydrate_action(self, value):
-		return self.action_lookup.get(value, 0)
+from archers.utils import m2p, limit
 
 
 class Connection(EventsMixins):
@@ -164,19 +25,22 @@ class Connection(EventsMixins):
 					# msg['name'] = world_object.name
 					msg['id'] = world_object.id
 					msg['entity_type'] = world_object.__class__.__name__
-					msg['remove'] = False
+					msg['width'] = limit(m2p(world_object.width))
+					msg['height'] = limit(m2p(world_object.height))
+					msg['x'] = limit(m2p(world_object.physics.position.x))
+					msg['y'] = limit(m2p(world_object.physics.position.y))
+					msg['direction'] = world_object.physics.angle
+					msg['state'] = 0
 					messages.append(msg)
 				self.last_world_index = index
 			self.trigger('update', messages)
 
 	def on_destroy(self, id):
 		messages = list()
-		msg = UpdateMessage()
+		msg = RemoveMessage()
 		msg['id'] = id
-		msg['center'] = False
-		msg['remove'] = True
 		messages.append(msg)
-		self.trigger('update', messages)
+		self.trigger('remove', messages)
 
 	def frame_maybe(self, world):
 		self.trigger('frame', self.get_frame())
@@ -200,20 +64,14 @@ class Connection(EventsMixins):
 			if(hasattr(item, 'physics')):
 				data = FrameMessage()
 				data['id'] = item.id
-				data['x'] = item.physics.position.x
-				data['y'] = item.physics.position.y
+				data['x'] = limit(m2p(item.physics.position.x))
+				data['y'] = limit(m2p(item.physics.position.y))
 				data['direction'] = item.physics.angle
 				data['state'] = 0
 				if not(item in self.known.keys() and self.known[item] == data):
 					update.append(data)
 					self.known[item] = data
 		return update
-
-message_types = {
-	1: FrameMessage,
-	2: UpdateMessage,
-	3: UserActionMessage
-}
 
 
 def pack_messages(messages):

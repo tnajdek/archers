@@ -1,8 +1,8 @@
 import pygame
 from pygame.locals import *
 from archers.utils import rad2vec
+from settings import PPM
 
-PPM = 32.0
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 
 colors = {

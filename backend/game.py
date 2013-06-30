@@ -21,16 +21,13 @@ class UserCommunication(WebSocketServerProtocol):
 
 	def onOpen(self):
 		self.interface = Connection(self.factory.world)
-		self.interface.on('update', self.send_update)
-		self.interface.on('frame', self.send_frame)
+		self.interface.on('update', self.send_messages)
+		self.interface.on('frame', self.send_messages)
+		self.interface.on('remove', self.send_messages)
 
-	def send_update(self, items):
-		if(len(items)):
-			self.sendMessage(pack_messages(items), True)
-
-	def send_frame(self, frame):
-		if(len(frame)):
-			self.sendMessage(pack_messages(frame), True)
+	def send_messages(self, messages):
+		if(len(messages)):
+			self.sendMessage(pack_messages(messages), True)
 
 
 class Archers():

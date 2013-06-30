@@ -227,7 +227,11 @@ class World(EventsMixins):
 		return self.object_lookup_by_name[name]
 
 	def get_object_by_id(self, id):
-		return self.object_index[id]
+		try:
+			obj = self.object_index[id]
+		except KeyError:
+			import ipdb; ipdb.set_trace()
+		return obj
 
 	def get_object_id(self, object_):
 		return self.object_index.get_by_value(object_, None)

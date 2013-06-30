@@ -1,5 +1,6 @@
 from math import atan2, cos, sin
 from Box2D import b2Vec2
+from settings import PPM
 
 
 def rad2vec(radians, m=1):
@@ -31,3 +32,35 @@ class EventsMixins(object):
 			if(callback[1]):
 				kwargs['_context'] = self._callbacks[event][1]
 			callback[0](*args, **kwargs)
+
+
+def m2p(meters):
+	if hasattr(meters, 'x') and hasattr(meters, 'y'):
+		meters.x = m2p(meters.x)
+		meters.y = m2p(meters.y)
+		return meters
+	elif hasattr(meters, '__iter__') and 'x' in meters and 'y' in meters:
+		meters['x'] = m2p(meters['x'])
+		meters['y'] = m2p(meters['y'])
+		return meters
+	else:
+		return int(meters * PPM)
+
+
+def p2m(pixels):
+	if hasattr(pixels, 'x') and hasattr(pixels, 'y'):
+		pixels.x = p2m(pixels.x)
+		pixels.y = p2m(pixels.y)
+		return pixels
+	elif 'x' in pixels and 'y' in pixels:
+		pixels['x'] = p2m(pixels['x'])
+		pixels['y'] = p2m(pixels['y'])
+		return pixels
+	else:
+		return pixels / PPM
+
+
+def limit(pixels):
+	if(pixels < 0):
+		return 0
+	return pixels
