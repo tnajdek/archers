@@ -33,7 +33,7 @@ def spawn_sucker():
 	sucker = Player(world)
 	sucker.spawn(spawn_point)
 
-delay = 5;
+delay = 5
 archers = Archers()
 reactor.callLater(delay+0.1, spawn_player)
 reactor.callLater(delay+0.1, spawn_sucker)

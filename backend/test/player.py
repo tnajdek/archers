@@ -23,6 +23,22 @@ class TestPlayer(BaseTestCase):
 		self.player.destroy()
 		self.world_update_task.stop()
 
+	def count_player_arrows(self, player):
+		arrows = self.world.get_objects_by_type('arrow')
+		count = 0
+		for arrow in arrows:
+			if(arrow.owner == player):
+				count = count + 1
+		return count
+
+	def get_player_arrows(self, player):
+		arrows = self.world.get_objects_by_type('arrow')
+		player_arrows = list()
+		for arrow in arrows:
+			if(arrow.owner == player):
+				player_arrows.append(arrow)
+		return player_arrows
+
 	def test_player_spawned(self):
 		self.assertEqual(self.spawn_point.x, self.player.physics.position.x)
 		self.assertEqual(self.spawn_point.y, self.player.physics.position.y)
@@ -41,14 +57,14 @@ class TestPlayer(BaseTestCase):
 	def test_player_shoots(self):
 		self.player.want_attack(directions['south'])
 		self.advance_clock(40)
-		self.assertEqual(len(self.player.arrows_shot), 1)
+		self.assertEqual(self.count_player_arrows(self.player), 1)
 		self.advance_clock(1000)
-		self.assertEqual(len(self.player.arrows_shot), 0)
+		self.assertEqual(self.count_player_arrows(self.player), 0)
 
 	def test_arrow_flies(self):
 		self.player.want_attack(directions['south'])
 		self.advance_clock(40)
-		arrow = self.player.arrows_shot[0]
+		arrow = self.get_player_arrows(self.player)[0]
 		self.assertEqual(self.player.physics.position.x, arrow.physics.position.x)
 		player_position_plus_2m = self.player.physics.position + directions['south']*2
 		self.assertGreater(arrow.physics.position.y, player_position_plus_2m.y)
@@ -56,7 +72,7 @@ class TestPlayer(BaseTestCase):
 	def test_arrow_collides(self):
 		self.player.want_attack(directions['east'])
 		self.advance_clock(40)
-		arrow = self.player.arrows_shot[0]
+		arrow = self.get_player_arrows(self.player)[0]
 		self.assertLess(arrow.physics.position.x, 6.0)
 		self.assertGreater(arrow.physics.position.x, self.player.physics.position.x)
 

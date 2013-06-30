@@ -9,7 +9,7 @@ class Player(WorldObject, ReactorMixin):
 		self.speed = 1.0
 		self.attack_speed = 1.0
 		self.arrows_speed = 1.0
-		self.arrows_shot = list()
+		# self.arrows_shot = list()
 		self.dead = True
 		super(Player, self).__init__(world, type="player", *args, **kwargs)
 
@@ -56,7 +56,7 @@ class Player(WorldObject, ReactorMixin):
 
 	def commit_attack(self, direction):
 		arrow = Arrow(direction, self.arrows_speed, self, reactor=self.reactor)
-		self.arrows_shot.append(arrow)
+		# self.arrows_shot.append(arrow)
 
 	def cancel_pending(self):
 		if(hasattr(self, 'delayed_attack') and self.delayed_attack.active()):
@@ -96,6 +96,6 @@ class Arrow(SelfDestructable):
 		)
 
 	def destroy(self, source="dupa"):
-		self.owner.arrows_shot.remove(self)
+		# self.owner.arrows_shot.remove(self)
 		self.world.physics.DestroyBody(self.physics)
 		super(Arrow, self).destroy()

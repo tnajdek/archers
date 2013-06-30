@@ -1,5 +1,6 @@
 import tmxlib
 from Box2D import *
+from bidict import bidict
 import settings
 from twisted.internet import reactor
 from archers.utils import vec2rad, EventsMixins
@@ -28,28 +29,30 @@ class ListWithCounter(list):
 		return super(ListWithCounter, self).append(item)
 
 
-class UniqueIndex(dict):
-	def __init__(self):
-		self.index = 0
-		self.reverse = dict()
+# class UniqueIndex(dict):
+# 	def __init__(self):
+# 		self.index = 0
+# 		self.reverse = dict()
 
-	def __delitem__(self, id_):
-		if(id_ in self.keys()):
-			item = self.get(id_)
-		elif(id_ in self.reverse.keys()):
-			item = id_
-			id_ = self.get_by_value(item)
-		super(UniqueIndex, self).__delitem__(id_)
-		del self.reverse[item]
+# 	def __delitem__(self, id_):
+# 		item = None
+# 		if(isinstance(id_, (int, long))):
+# 			item = self.get(id_)
+# 		elif(id_ in self.reverse.keys()):
+# 			item = id_
+# 			id_ = self.get_by_value(item)
+# 		if(item):
+# 			super(UniqueIndex, self).__delitem__(id_)
+# 			del self.reverse[item]
 
-	def append(self, item):
-		self.index = self.index + 1
-		super(UniqueIndex, self).__setitem__(self.index, item)
-		self.reverse[item] = self.index
-		return self.index
+# 	def append(self, item):
+# 		self.index = self.index + 1
+# 		super(UniqueIndex, self).__setitem__(self.index, item)
+# 		self.reverse[item] = self.index
+# 		return self.index
 
-	def get_by_value(self, *args):
-		return self.reverse.get(*args)
+# 	def get_by_value(self, *args):
+# 		return self.reverse.get(*args)
 
 
 class Base(object):
@@ -115,8 +118,11 @@ class WorldObject(Base):
 		super(WorldObject, self).__init__(*args, **kwargs)
 
 	def destroy(self):
+		id = self.world.object_index[:self]
 		self.world.object_lookup_by_name.pop(self.name)
 		self.world.object_lookup_by_type[self.type].remove(self)
+		del self.world.object_index[:self]
+		self.world.trigger('destroy_object', id)
 
 
 class MapObject(WorldObject):
@@ -151,11 +157,18 @@ class SelfDestructable(WorldObject, ReactorMixin):
 	def __init__(self, *args, **kwargs):
 		lifetime = kwargs.pop('lifetime', 1.0)
 		super(SelfDestructable, self).__init__(*args, **kwargs)
-		self.self_destruction_task = self.reactor.callLater(lifetime, self.destroy)
+		self.self_destruction_task = self.reactor.callLater(lifetime, self.self_destruct)
 
-	def destroy(self):
+	def cancel_pending(self):
 		if(hasattr(self, 'self_destruction_task') and self.self_destruction_task.active()):
 			self.self_destruction_task.cancel()
+
+	def self_destruct(self):
+		self.cancel_pending()
+		self.world.kill(self)
+
+	def destroy(self):
+		self.cancel_pending()
 		super(SelfDestructable, self).destroy()
 
 
@@ -195,7 +208,8 @@ class World(EventsMixins):
 		self.object_lookup_by_type = dict()
 		self.object_lookup_by_name = dict()
 		self.objects_to_be_destroyed = list()
-		self.object_index = UniqueIndex()
+		self.object_index = bidict()
+		self.object_index.index = 0
 		self.callbacks = list()
 		for layer in self.map.layers:
 			self.layers[layer.name] = layer
@@ -227,22 +241,29 @@ class World(EventsMixins):
 		return self.object_lookup_by_name[name]
 
 	def get_object_by_id(self, id):
-		try:
-			obj = self.object_index[id]
-		except KeyError:
-			import ipdb; ipdb.set_trace()
+		obj = self.object_index[id:]
+		# try:
+
+		# except KeyError:
+		# 	obj = None
 		return obj
 
 	def get_object_id(self, object_):
-		return self.object_index.get_by_value(object_, None)
+		obj = self.object_index[:object_]
+		# try:
+
+		# except KeyError:
+		# 	obj = None
+		return obj
 
 	def add_object(self, world_object):
 		self.trigger('add_object', self)
-		world_object.id = self.object_index.append(world_object)
+		self.object_index.index = self.object_index.index + 1
+		self.object_index[self.object_index.index] = world_object
+		world_object.id = self.object_index.index
 
 	def kill(self, killme):
 		if not killme in self.objects_to_be_destroyed:
-			self.trigger('destroy_object', killme.id)
 			self.objects_to_be_destroyed.append(killme)
 
 
@@ -258,6 +279,6 @@ class World(EventsMixins):
 				killme.kill()
 			else:
 				killme.destroy(source="step")
-			del self.object_index[killme]
+				
 
 		self.physics.Step(settings.TIME_STEP, 10, 10)

@@ -21,6 +21,7 @@ define(['pc'], function() {
 			// 	return entity;
 			// }
 			entity = this.makeCollidable(layer, x, y, dir, point, properties);
+			entity.addTag(type);
 			return entity;
 		}
 	});

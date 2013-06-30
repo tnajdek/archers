@@ -27,7 +27,7 @@ class TestInterface(BaseTestCase):
 	def get_items_expected(self):
 		# items_expected = self.world.object_lookup_by_name
 		items_expected = self.world.object_index
-		items_expected = {k: v for k, v in items_expected.iteritems() if hasattr(v, 'physics')}
+		items_expected = {k: v for k, v in items_expected.items() if hasattr(v, 'physics')}
 		return items_expected
 
 	# redundant, just reset the counter on_update?

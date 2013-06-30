@@ -20,7 +20,6 @@ define(['pc', 'vent', 'entityfactory'], function(pc, vent, EntityFactory) {
 					properties = {
 						id: msg.id
 					}
-					console.log(msg)
 
 				that.entities[msg.id] = that.factory.createEntity(that.layer, msg.entityType, msg.x, msg.y, msg.direction, shape, properties);
 			});
@@ -29,6 +28,12 @@ define(['pc', 'vent', 'entityfactory'], function(pc, vent, EntityFactory) {
 				var entity = that.entities[msg.id];
 				entity.getComponent('spatial').getPos().x = msg.x
 				entity.getComponent('spatial').getPos().y = msg.y
+			});
+
+			vent.on('remove', function(msg) {
+				var entity = that.entities[msg.id];
+				entity.remove();
+				console.log('remove', entity);
 			});
 		}
 	});

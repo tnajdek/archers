@@ -16,6 +16,11 @@ define(['lodash', 'vent', 'messaging'], function(_, vent, Messaging) {
 					vent.trigger('frame', msg);
 				});
 			}
+			if(messages[0].schema.id === 4) {
+				messages.forEach(function(msg) {
+					vent.trigger('remove', msg);
+				});
+			}
 		};
 
 		this.ws.onopen = function() {

@@ -18,4 +18,4 @@ class TestWorldGeneration(BaseTestCase):
 	def test_collidables_created(self):
 		barrel = self.world.get_objects_by_type('barrel')[0]
 		self.assertEqual(barrel.physics.position.x, 6)
-		self.assertEqual(barrel.physics.position.y, 3)
+		self.assertEqual(barrel.physics.position.y, 2.6875)
