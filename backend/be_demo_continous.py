@@ -18,14 +18,12 @@ def spawn_player():
 	player = Player(world)
 	player.spawn(spawn_point)
 	players.append(player)
-	print 'spawn player'
 
 def do_something():
 	# global players
 	shuffle(players)
 	shuffle(dir_values)
 	player = players[0]
-	print player.physics.position
 	if(player.physics.position.x > 20):
 		player.want_move(directions['west'])
 	elif(player.physics.position.x < 1):

@@ -13,15 +13,18 @@ define(['pc', 'vent', 'entityfactory'], function(pc, vent, EntityFactory) {
 			this.loadFromTMX(pc.device.loader.get('map').resource, this.factory);
 			this.layer = this.get('main');
 			this.layer.addSystem(this.physics);
+			this.layer.addSystem(new pc.systems.Render());
 
 
 			vent.on('update', function(msg) {
+				console.log(msg);
 				var shape = pc.Point.create(msg.width, msg.height),
 					properties = {
 						id: msg.id
 					}
 
 				that.entities[msg.id] = that.factory.createEntity(that.layer, msg.entityType, msg.x, msg.y, msg.direction, shape, properties);
+				console.log('entity', that.entities[msg.id]);
 			});
 
 			vent.on('frame', function(msg) {
