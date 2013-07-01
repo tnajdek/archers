@@ -10,20 +10,33 @@ class Player(WorldObject, ReactorMixin):
 		self.attack_speed = 1.0
 		self.arrows_speed = 1.0
 		# self.arrows_shot = list()
-		self.dead = True
+		self.state = 'unknown'
 		super(Player, self).__init__(world, type="player", *args, **kwargs)
 
 	def spawn(self, spawn_point):
-		self.dead = False
+		self.state = 'standing'
 		self.create_dynamic_box_body(spawn_point.x, spawn_point.y, 2, 2)
 		self.physics.fixedRotation = True
 		self.physics.angle = rotations['east']
 
 	def kill(self):
+		if(not self.can_take_action()):
+			return
 		self.cancel_pending()
-		self.dead = True
+		self.want_stop()
+		self.state = 'dying'
+		if(not hasattr(self, 'delayed_dying') or not self.delayed_dying.active()):
+			self.delayed_dying = self.reactor.callLater(
+				0.9,
+				self.commit_kill
+			)
 		# self.world.physics.DestroyBody(self.physics)
 		# self.physics = None
+
+	def can_take_action(self):
+		if(self.state == 'walking' or self.state == 'standing' or self.state == 'shooting'):
+			return True
+		return False
 
 	def destroy(self):
 		self.cancel_pending()
@@ -31,6 +44,8 @@ class Player(WorldObject, ReactorMixin):
 		super(Player, self).destroy()
 
 	def want_move(self, direction):
+		if(not self.can_take_action()):
+			return
 		self.cancel_pending()
 		self.physics.linearVelocity = (0, 0)
 		self.physics.angle = vec2rad(direction)
@@ -40,12 +55,19 @@ class Player(WorldObject, ReactorMixin):
 			point=self.physics.position,
 			wake=True
 		)
+		self.state = "walking"
 
 	def want_stop(self):
+		if(not self.can_take_action()):
+			return
 		self.cancel_pending()
 		self.physics.linearVelocity = (0, 0)
+		self.state = "standing"
 
 	def want_attack(self, direction):
+		if(not self.can_take_action()):
+			return
+		self.want_stop()
 		self.physics.angle = vec2rad(direction)
 		if(not hasattr(self, 'delayed_attack') or not self.delayed_attack.active()):
 			self.delayed_attack = self.reactor.callLater(
@@ -53,14 +75,21 @@ class Player(WorldObject, ReactorMixin):
 				self.commit_attack,
 				direction
 			)
+			self.state = "shooting"
 
 	def commit_attack(self, direction):
-		arrow = Arrow(direction, self.arrows_speed, self, reactor=self.reactor)
+		Arrow(direction, self.arrows_speed, self, reactor=self.reactor)
+		self.want_stop()
 		# self.arrows_shot.append(arrow)
+
+	def commit_kill(self):
+		self.state = "dead"
 
 	def cancel_pending(self):
 		if(hasattr(self, 'delayed_attack') and self.delayed_attack.active()):
 			self.delayed_attack.cancel()
+		if(hasattr(self, 'delayed_dying') and self.delayed_dying.active()):
+			self.delayed_dying.cancel()
 
 
 class Arrow(SelfDestructable):
@@ -69,6 +98,7 @@ class Arrow(SelfDestructable):
 		self.speed = 0.5
 		self.width = 0.1
 		self.height = 0.1
+		self.state = 'shooting'
 		super(Arrow, self).__init__(
 			owner.world,
 			type="arrow",
@@ -88,6 +118,7 @@ class Arrow(SelfDestructable):
 		)
 		self.physics.fixedRotation = True
 		self.physics.angle = vec2rad(direction)
+
 		speed_vector = b2Vec2(1, 0)*self.speed
 		self.physics.ApplyLinearImpulse(
 			impulse=self.physics.GetWorldVector(speed_vector),

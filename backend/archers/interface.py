@@ -30,7 +30,7 @@ class Connection(EventsMixins):
 						msg['x'] = limit(m2p(world_object.physics.position.x))
 						msg['y'] = limit(m2p(world_object.physics.position.y))
 						msg['direction'] = world_object.physics.angle
-						msg['state'] = 0
+						msg['state'] = getattr(world_object, 'state', 'unknown')
 						messages.append(msg)
 				except KeyError:
 					# this object has been destroyed by now, so we don't care
@@ -70,7 +70,7 @@ class Connection(EventsMixins):
 				data['x'] = limit(m2p(item.physics.position.x))
 				data['y'] = limit(m2p(item.physics.position.y))
 				data['direction'] = item.physics.angle
-				data['state'] = 0
+				data['state'] = getattr(item, 'state', 'unknown')
 				if not(item in self.known.keys() and self.known[item] == data):
 					update.append(data)
 					self.known[item] = data

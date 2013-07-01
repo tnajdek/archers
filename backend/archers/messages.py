@@ -1,5 +1,6 @@
 from archers.world import rotations
 import struct
+from bidict import bidict
 
 # B	unsigned char	integer	1	(3)
 # ?	_Bool	bool	1	(1)
@@ -57,50 +58,53 @@ class Message(dict):
 
 #  TODO: more clever, general lookup-mixin?
 class DirectionMessageMixin(object):
-	direction_lookup = {
-		rotations['north']: 1,
-		rotations['south']: 2,
-		rotations['east']: 3,
-		rotations['west']: 4,
-	}
-
-	direction_reverse_lookup = {
-		1: rotations['north'],
-		2: rotations['south'],
-		3: rotations['east'],
-		4: rotations['west'],
-	}
+	direction_lookup = bidict({
+		int(rotations['north']): 1,
+		int(rotations['south']): 2,
+		int(rotations['east']): 3,
+		int(rotations['west']): 4,
+	})
 
 	def hydrate_direction(self, value):
-		return self.direction_reverse_lookup.get(value, None)
+		return self.direction_lookup.inv.get(value, None)
 
 	def dehydrate_direction(self, value):
+		value = int(value)
 		return self.direction_lookup.get(value, 0)
 
 
+class StateMessageMixin(object):
+	state_lookup = bidict({
+		'standing': 1,
+		'walking': 2,
+		'shooting': 3,
+		'dying': 4,
+		'dead': 5
+	})
+
+	def hydrate_state(self, value):
+		return self.state_lookup.inv.get(value, None)
+
+	def dehydrate_state(self, value):
+		return  self.state_lookup.get(value, 0)
+
+
 class EntityMessageMixin(object):
-	entity_type_lookup = {
+	entity_type_lookup = bidict({
 		'Unknown': 0,
 		'Collidable': 1,
 		'Player': 2,
 		'Arrow': 3,
-	}
-
-	entity_type_reverse_lookup = {
-		0: 'Unknown',
-		1: 'Collidable',
-		2: 'Player',
-		3: 'Arrow',
-	}
+	})
 
 	def hydrate_entity_type(self, value):
-		return self.entity_type_reverse_lookup.get(value, None)
+		return self.entity_type_lookup.inv.get(value, None)
 
 	def dehydrate_entity_type(self, value):
 		return self.entity_type_lookup.get(value, 0)
 
 
-class FrameMessage(Message, DirectionMessageMixin):
+class FrameMessage(Message, DirectionMessageMixin, StateMessageMixin):
 	schema = {
 		'id': 1,
 		'format': ['id', 'x', 'y', 'direction', 'state'],
@@ -108,7 +112,7 @@ class FrameMessage(Message, DirectionMessageMixin):
 	}
 
 
-class UpdateMessage(Message, EntityMessageMixin, DirectionMessageMixin):
+class UpdateMessage(Message, EntityMessageMixin, DirectionMessageMixin, StateMessageMixin):
 	schema = {
 		'id': 2,
 		'format': ['id', 'entity_type', 'width', 'height', 'x', 'y', 'direction', 'state'],

@@ -17,26 +17,43 @@ define(['pc', 'vent', 'entityfactory'], function(pc, vent, EntityFactory) {
 
 
 			vent.on('update', function(msg) {
-				console.log(msg);
 				var shape = pc.Point.create(msg.width, msg.height),
 					properties = {
-						id: msg.id
+						id: msg.id,
+						state: msg.state
 					}
 
 				that.entities[msg.id] = that.factory.createEntity(that.layer, msg.entityType, msg.x, msg.y, msg.direction, shape, properties);
-				console.log('entity', that.entities[msg.id]);
 			});
 
 			vent.on('frame', function(msg) {
-				var entity = that.entities[msg.id];
-				entity.getComponent('spatial').getPos().x = msg.x
-				entity.getComponent('spatial').getPos().y = msg.y
+				var entity = that.entities[msg.id],
+					spatial = entity.getComponent('spatial'),
+					sprite = entity.getComponent('sprite'),
+					state;
+
+				if(spatial) {
+					spatial.getPos().x = msg.x
+					spatial.getPos().y = msg.y
+				}
+
+				if(sprite) {
+					sprite = sprite.sprite;
+					state = msg.state + ' ' + msg.direction
+					if(sprite.spriteSheet.animations.containsKey(state)) {
+						sprite.setAnimation(state);
+					} else {
+						state = msg.state;
+						if(sprite.spriteSheet.animations.containsKey(state)) {
+							sprite.setAnimation(state);
+						}
+					}
+				}
 			});
 
 			vent.on('remove', function(msg) {
 				var entity = that.entities[msg.id];
 				entity.remove();
-				console.log('remove', entity);
 			});
 		}
 	});

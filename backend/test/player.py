@@ -83,18 +83,14 @@ class TestPlayer(BaseTestCase):
 		defender = Player(self.world, name="defender", reactor=self.clock)
 		attacker.spawn(attacker_spawn)
 		defender.spawn(defender_spawn)
-		self.assertFalse(defender.dead)
-		self.assertIsNotNone(defender.physics)
+
 		attacker.want_attack(directions['south'])
-		self.advance_clock(100)
+		self.advance_clock(1)
+		self.assertEqual(attacker.state, "shooting")
+		self.assertEqual(defender.state, "standing")
+		self.advance_clock(50)
+		self.assertEqual(attacker.state, "standing")
+		self.assertEqual(defender.state, "dying")
+		self.advance_clock(250)
+		self.assertEqual(defender.state, "dead")
 
-		self.assertTrue(defender.dead)
-		# self.assertIsNone(defender.physics)
-		self.assertFalse(attacker.dead)
-		self.assertIsNotNone(attacker.physics)
-
-
-
-
-
-		

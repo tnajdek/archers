@@ -34,7 +34,7 @@ define(['pc', 'lodash', 'animations'], function(pc, _, animations) {
 
 		makePlayer: function(layer, x, y, dir, shape, props) {
 			var spatial = this.getSpatial(x, y, 64, 64),
-				sprite = this.getSprite('archer', 'standing S'),
+				sprite = this.getSprite('archer', props.state + ' ' + dir),
 				entity = pc.Entity.create(layer);
 
 
@@ -46,7 +46,7 @@ define(['pc', 'lodash', 'animations'], function(pc, _, animations) {
 
 		makeArrow: function(layer, x, y, dir, shape, props) {
 			var spatial = this.getSpatial(x, y, 64, 64),
-				sprite = this.getSprite('arrow', 'shooting E'),
+				sprite = this.getSprite('arrow', props.state + ' ' + dir),
 				entity = pc.Entity.create(layer);
 
 			entity.addComponent(spatial);
@@ -58,7 +58,7 @@ define(['pc', 'lodash', 'animations'], function(pc, _, animations) {
 		createEntity: function(layer, type, x, y, dir, point, properties) {
 			var factoryMethod = 'make'+type.charAt(0).toUpperCase()+type.slice(1),
 				entity;
-			
+
 			if(this[factoryMethod]) {
 				entity = this[factoryMethod].call(this, layer, x, y, dir, point, properties);
 				entity.addTag(type);

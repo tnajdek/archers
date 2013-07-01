@@ -24,24 +24,25 @@ def do_something():
 	shuffle(players)
 	shuffle(dir_values)
 	player = players[0]
-	if(player.physics.position.x > 20):
-		player.want_move(directions['west'])
-	elif(player.physics.position.x < 0):
-		player.want_move(directions['east'])
-	elif(player.physics.position.y > 16):
-		player.want_move(directions['north'])
-	elif(player.physics.position.y < 0):
-		player.want_move(directions['south'])
-	else:
-		random = randrange(100)
-		if(random < 30):
-			player.want_stop()
-		elif(random < 80):
-			player.want_move(dir_values[0])
-		elif(random < 99):
-			player.want_attack(dir_values[0])
+	if(player.state != 'shooting'):
+		if(player.physics.position.x > 20):
+			player.want_move(directions['west'])
+		elif(player.physics.position.x < 0):
+			player.want_move(directions['east'])
+		elif(player.physics.position.y > 16):
+			player.want_move(directions['north'])
+		elif(player.physics.position.y < 0):
+			player.want_move(directions['south'])
 		else:
-			spawn_player()
+			random = randrange(100)
+			if(random < 30):
+				player.want_stop()
+			elif(random < 80):
+				player.want_move(dir_values[0])
+			elif(random < 99):
+				player.want_attack(dir_values[0])
+			else:
+				spawn_player()
 	reactor.callLater(0.1, do_something)
 
 delay = 0
