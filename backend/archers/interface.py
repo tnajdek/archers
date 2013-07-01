@@ -19,19 +19,22 @@ class Connection(EventsMixins):
 			messages = list()
 			for index in range(self.last_world_index, world.object_index.index):
 				index = index+1
-				world_object = world.get_object_by_id(index)
-				if(hasattr(world_object, 'physics')):
-					msg = UpdateMessage()
-					# msg['name'] = world_object.name
-					msg['id'] = world_object.id
-					msg['entity_type'] = world_object.__class__.__name__
-					msg['width'] = limit(m2p(world_object.width))
-					msg['height'] = limit(m2p(world_object.height))
-					msg['x'] = limit(m2p(world_object.physics.position.x))
-					msg['y'] = limit(m2p(world_object.physics.position.y))
-					msg['direction'] = world_object.physics.angle
-					msg['state'] = 0
-					messages.append(msg)
+				try:
+					world_object = world.get_object_by_id(index)
+					if(hasattr(world_object, 'physics')):
+						msg = UpdateMessage()
+						msg['id'] = world_object.id
+						msg['entity_type'] = world_object.__class__.__name__
+						msg['width'] = limit(m2p(world_object.width))
+						msg['height'] = limit(m2p(world_object.height))
+						msg['x'] = limit(m2p(world_object.physics.position.x))
+						msg['y'] = limit(m2p(world_object.physics.position.y))
+						msg['direction'] = world_object.physics.angle
+						msg['state'] = 0
+						messages.append(msg)
+				except KeyError:
+					# this object has been destroyed by now, so we don't care
+					pass
 				self.last_world_index = index
 			self.trigger('update', messages)
 
