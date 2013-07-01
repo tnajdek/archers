@@ -26,11 +26,11 @@ def do_something():
 	player = players[0]
 	if(player.physics.position.x > 20):
 		player.want_move(directions['west'])
-	elif(player.physics.position.x < 1):
+	elif(player.physics.position.x < 0):
 		player.want_move(directions['east'])
 	elif(player.physics.position.y > 16):
 		player.want_move(directions['north'])
-	elif(player.physics.position.y < 1):
+	elif(player.physics.position.y < 0):
 		player.want_move(directions['south'])
 	else:
 		random = randrange(100)

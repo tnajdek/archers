@@ -15,7 +15,7 @@ class Player(WorldObject, ReactorMixin):
 
 	def spawn(self, spawn_point):
 		self.dead = False
-		self.create_dynamic_box_body(spawn_point.x, spawn_point.y, 1, 1)
+		self.create_dynamic_box_body(spawn_point.x, spawn_point.y, 2, 2)
 		self.physics.fixedRotation = True
 		self.physics.angle = rotations['east']
 
@@ -34,7 +34,7 @@ class Player(WorldObject, ReactorMixin):
 		self.cancel_pending()
 		self.physics.linearVelocity = (0, 0)
 		self.physics.angle = vec2rad(direction)
-		speed_vector = b2Vec2(1, 0)*self.speed*5
+		speed_vector = b2Vec2(1, 0)*self.speed*10
 		self.physics.ApplyLinearImpulse(
 			impulse=self.physics.GetWorldVector(speed_vector),
 			point=self.physics.position,

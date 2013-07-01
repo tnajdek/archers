@@ -13,6 +13,9 @@ colors = {
 	"player": (0, 255, 0, 255),
 }
 
+scale = 0.5
+PPM = scale*PPM
+
 
 class Renderer():
 
