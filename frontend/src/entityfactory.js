@@ -1,8 +1,9 @@
-define(['pc', 'lodash', 'animations'], function(pc, _, animations) {
+define(['pc', 'lodash', 'animations/archer', 'animations/arrow'],
+	function(pc, _, archerAnimations, arrowAnimations) {
 	var EntityFactory = pc.EntityFactory.extend('pc.archers.EntityFactory', {}, {
 
 		// animationState to be automated based on state and dir
-		getSprite: function(resourceName, animationState) {
+		getSprite: function(resourceName, animations, animationState) {
 			var spriteImage = pc.device.loader.get(resourceName).resource,
 				ss = new pc.SpriteSheet({
 					image: spriteImage,
@@ -34,7 +35,7 @@ define(['pc', 'lodash', 'animations'], function(pc, _, animations) {
 
 		makePlayer: function(layer, x, y, dir, shape, props) {
 			var spatial = this.getSpatial(x, y, 64, 64),
-				sprite = this.getSprite('archer', props.state + ' ' + dir),
+				sprite = this.getSprite('archer', archerAnimations, props.state + ' ' + dir),
 				entity = pc.Entity.create(layer);
 
 
@@ -46,7 +47,7 @@ define(['pc', 'lodash', 'animations'], function(pc, _, animations) {
 
 		makeArrow: function(layer, x, y, dir, shape, props) {
 			var spatial = this.getSpatial(x, y, 64, 64),
-				sprite = this.getSprite('arrow', props.state + ' ' + dir),
+				sprite = this.getSprite('arrow', arrowAnimations, props.state + ' ' + dir),
 				entity = pc.Entity.create(layer);
 
 			entity.addComponent(spatial);
