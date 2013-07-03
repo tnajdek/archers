@@ -12,7 +12,7 @@ files = [
 	MOCHA_ADAPTER,
 	REQUIRE,
 	REQUIRE_ADAPTER,
-	{pattern: 'lib/**/*.js', included: false},
+	{pattern: 'components/**/*.js', included: false},
 	{pattern: 'src/**/*.js', included: false},
 	{pattern: 'test/**/*Spec.js', included: false},
 	{pattern: 'test/chai.js', included: false},
