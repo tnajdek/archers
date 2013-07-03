@@ -9,7 +9,7 @@ define(['lodash', 'messaging'], function(_) {
 				var Messaging = require('messaging'),
 					dv = new DataView(buffer),
 					pointer = 0, bytePointer = 0,
-					letterType, type, typedArray, value;
+					letterType, value, format, hydrator;
 
 				while(pointer < schema.byteformat.length) {
 					letterType = schema.byteformat.charAt(pointer);
