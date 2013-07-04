@@ -43,6 +43,10 @@ def m2p(meters):
 		meters['x'] = m2p(meters['x'])
 		meters['y'] = m2p(meters['y'])
 		return meters
+	elif hasattr(meters, '__iter__') and len(meters) == 2:
+		meters[0] = p2m(meters[0])
+		meters[1] = p2m(meters[1])
+		return meters
 	else:
 		return int(meters * PPM)
 
@@ -52,9 +56,13 @@ def p2m(pixels):
 		pixels.x = p2m(pixels.x)
 		pixels.y = p2m(pixels.y)
 		return pixels
-	elif 'x' in pixels and 'y' in pixels:
+	elif hasattr(pixels, '__iter__') and 'x' in pixels and 'y' in pixels:
 		pixels['x'] = p2m(pixels['x'])
 		pixels['y'] = p2m(pixels['y'])
+		return pixels
+	elif hasattr(pixels, '__iter__') and len(pixels) == 2:
+		pixels[0] = p2m(pixels[0])
+		pixels[1] = p2m(pixels[1])
 		return pixels
 	else:
 		return pixels / PPM

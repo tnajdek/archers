@@ -25,11 +25,11 @@ def do_something():
 	shuffle(dir_values)
 	player = players[0]
 	if(player.state != 'shooting'):
-		if(player.physics.position.x > 20):
+		if(player.physics.position.x > 32):
 			player.want_move(directions['west'])
 		elif(player.physics.position.x < 0):
 			player.want_move(directions['east'])
-		elif(player.physics.position.y > 16):
+		elif(player.physics.position.y > 24):
 			player.want_move(directions['north'])
 		elif(player.physics.position.y < 0):
 			player.want_move(directions['south'])

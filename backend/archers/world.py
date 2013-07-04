@@ -5,6 +5,8 @@ import settings
 from twisted.internet import reactor
 from archers.utils import vec2rad, EventsMixins
 
+from archers.utils import p2m, m2p, limit
+
 directions = {
 	'north': b2Vec2(0, -1),
 	'south': b2Vec2(0, 1),
@@ -18,6 +20,8 @@ rotations = {
 	'east': vec2rad(directions['east']),
 	'west': vec2rad(directions['west']),
 }
+
+from archers.messages import UpdateMessage, FrameMessage, RemoveMessage
 
 
 class ListWithCounter(list):
@@ -69,15 +73,50 @@ class ReactorMixin(Base):
 		super(ReactorMixin, self).__init__(*args, **kwargs)
 
 
+class NetworkMixin(Base):
+	def get_update_message(self):
+		msg = UpdateMessage()
+		msg['id'] = self.id
+		msg['entity_type'] = self.__class__.__name__
+		msg['width'] = limit(m2p(self.width))
+		msg['height'] = limit(m2p(self.height))
+		msg['x'] = limit(m2p(self.physics.position.x))
+		msg['y'] = limit(m2p(self.physics.position.y))
+		msg['direction'] = self.physics.angle
+		msg['state'] = getattr(self, 'state', 'unknown')
+		return msg
+
+	def get_frame_message(self):
+		msg = FrameMessage()
+		msg['id'] = self.id
+		msg['x'] = limit(m2p(self.physics.position.x))
+		msg['y'] = limit(m2p(self.physics.position.y))
+		msg['direction'] = self.physics.angle
+		msg['state'] = getattr(self, 'state', 'unknown')
+		return msg
+
+	def get_destroy_message(self):
+		msg = RemoveMessage()
+		msg['id'] = self.id
+		return msg
+
+
 class WorldObject(Base):
 	default_type = 'unknown'
+
+	def create_static_polygon_body(self, x, y, vertices):
+		self.physics = self.world.physics.CreateStaticBody(
+				position=(x, y),
+				shapes=b2PolygonShape(vertices=vertices)
+		)
+		self.physics.fixtures[0].userData = self
 
 	def create_static_box_body(self, x, y, w, h):
 		self.width = w
 		self.height = h
 
 		self.physics = self.world.physics.CreateStaticBody(
-				position=(x, y),
+				position=(x+0.5*w, y+0.5*h),
 				shapes=b2PolygonShape(box=(w*0.5, h*0.5)),
 		)
 
@@ -118,11 +157,11 @@ class WorldObject(Base):
 		super(WorldObject, self).__init__(*args, **kwargs)
 
 	def destroy(self):
-		id = self.world.object_index[:self]
+		self.world.trigger('destroy_object', self)
+		# id = self.world.object_index[:self]
 		self.world.object_lookup_by_name.pop(self.name)
 		self.world.object_lookup_by_type[self.type].remove(self)
 		del self.world.object_index[:self]
-		self.world.trigger('destroy_object', id)
 
 
 class MapObject(WorldObject):
@@ -141,7 +180,13 @@ class Collidable(MapObject):
 
 	def __init__(self, world, data, **kwargs):
 		super(Collidable, self).__init__(world, data, **kwargs)
-		self.create_static_box_body(data.x, data.y, data.size[0], data.size[1])
+		if(data.__class__.__name__ == "RectangleObject"):
+			self.create_static_box_body(data.x, data.y, data.size[0], data.size[1])
+		elif(data.__class__.__name__ == "PolygonObject"):
+			vertices = [p2m(x) for x in data.points]
+			self.create_static_polygon_body(data.pos[0], data.pos[1], vertices)
+		else:
+			raise Exception("Object type %s is not supported" % data.__class__.__name__)
 
 
 class SpawnPoint(MapObject):
@@ -173,6 +218,7 @@ class SelfDestructable(WorldObject, ReactorMixin):
 
 
 #  very lame for the time being
+# and it's not the right place for it
 class Collisions(b2ContactListener):
 	def __init__(self, world):
 		b2ContactListener.__init__(self)

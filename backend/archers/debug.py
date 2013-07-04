@@ -3,7 +3,7 @@ from pygame.locals import *
 from archers.utils import rad2vec
 from settings import PPM
 
-SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
+SCREEN_WIDTH, SCREEN_HEIGHT = 1024, 768
 
 colors = {
 	"fallback": (177, 177, 177, 255),

@@ -33,7 +33,7 @@ define(['pc', 'lodash', 'animations/archer', 'animations/arrow'],
 			return entity;
 		},
 
-		makePlayer: function(layer, x, y, dir, shape, props) {
+		makeArcher: function(layer, x, y, dir, shape, props) {
 			var spatial = this.getSpatial(x, y, 64, 64),
 				sprite = this.getSprite('archer', archerAnimations, props.state + ' ' + dir),
 				entity = pc.Entity.create(layer);

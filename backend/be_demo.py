@@ -13,6 +13,7 @@ def spawn_player():
 	spawn_point = world.get_spawn_points()[0]
 	player = Player(world)
 	player.spawn(spawn_point)
+	import ipdb; ipdb.set_trace()
 
 
 def move_player(direction):
@@ -33,7 +34,7 @@ def spawn_sucker():
 	sucker = Player(world)
 	sucker.spawn(spawn_point)
 
-delay = 5
+delay = 0
 archers = Archers()
 reactor.callLater(delay+0.1, spawn_player)
 reactor.callLater(delay+0.1, spawn_sucker)

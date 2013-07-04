@@ -21,16 +21,8 @@ class Connection(EventsMixins):
 				index = index+1
 				try:
 					world_object = world.get_object_by_id(index)
-					if(hasattr(world_object, 'physics')):
-						msg = UpdateMessage()
-						msg['id'] = world_object.id
-						msg['entity_type'] = world_object.__class__.__name__
-						msg['width'] = limit(m2p(world_object.width))
-						msg['height'] = limit(m2p(world_object.height))
-						msg['x'] = limit(m2p(world_object.physics.position.x))
-						msg['y'] = limit(m2p(world_object.physics.position.y))
-						msg['direction'] = world_object.physics.angle
-						msg['state'] = getattr(world_object, 'state', 'unknown')
+					if(hasattr(world_object, 'get_update_message')):
+						msg = world_object.get_update_message()
 						messages.append(msg)
 				except KeyError:
 					# this object has been destroyed by now, so we don't care
@@ -38,11 +30,11 @@ class Connection(EventsMixins):
 				self.last_world_index = index
 			self.trigger('update', messages)
 
-	def on_destroy(self, id):
+	def on_destroy(self, world_object):
 		messages = list()
-		msg = RemoveMessage()
-		msg['id'] = id
-		messages.append(msg)
+		if(hasattr(world_object, 'get_destroy_message')):
+			msg = world_object.get_destroy_message()
+			messages.append(msg)
 		self.trigger('remove', messages)
 
 	def frame_maybe(self, world):
@@ -64,13 +56,8 @@ class Connection(EventsMixins):
 		update = list()
 
 		for item in self.world.object_index.values():
-			if(hasattr(item, 'physics')):
-				data = FrameMessage()
-				data['id'] = item.id
-				data['x'] = limit(m2p(item.physics.position.x))
-				data['y'] = limit(m2p(item.physics.position.y))
-				data['direction'] = item.physics.angle
-				data['state'] = getattr(item, 'state', 'unknown')
+			if(hasattr(item, 'get_frame_message')):
+				data = item.get_frame_message()
 				if not(item in self.known.keys() and self.known[item] == data):
 					update.append(data)
 					self.known[item] = data

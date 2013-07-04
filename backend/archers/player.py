@@ -1,8 +1,9 @@
 from Box2D import *
-from archers.world import WorldObject, ReactorMixin, SelfDestructable, rotations
+from archers.world import WorldObject, ReactorMixin, SelfDestructable, NetworkMixin, rotations
 from archers.utils import vec2rad
 
-class Player(WorldObject, ReactorMixin):
+
+class Player(WorldObject, ReactorMixin, NetworkMixin):
 	default_type = 'player'
 
 	def __init__(self, world, *args, **kwargs):
@@ -92,7 +93,7 @@ class Player(WorldObject, ReactorMixin):
 			self.delayed_dying.cancel()
 
 
-class Arrow(SelfDestructable):
+class Arrow(SelfDestructable, NetworkMixin):
 	def __init__(self, direction, speed, owner, **kwargs):
 		self.owner = owner
 		self.speed = 0.5

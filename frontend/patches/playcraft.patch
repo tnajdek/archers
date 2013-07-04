@@ -1,0 +1,30 @@
+diff -Naur ../components/playcraft-release/playcraftjs/lib/scene.js ../components/playcraft/playcraftjs/lib/scene.js
+--- ../components/playcraft-release/playcraftjs/lib/scene.js	2013-07-04 14:37:46.846812099 +0100
++++ ../components/playcraft/playcraftjs/lib/scene.js	2013-07-04 14:38:35.420145762 +0100
+@@ -427,15 +427,18 @@
+                 var tile = tiles[p];
+                 var tileId = parseInt(tile.getAttribute('id'));
+ 
+-                var pr = tile.getElementsByTagName('properties')[0];
+-                var props = pr.getElementsByTagName('property');
++                 var pr = tile.getElementsByTagName('properties');
++                 if(pr.length) {
++                    pr = pr[0];
++                    var props = pr.getElementsByTagName('property');
+ 
+-                for (var b = 0; b < props.length; b++)
+-                {
+-                    var prop = props[b];
+-                    var name = prop.getAttribute('name');
+-                    var value = prop.getAttribute('value');
+-                    tileSet.addProperty(tileId, name, value);
++                    for (var b = 0; b < props.length; b++)
++                    {
++                        var prop = props[b];
++                        var name = prop.getAttribute('name');
++                        var value = prop.getAttribute('value');
++                        tileSet.addProperty(tileId, name, value);
++                    }
+                 }
+             }
+ 

@@ -3,7 +3,7 @@ define(function() {
 			entityTypeLookup: {
 				0: 'unknown',
 				1: 'collidable',
-				2: 'player',
+				2: 'archer',
 				3: 'arrow'
 			},
 
