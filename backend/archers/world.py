@@ -249,6 +249,7 @@ class Collisions(b2ContactListener):
 
 class World(EventsMixins):
 	def __init__(self, map_filename):
+		super(World, self).__init__()
 		self.map = tmxlib.Map.open(map_filename)
 		self.layers = dict()
 		self.object_lookup_by_type = dict()
@@ -265,6 +266,7 @@ class World(EventsMixins):
 		)
 		self.init_collidable_bodies(self.layers['collision'])
 		self.init_spawn_points(self.layers['spawn'])
+
 
 	def init_collidable_bodies(self, layer):
 		for collidable in layer.all_objects():

@@ -12,7 +12,9 @@ def vec2rad(vector):
 
 
 class EventsMixins(object):
-	_callbacks = dict()
+	def __init__(self, *args, **kwargs):
+		self._callbacks = dict()
+		return super(EventsMixins, self).__init__(*args, **kwargs)
 
 	def on(self, event, callback, context=None):
 		if not (event in self._callbacks):

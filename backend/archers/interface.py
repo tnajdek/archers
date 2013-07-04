@@ -6,6 +6,7 @@ from archers.utils import m2p, limit
 
 class Connection(EventsMixins):
 	def __init__(self, world):
+		super(Connection, self).__init__()
 		self.world = world
 		self.known = dict()
 		self.last_world_index = 0

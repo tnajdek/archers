@@ -17,7 +17,7 @@ class UserCommunication(WebSocketServerProtocol):
 	# 	# WebSocketServerProtocol.__init__(self)
 
 	def onMessage(self, msg, binary):
-		self.sendMessage(msg, binary)
+		pass
 
 	def onOpen(self):
 		self.interface = Connection(self.factory.world)
