@@ -1,10 +1,13 @@
 from Box2D import *
 from archers.world import WorldObject, ReactorMixin, SelfDestructable, NetworkMixin, rotations
 from archers.utils import vec2rad
+from collisions import CLCAT_CREATURE, CLCAT_BULLET, CLCAT_EVERYTHING, CLCAT_OBSTACLE, CLCAT_AIRBORNE_OBSTACLE, CLCAT_TERRESTRIAL_OBSTACLE
 
 
 class Player(WorldObject, ReactorMixin, NetworkMixin):
 	default_type = 'player'
+	collision_category = CLCAT_CREATURE
+	collision_mask = CLCAT_EVERYTHING ^ CLCAT_AIRBORNE_OBSTACLE
 
 	def __init__(self, world, *args, **kwargs):
 		self.speed = 1.0
@@ -94,6 +97,12 @@ class Player(WorldObject, ReactorMixin, NetworkMixin):
 
 
 class Arrow(SelfDestructable, NetworkMixin):
+	collision_category = CLCAT_BULLET
+	# collision_mask = CLCAT_OBSTACLE | CLCAT_AIRBORNE_OBSTACLE | CLCAT_CREATURE 
+	# collision_mask = CLCAT_OBSTACLE | CLCAT_AIRBORNE_OBSTACLE | CLCAT_CREATURE
+	# collision_mask = CLCAT_EVERYTHING ^ CLCAT_TERRESTRIAL_OBSTACLE
+	collision_mask = CLCAT_EVERYTHING ^ CLCAT_TERRESTRIAL_OBSTACLE
+
 	def __init__(self, direction, speed, owner, **kwargs):
 		self.owner = owner
 		self.speed = 0.5
@@ -126,6 +135,8 @@ class Arrow(SelfDestructable, NetworkMixin):
 			point=self.physics.position,
 			wake=True
 		)
+		self.physics.bullet = True
+		# import ipdb; ipdb.set_trace()
 
 	def destroy(self, source="dupa"):
 		# self.owner.arrows_shot.remove(self)

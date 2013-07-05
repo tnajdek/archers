@@ -2,7 +2,8 @@ define(['pc', 'vent', 'entityfactory'], function(pc, vent, EntityFactory) {
 	var GameScene = pc.Scene.extend('pc.archers.GameScene', {}, {
 		entities: {},
 		init:function () {
-			var that = this;
+			var that = this,
+				layer, layerOrder, layerNode;
 			this._super();
 			this.factory = new EntityFactory();
 			this.physics = new pc.systems.Physics({
@@ -11,7 +12,19 @@ define(['pc', 'vent', 'entityfactory'], function(pc, vent, EntityFactory) {
 			});
 
 			this.loadFromTMX(pc.device.loader.get('map').resource, this.factory);
-			this.layer = this.get('main');
+
+			//order layers based on the name
+			layerNode = this.layers.first;
+			while (layerNode) {
+				layer = layerNode.object();
+				layerOrder = layer.name.match(/\d+/);
+				if(layerOrder && layerOrder.length) {
+					layer.setZIndex(parseInt(layerOrder[0], 10));
+				}
+				layerNode = layerNode.next();
+			}
+
+			this.layer = this.get('500main');
 			this.layer.addSystem(this.physics);
 			this.layer.addSystem(new pc.systems.Render());
 

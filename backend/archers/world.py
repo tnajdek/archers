@@ -4,8 +4,8 @@ from bidict import bidict
 import settings
 from twisted.internet import reactor
 from archers.utils import vec2rad, EventsMixins
-
 from archers.utils import p2m, m2p, limit
+from collisions import Collisions, CLCAT_OBSTACLE, CLCAT_TERRESTRIAL_OBSTACLE, CLCAT_BULLET, CLCAT_EVERYTHING
 
 directions = {
 	'north': b2Vec2(0, -1),
@@ -103,24 +103,44 @@ class NetworkMixin(Base):
 
 class WorldObject(Base):
 	default_type = 'unknown'
+	# collision_category = CLCAT_OBSTACLE
+	# collision_mask = CLCAT_EVERYTHING
+
+	def attach_collision_data(self, fixture):
+		fixture.filterData.categoryBits = type(self).collision_category
+		fixture.filterData.maskBits = type(self).collision_mask
 
 	def create_static_polygon_body(self, x, y, vertices):
 		self.physics = self.world.physics.CreateStaticBody(
 				position=(x, y),
-				shapes=b2PolygonShape(vertices=vertices)
+				shapes=b2PolygonShape(
+					vertices=vertices,
+					# categoryBits=type(self).collision_category,
+					# maskBits=type(self).collision_mask,
+					groupIndex=1
+				)
 		)
 		self.physics.fixtures[0].userData = self
+		self.attach_collision_data(self.physics.fixtures[0])
 
 	def create_static_box_body(self, x, y, w, h):
 		self.width = w
 		self.height = h
 
+		# import ipdb; ipdb.set_trace()
+
 		self.physics = self.world.physics.CreateStaticBody(
 				position=(x+0.5*w, y+0.5*h),
-				shapes=b2PolygonShape(box=(w*0.5, h*0.5)),
+				shapes=b2PolygonShape(
+					box=(w*0.5, h*0.5),
+					# categoryBits=type(self).collision_category,
+					# maskBits=type(self).collision_mask,
+					groupIndex=1
+				),
 		)
 
 		self.physics.fixtures[0].userData = self
+		self.attach_collision_data(self.physics.fixtures[0])
 
 	def create_dynamic_box_body(self, x, y, w, h, **kwargs):
 		self.width = w
@@ -132,9 +152,14 @@ class WorldObject(Base):
 		kwargs['box'] = kwargs.get('box', (0.5*w, 0.5*h))
 		kwargs['density'] = kwargs.get('density', 1)
 		kwargs['friction'] = kwargs.get('friction', 0.3)
-		kwargs['userData'] = self
+		kwargs['categoryBits'] = type(self).collision_category
+		kwargs['maskBits'] = type(self).collision_mask
+		kwargs['groupIndex'] = 1
 
 		self.physics.CreatePolygonFixture(**kwargs)
+
+		self.physics.fixtures[0].userData = self
+		self.attach_collision_data(self.physics.fixtures[0])
 
 	def __init__(self, world, type=None, name=None, *args, **kwargs):
 		self.world = world
@@ -177,6 +202,8 @@ class MapObject(WorldObject):
 
 class Collidable(MapObject):
 	default_type = 'collidable'
+	collision_category = CLCAT_OBSTACLE
+	collision_mask = CLCAT_EVERYTHING
 
 	def __init__(self, world, data, **kwargs):
 		super(Collidable, self).__init__(world, data, **kwargs)
@@ -187,6 +214,14 @@ class Collidable(MapObject):
 			self.create_static_polygon_body(data.pos[0], data.pos[1], vertices)
 		else:
 			raise Exception("Object type %s is not supported" % data.__class__.__name__)
+
+
+class GroundCollidable(Collidable):
+	default_type = 'groundcollidable'
+	collision_category = CLCAT_TERRESTRIAL_OBSTACLE
+	#collision_mask =  ~(CLCAT_OBSTACLE | CLCAT_TERRESTRIAL_OBSTACLE | CLCAT_BULLET)
+	collision_mask = CLCAT_EVERYTHING & ~CLCAT_BULLET
+	# collision_mask = CLCAT_EVERYTHING ^ CLCAT_BULLET
 
 
 class SpawnPoint(MapObject):
@@ -217,36 +252,6 @@ class SelfDestructable(WorldObject, ReactorMixin):
 		super(SelfDestructable, self).destroy()
 
 
-#  very lame for the time being
-# and it's not the right place for it
-class Collisions(b2ContactListener):
-	def __init__(self, world):
-		b2ContactListener.__init__(self)
-		self.world = world
-
-	# def BeginContact(self, contact):
-	# 	pass
-
-	# def EndContact(self, contact):
-	# 	pass
-
-	def PreSolve(self, contact, old_manifold):
-		if(contact.fixtureA.userData.get_class_name() != 'Arrow'
-			and contact.fixtureB.userData.get_class_name() != 'Arrow'):
-			return
-
-		if(contact.fixtureA.userData.get_class_name() != 'Player'
-			and contact.fixtureB.userData.get_class_name() != 'Player'):
-			return
-
-		#  TODO: need better kill/destroy logic
-		self.world.kill(contact.fixtureA.userData)
-		self.world.kill(contact.fixtureB.userData)
-
-	# def PostSolve(self, contact, impulse):
-	# 	pass
-
-
 class World(EventsMixins):
 	def __init__(self, map_filename):
 		super(World, self).__init__()
@@ -264,13 +269,16 @@ class World(EventsMixins):
 			gravity=(0, 0),
 			contactListener=Collisions(self)
 		)
-		self.init_collidable_bodies(self.layers['collision'])
+		self.init_collidable_bodies(self.layers['collision'], Collidable)
+		self.init_collidable_bodies(self.layers['groundcollision'], GroundCollidable)
 		self.init_spawn_points(self.layers['spawn'])
 
 
-	def init_collidable_bodies(self, layer):
+	def init_collidable_bodies(self, layer, klass):
 		for collidable in layer.all_objects():
-			Collidable(self, collidable)
+			klass(self, collidable)
+
+
 
 	def init_spawn_points(self, layer):
 		for sp in layer.all_objects():

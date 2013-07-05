@@ -8,9 +8,10 @@ SCREEN_WIDTH, SCREEN_HEIGHT = 1024, 768
 colors = {
 	"fallback": (177, 177, 177, 255),
 	"background": (0, 0, 0, 0),
-	"collidable": (255, 255, 255, 255),
+	"collidable": (0, 255, 0, 120),
+	"groundcollidable": (0, 0, 255, 120),
 	"direction": (255, 0, 0, 255),
-	"player": (0, 255, 0, 255),
+	"player": (255, 255, 255, 255),
 }
 
 scale = 0.5

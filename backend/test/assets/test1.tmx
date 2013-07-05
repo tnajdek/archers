@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="10" height="10" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="combined" tilewidth="32" tileheight="32">
-  <image source="../../../common/tiles.png" width="3584" height="2240"/>
+  <image source="../../../resources/tiles.png" width="3584" height="2240"/>
  </tileset>
  <layer name="base" width="10" height="10">
   <data encoding="base64" compression="zlib">
@@ -13,7 +13,7 @@
    eJxjYKAP2M9MnDp9Ftq6Y7ADABToAPY=
   </data>
  </layer>
- <objectgroup name="collision" width="10" height="10">
+ <objectgroup color="#aa0000" name="collision" width="10" height="10">
   <object x="192" y="86" width="32" height="42"/>
   <object type="barrel" x="192" y="86" width="32" height="42"/>
  </objectgroup>
@@ -22,4 +22,5 @@
   <object name="spawn2" x="256" y="32" width="32" height="32"/>
   <object name="spawn3" x="256" y="224" width="32" height="32"/>
  </objectgroup>
+ <objectgroup color="#0000ff" name="groundcollision" width="10" height="10"/>
 </map>
