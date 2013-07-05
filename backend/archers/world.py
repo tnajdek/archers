@@ -334,7 +334,7 @@ class World(EventsMixins):
 			if(hasattr(killme, 'kill') and callable(getattr(killme, 'kill'))):
 				killme.kill()
 			else:
-				killme.destroy(source="step")
+				killme.destroy()
 				
 
 		self.physics.Step(settings.TIME_STEP, 10, 10)

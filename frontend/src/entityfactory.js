@@ -1,17 +1,19 @@
-define(['pc', 'lodash', 'animations/archer', 'animations/arrow'],
-	function(pc, _, archerAnimations, arrowAnimations) {
+define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'components/state'],
+	function(pc, _, archerSpritedef, arrowSpritedef, stateComponent) {
 	var EntityFactory = pc.EntityFactory.extend('pc.archers.EntityFactory', {}, {
 
 		// animationState to be automated based on state and dir
-		getSprite: function(resourceName, animations, animationState) {
-			var spriteImage = pc.device.loader.get(resourceName).resource,
+		getSprite: function(spriteDef, animationState) {
+			var spriteImage = pc.device.loader.get(spriteDef.spriteName).resource,
 				ss = new pc.SpriteSheet({
 					image: spriteImage,
-					frameWidth: 64,
-					frameHeight: 64
+					frameWidth: spriteDef.frameWidth,
+					frameHeight: spriteDef.frameHeight
 				});
 
-			_.each(animations, function(a) {
+			animationState = animationState || spriteDef.frameDefault;
+
+			_.each(spriteDef.frames, function(a) {
 				ss.addAnimation(a);
 			});
 
@@ -35,10 +37,11 @@ define(['pc', 'lodash', 'animations/archer', 'animations/arrow'],
 
 		makeArcher: function(layer, x, y, dir, shape, props) {
 			var spatial = this.getSpatial(x, y, 64, 64),
-				sprite = this.getSprite('archer', archerAnimations, props.state + ' ' + dir),
+				state = stateComponent.create(props.state, dir),
+				sprite = this.getSprite(archerSpritedef, state.getStatedir()),
 				entity = pc.Entity.create(layer);
 
-
+			entity.addComponent(state);
 			entity.addComponent(spatial);
 			entity.addComponent(sprite);
 
@@ -47,7 +50,8 @@ define(['pc', 'lodash', 'animations/archer', 'animations/arrow'],
 
 		makeArrow: function(layer, x, y, dir, shape, props) {
 			var spatial = this.getSpatial(x, y, 64, 64),
-				sprite = this.getSprite('arrow', arrowAnimations, props.state + ' ' + dir),
+				state = stateComponent.create(props.state, dir),
+				sprite = this.getSprite(arrowSpritedef, state.getStatedir()),
 				entity = pc.Entity.create(layer);
 
 			entity.addComponent(spatial);

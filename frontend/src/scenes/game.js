@@ -34,7 +34,7 @@ define(['pc', 'vent', 'entityfactory'], function(pc, vent, EntityFactory) {
 					properties = {
 						id: msg.id,
 						state: msg.state
-					}
+					};
 
 				that.entities[msg.id] = that.factory.createEntity(that.layer, msg.entityType, msg.x, msg.y, msg.direction, shape, properties);
 			});
@@ -42,25 +42,16 @@ define(['pc', 'vent', 'entityfactory'], function(pc, vent, EntityFactory) {
 			vent.on('frame', function(msg) {
 				var entity = that.entities[msg.id],
 					spatial = entity.getComponent('spatial'),
-					sprite = entity.getComponent('sprite'),
-					state;
+					state = entity.getComponent('state'),
+					sprite = entity.getComponent('sprite');
 
 				if(spatial) {
-					spatial.getPos().x = msg.x
-					spatial.getPos().y = msg.y
+					spatial.getPos().x = msg.x;
+					spatial.getPos().y = msg.y;
 				}
 
-				if(sprite) {
-					sprite = sprite.sprite;
-					state = msg.state + ' ' + msg.direction
-					if(sprite.spriteSheet.animations.containsKey(state)) {
-						sprite.setAnimation(state);
-					} else {
-						state = msg.state;
-						if(sprite.spriteSheet.animations.containsKey(state)) {
-							sprite.setAnimation(state);
-						}
-					}
+				if(state && sprite) {
+					state.changeState(sprite, msg.state, msg.direction);
 				}
 			});
 

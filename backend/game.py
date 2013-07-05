@@ -17,6 +17,7 @@ class UserCommunication(WebSocketServerProtocol):
 	# 	# WebSocketServerProtocol.__init__(self)
 
 	def onMessage(self, msg, binary):
+		# self.interface.trigger()
 		pass
 
 	def onOpen(self):
@@ -64,5 +65,5 @@ class Archers():
 
 if __name__ == '__main__':
 	archers = Archers()
-	archers.start()
+	s.start()
 	

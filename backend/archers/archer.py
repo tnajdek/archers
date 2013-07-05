@@ -23,7 +23,7 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		self.physics.fixedRotation = True
 		self.physics.angle = rotations['east']
 
-	def kill(self):
+	def kill(self, pernament=False):
 		if(not self.can_take_action()):
 			return
 		self.cancel_pending()
