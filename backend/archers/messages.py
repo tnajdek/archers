@@ -93,7 +93,7 @@ class EntityMessageMixin(object):
 	entity_type_lookup = bidict({
 		'Unknown': 0,
 		'Collidable': 1,
-		'Player': 2,
+		'Archer': 2,
 		'Arrow': 3,
 	})
 

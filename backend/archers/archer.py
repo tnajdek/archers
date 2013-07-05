@@ -1,11 +1,11 @@
 from Box2D import *
 from archers.world import WorldObject, ReactorMixin, SelfDestructable, NetworkMixin, rotations
 from archers.utils import vec2rad
-from collisions import CLCAT_CREATURE, CLCAT_BULLET, CLCAT_EVERYTHING, CLCAT_OBSTACLE, CLCAT_AIRBORNE_OBSTACLE, CLCAT_TERRESTRIAL_OBSTACLE
+from collisions import CLCAT_CREATURE, CLCAT_BULLET, CLCAT_EVERYTHING, CLCAT_AIRBORNE_OBSTACLE, CLCAT_TERRESTRIAL_OBSTACLE
 
 
-class Player(WorldObject, ReactorMixin, NetworkMixin):
-	default_type = 'player'
+class Archer(WorldObject, ReactorMixin, NetworkMixin):
+	default_type = 'archer'
 	collision_category = CLCAT_CREATURE
 	collision_mask = CLCAT_EVERYTHING ^ CLCAT_AIRBORNE_OBSTACLE
 
@@ -15,7 +15,7 @@ class Player(WorldObject, ReactorMixin, NetworkMixin):
 		self.arrows_speed = 1.0
 		# self.arrows_shot = list()
 		self.state = 'unknown'
-		super(Player, self).__init__(world, type="player", *args, **kwargs)
+		super(Archer, self).__init__(world, type="archer", *args, **kwargs)
 
 	def spawn(self, spawn_point):
 		self.state = 'standing'
@@ -45,7 +45,7 @@ class Player(WorldObject, ReactorMixin, NetworkMixin):
 	def destroy(self):
 		self.cancel_pending()
 		self.world.physics.DestroyBody(self.physics)
-		super(Player, self).destroy()
+		super(Archer, self).destroy()
 
 	def want_move(self, direction):
 		if(not self.can_take_action()):

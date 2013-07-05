@@ -1,6 +1,6 @@
 import os
 from archers.world import World, directions, rotations
-from archers.player import Player
+from archers.archer import Archer
 from twisted.internet import task
 from .base import BaseTestCase
 from archers.interface import UpdateMessage, FrameMessage, Connection, pack_messages, unpack_mesages
@@ -43,8 +43,8 @@ class TestInterface(BaseTestCase):
 	# 		self.assertEqual(data['center'], False)
 
 	def test_get_frame(self):
-		self.player = Player(self.world, reactor=self.clock)
-		self.player.spawn(self.spawn_point)
+		self.archer = Archer(self.world, reactor=self.clock)
+		self.archer.spawn(self.spawn_point)
 
 		frame = self.connection.get_frame()
 		items_expected = self.get_items_expected()
@@ -63,14 +63,14 @@ class TestInterface(BaseTestCase):
 		frame = self.connection.get_frame()
 		#nothing has changed!
 		self.assertEqual(len(frame), 0)
-		self.player.want_move(directions['south'])
+		self.archer.want_move(directions['south'])
 		self.advance_clock(50)
 		frame = self.connection.get_frame()
 		self.assertEqual(len(frame), 1)
 		message = frame.pop()
-		self.assertEqual(message['x'], int(settings.PPM*self.player.physics.position.x))
-		self.assertEqual(message['y'], int(settings.PPM*self.player.physics.position.y))
-		self.assertEqual(message['direction'], self.player.physics.angle)
+		self.assertEqual(message['x'], int(settings.PPM*self.archer.physics.position.x))
+		self.assertEqual(message['y'], int(settings.PPM*self.archer.physics.position.y))
+		self.assertEqual(message['direction'], self.archer.physics.angle)
 
 	def test_get_update(self):
 		#oh dear python2, why u have no nonlocal?
@@ -97,8 +97,8 @@ class TestInterface(BaseTestCase):
 		self.clock.advance(1)
 		update = out['result']
 		self.assertEqual(len(update), 0)
-		self.player = Player(self.world, reactor=self.clock)
-		self.player.spawn(self.spawn_point)
+		self.archer = Archer(self.world, reactor=self.clock)
+		self.archer.spawn(self.spawn_point)
 		self.clock.advance(1)
 		update = out['result']
 		self.assertEqual(len(update), 1)

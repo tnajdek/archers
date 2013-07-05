@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-trial test.world test.player test.interface
+trial test.world test.archer test.interface

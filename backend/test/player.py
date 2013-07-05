@@ -1,14 +1,14 @@
 import os
 from twisted.internet import task
 from archers.world import World, directions
-from archers.player import Player
+from archers.archer import Archer
 import settings
 from .base import BaseTestCase
 
 
-class TestPlayer(BaseTestCase):
+class TestArcher(BaseTestCase):
 	def setUp(self):
-		super(TestPlayer, self).setUp()
+		super(TestArcher, self).setUp()
 		path = os.path.dirname(os.path.os.path.realpath(__file__))
 		path = os.path.join(path, 'assets/test1.tmx')
 		self.world = World(path)
@@ -16,71 +16,71 @@ class TestPlayer(BaseTestCase):
 		self.world_update_task = task.LoopingCall(self.world.step)
 		self.world_update_task.clock = self.clock
 		self.world_update_task.start(settings.TIME_STEP)
-		self.player = Player(self.world, reactor=self.clock)
-		self.player.spawn(self.spawn_point)
+		self.archer = Archer(self.world, reactor=self.clock)
+		self.archer.spawn(self.spawn_point)
 
 	def tearDown(self):
-		self.player.destroy()
+		self.archer.destroy()
 		self.world_update_task.stop()
 
-	def count_player_arrows(self, player):
+	def count_archer_arrows(self, archer):
 		arrows = self.world.get_objects_by_type('arrow')
 		count = 0
 		for arrow in arrows:
-			if(arrow.owner == player):
+			if(arrow.owner == archer):
 				count = count + 1
 		return count
 
-	def get_player_arrows(self, player):
+	def get_archer_arrows(self, archer):
 		arrows = self.world.get_objects_by_type('arrow')
-		player_arrows = list()
+		archer_arrows = list()
 		for arrow in arrows:
-			if(arrow.owner == player):
-				player_arrows.append(arrow)
-		return player_arrows
+			if(arrow.owner == archer):
+				archer_arrows.append(arrow)
+		return archer_arrows
 
-	def test_player_spawned(self):
-		self.assertEqual(self.spawn_point.x, self.player.physics.position.x)
-		self.assertEqual(self.spawn_point.y, self.player.physics.position.y)
+	def test_archer_spawned(self):
+		self.assertEqual(self.spawn_point.x, self.archer.physics.position.x)
+		self.assertEqual(self.spawn_point.y, self.archer.physics.position.y)
 
-	def test_player_moved(self):
-		self.player.want_move(directions['north'])
+	def test_archer_moved(self):
+		self.archer.want_move(directions['north'])
 		self.advance_clock(1)
-		self.assertLess(self.player.physics.position.y, self.spawn_point.y)
+		self.assertLess(self.archer.physics.position.y, self.spawn_point.y)
 
-	def test_player_collides(self):
-		self.player.want_move(directions['east'])
+	def test_archer_collides(self):
+		self.archer.want_move(directions['east'])
 		self.advance_clock(100)
-		self.assertLess(self.player.physics.position.x, 6.0)
-		self.assertGreater(self.player.physics.position.x, self.spawn_point.x)
+		self.assertLess(self.archer.physics.position.x, 6.0)
+		self.assertGreater(self.archer.physics.position.x, self.spawn_point.x)
 
-	def test_player_shoots(self):
-		self.player.want_attack(directions['south'])
+	def test_archer_shoots(self):
+		self.archer.want_attack(directions['south'])
 		self.advance_clock(40)
-		self.assertEqual(self.count_player_arrows(self.player), 1)
+		self.assertEqual(self.count_archer_arrows(self.archer), 1)
 		self.advance_clock(1000)
-		self.assertEqual(self.count_player_arrows(self.player), 0)
+		self.assertEqual(self.count_archer_arrows(self.archer), 0)
 
 	def test_arrow_flies(self):
-		self.player.want_attack(directions['south'])
+		self.archer.want_attack(directions['south'])
 		self.advance_clock(40)
-		arrow = self.get_player_arrows(self.player)[0]
-		self.assertEqual(self.player.physics.position.x, arrow.physics.position.x)
-		player_position_plus_2m = self.player.physics.position + directions['south']*2
-		self.assertGreater(arrow.physics.position.y, player_position_plus_2m.y)
+		arrow = self.get_archer_arrows(self.archer)[0]
+		self.assertEqual(self.archer.physics.position.x, arrow.physics.position.x)
+		archer_position_plus_2m = self.archer.physics.position + directions['south']*2
+		self.assertGreater(arrow.physics.position.y, archer_position_plus_2m.y)
 
 	def test_arrow_collides(self):
-		self.player.want_attack(directions['east'])
+		self.archer.want_attack(directions['east'])
 		self.advance_clock(40)
-		arrow = self.get_player_arrows(self.player)[0]
+		arrow = self.get_archer_arrows(self.archer)[0]
 		self.assertLess(arrow.physics.position.x, 6.0)
-		self.assertGreater(arrow.physics.position.x, self.player.physics.position.x)
+		self.assertGreater(arrow.physics.position.x, self.archer.physics.position.x)
 
-	def test_player_kills_player(self):
+	def test_archer_kills_archer(self):
 		attacker_spawn = self.world.get_object_by_name('spawn2')
 		defender_spawn = self.world.get_object_by_name('spawn3')
-		attacker = Player(self.world, name="attacker", reactor=self.clock)
-		defender = Player(self.world, name="defender", reactor=self.clock)
+		attacker = Archer(self.world, name="attacker", reactor=self.clock)
+		defender = Archer(self.world, name="defender", reactor=self.clock)
 		attacker.spawn(attacker_spawn)
 		defender.spawn(defender_spawn)
 

@@ -37,11 +37,11 @@ class Collisions(b2ContactListener):
 		a = contact.fixtureA.userData
 		b = contact.fixtureB.userData
 
-		pair = self.is_pair(a, b, 'Arrow', 'Player')
+		pair = self.is_pair(a, b, 'Arrow', 'Archer')
 		if(pair):
-			arrow, player = pair
+			arrow, archer = pair
 			self.world.kill(arrow)
-			self.world.kill(player)
+			self.world.kill(archer)
 			return
 
 		pair = self.is_pair(a, b, 'Arrow', 'Collidable')

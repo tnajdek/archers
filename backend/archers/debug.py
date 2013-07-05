@@ -11,7 +11,7 @@ colors = {
 	"collidable": (0, 255, 0, 120),
 	"groundcollidable": (0, 0, 255, 120),
 	"direction": (255, 0, 0, 255),
-	"player": (255, 255, 255, 255),
+	"archer": (255, 255, 255, 255),
 }
 
 scale = 0.5
