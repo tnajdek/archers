@@ -1,16 +1,66 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	</head>
-	<body>
-		<div style='position: absolute; width: 100%; height: 100%; padding:0; margin:0; left:0; top:0'>
-				<div id="center1" style='background-color: #000; height: 80%; width:100%'>
-						<canvas id="game"></canvas>
-				</div>
-				<div id="stats" style='background-color:#fff; height: 20%; width:100%'>
-						<canvas id="pcDebug"></canvas>
-				</div>
+		<style>
+		.game-container {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			padding:0;
+			margin:0;
+			left:0;
+			top:0;
+			z-index: 1;
+		}
+
+	.lobby {
+		border: 1px solid black;
+		display: none;
+		height: 200px;
+		left: 50%;
+		margin-left: -200px;
+		position: fixed;
+		top: 100px;
+		width: 400px;
+		z-index: 10;
+		background-color: #bbb;
+		padding: 10px;
+		border-radius: 5px;
+		text-align:center;
+	}
+
+	.lobby button {
+		display:inline-block;
+		text-align: center;
+		background-color: white;
+		border:1px solid black;
+		padding:5px;
+		color:black;
+		font-weight: bold;
+	}
+
+	.lobby p {
+		text-align: left;
+	}
+
+		</style>
+</head>
+<body>
+	<div class="game-container">
+		<div id="center1" style='background-color: #000; height: 100%; width:100%'>
+			<canvas id="game"></canvas>
 		</div>
-		<script data-main="src/bootstrap.js" src="components/requirejs/require.js"></script>
-	</body>
- </html>
+		<!--
+		<div id="stats" style='background-color:#fff; height: 20%; width:100%'>
+			<canvas id="pcDebug"></canvas>
+		</div>
+		-->
+	</div>
+	<div class="lobby">
+		<h1>Archers!</h1>
+		<p>Welcome. You want to spawn :)</p>
+		<button data-action="spawn">Spawn</button>
+	</div>
+	<script data-main="src/bootstrap.js" src="components/requirejs/require.js"></script>
+</body>
+</html>

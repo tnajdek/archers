@@ -30,7 +30,8 @@ define(function() {
 			{"name":"shooting S","frameX":0,"frameY":18,"frameCount":13,"time":900},
 			{"name":"shooting E","frameX":0,"frameY":19,"frameCount":13,"time":900},
 			{"name":"dying","frameX":0,"frameY":20,"frameCount":6,"time":900},
-			{"name":"dead","frameX":5,"frameY":20,"frameCount":1,"time":900}
+			{"name":"dead","frameX":5,"frameY":20,"frameCount":1,"time":900},
+			{"name":"unknown","frameX":19,"frameY":20,"frameCount":1,"time":900},
 		]
 	};
 });

@@ -56,21 +56,27 @@ class Message(dict):
 		return struct.calcsize(self.schema['byteformat'])
 
 
-#  TODO: more clever, general lookup-mixin?
 class DirectionMessageMixin(object):
-	direction_lookup = bidict({
+	direction_lookup = {
 		int(rotations['north']): 1,
 		int(rotations['south']): 2,
 		int(rotations['east']): 3,
 		int(rotations['west']): 4,
-	})
+	}
+
+	direction_reverse_lookup = {
+		1: rotations['north'],
+		2: rotations['south'],
+		3: rotations['east'],
+		4: rotations['west'],
+	}
 
 	def hydrate_direction(self, value):
-		return self.direction_lookup.inv.get(value, None)
+		return self.direction_reverse_lookup.get(value, rotations['south'])
 
 	def dehydrate_direction(self, value):
 		value = int(value)
-		return self.direction_lookup.get(value, 0)
+		return self.direction_lookup.get(value, 2)
 
 
 class StateMessageMixin(object):
@@ -115,10 +121,9 @@ class FrameMessage(Message, DirectionMessageMixin, StateMessageMixin):
 class UpdateMessage(Message, EntityMessageMixin, DirectionMessageMixin, StateMessageMixin):
 	schema = {
 		'id': 2,
-		'format': ['id', 'entity_type', 'width', 'height', 'x', 'y', 'direction', 'state'],
-		'byteformat': '!IBIIIIBB',
+		'format': ['id', 'entity_type', 'width', 'height', 'x', 'y', 'direction', 'state', 'player'],
+		'byteformat': '!IBIIIIBB?',
 	}
-
 
 class UserActionMessage(Message, DirectionMessageMixin):
 	schema = {
@@ -127,20 +132,15 @@ class UserActionMessage(Message, DirectionMessageMixin):
 		'byteformat': '!BB'
 	}
 
-	action_lookup = {
-		'stand': 1,
-		'move': 2,
-		'attack': 3
-	}
-
-	action_reverse_lookup = {
-		1: 'stand',
-		2: 'move',
-		3: 'attack'
-	}
+	action_lookup = bidict({
+		'spawn': 1,
+		'stop': 2,
+		'move': 3,
+		'attack': 4
+	})
 
 	def hydrate_action(self, value):
-		return self.action_reverse_lookup.get(value, None)
+		return self.action_lookup.inv.get(value, None)
 
 	def dehydrate_action(self, value):
 		return self.action_lookup.get(value, 0)
@@ -157,5 +157,5 @@ message_types = {
 	1: FrameMessage,
 	2: UpdateMessage,
 	3: UserActionMessage,
-	4: RemoveMessage
+	4: RemoveMessage,
 }

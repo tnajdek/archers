@@ -74,28 +74,29 @@ class ReactorMixin(Base):
 
 
 class NetworkMixin(Base):
-	def get_update_message(self):
+	def get_update_message(self, recipient=None):
 		msg = UpdateMessage()
 		msg['id'] = self.id
 		msg['entity_type'] = self.__class__.__name__
-		msg['width'] = limit(m2p(self.width))
-		msg['height'] = limit(m2p(self.height))
-		msg['x'] = limit(m2p(self.physics.position.x))
-		msg['y'] = limit(m2p(self.physics.position.y))
-		msg['direction'] = self.physics.angle
+		msg['width'] = limit(m2p(self.get_dimensions()['width']))
+		msg['height'] = limit(m2p(self.get_dimensions()['height']))
+		msg['x'] = limit(m2p(self.get_position()['x']))
+		msg['y'] = limit(m2p(self.get_position()['y']))
+		msg['direction'] = self.get_direction()
 		msg['state'] = getattr(self, 'state', 'unknown')
+		msg['player'] = (recipient and hasattr(recipient, 'session_id') and hasattr(self, 'player') and recipient.session_id == self.player)
 		return msg
 
-	def get_frame_message(self):
+	def get_frame_message(self, recipient=None):
 		msg = FrameMessage()
 		msg['id'] = self.id
-		msg['x'] = limit(m2p(self.physics.position.x))
-		msg['y'] = limit(m2p(self.physics.position.y))
-		msg['direction'] = self.physics.angle
+		msg['x'] = limit(m2p(self.get_position()['x']))
+		msg['y'] = limit(m2p(self.get_position()['y']))
+		msg['direction'] = self.get_direction()
 		msg['state'] = getattr(self, 'state', 'unknown')
 		return msg
 
-	def get_destroy_message(self):
+	def get_destroy_message(self, recipient=None):
 		msg = RemoveMessage()
 		msg['id'] = self.id
 		return msg
@@ -187,6 +188,35 @@ class WorldObject(Base):
 		self.world.object_lookup_by_name.pop(self.name)
 		self.world.object_lookup_by_type[self.type].remove(self)
 		del self.world.object_index[:self]
+
+	def get_dimensions(self):
+		dimensions = dict()
+		if(hasattr(self, 'width')):
+			dimensions['width'] = self.width
+		else:
+			dimensions['width'] = 0
+
+		if(hasattr(self, 'height')):
+			dimensions['height'] = self.height
+		else:
+			dimensions['height'] = 0
+
+		return dimensions
+
+	def get_position(self):
+		position = dict()
+		if(hasattr(self, 'physics')):
+			position['x'] = self.physics.position.x
+			position['y'] = self.physics.position.y
+		else:
+			position['x'] = 0
+			position['y'] = 0
+		return position
+
+	def get_direction(self):
+		if(hasattr(self, 'physics')):
+			return self.physics.angle
+		return 0
 
 
 class MapObject(WorldObject):

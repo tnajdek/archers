@@ -2,7 +2,8 @@ requirejs.config({
 	baseUrl: 'src/',
 	paths: {
 		lodash: '../components/lodash/dist/lodash.compat',
-		playcraft: '../components/playcraft/playcraftjs/lib'
+		playcraft: '../components/playcraft/playcraftjs/lib',
+		jquery: '../components/jquery/dist/jquery'
 	},
 	// enforceDefine: true,
 	shim: {

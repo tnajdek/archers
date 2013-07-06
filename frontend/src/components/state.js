@@ -6,7 +6,7 @@ define(['pc'], function(pc) {
 			return n;
 		}
 	}, {
-		state: 'standing',
+		state: 'unknown',
 		direction: 'S',
 
 		init: function () {
@@ -15,12 +15,23 @@ define(['pc'], function(pc) {
 		},
 
 		config: function (state, direction) {
-			this.state = state || 'standing';
+			this.state = state || 'unknown';
 			this.direction = direction || 'S';
 		},
 
 		getStatedir: function() {
+			if(this.state === 'unknown') {
+				return this.state;
+			}
 			return this.state + ' ' + this.direction;
+		},
+
+
+		isAlive: function() {
+			if(this.state === 'dead' || this.state === 'unknown') {
+				return false;
+			}
+			return true;
 		},
 
 		changeState:function (sprite, newState, newDirection, force) {

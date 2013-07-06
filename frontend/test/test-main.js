@@ -8,6 +8,7 @@ requirejs.config({
 	paths: {
 		lodash: '/base/components/lodash/dist/lodash.compat',
 		playcraft: '/base/components/playcraft/playcraftjs/lib',
+		jquery: '../components/jquery/dist/jquery',
 		test: '/base/test'
 	},
 	// enforceDefine: true,

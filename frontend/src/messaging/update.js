@@ -2,8 +2,8 @@ define(['lodash', 'messaging/message', 'messaging/mixins/entity', 'messaging/mix
 	function(_, Message, entityMixin, stateMixin, directionMixin) {
 	var schema = {
 		id: 2,
-		format: ['id', 'entityType', 'width', 'height', 'x', 'y', 'direction', 'state'],
-		byteformat: 'IBIIIIBB'
+		format: ['id', 'entityType', 'width', 'height', 'x', 'y', 'direction', 'state', 'player'],
+		byteformat: 'IBIIIIBB?'
 	};
 
 	var UpdateMessage = Message.from(schema, _.extend({}, entityMixin, stateMixin, directionMixin));

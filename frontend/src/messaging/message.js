@@ -33,17 +33,21 @@ define(['lodash', 'messaging'], function(_) {
 		prototype.toBuffer = function() {
 			var Messaging = require('messaging'),
 				bufferLength = Messaging.calcByteSize(schema),
-				buffer = ArrayBuffer(bufferLength),
+				buffer = new ArrayBuffer(bufferLength),
 				dv = new DataView(buffer),
 				pointer = 0, bytePointer = 0,
-				format, letterType, value;
+				format, letterType, value, dehydrator;
 
 			while(pointer < schema.byteformat.length) {
 					letterType = schema.byteformat.charAt(pointer);
 					format = Messaging.format[letterType];
-					value = this[schema.format[pointer]];
+					dehydrator = base['dehydrate'+schema.format[pointer].charAt(0).toUpperCase() + schema.format[pointer].substring(1)];
+					if(dehydrator) {
+						value = dehydrator.call(base, this[schema.format[pointer]]);
+					} else {
+						value = this[schema.format[pointer]];
+					}
 					dv['set'+format](bytePointer, value);
-
 					bytePointer += Messaging.getTypeByteLength(format);
 					pointer++;
 				}

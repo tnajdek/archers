@@ -27,6 +27,18 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'components/state
 			return pc.components.Spatial.create({ x:x, y:y, w:width, h:height });
 		},
 
+		getInput: function() {
+			return pc.components.Input.create({
+					states:[
+						['moving right', ['D', 'RIGHT']],
+						['moving left', ['A', 'LEFT']],
+						['moving up', ['W', 'UP']],
+						['moving down', ['S', 'DOWN']],
+						['attacking', ['SPACE']],
+					]
+			});
+		},
+
 		makeCollidable: function(layer, x, y, dir, shape, props) {
 			var spatial = this.getSpatial(x, y, shape.x, shape.y),
 				entity = pc.Entity.create(layer);
@@ -44,6 +56,10 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'components/state
 			entity.addComponent(state);
 			entity.addComponent(spatial);
 			entity.addComponent(sprite);
+			if(props.player) {
+				entity.addComponent(this.getInput());
+				entity.addTag('PLAYER');
+			}
 
 			return entity;
 		},

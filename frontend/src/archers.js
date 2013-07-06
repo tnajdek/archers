@@ -1,4 +1,5 @@
-define(['pc', 'networking', 'scenes/game'], function(pc, Networking, GameScene) {
+define(['pc', 'networking', 'scenes/game'],
+	function(pc, Networking, GameScene) {
 	var Archers = pc.Game.extend('Archers', {
 	// statics
 	}, {
@@ -46,6 +47,8 @@ define(['pc', 'networking', 'scenes/game'], function(pc, Networking, GameScene) 
 			this.gameScene = new GameScene();
 			this.addScene(this.gameScene);
 
+
+
 			// // create the menu scene (but don't make it active)
 			// this.menuScene = new MenuScene();
 			// this.addScene(this.menuScene, false);
@@ -53,7 +56,6 @@ define(['pc', 'networking', 'scenes/game'], function(pc, Networking, GameScene) 
 			// // resources are all ready, start the main game scene
 			// // (or a menu if you have one of those)
 			this.activateScene(this.gameScene);
-		
 			this.networking = new Networking();
 		},
 	});

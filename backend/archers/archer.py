@@ -1,6 +1,6 @@
 from Box2D import *
 from archers.world import WorldObject, ReactorMixin, SelfDestructable, NetworkMixin, rotations
-from archers.utils import vec2rad
+from archers.utils import vec2rad, rad2vec
 from collisions import CLCAT_CREATURE, CLCAT_BULLET, CLCAT_EVERYTHING, CLCAT_AIRBORNE_OBSTACLE, CLCAT_TERRESTRIAL_OBSTACLE
 
 
@@ -9,10 +9,12 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 	collision_category = CLCAT_CREATURE
 	collision_mask = CLCAT_EVERYTHING ^ CLCAT_AIRBORNE_OBSTACLE
 
-	def __init__(self, world, *args, **kwargs):
+	def __init__(self, world, player=None, *args, **kwargs):
 		self.speed = 1.0
 		self.attack_speed = 1.0
 		self.arrows_speed = 1.0
+		self.player = player
+
 		# self.arrows_shot = list()
 		self.state = 'unknown'
 		super(Archer, self).__init__(world, type="archer", *args, **kwargs)
@@ -50,9 +52,12 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 	def want_move(self, direction):
 		if(not self.can_take_action()):
 			return
+		# import ipdb; ipdb.set_trace()
+		if(hasattr(direction, 'x')):
+			direction = vec2rad(direction)
 		self.cancel_pending()
 		self.physics.linearVelocity = (0, 0)
-		self.physics.angle = vec2rad(direction)
+		self.physics.angle = direction
 		speed_vector = b2Vec2(1, 0)*self.speed*10
 		self.physics.ApplyLinearImpulse(
 			impulse=self.physics.GetWorldVector(speed_vector),
@@ -71,13 +76,15 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 	def want_attack(self, direction):
 		if(not self.can_take_action()):
 			return
+		if(hasattr(direction, 'x')):
+			direction = vec2rad(direction)
 		self.want_stop()
-		self.physics.angle = vec2rad(direction)
+		self.physics.angle = direction
 		if(not hasattr(self, 'delayed_attack') or not self.delayed_attack.active()):
 			self.delayed_attack = self.reactor.callLater(
 				0.5*self.attack_speed,
 				self.commit_attack,
-				direction
+				rad2vec(direction)
 			)
 			self.state = "shooting"
 

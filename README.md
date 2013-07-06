@@ -11,6 +11,7 @@ Build f/e
     grunt build
     cd components
     wget playcraft
+    wget jquery
 
 Run devel env
 -------------

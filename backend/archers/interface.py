@@ -2,18 +2,37 @@ from archers.utils import EventsMixins
 from archers.messages import message_types, UpdateMessage, FrameMessage, RemoveMessage
 import struct
 from archers.utils import m2p, limit
+from archers.archer import Archer
+from random import shuffle
+import uuid
+from os import urandom
 
 
 class Connection(EventsMixins):
 	def __init__(self, world):
 		super(Connection, self).__init__()
+		self.session_id = uuid.UUID(bytes=urandom(16))
 		self.world = world
 		self.known = dict()
 		self.last_world_index = 0
 		self.last_frame_index = 0
+		self.archer = Archer(self.world, player=self.session_id)
 		self.world.on('destroy_object', self.on_destroy)
 		self.world.on('step', self.on_update)
 		self.world.on('step', self.frame_maybe)
+		self.on('useraction', self.on_user_action)
+
+	def on_user_action(self, message):
+		spawn_points = self.world.get_spawn_points()
+		shuffle(spawn_points)
+		if(message['action'] == 'spawn'):
+			self.archer.spawn(spawn_points[0])
+		if(message['action'] == 'stop'):
+			self.archer.want_stop()
+		if(message['action'] == 'move'):
+			self.archer.want_move(message['direction'])
+		if(message['action'] == 'attack'):
+			self.archer.want_attack(message['direction'])
 
 	def on_update(self, world):
 		if(self.last_world_index != world.object_index.index):
@@ -23,8 +42,9 @@ class Connection(EventsMixins):
 				try:
 					world_object = world.get_object_by_id(index)
 					if(hasattr(world_object, 'get_update_message')):
-						msg = world_object.get_update_message()
-						messages.append(msg)
+						msg = world_object.get_update_message(recipient=self)
+						if(msg):
+							messages.append(msg)
 				except KeyError:
 					# this object has been destroyed by now, so we don't care
 					pass
@@ -34,32 +54,21 @@ class Connection(EventsMixins):
 	def on_destroy(self, world_object):
 		messages = list()
 		if(hasattr(world_object, 'get_destroy_message')):
-			msg = world_object.get_destroy_message()
-			messages.append(msg)
+			msg = world_object.get_destroy_message(recipient=self)
+			if(msg):
+				messages.append(msg)
 		self.trigger('remove', messages)
 
 	def frame_maybe(self, world):
 		self.trigger('frame', self.get_frame())
-
-	# redundant, just reset the counter on_update?
-	# def get_full_update(self):
-	# 	update = UpdateMessage()
-	# 	for item in self.world.object_index.values():
-	# 		if(hasattr(item, 'physics')):
-	# 			data = dict()
-	# 			data['name'] = item.name
-	# 			data['id'] = item.id
-	# 			data['center'] = False
-	# 			update[item.id] = data
-	# 	return update
 
 	def get_frame(self, updated_only=True):
 		update = list()
 
 		for item in self.world.object_index.values():
 			if(hasattr(item, 'get_frame_message')):
-				data = item.get_frame_message()
-				if not(item in self.known.keys() and self.known[item] == data):
+				data = item.get_frame_message(recipient=self)
+				if data and not(item in self.known.keys() and self.known[item] == data):
 					update.append(data)
 					self.known[item] = data
 		return update
@@ -71,7 +80,8 @@ def pack_messages(messages):
 
 	buffer_ = struct.pack('B', messages[0].schema['id'])
 	for message in messages:
-		buffer_ += message.pack()
+		if(message and hasattr(message, 'pack')):
+			buffer_ += message.pack()
 	return buffer_
 
 
