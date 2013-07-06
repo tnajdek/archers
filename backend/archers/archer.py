@@ -46,7 +46,8 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 
 	def destroy(self):
 		self.cancel_pending()
-		self.world.physics.DestroyBody(self.physics)
+		if(hasattr(self, 'physics')):
+			self.world.physics.DestroyBody(self.physics)
 		super(Archer, self).destroy()
 
 	def want_move(self, direction):

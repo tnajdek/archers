@@ -276,9 +276,10 @@
   <properties>
    <property name="visible" value="0"/>
   </properties>
-  <object name="spawn1" x="621" y="843" width="32" height="32"/>
-  <object name="spawn2" x="1043" y="483" width="32" height="32"/>
+  <object name="spawn1" x="418" y="1735" width="32" height="32"/>
+  <object name="spawn2" x="1488" y="472" width="32" height="32"/>
   <object name="spawn3" x="303" y="544" width="32" height="32"/>
+  <object name="spawn4" x="1484" y="1574" width="32" height="32"/>
  </objectgroup>
  <objectgroup color="#0008a4" name="groundcollision" width="64" height="64">
   <object x="333" y="108" width="193" height="33"/>
@@ -311,10 +312,10 @@
   </object>
   <object x="853" y="1397" width="88" height="279"/>
   <object x="917" y="1153">
-   <polygon points="0,0 115,-1 122,11 117,166 26,248 -69,247 -69,129 -5,68"/>
+   <polygon points="4,11 117,11 122,11 117,166 26,248 -69,247 -69,129 -5,68"/>
   </object>
   <object x="1040" y="1119">
-   <polygon points="0,0 -129,-3 -129,-105 -166,-126 -159,-184 -36,-177 -35,-56 -9,-47"/>
+   <polygon points="6,-28 -130,-32 -129,-105 -166,-126 -159,-184 -36,-177 -35,-56 -9,-47"/>
   </object>
  </objectgroup>
  <objectgroup name="500main" width="64" height="64"/>

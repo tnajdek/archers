@@ -121,13 +121,13 @@ define(['jquery', 'lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontro
 
 			horizontalMax = newX + this.viewPort.w;
 			verticalMax = this.layer.origin.y + this.viewPort.h;
-			horizontalMin = newX - this.viewPort.w;
-			verticalMin = this.layer.origin.y - this.viewPort.h;
+			// horizontalMin = newX - this.viewPort.w;
+			// verticalMin = this.layer.origin.y - this.viewPort.h;
 
-			if(horizontalMax > width || verticalMax > height || horizontalMin < 1 || verticalMin < 1) {
+			if(horizontalMax > width || verticalMax > height) {
 				this.layer.setOrigin(
-					getRandomInt(1+this.viewPort.w, width-1-this.viewPort.w),
-					getRandomInt(1+this.viewPort.h, width-1-this.viewPort.h)
+					getRandomInt(1, width-this.viewPort.w),
+					getRandomInt(1, width-this.viewPort.h)
 				);
 			} else {
 				// smoooth
