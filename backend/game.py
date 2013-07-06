@@ -27,6 +27,9 @@ class UserCommunication(WebSocketServerProtocol):
 		self.interface.on('frame', self.send_messages)
 		self.interface.on('remove', self.send_messages)
 
+	def onClose(self, wasClean, code, reason):
+		self.interface.trigger('disconnect')
+
 	def send_messages(self, messages):
 		if(len(messages)):
 			self.sendMessage(pack_messages(messages), True)

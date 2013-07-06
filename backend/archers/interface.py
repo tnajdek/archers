@@ -21,6 +21,10 @@ class Connection(EventsMixins):
 		self.world.on('step', self.on_update)
 		self.world.on('step', self.frame_maybe)
 		self.on('useraction', self.on_user_action)
+		self.on('disconnect', self.on_disconnect)
+
+	def on_disconnect(self):
+		self.archer.destroy()
 
 	def on_user_action(self, message):
 		spawn_points = self.world.get_spawn_points()
