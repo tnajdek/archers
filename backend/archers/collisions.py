@@ -40,7 +40,8 @@ class Collisions(b2ContactListener):
 		pair = self.is_pair(a, b, 'Arrow', 'Archer')
 		if(pair):
 			arrow, archer = pair
-			self.world.kill(arrow)
+			# import ipdb; ipdb.set_trace()
+			# self.world.kill(arrow)
 			self.world.kill(archer)
 			return
 

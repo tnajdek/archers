@@ -87,7 +87,7 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		self.direction = direction
 		if(not hasattr(self, 'delayed_attack') or not self.delayed_attack.active()):
 			self.delayed_attack = self.reactor.callLater(
-				0.5*self.attack_speed,
+				0.75*self.attack_speed,
 				self.commit_attack,
 				direction
 			)
@@ -124,12 +124,12 @@ class Arrow(SelfDestructable, NetworkMixin):
 		super(Arrow, self).__init__(
 			owner.world,
 			type="arrow",
-			lifetime=1.5,
+			lifetime=1.0,
 			**kwargs)
 
 		target_position = b2Vec2(
-			direction.x*(owner.width+self.width),
-			direction.y*(owner.height+self.height)
+			direction.x*(owner.width-self.width),
+			direction.y*(owner.height-self.height)
 		)
 		target_position = owner.physics.position + target_position
 
@@ -138,11 +138,12 @@ class Arrow(SelfDestructable, NetworkMixin):
 			target_position.y,
 			self.width, self.height, friction=0.9
 		)
+
 		self.physics.fixedRotation = True
 		self.direction = direction
 		self.physics.angle = vec2rad(direction)
 
-		speed_vector = b2Vec2(1,0)*self.speed
+		speed_vector = b2Vec2(1,0)*self.speed*1.5
 		self.physics.ApplyLinearImpulse(
 			impulse=self.physics.GetWorldVector(speed_vector),
 			point=self.physics.position,
@@ -150,6 +151,10 @@ class Arrow(SelfDestructable, NetworkMixin):
 		)
 		self.physics.bullet = True
 		# import ipdb; ipdb.set_trace()
+
+	def attach_collision_data(self, fixture):
+		super(Arrow, self).attach_collision_data(fixture)
+		fixture.filterData.groupIndex = self.owner.id*-1
 
 	def destroy(self, source="dupa"):
 		# self.owner.arrows_shot.remove(self)

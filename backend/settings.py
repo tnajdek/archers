@@ -1,6 +1,8 @@
 
 DOMAIN = 'http://localhost'
 DEBUG = True
-# TIME_STEP = 1.0/60
-TIME_STEP = 1.0/20
+
+NETWORKING_STEP = 1.0/30
+PROCESSING_STEP = 1.0/60
+
 PPM = 32.0

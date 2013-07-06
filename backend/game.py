@@ -48,7 +48,8 @@ class Archers():
 
 	def init_world(self):
 		self.world = World('../resources/map.tmx')
-		task.LoopingCall(self.world.step).start(settings.TIME_STEP)
+		task.LoopingCall(self.world.networking_step).start(settings.NETWORKING_STEP)
+		task.LoopingCall(self.world.processing_step).start(settings.PROCESSING_STEP)
 		task.clock = self.reactor
 
 	def init_debug_renderer(self):
@@ -60,7 +61,7 @@ class Archers():
 		"""
 		from archers.debug import Renderer
 		self.renderer = Renderer(self.world)
-		task.LoopingCall(self.renderer.render_frame).start(settings.TIME_STEP)
+		task.LoopingCall(self.renderer.render_frame).start(settings.PROCESSING_STEP)
 
 	def start(self, reactor=reactor):
 		self.reactor = reactor

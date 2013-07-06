@@ -110,6 +110,7 @@ class WorldObject(Base):
 	def attach_collision_data(self, fixture):
 		fixture.filterData.categoryBits = type(self).collision_category
 		fixture.filterData.maskBits = type(self).collision_mask
+		fixture.filterData.groupIndex = self.id*-1
 
 	def create_static_polygon_body(self, x, y, vertices):
 		self.physics = self.world.physics.CreateStaticBody(
@@ -118,7 +119,7 @@ class WorldObject(Base):
 					vertices=vertices,
 					# categoryBits=type(self).collision_category,
 					# maskBits=type(self).collision_mask,
-					groupIndex=1
+					# groupIndex=self.id*-1
 				)
 		)
 		self.physics.fixtures[0].userData = self
@@ -136,7 +137,7 @@ class WorldObject(Base):
 					box=(w*0.5, h*0.5),
 					# categoryBits=type(self).collision_category,
 					# maskBits=type(self).collision_mask,
-					groupIndex=1
+					# groupIndex=self.id*-1
 				),
 		)
 
@@ -153,9 +154,9 @@ class WorldObject(Base):
 		kwargs['box'] = kwargs.get('box', (0.5*w, 0.5*h))
 		kwargs['density'] = kwargs.get('density', 1)
 		kwargs['friction'] = kwargs.get('friction', 0.3)
-		kwargs['categoryBits'] = type(self).collision_category
-		kwargs['maskBits'] = type(self).collision_mask
-		kwargs['groupIndex'] = 1
+		# kwargs['categoryBits'] = type(self).collision_category
+		# kwargs['maskBits'] = type(self).collision_mask
+		# kwargs['groupIndex'] = 1
 
 		self.physics.CreatePolygonFixture(**kwargs)
 
@@ -356,9 +357,10 @@ class World(EventsMixins):
 	def build_frame(self):
 		pass
 
-	def step(self):
+	def networking_step(self):
 		self.trigger('step', self)
 
+	def processing_step(self):
 		while self.objects_to_be_destroyed:
 			killme = self.objects_to_be_destroyed.pop()
 			if(hasattr(killme, 'kill') and callable(getattr(killme, 'kill'))):
@@ -367,4 +369,4 @@ class World(EventsMixins):
 				killme.destroy()
 				
 
-		self.physics.Step(settings.TIME_STEP, 10, 10)
+		self.physics.Step(settings.PROCESSING_STEP, 10, 10)
