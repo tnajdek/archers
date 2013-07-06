@@ -1,4 +1,4 @@
-from archers.world import rotations
+from archers.world import directions
 import struct
 from bidict import bidict
 
@@ -57,25 +57,32 @@ class Message(dict):
 
 
 class DirectionMessageMixin(object):
-	direction_lookup = {
-		int(rotations['north']): 1,
-		int(rotations['south']): 2,
-		int(rotations['east']): 3,
-		int(rotations['west']): 4,
-	}
+	# direction_lookup = {
+	# 	int(rotations['north']): 1,
+	# 	int(rotations['south']): 2,
+	# 	int(rotations['east']): 3,
+	# 	int(rotations['west']): 4,
+	# }
 
-	direction_reverse_lookup = {
-		1: rotations['north'],
-		2: rotations['south'],
-		3: rotations['east'],
-		4: rotations['west'],
-	}
+	# direction_reverse_lookup = {
+	# 	1: rotations['north'],
+	# 	2: rotations['south'],
+	# 	3: rotations['east'],
+	# 	4: rotations['west'],
+	# }
+
+	direction_lookup = bidict({
+		directions['north']: 1,
+		directions['south']: 2,
+		directions['east']: 3,
+		directions['west']: 4
+	})
 
 	def hydrate_direction(self, value):
-		return self.direction_reverse_lookup.get(value, rotations['south'])
+		return self.direction_lookup.inv.get(value, directions['south'])
 
 	def dehydrate_direction(self, value):
-		value = int(value)
+		# value = int(value)
 		return self.direction_lookup.get(value, 2)
 
 
@@ -92,7 +99,7 @@ class StateMessageMixin(object):
 		return self.state_lookup.inv.get(value, None)
 
 	def dehydrate_state(self, value):
-		return  self.state_lookup.get(value, 0)
+		return self.state_lookup.get(value, 0)
 
 
 class EntityMessageMixin(object):

@@ -1,16 +1,16 @@
 import pygame
 from pygame.locals import *
-from archers.utils import rad2vec
+from archers.utils import rad2vec, vec2rad
 from settings import PPM
 
-SCREEN_WIDTH, SCREEN_HEIGHT = 1024, 768
+SCREEN_WIDTH, SCREEN_HEIGHT = 1024, 1024
 
 colors = {
 	"fallback": (177, 177, 177, 255),
 	"background": (0, 0, 0, 0),
 	"collidable": (0, 255, 0, 120),
 	"groundcollidable": (0, 0, 255, 120),
-	"direction": (255, 0, 0, 255),
+	"direction": (255, 157, 0, 255),
 	"archer": (255, 255, 255, 255),
 }
 
@@ -38,10 +38,11 @@ class Renderer():
 					vertices = [(world_object.physics.transform*v)*PPM for v in shape.vertices]
 					pygame.draw.polygon(self.screen, color, vertices)
 
-				pygame.draw.line(
-					self.screen,
-					colors['direction'],
-					world_object.physics.position*PPM,
-					(world_object.physics.position+rad2vec(world_object.physics.angle))*PPM
-				)
+				if(hasattr(world_object, 'direction')):
+					pygame.draw.line(
+						self.screen,
+						colors['direction'],
+						world_object.physics.position*PPM,
+						(world_object.physics.position + world_object.direction)*PPM
+					)
 		pygame.display.flip()

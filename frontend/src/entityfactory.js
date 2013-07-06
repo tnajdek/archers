@@ -24,7 +24,12 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'components/state
 		},
 
 		getSpatial: function(x, y, width, height) {
-			return pc.components.Spatial.create({ x:x, y:y, w:width, h:height });
+			return pc.components.Spatial.create({ 
+				x:x,
+				y:y,
+				w:width,
+				h:height 
+			});
 		},
 
 		getInput: function() {
@@ -65,7 +70,7 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'components/state
 		},
 
 		makeArrow: function(layer, x, y, dir, shape, props) {
-			var spatial = this.getSpatial(x, y, 64, 64),
+			var spatial = this.getSpatial(x, y, 32, 32),
 				state = stateComponent.create(props.state, dir),
 				sprite = this.getSprite(arrowSpritedef, state.getStatedir()),
 				entity = pc.Entity.create(layer);

@@ -205,7 +205,7 @@ class WorldObject(Base):
 
 	def get_position(self):
 		position = dict()
-		if(hasattr(self, 'physics')):
+		if(hasattr(self, 'physics') and hasattr(self, 'width') and hasattr(self, 'height')):
 			position['x'] = self.physics.position.x
 			position['y'] = self.physics.position.y
 		else:
@@ -214,9 +214,9 @@ class WorldObject(Base):
 		return position
 
 	def get_direction(self):
-		if(hasattr(self, 'physics')):
-			return self.physics.angle
-		return 0
+		if(hasattr(self, 'direction')):
+			return self.direction
+		return directions['south']
 
 
 class MapObject(WorldObject):

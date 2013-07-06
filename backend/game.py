@@ -17,9 +17,13 @@ class UserCommunication(WebSocketServerProtocol):
 	# 	# WebSocketServerProtocol.__init__(self)
 
 	def onMessage(self, msg, binary):
-		messages = unpack_mesages(msg)
-		for msg in messages:
-			self.interface.trigger('useraction', msg)
+		if(binary):
+			messages = unpack_mesages(msg)
+			for msg in messages:
+				self.interface.trigger('useraction', msg)
+		else:
+			print "meta!!!"
+			print msg
 
 	def onOpen(self):
 		self.interface = Connection(self.factory.world)

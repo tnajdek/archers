@@ -45,7 +45,15 @@ define(['jquery', 'lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontro
 						player: msg.player
 					};
 
-				that.entities[msg.id] = that.factory.createEntity(that.layer, msg.entityType, msg.x, msg.y, msg.direction, shape, properties);
+				that.entities[msg.id] = that.factory.createEntity(
+					that.layer,
+					msg.entityType,
+					msg.x,
+					msg.y,
+					msg.direction,
+					shape,
+					properties
+				);
 			});
 
 			vent.on('frame', function(msg) {
@@ -59,8 +67,12 @@ define(['jquery', 'lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontro
 					badStates = ['dead', 'unknown'];
 
 				if(spatial) {
-					spatial.getPos().x = msg.x;
-					spatial.getPos().y = msg.y;
+					spatial.getPos().x = msg.x-0.5*spatial.getDim().x;
+					spatial.getPos().y = msg.y-0.5*spatial.getDim().y;
+					// debugger;
+					// spatial.getCenterPos().x = msg.x;
+					// spatial.getCenterPos().y = msg.y;
+
 				}
 
 				if(state && sprite) {

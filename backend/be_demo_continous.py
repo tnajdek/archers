@@ -28,11 +28,11 @@ def do_something():
 		shuffle(dir_values)
 		archer = archer_entities[0]
 		if(archer.state != 'shooting'):
-			if(archer.physics.position.x > 32):
+			if(archer.physics.position.x > 63):
 				archer.want_move(directions['west'])
 			elif(archer.physics.position.x < 0):
 				archer.want_move(directions['east'])
-			elif(archer.physics.position.y > 24):
+			elif(archer.physics.position.y > 63):
 				archer.want_move(directions['north'])
 			elif(archer.physics.position.y < 0):
 				archer.want_move(directions['south'])
@@ -40,7 +40,7 @@ def do_something():
 				random = randrange(100)
 				if(random < 30):
 					archer.want_stop()
-				elif(random < 80):
+				elif(random < 95):
 					archer.want_move(dir_values[0])
 				elif(random < 99):
 					archer.want_attack(dir_values[0])
