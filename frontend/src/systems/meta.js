@@ -11,7 +11,7 @@ define(['pc'], function(pc) {
 				ctx = pc.device.ctx;
 
 			if(spatial && meta && meta.username) {
-				ctx.font = "bold 11px sans-serif"
+				ctx.font = "11px ponderosa,monospace"
 				ctx.textAlign = 'center'
 				if(entity.hasTag('PLAYER')) {
 					// ctx.fillStyle = "rgba(10,174,255,1.0)"

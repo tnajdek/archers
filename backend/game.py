@@ -9,9 +9,14 @@ from Box2D import *
 
 # from twisted.internet import reactor
 from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS
-
 import logging
 import simplejson
+
+logging.basicConfig(format='%(asctime)s %(message)s',
+	datefmt='%m/%d/%Y %I:%M:%S %p',
+	filename='archers.log',
+	level=settings.DEBUG and logging.DEBUG or logging.INFO
+)
 
 
 class UserCommunication(WebSocketServerProtocol):
@@ -85,6 +90,7 @@ class Archers():
 		factory.world = self.world
 		factory.protocol = UserCommunication
 		listenWS(factory)
+		logging.info("Server is listening on %s:%i" % (factory.host, factory.port))
 
 	def init_world(self):
 		self.world = World('../resources/map.tmx')
@@ -109,7 +115,10 @@ class Archers():
 		self.init_networking()
 		if(settings.DEBUG):
 			self.init_debug_renderer()
+			logging.debug("Debug mode ON")
 		self.reactor.run()
+		#reactor.run will block till ctrl+c is pressed or crash is detected
+		logging.info("Shutting down...")
 
 
 if __name__ == '__main__':

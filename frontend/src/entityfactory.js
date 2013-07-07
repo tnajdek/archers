@@ -65,7 +65,6 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'components/state
 			entity.addComponent(sprite);
 
 			if(props.player) {
-				entity.addComponent(this.getInput());
 				entity.addTag('PLAYER');
 			}
 

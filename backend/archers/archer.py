@@ -41,6 +41,9 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		# self.world.physics.DestroyBody(self.physics)
 		# self.physics = None
 
+	def is_alive(self):
+		return self.can_take_action()
+
 	def can_take_action(self):
 		if(self.state == 'walking' or self.state == 'standing' or self.state == 'shooting'):
 			return True

@@ -6,6 +6,8 @@ from archers.archer import Archer
 from random import shuffle
 import uuid
 from os import urandom
+import logging
+import settings
 
 
 class Connection(EventsMixins):
@@ -20,8 +22,13 @@ class Connection(EventsMixins):
 
 		self.meta = {
 			"id": self.archer.id,
-			"username": "Unnamed"
+			"username": "Unnamed",
+			"kills": 0,
+			"deaths": 0,
+			"score": 0
 		}
+
+		logging.info("New connection %s" % self.session_id)
 
 		self.world.on('destroy_object', self.on_destroy)
 		self.world.on('step', self.on_update)
@@ -29,11 +36,31 @@ class Connection(EventsMixins):
 		self.on('useraction', self.on_user_action)
 		self.on('disconnect', self.on_disconnect)
 		self.on('metamsg', self.on_metamsg)
+		self.on('kill', self.on_kill)
+		self.on('die', self.on_die)
+		self.on('mob', self.on_mob)
+
+	def on_kill(self, prey):
+		self.meta['kills'] = self.meta['kills'] + 1
+		self.meta['score'] = self.meta['score'] + settings.score['kill']
+		logging.info("%s fragged %s" % (self.meta['username'], prey.meta['username']))
+		self.trigger('meta', self.meta)
+
+	def on_die(self, killer=None):
+		self.meta['deaths'] = self.meta['deaths'] + 1
+		self.trigger('meta', self.meta)
+
+	def on_mob(self):
+		self.meta['score'] = self.meta['score'] + settings.score['mob']
+		self.trigger('meta', self.meta)
 
 	def on_metamsg(self, meta):
 		if('username' in meta):
-			self.meta['username'] = meta['username'][0:10]
-			self.trigger('meta', self.meta)
+			new_username = meta['username'][0:10]
+			if(new_username != self.meta['username']):
+				self.meta['username'] = new_username
+				logging.info("%s is now known as %s" % (self.session_id, self.meta['username']))
+				self.trigger('meta', self.meta)
 
 	def on_disconnect(self):
 		self.archer.destroy()

@@ -28,13 +28,15 @@ pip-log.txt
 venv
 
 _src/*
-!_src/*.xml
 _res/*
-media/*
 .codeintel
 
 #sqllite
 *.db
 
+#logs
+*.log
+
 node_modules
 frontend/components
+frontend/js

@@ -10,6 +10,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 			this._super();
 
 			this.factory = new EntityFactory();
+			this.playercontrol = new PlayerControlSystem();
 			// this.physics = new pc.systems.Physics({
 			// 	gravity:{ x:0, y:0 },
 			// 	debug: false
@@ -32,7 +33,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 
 			// this.layer.addSystem(this.physics);
 			this.layer.addSystem(new pc.systems.Render());
-			this.layer.addSystem(new PlayerControlSystem());
+			this.layer.addSystem(this.playercontrol);
 			this.layer.addSystem(new MetaSystem());
 
 
@@ -82,10 +83,12 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 				if(state && sprite) {
 					if(entity.hasTag('PLAYER') && !_.contains(badStates, state.state) && _.contains(badStates, msg.state)) {
 						lobbyManager.show();
+						that.player.remnoveComponent(that.player.getComponent('input'));
 					}
 
 					if(entity.hasTag('PLAYER') && _.contains(badStates, state.state) && !_.contains(badStates, msg.state)) {
 						lobbyManager.hide();
+						that.player.addComponent(that.factory.getInput());
 					}
 					state.changeState(sprite, msg.state, msg.direction);
 				}
@@ -171,7 +174,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 			player = this.layer.entityManager.getTagged('PLAYER');
 			
 			if(player) {
-				player = player.first.object();
+				this.player = player = player.first.object();
 				state = player.getComponent('state');
 			}
 
