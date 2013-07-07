@@ -48,6 +48,13 @@ define(['jquery', 'lodash', 'vent'], function($, lodash, vent) {
 
 			vent.on('connected', function() {
 				that.$lobby.find('.status').text("Connected :)");
+
+				//one time update
+				_.delay(function() {
+					vent.trigger('username', $('.username').val());
+				}, 100);
+
+				//ready to spawn
 				that.$lobby.find('.spawn').show();
 			});
 			vent.on('disconnected', function() {
@@ -66,6 +73,9 @@ define(['jquery', 'lodash', 'vent'], function($, lodash, vent) {
 					that.updatedLeaderBoard();
 				}
 			});
+			
+
+
 		}
 	};
 
