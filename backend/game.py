@@ -56,7 +56,11 @@ class UserCommunication(WebSocketServerProtocol):
 		self.factory.unregister(self)
 
 	def onClose(self, wasClean, code, reason):
-		self.interface.trigger('disconnect')
+		try:
+			self.interface.trigger('disconnect')
+		except Exception:
+			#could be the browser never estabilished connection right. ignore
+			pass
 
 	def send_messages(self, messages):
 		if(len(messages)):

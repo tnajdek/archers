@@ -1,0 +1,152 @@
+@font-face {
+	font-family: 'bloodynormal';
+	src: url('/fonts/bloody/BLOODY-webfont.eot');
+	src: url('/fonts/bloody/BLOODY-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('/fonts/bloody/BLOODY-webfont.woff') format('woff'),
+		 url('/fonts/bloody/BLOODY-webfont.ttf') format('truetype'),
+		 url('/fonts/bloody/BLOODY-webfont.svg#bloodynormal') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'ponderosa';
+	src: url('/fonts/ponderosa/ponderosa.eot');
+	src: url('/fonts/ponderosa/ponderosa.eot?#iefix') format('embedded-opentype'),
+		 url('/fonts/ponderosa/ponderosa.woff') format('woff'),
+		 url('/fonts/ponderosa/ponderosa.ttf') format('truetype'),
+		 url('/fonts/ponderosa/ponderosa.svg#bloodynormal') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'ContaxSans55Regular';
+	src: url('/fonts/contax/ContaxSans55Reg-webfont.eot');
+	src: url('/fonts/contax/ContaxSans55Reg-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('/fonts/contax/ContaxSans55Reg-webfont.woff') format('woff'),
+		 url('/fonts/contax/ContaxSans55Reg-webfont.ttf') format('truetype'),
+		 url('/fonts/contax/ContaxSans55Reg-webfont.svg#ContaxSans55Regular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+body.game {
+	font-family: ponderosa, monospace;
+	font-size: 14px;
+	overflow: hidden;
+}
+
+body.page {
+	background-image: url('/gfx/texture/binding_dark.png');
+	margin:0;
+	padding:0;
+	-webkit-font-smoothing: subpixel-antialiased;
+	font-family: ContaxSans55Regular, sans-serif;
+	font-size: 14px;
+	text-align: center;
+}
+
+.center {
+	text-align: center;
+}
+
+body.page .contents {
+	max-width:900px;
+	min-width: 300px;
+	padding:30px;
+	width:85%;
+	background-color: #121212;
+	margin:0 auto;
+	text-align: left;
+	color: #efefef;
+	line-height: 1.5em;
+	border-radius: 10px 10px 10px 10px;
+    box-shadow: 0 0 37px 3px;
+    margin: 36px auto;
+}
+
+a, a:hover, a:visited {
+	color:#92E4FF;
+	
+	text-decoration: none;
+}
+
+a:hover {
+	color: #0ff;
+}
+
+input {
+	display:inline-block;
+	background-color: white;
+	border:1px solid black;
+	padding:5px;
+	color:black;
+	font-weight: bold;
+}
+
+button {
+	display:inline-block;
+	text-align: center;
+	background-color: white;
+	border:1px solid black;
+	padding:5px;
+	color:black;
+	font-weight: bold;
+}
+
+
+.game-container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	padding:0;
+	margin:0;
+	left:0;
+	top:0;
+	z-index: 1;
+}
+
+.lobby {
+	color:#fff;
+	border: 1px solid black;
+	display: none;
+	min-height: 200px;
+	max-height: 90%;
+	left: 50%;
+	margin-left: -200px;
+	position: fixed;
+	width: 400px;
+	z-index: 10;
+	background-color: rgba(0,0,0,0.6);
+	padding: 10px;
+	border-radius: 5px;
+	text-align:center;
+	overflow-y: auto;
+}
+
+#virtualjoystick {
+	width:100%;
+	height:100%;
+	position: fixed;
+	top:0;
+	z-index: 5;
+
+}
+
+
+.lobby p {
+	text-align: left;
+}
+
+.help, .spawn {
+	display:none;
+}
+
+.leaderboard {
+	margin: 10px auto;
+}
+.leaderboard table {
+	width:100%;
+}

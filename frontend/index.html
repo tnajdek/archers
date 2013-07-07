@@ -1,107 +1,28 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Archers! Game</title>
+		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<style>
-
-	@font-face {
-		font-family: 'bloodynormal';
-		src: url('/fonts/bloody/BLOODY-webfont.eot');
-		src: url('/fonts/bloody/BLOODY-webfont.eot?#iefix') format('embedded-opentype'),
-			 url('/fonts/bloody/BLOODY-webfont.woff') format('woff'),
-			 url('/fonts/bloody/BLOODY-webfont.ttf') format('truetype'),
-			 url('/fonts/bloody/BLOODY-webfont.svg#bloodynormal') format('svg');
-		font-weight: normal;
-		font-style: normal;
-	}
-
-	@font-face {
-		font-family: 'ponderosa';
-		src: url('/fonts/ponderosa/ponderosa.eot');
-		src: url('/fonts/ponderosa/ponderosa.eot?#iefix') format('embedded-opentype'),
-			 url('/fonts/ponderosa/ponderosa.woff') format('woff'),
-			 url('/fonts/ponderosa/ponderosa.ttf') format('truetype'),
-			 url('/fonts/ponderosa/ponderosa.svg#bloodynormal') format('svg');
-		font-weight: normal;
-		font-style: normal;
-	}
-
-	.game-container {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		padding:0;
-		margin:0;
-		left:0;
-		top:0;
-		z-index: 1;
-	}
-
-	.lobby {
-		border: 1px solid black;
-		display: none;
-		min-height: 200px;
-		left: 50%;
-		margin-left: -200px;
-		position: fixed;
-		width: 400px;
-		z-index: 10;
-		background-color: #bbb;
-		padding: 10px;
-		border-radius: 5px;
-		text-align:center;
-		overflow-y: scroll;
-	}
-
-	#virtualjoystick {
-		width:100%;
-		height:100%;
-		position: fixed;
-		top:0;
-		z-index: 5;
-
-	}
-
-	.lobby button {
-		display:inline-block;
-		text-align: center;
-		background-color: white;
-		border:1px solid black;
-		padding:5px;
-		color:black;
-		font-weight: bold;
-	}
-
-	.lobby p {
-		text-align: left;
-	}
-
-	.help, .spawn {
-		display:none;
-	}
-
-		</style>
+		 <link rel="stylesheet" href="/css/archers.css">
 </head>
-<body>
+<body class="game">
 	<div class="game-container">
 		<div id="center1" style='background-color: #000; height: 100%; width:100%'>
 			<canvas id="game"></canvas>
 			<div id="virtualjoystick"></div>
 		</div>
-		<!--
-		<div id="stats" style='background-color:#fff; height: 20%; width:100%'>
-			<canvas id="pcDebug"></canvas>
-		</div>
-		-->
 	</div>
 	<div class="lobby">
-		<button class="need-help">Need Help?</button>
-		<p class="help">Enter your name below and click/touch 'spawn' to start playing. If you have a physical keyboard use <strong>WASD/arrows</strong> to move and press <strong>&lt;space&gt;</strong> to shoot. If you have a <strong>touchscreen</strong>, use <strong>left half</strong> of the screen for movement and <strong>right half</strong> of the screen to attack in that direction.</p>
 		<p class="status">Connecting...</p>
 		<input class="username" maxlength="10"></input>
-		<button class="spawn">Spawn</button>
+		<button class="spawn">Play!</button>
 		<div class="leaderboard">
 		</div>
+		<a href="/help.html" target="_blank">Help</a> |
+		<a href="/credits.html" target="_blank">Credits</a>
 	</div>
 	<script data-main="src/bootstrap.js" src="components/requirejs/require.js"></script>
 </body>
