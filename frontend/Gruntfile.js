@@ -15,15 +15,18 @@ module.exports = function(grunt) {
 		requirejs: {
 			compile: {
 				options: {
-					name: "archers",
+					name: "../components/almond/almond",
 					baseUrl: "src/",
-					mainConfigFile: "src/bootstrap.js",
+					mainConfigFile: "src/require-config.js",
 					out: "js/archers.js",
-					optimize: 'uglify',
+					optimize: 'uglify2',
+					include: ['bootstrap'],
+					insertRequire: ['bootstrap'],
 					preserveLicenseComments: false,
 					wrap: {
-						start: "if(!window.pc) { window.pc = {}; pc.VERSION = '0.5.6'; }",
-					},
+						start: "(function() { if(!window.pc) { window.pc = {}; pc.VERSION = '0.5.6'; }",
+						end: "}());"
+					}
 				}
 			}
 		}
