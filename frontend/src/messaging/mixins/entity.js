@@ -4,7 +4,8 @@ define(function() {
 				0: 'unknown',
 				1: 'collidable',
 				2: 'archer',
-				3: 'arrow'
+				3: 'arrow',
+				4: 'skeleton'
 			},
 
 			hydrateEntityType: function(value) {

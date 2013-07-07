@@ -94,6 +94,7 @@ class EntityMessageMixin(object):
 		'Collidable': 1,
 		'Archer': 2,
 		'Arrow': 3,
+		'Skeleton': 4,
 	})
 
 	def hydrate_entity_type(self, value):

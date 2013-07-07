@@ -1,5 +1,5 @@
-define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'components/state', 'components/meta'],
-	function(pc, _, archerSpritedef, arrowSpritedef, stateComponent, metaComponent) {
+define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skeleton', 'components/state', 'components/meta'],
+	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, stateComponent, metaComponent) {
 	var EntityFactory = pc.EntityFactory.extend('pc.archers.EntityFactory', {}, {
 
 		// animationState to be automated based on state and dir
@@ -67,6 +67,21 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'components/state
 			if(props.player) {
 				entity.addTag('PLAYER');
 			}
+
+			return entity;
+		},
+
+		makeSkeleton: function(layer, x, y, dir, shape, props) {
+			var spatial = this.getSpatial(x, y, 64, 64),
+				state = stateComponent.create(props.state, dir),
+				meta = metaComponent.create(),
+				sprite = this.getSprite(skeletonSpritedef, state.getStatedir()),
+				entity = pc.Entity.create(layer);
+
+			entity.addComponent(state);
+			entity.addComponent(meta);
+			entity.addComponent(spatial);
+			entity.addComponent(sprite);
 
 			return entity;
 		},

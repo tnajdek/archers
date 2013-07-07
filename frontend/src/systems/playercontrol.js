@@ -34,6 +34,13 @@ define(['jquery', 'lodash', 'pc', 'vent', 'virtualjoystick'],
 				input = entity.getComponent('input'),
 				state = entity.getComponent('state'),
 				currentInput;
+
+			if(!input) {
+				// TODO: this is too brute force
+				pc.device.input.stateBindings.clear();
+				return;
+			}
+
 			this._super(entity);
 			if(!state.isAlive()) {
 				return;

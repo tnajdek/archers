@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 from game import Archers
-from archers.archer import Archer
+from archers.archer import Skeleton
 from twisted.internet import reactor
 from archers.world import directions
 from random import shuffle, randrange
@@ -16,7 +16,7 @@ def spawn_archer():
 	sp = world.get_spawn_points()
 	shuffle(sp)
 	spawn_point = sp[0]
-	archer = Archer(world)
+	archer = Skeleton(world)
 	archer.spawn(spawn_point)
 	archer_entities.append(archer)
 

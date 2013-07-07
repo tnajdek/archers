@@ -27,6 +27,11 @@ define(['pc', 'networking', 'scenes/game', 'lobbymanager'],
 				'/resources/arrow.png'
 			));
 
+			pc.device.loader.add(new pc.Image(
+				'skeleton',
+				'/resources/skeleton.png'
+			));
+
 			pc.device.loader.start(this.onLoading.bind(this), this.onLoaded.bind(this));
 		},
 

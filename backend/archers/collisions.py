@@ -40,26 +40,29 @@ class Collisions(b2ContactListener):
 		pair = self.is_pair(a, b, 'Arrow', 'Archer')
 		if(pair):
 			arrow, archer = pair
-			if(hasattr(arrow, 'owner') and hasattr(arrow.owner, 'player') and hasattr(archer, 'player')):
+			if(hasattr(arrow, 'owner') and hasattr(arrow.owner, 'player') and arrow.owner.player and hasattr(archer, 'player') and archer.player):
 				# killer and prey both players
 				if(archer.is_alive()):
 					arrow.owner.player.trigger('kill', archer.player)
 					archer.player.trigger('die', killer=arrow.owner.player)
-			elif(hasattr(arrow, 'owner') and hasattr(arrow.owner, 'player')):
-				# killer is a player, prey is a mob
-				mob = archer
-				if(mob.is_alive()):
-					arrow.owner.player.trigger('mob')
-
 			elif(hasattr(archer, 'player')):
 				# killer a mob, player died
 				if(archer.is_alive()):
 					archer.player.trigger('die')
-				
 
 			self.world.kill(arrow)
 			self.world.kill(archer)
 			return
+
+		pair = self.is_pair(a, b, 'Arrow', 'Skeleton')
+		if(pair):
+			arrow, skeleton = pair
+			if(hasattr(arrow, 'owner') and hasattr(arrow.owner, 'player') and arrow.owner.player):
+				if(skeleton.is_alive()):
+					arrow.owner.player.trigger('mob')
+			self.world.kill(arrow)
+			self.world.kill(skeleton)
+
 
 		pair = self.is_pair(a, b, 'Arrow', 'Collidable')
 		if(pair):

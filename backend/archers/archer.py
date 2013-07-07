@@ -163,3 +163,7 @@ class Arrow(SelfDestructable, NetworkMixin):
 		# self.owner.arrows_shot.remove(self)
 		self.world.physics.DestroyBody(self.physics)
 		super(Arrow, self).destroy()
+
+
+class Skeleton(Archer):
+	default_type = 'archer'
