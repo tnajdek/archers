@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 					name: "../components/almond/almond",
 					baseUrl: "src/",
 					mainConfigFile: "src/require-config.js",
-					out: "js/archers.js",
+					out: "public/js/archers.js",
 					optimize: 'uglify2',
 					include: ['bootstrap'],
 					insertRequire: ['bootstrap'],

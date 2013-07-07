@@ -2,4 +2,4 @@ box2d
 tornado
 autobahn
 bidict
--e git+git://github.com/encukou/pytmxlib.git#egg=tmxlib
+simplejson
