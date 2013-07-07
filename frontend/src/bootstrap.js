@@ -3,7 +3,8 @@ requirejs.config({
 	paths: {
 		lodash: '../components/lodash/dist/lodash.compat',
 		playcraft: '../components/playcraft/playcraftjs/lib',
-		jquery: '../components/jquery/dist/jquery'
+		jquery: '../components/jquery/dist/jquery',
+		virtualjoystick: '../components/virtualjoystick',
 	},
 	// enforceDefine: true,
 	shim: {

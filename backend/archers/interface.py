@@ -16,12 +16,24 @@ class Connection(EventsMixins):
 		self.known = dict()
 		self.last_world_index = 0
 		self.last_frame_index = 0
-		self.archer = Archer(self.world, player=self.session_id)
+		self.archer = Archer(self.world, player=self)
+
+		self.meta = {
+			"id": self.archer.id,
+			"username": "Unnamed"
+		}
+
 		self.world.on('destroy_object', self.on_destroy)
 		self.world.on('step', self.on_update)
 		self.world.on('step', self.frame_maybe)
 		self.on('useraction', self.on_user_action)
 		self.on('disconnect', self.on_disconnect)
+		self.on('metamsg', self.on_metamsg)
+
+	def on_metamsg(self, meta):
+		if('username' in meta):
+			self.meta['username'] = meta['username'][0:10]
+			self.trigger('meta', self.meta)
 
 	def on_disconnect(self):
 		self.archer.destroy()

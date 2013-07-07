@@ -10,6 +10,9 @@ from Box2D import *
 # from twisted.internet import reactor
 from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS
 
+import logging
+import simplejson
+
 
 class UserCommunication(WebSocketServerProtocol):
 	# def __init__(self, world, *args, **kwargs):
@@ -22,14 +25,30 @@ class UserCommunication(WebSocketServerProtocol):
 			for msg in messages:
 				self.interface.trigger('useraction', msg)
 		else:
-			print "meta!!!"
-			print msg
+			try:
+				msg = simplejson.loads(msg)
+			except Exception:
+				log.warning("Unable to decode meta msg %s coming from the client" % msg)
+			self.interface.trigger('metamsg', msg)
 
 	def onOpen(self):
 		self.interface = Connection(self.factory.world)
 		self.interface.on('update', self.send_messages)
 		self.interface.on('frame', self.send_messages)
 		self.interface.on('remove', self.send_messages)
+		self.interface.on('meta', self.broadcast_meta_update)
+		self.factory.register(self)
+
+		#force initial full update
+		self.interface.on_update(self.factory.world)
+		#then send all meta, probably should live somewhere else
+		for conn in self.factory.clients:
+			msg = simplejson.dumps(conn.interface.meta, separators=(',', ':'))
+			self.sendMessage(msg)
+
+	def connectionLost(self, reason):
+		WebSocketServerProtocol.connectionLost(self, reason)
+		self.factory.unregister(self)
 
 	def onClose(self, wasClean, code, reason):
 		self.interface.trigger('disconnect')
@@ -38,10 +57,31 @@ class UserCommunication(WebSocketServerProtocol):
 		if(len(messages)):
 			self.sendMessage(pack_messages(messages), True)
 
+	def broadcast_meta_update(self, meta):
+		msg = simplejson.dumps(meta, separators=(',', ':'))
+		self.factory.broadcast(msg)
+
+
+class BroadcastServerFactory(WebSocketServerFactory):
+	def __init__(self, url, debug=False, debugCodePaths=False):
+		WebSocketServerFactory.__init__(self, url, debug=debug, debugCodePaths=debugCodePaths)
+		self.clients = []
+
+	def register(self, client):
+		if not client in self.clients:
+			self.clients.append(client)
+
+	def unregister(self, client):
+		if client in self.clients:
+			self.clients.remove(client)
+
+	def broadcast(self, msg):
+		for c in self.clients:
+			c.sendMessage(msg)
 
 class Archers():
 	def init_networking(self):
-		factory = WebSocketServerFactory("ws://localhost:9000")
+		factory = BroadcastServerFactory("ws://localhost:9000")
 		factory.world = self.world
 		factory.protocol = UserCommunication
 		listenWS(factory)

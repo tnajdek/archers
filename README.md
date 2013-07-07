@@ -11,7 +11,8 @@ Build f/e
     grunt build
     cd components
     wget playcraft
-    wget jquery
+    wget jquery-all+css
+    wget virtualjoystick-amd
 
 Run devel env
 -------------

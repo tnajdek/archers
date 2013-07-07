@@ -1,5 +1,5 @@
-define(['jquery', 'lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol'],
-	function($, _, pc, vent, EntityFactory, PlayerControlSystem) {
+define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'systems/meta', 'lobbymanager'],
+	function(_, pc, vent, EntityFactory, PlayerControlSystem, MetaSystem, lobbyManager) {
 	var GameScene = pc.Scene.extend('pc.archers.GameScene', {}, {
 		entities: {},
 		cameraOperationLag:0,
@@ -8,6 +8,7 @@ define(['jquery', 'lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontro
 			var that = this,
 				layer, layerOrder, layerNode;
 			this._super();
+
 			this.factory = new EntityFactory();
 			// this.physics = new pc.systems.Physics({
 			// 	gravity:{ x:0, y:0 },
@@ -32,12 +33,14 @@ define(['jquery', 'lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontro
 			// this.layer.addSystem(this.physics);
 			this.layer.addSystem(new pc.systems.Render());
 			this.layer.addSystem(new PlayerControlSystem());
+			this.layer.addSystem(new MetaSystem());
 
 
 			vent.on('update', function(msg) {
 				if(!that.isActive()) {
 					return;
 				}
+
 				var shape = pc.Point.create(msg.width, msg.height),
 					properties = {
 						id: msg.id,
@@ -75,14 +78,14 @@ define(['jquery', 'lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontro
 
 				}
 
+
 				if(state && sprite) {
 					if(entity.hasTag('PLAYER') && !_.contains(badStates, state.state) && _.contains(badStates, msg.state)) {
-						$('.lobby').show();
+						lobbyManager.show();
 					}
 
 					if(entity.hasTag('PLAYER') && _.contains(badStates, state.state) && !_.contains(badStates, msg.state)) {
-
-						$('.lobby').hide();
+						lobbyManager.hide();
 					}
 					state.changeState(sprite, msg.state, msg.direction);
 				}
@@ -94,19 +97,27 @@ define(['jquery', 'lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontro
 				}
 				var entity = that.entities[msg.id];
 				entity.remove();
-			});
+			});	
 
-			$('.lobby').on('click', 'button', function() {
-				vent.trigger('spawn');
-			});
+			vent.on('meta', function(msg) {
+				var entity = that.entities[msg.id],
+					meta;
+
+				if(entity) {
+					meta = entity.getComponent('meta');
+					if(meta) {
+						meta.update(msg);
+					}					
+				}
+			})
 		},
 
 		onActivated: function() {
-			$('.lobby').show();
+			lobbyManager.show();
 		},
 
 		onDeactivated: function() {
-			$('.lobby').hide();
+			lobbyManager.hide();
 		},
 
 		hoverCamera:function() {

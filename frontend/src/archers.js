@@ -1,10 +1,11 @@
-define(['pc', 'networking', 'scenes/game'],
-	function(pc, Networking, GameScene) {
+define(['pc', 'networking', 'scenes/game', 'lobbymanager'],
+	function(pc, Networking, GameScene, lobbyManager) {
 	var Archers = pc.Game.extend('Archers', {
 	// statics
 	}, {
 		onReady: function () {
 			this._super();
+			lobbyManager.init();
 
 			pc.device.loader.add(new pc.DataResource(
 				'map',

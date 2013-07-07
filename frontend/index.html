@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
 		.game-container {
 			position: absolute;
@@ -16,17 +17,25 @@
 	.lobby {
 		border: 1px solid black;
 		display: none;
-		height: 200px;
+		min-height: 200px;
 		left: 50%;
 		margin-left: -200px;
 		position: fixed;
-		top: 100px;
 		width: 400px;
 		z-index: 10;
 		background-color: #bbb;
 		padding: 10px;
 		border-radius: 5px;
 		text-align:center;
+	}
+
+	#virtualjoystick {
+		width:100%;
+		height:100%;
+		position: fixed;
+		top:0;
+		z-index: 5;
+
 	}
 
 	.lobby button {
@@ -43,12 +52,17 @@
 		text-align: left;
 	}
 
+	.help, .spawn {
+		display:none;
+	}
+
 		</style>
 </head>
 <body>
 	<div class="game-container">
 		<div id="center1" style='background-color: #000; height: 100%; width:100%'>
 			<canvas id="game"></canvas>
+			<div id="virtualjoystick"></div>
 		</div>
 		<!--
 		<div id="stats" style='background-color:#fff; height: 20%; width:100%'>
@@ -58,8 +72,11 @@
 	</div>
 	<div class="lobby">
 		<h1>Archers!</h1>
-		<p>Welcome. You want to spawn :)</p>
-		<button data-action="spawn">Spawn</button>
+		<button class="need-help">Need Help?</button>
+		<p class="help">Enter your name below and click/touch 'spawn' to start playing. If you have a physical keyboard use <strong>WASD/arrows</strong> to move and press <strong>&lt;space&gt;</strong> to shoot. If you have a <strong>touchscreen</strong>, use <strong>left half</strong> of the screen for movement and <strong>right half</strong> of the screen to attack in that direction.</p>
+		<p class="status">Connecting...</p>
+		<input class="username" maxlength="10"></input>
+		<button class="spawn">Spawn</button>
 	</div>
 	<script data-main="src/bootstrap.js" src="components/requirejs/require.js"></script>
 </body>

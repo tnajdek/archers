@@ -1,5 +1,5 @@
-define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'components/state'],
-	function(pc, _, archerSpritedef, arrowSpritedef, stateComponent) {
+define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'components/state', 'components/meta'],
+	function(pc, _, archerSpritedef, arrowSpritedef, stateComponent, metaComponent) {
 	var EntityFactory = pc.EntityFactory.extend('pc.archers.EntityFactory', {}, {
 
 		// animationState to be automated based on state and dir
@@ -24,11 +24,11 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'components/state
 		},
 
 		getSpatial: function(x, y, width, height) {
-			return pc.components.Spatial.create({ 
+			return pc.components.Spatial.create({
 				x:x,
 				y:y,
 				w:width,
-				h:height 
+				h:height
 			});
 		},
 
@@ -39,7 +39,7 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'components/state
 						['moving left', ['A', 'LEFT']],
 						['moving up', ['W', 'UP']],
 						['moving down', ['S', 'DOWN']],
-						['attacking', ['SPACE']],
+						['attacking', ['SPACE']]
 					]
 			});
 		},
@@ -55,12 +55,15 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'components/state
 		makeArcher: function(layer, x, y, dir, shape, props) {
 			var spatial = this.getSpatial(x, y, 64, 64),
 				state = stateComponent.create(props.state, dir),
+				meta = metaComponent.create(),
 				sprite = this.getSprite(archerSpritedef, state.getStatedir()),
 				entity = pc.Entity.create(layer);
 
 			entity.addComponent(state);
+			entity.addComponent(meta);
 			entity.addComponent(spatial);
 			entity.addComponent(sprite);
+
 			if(props.player) {
 				entity.addComponent(this.getInput());
 				entity.addTag('PLAYER');

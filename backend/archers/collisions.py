@@ -41,7 +41,7 @@ class Collisions(b2ContactListener):
 		if(pair):
 			arrow, archer = pair
 			# import ipdb; ipdb.set_trace()
-			# self.world.kill(arrow)
+			self.world.kill(arrow)
 			self.world.kill(archer)
 			return
 

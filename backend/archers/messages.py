@@ -57,20 +57,6 @@ class Message(dict):
 
 
 class DirectionMessageMixin(object):
-	# direction_lookup = {
-	# 	int(rotations['north']): 1,
-	# 	int(rotations['south']): 2,
-	# 	int(rotations['east']): 3,
-	# 	int(rotations['west']): 4,
-	# }
-
-	# direction_reverse_lookup = {
-	# 	1: rotations['north'],
-	# 	2: rotations['south'],
-	# 	3: rotations['east'],
-	# 	4: rotations['west'],
-	# }
-
 	direction_lookup = bidict({
 		directions['north']: 1,
 		directions['south']: 2,
