@@ -19,7 +19,7 @@ Run devel env
     cd backend
     ./game.py &
     cd ../frontend
-    python -m SimpleHTTPServer    
+    python -m SimpleHTTPServer
 
 
 
