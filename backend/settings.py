@@ -1,6 +1,6 @@
 
 DOMAIN = 'http://localhost'
-DEBUG = True
+DEBUG = False
 
 NETWORKING_STEP = 1.0/30
 PROCESSING_STEP = 1.0/60
