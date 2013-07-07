@@ -10,7 +10,7 @@ define(['pc'], function(pc) {
 				username = meta.username,
 				ctx = pc.device.ctx;
 
-			if(spatial && meta) {
+			if(spatial && meta && meta.username) {
 				ctx.font = "bold 11px sans-serif"
 				ctx.textAlign = 'center'
 				if(entity.hasTag('PLAYER')) {

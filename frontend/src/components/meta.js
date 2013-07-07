@@ -6,7 +6,7 @@ define(['pc'], function(pc) {
 			return n;
 		}
 	}, {
-		username: "Unnamed",
+		username: "",
 
 		init: function () {
 			this._super(this.Class.shortName);

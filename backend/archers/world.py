@@ -84,7 +84,7 @@ class NetworkMixin(Base):
 		msg['y'] = limit(m2p(self.get_position()['y']))
 		msg['direction'] = self.get_direction()
 		msg['state'] = getattr(self, 'state', 'unknown')
-		msg['player'] = (recipient and hasattr(recipient, 'session_id') and hasattr(self, 'player') and recipient.session_id == self.player.session_id)
+		msg['player'] = (recipient and hasattr(recipient, 'session_id') and hasattr(self, 'player') and hasattr(self.player, 'session_id') and recipient.session_id == self.player.session_id)
 		return msg
 
 	def get_frame_message(self, recipient=None):
