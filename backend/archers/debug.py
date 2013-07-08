@@ -17,9 +17,7 @@ colors = {
 scale = 0.5
 PPM = scale*PPM
 
-
 class Renderer():
-
 	def __init__(self, world):
 		self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
 		pygame.display.set_caption('Debug renderer')

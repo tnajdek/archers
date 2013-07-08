@@ -367,6 +367,5 @@ class World(EventsMixins):
 				killme.kill()
 			else:
 				killme.destroy()
-				
 
-		self.physics.Step(settings.PROCESSING_STEP, 10, 10)
+		self.physics.Step(settings.PROCESSING_STEP, settings.PHYSICS_VEL_ITERS, settings.PHYSICS_POS_ITERS)
