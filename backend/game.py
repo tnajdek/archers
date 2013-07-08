@@ -1,9 +1,10 @@
 #!/usr/bin/env python2
-from twisted.internet import reactor, task
+from twisted.internet import reactor, task, stdio
 # from autobahn.websocket import listenWS
 # from autobahn.wamp import WampServerFactory, WampServerProtocol, exportRpc
 from archers.world import World
 from archers.interface import Connection, pack_messages, unpack_mesages
+from archers.cmd import CmdInterface
 import settings
 from Box2D import *
 
@@ -113,6 +114,9 @@ class Archers():
 		self.renderer = Renderer(self.world)
 		task.LoopingCall(self.renderer.render_frame).start(settings.PROCESSING_STEP)
 
+	def init_cmd_support(self):
+		stdio.StandardIO(CmdInterface(self.world))
+
 	def start(self, reactor=reactor):
 		self.reactor = reactor
 		self.init_world()
@@ -120,6 +124,7 @@ class Archers():
 		if(settings.DEBUG):
 			self.init_debug_renderer()
 			logging.debug("Debug mode ON")
+		self.init_cmd_support()
 		self.reactor.run()
 		#reactor.run will block till ctrl+c is pressed or crash is detected
 		logging.info("Shutting down...")
