@@ -83,6 +83,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 				if(state && sprite) {
 					if(entity.hasTag('PLAYER') && !_.contains(badStates, state.state) && _.contains(badStates, msg.state)) {
 						lobbyManager.show();
+						that.player.getComponent('input')._bound = false;
 						that.player.removeComponentByType('input');
 					}
 

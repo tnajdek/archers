@@ -29,6 +29,19 @@ module.exports = function(grunt) {
 					}
 				}
 			}
+		},
+		replace: {
+			dist: {
+				options: {
+					variables: {
+						'timestamp': '<%= new Date().getTime() %>'
+					},
+					prefix: '@@'
+				},
+			files: [
+				{expand: true, flatten: true, src: ['assets/index.html'], dest: 'public/'}
+				]
+			}
 		}
 	});
 
@@ -36,7 +49,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-bower-requirejs');
 	grunt.loadNpmTasks('grunt-karma');
+	grunt.loadNpmTasks('grunt-replace');
 
-	grunt.registerTask('build', ['requirejs']);
+	grunt.registerTask('build', ['requirejs', 'replace']);
 	grunt.registerTask('test', ['karma']);
 };
