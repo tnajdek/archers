@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 					baseUrl: "src/",
 					mainConfigFile: "src/require-config.js",
 					out: "public/js/archers.js",
-					optimize: 'uglify2',
+					optimize: 'none', // neet to remove console.log before minification
 					include: ['bootstrap'],
 					insertRequire: ['bootstrap'],
 					preserveLicenseComments: false,
@@ -42,6 +42,19 @@ module.exports = function(grunt) {
 				{expand: true, flatten: true, src: ['assets/index.html'], dest: 'public/'}
 				]
 			}
+		},
+		removelogging: {
+			dist: {
+				src: "public/js/archers.js",
+				dest: "public/js/archers.js",
+			},
+		},
+		uglify: {
+			archers: {
+				files: {
+				'public/js/archers.js': ["public/js/archers.js"]
+				}
+			}
 		}
 	});
 
@@ -50,7 +63,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-bower-requirejs');
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-replace');
+	grunt.loadNpmTasks("grunt-remove-logging");
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 
-	grunt.registerTask('build', ['requirejs', 'replace']);
+	grunt.registerTask('build', ['requirejs', 'removelogging', 'uglify', 'replace']);
 	grunt.registerTask('test', ['karma']);
 };
