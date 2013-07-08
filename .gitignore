@@ -39,5 +39,5 @@ _res/*
 
 node_modules
 frontend/components
-frontend/js
+frontend/public/js
 frontend/public/index.html
