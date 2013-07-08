@@ -3,6 +3,7 @@ import simplejson
 # from os import linesep
 from pprint import pformat
 import sys
+from guppy import hpy
 
 class TablePrinter(object):
 	"Print a list of dicts as a table"
@@ -38,7 +39,6 @@ class CmdInterface(basic.LineReceiver):
 
 	def __init__(self, world):
 		self.world = world
-		sys.stdout = CmdInterface
 
 	def write(self, msg):
 		self.out(msg)
@@ -59,6 +59,13 @@ class CmdInterface(basic.LineReceiver):
 
 	def connectionMade(self):
 		self.prompt()
+
+	def mem(self, *args):
+		return self.memory()
+
+	def memory(self, *args):
+		h = hpy()
+		self.out(h.heap())
 
 	def e(self, *args):
 		return self.entity(*args)

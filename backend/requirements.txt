@@ -3,3 +3,4 @@ tornado
 autobahn
 bidict
 simplejson
+guppy
