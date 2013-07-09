@@ -13,9 +13,9 @@ class TestPlayer(BaseTestCase):
 		path = os.path.join(path, 'assets/test1.tmx')
 		self.world = World(path)
 		self.spawn_point = self.world.get_spawn_points()[0]
-		self.world_update_task = task.LoopingCall(self.world.step)
+		self.world_update_task = task.LoopingCall(self.world.processing_step)
 		self.world_update_task.clock = self.clock
-		self.world_update_task.start(settings.TIME_STEP)
+		self.world_update_task.start(settings.PROCESSING_STEP)
 		self.player = Player(self.world, reactor=self.clock)
 		self.player.spawn(self.spawn_point)
 

@@ -16,9 +16,9 @@ class TestInterface(BaseTestCase):
 		path = os.path.join(path, 'assets/test1.tmx')
 		self.world = World(path)
 		self.spawn_point = self.world.get_object_by_name('spawn1')
-		self.world_update_task = task.LoopingCall(self.world.step)
+		self.world_update_task = task.LoopingCall(self.world.processing_step)
 		self.world_update_task.clock = self.clock
-		self.world_update_task.start(settings.TIME_STEP)
+		self.world_update_task.start(settings.PROCESSING_STEP)
 		self.connection = Connection(self.world)
 
 	def tearDown(self):
@@ -138,7 +138,7 @@ class TestInterface(BaseTestCase):
 		self.assertEqual(msg['id'], 1)
 		self.assertEqual(msg['x'], 1)
 		self.assertEqual(msg['y'], 2)
-		self.assertEqual(msg['direction'], rotations['south'])
+		self.assertEqual(msg['direction'], directions['south'])
 		self.assertEqual(msg['state'], 10)
 
 	def test_message_packing(self):
