@@ -16,6 +16,11 @@ class TestWorldGeneration(BaseTestCase):
 		self.assertEqual(spawn_point.y, 3)
 
 	def test_collidables_created(self):
-		barrel = self.world.get_objects_by_type('barrel')[0]
-		self.assertEqual(barrel.physics.position.x, 6)
-		self.assertEqual(barrel.physics.position.y, 2.6875)
+		barrel_width = 1.0
+		barrel_height = 1.312
+		barrel_x = 6.0
+		barrel_y = 2.688
+
+		barrel = self.world.get_objects_by_type('collidable')[0]
+		self.assertAlmostEqual(barrel.get_position()['x'], barrel_x+0.5*barrel_width, places=3)
+		self.assertAlmostEqual(barrel.get_position()['y'], barrel_y+0.5*barrel_height, places=3)

@@ -11,4 +11,4 @@ class BaseTestCase(unittest.TestCase):
 		if(not clock):
 			clock = self.clock
 		for i in range(steps):
-			clock.advance(settings.TIME_STEP)
+			clock.advance(1.0/30)

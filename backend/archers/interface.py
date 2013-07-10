@@ -128,7 +128,7 @@ def pack_messages(messages):
 	return buffer_
 
 
-def unpack_mesages(data):
+def unpack_mesages(data, message_types=message_types):
 	buffer_ = buffer(data)
 	messages = list()
 	message_cls = message_types[struct.unpack('B', buffer_[0])[0]]
