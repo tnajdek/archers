@@ -11,10 +11,11 @@ import settings
 
 
 class Connection(EventsMixins):
-	def __init__(self, world):
+	def __init__(self, world, cache):
 		super(Connection, self).__init__()
 		self.session_id = uuid.UUID(bytes=urandom(16))
 		self.world = world
+		self.cache = cache
 		self.known = dict()
 		self.last_world_index = 0
 		self.last_frame_index = 0
@@ -62,6 +63,9 @@ class Connection(EventsMixins):
 				self.trigger('meta', self.meta)
 
 	def on_disconnect(self):
+		self.world.off('destroy_object', self.on_destroy)
+		self.world.off('step', self.on_step)
+		self.off()
 		self.archer.destroy()
 
 	def on_user_action(self, message):
@@ -80,7 +84,7 @@ class Connection(EventsMixins):
 	def on_destroy(self, world_object):
 		messages = list()
 		if(hasattr(world_object, 'get_destroy_message')):
-			msg = world_object.get_destroy_message(recipient=self)
+			msg = world_object.get_destroy_message()
 			if(msg):
 				messages.append(msg)
 		self.trigger('remove', messages)
@@ -103,18 +107,23 @@ class Connection(EventsMixins):
 							messages.append(msg)
 				except KeyError:
 					pass
-				self.last_world_index = index
+			self.last_world_index = index
 		return messages
 
 	def get_frame(self):
-		update = list()
+		items = self.world.object_index.values()
+		update = self.cache.get_frame_message_from_cache(self.world.step)
+		if(update):
+			return update
 
-		for item in self.world.object_index.values():
+		update = list()
+		for item in items:
 			if(hasattr(item, 'get_frame_message')):
-				data = item.get_frame_message(recipient=self)
-				if data and not(item in self.known.keys() and self.known[item] == data):
-					update.append(data)
-					self.known[item] = data
+				data = item.get_frame_message()
+				update.append(data)
+				# if data and not(item in self.known.keys() and self.known[item] == data):
+					# self.known[item] = data
+		self.cache.cache_frame_messages(self.world.step, update)
 		return update
 
 
@@ -138,3 +147,39 @@ def unpack_mesages(data, message_types=message_types):
 		msg_buffer = buffer_[1+i*message_cls.get_byte_length():1+(i+1)*message_cls.get_byte_length()]
 		messages.append(message_cls.from_packed(msg_buffer))
 	return messages
+
+
+class MessageCache(object):
+	""" This class will cache commonly sent messages """
+	def __init__(self, world):
+		self.reset()
+		world.on('step', self.on_step)
+
+	def reset(self):
+		self.counter = 0
+		self.update_messages_cache = dict()
+		self.frame_messages_cache = dict()
+
+	def on_step(self, world):
+		self.counter = self.counter+1
+		if(self.counter > 3):
+			self.reset()
+
+	# Stupid update messages are user-specific. fix me?
+
+	# def get_update_message_from_cache(last_known_index):
+	# 	if last_known_index in self.update_messages_cache:
+	# 		print 'hit'
+	# 		return self.update_messages_cache[last_known_index]
+	# 	else:
+	# 		print 'miss'
+
+	# def cache_update_messages(last_known_index, messages):
+	# 	self.update_messages_cache[last_known_index] = messages
+
+	def get_frame_message_from_cache(self, last_known_index):
+		if last_known_index in self.frame_messages_cache:
+			return self.frame_messages_cache[last_known_index]
+
+	def cache_frame_messages(self, last_known_index, messages):
+		self.frame_messages_cache[last_known_index] = messages

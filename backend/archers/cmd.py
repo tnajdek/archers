@@ -113,7 +113,7 @@ class CmdInterface(basic.LineReceiver):
 	def lineReceived(self, line):
 		arguments = line.split()
 		try:
-			 command = arguments.pop(0)
+			command = arguments.pop(0)
 			if(hasattr(self, command) and callable(getattr(self, command))):
 				getattr(self, command)(*arguments)
 			else:
@@ -124,4 +124,3 @@ class CmdInterface(basic.LineReceiver):
 			self.out("Invalid arguments for command %s" % command)
 		except Exception:
 			self.out("Unable to process command %s" % line)
-

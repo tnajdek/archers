@@ -5,7 +5,7 @@ import pstats
 import settings
 from test.base import BaseTestCase
 from archers.archer import Archer
-from archers.interface import Connection
+from archers.interface import Connection, MessageCache
 from archers.world import World, directions
 
 
@@ -16,6 +16,7 @@ class ProfileInterface(BaseTestCase):
 		self.path = os.path.dirname(os.path.os.path.realpath(__file__))
 		path = os.path.join(self.path, '../../resources/map.tmx')
 		self.world = World(path)
+		self.cache = MessageCache(self.world)
 		self.spawn_point = self.world.get_object_by_name('spawn1')
 
 		self.world_update_task = task.LoopingCall(self.world.processing_step)
@@ -36,7 +37,7 @@ class ProfileInterface(BaseTestCase):
 
 	def test_get_frame(self):
 		""" Test raw execution performance of the 'get_frame'"""
-		self.connection = Connection(self.world)
+		self.connection = Connection(self.world, self.cache)
 		archers = list()
 		for i in range(50):
 			archer = Archer(self.world, reactor=self.clock)
@@ -53,7 +54,7 @@ class ProfileInterface(BaseTestCase):
 		""" Test performance of building frame for many players """
 		connections = list
 		for i in range(100):
-			connection = Connection(self.world)
+			connection = Connection(self.world, self.cache)
 			connection.get_update()
 
 		self.pr.enable()
@@ -63,7 +64,7 @@ class ProfileInterface(BaseTestCase):
 
 	def test_get_update(self):
 		""" Test raw execution performance of the 'get_update'"""
-		self.connection = Connection(self.world)
+		self.connection = Connection(self.world, self.cache)
 		archers = list()
 		for i in range(50):
 			archer = Archer(self.world, reactor=self.clock)
@@ -80,7 +81,7 @@ class ProfileInterface(BaseTestCase):
 		""" Test performance of building update messages for many players"""
 		connections = list
 		for i in range(100):
-			connection = Connection(self.world)
+			connection = Connection(self.world, self.cache)
 			connection.get_frame()
 
 		self.pr.enable()
