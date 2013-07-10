@@ -15,7 +15,6 @@
  </layer>
  <objectgroup color="#aa0000" name="collision" width="10" height="10">
   <object x="192" y="86" width="32" height="42"/>
-  <object type="barrel" x="192" y="86" width="32" height="42"/>
  </objectgroup>
  <objectgroup name="spawn" width="10" height="10">
   <object name="spawn1" x="64" y="96" width="32" height="32"/>

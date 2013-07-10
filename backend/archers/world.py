@@ -87,7 +87,7 @@ class NetworkMixin(Base):
 		msg['player'] = (recipient and hasattr(recipient, 'session_id') and hasattr(self, 'player') and hasattr(self.player, 'session_id') and recipient.session_id == self.player.session_id)
 		return msg
 
-	def get_frame_message(self, recipient=None):
+	def get_frame_message(self):
 		msg = FrameMessage()
 		msg['id'] = self.id
 		msg['x'] = limit(m2p(self.get_position()['x']))
@@ -96,7 +96,7 @@ class NetworkMixin(Base):
 		msg['state'] = getattr(self, 'state', 'unknown')
 		return msg
 
-	def get_destroy_message(self, recipient=None):
+	def get_destroy_message(self):
 		msg = RemoveMessage()
 		msg['id'] = self.id
 		return msg
@@ -286,6 +286,7 @@ class SelfDestructable(WorldObject, ReactorMixin):
 class World(EventsMixins):
 	def __init__(self, map_filename):
 		super(World, self).__init__()
+		self.step = 0
 		self.map = tmxlib.Map.open(map_filename)
 		self.layers = dict()
 		self.object_lookup_by_type = dict()
@@ -353,7 +354,6 @@ class World(EventsMixins):
 		if not killme in self.objects_to_be_destroyed:
 			self.objects_to_be_destroyed.append(killme)
 
-
 	def build_frame(self):
 		pass
 
@@ -361,6 +361,7 @@ class World(EventsMixins):
 		self.trigger('step', self)
 
 	def processing_step(self):
+
 		while self.objects_to_be_destroyed:
 			killme = self.objects_to_be_destroyed.pop()
 			if(hasattr(killme, 'kill') and callable(getattr(killme, 'kill'))):
@@ -369,3 +370,4 @@ class World(EventsMixins):
 				killme.destroy()
 
 		self.physics.Step(settings.PROCESSING_STEP, settings.PHYSICS_VEL_ITERS, settings.PHYSICS_POS_ITERS)
+		self.step = self.step+1

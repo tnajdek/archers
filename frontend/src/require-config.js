@@ -4,7 +4,7 @@ requirejs.config({
 		lodash: '../components/lodash/dist/lodash.compat',
 		playcraft: '../components/playcraft/playcraftjs/lib',
 		jquery: '../components/jquery/dist/jquery',
-		virtualjoystick: '../components/virtualjoystick',
+		virtualjoystick: '../components/virtualjoystick/index',
 	},
 	// enforceDefine: true,
 	shim: {

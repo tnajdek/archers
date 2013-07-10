@@ -3,7 +3,7 @@ from twisted.internet import reactor, task, stdio
 # from autobahn.websocket import listenWS
 # from autobahn.wamp import WampServerFactory, WampServerProtocol, exportRpc
 from archers.world import World
-from archers.interface import Connection, pack_messages, unpack_mesages
+from archers.interface import Connection, MessageCache, pack_messages, unpack_mesages
 from archers.cmd import CmdInterface
 import settings
 from Box2D import *
@@ -38,7 +38,7 @@ class UserCommunication(WebSocketServerProtocol):
 			self.interface.trigger('metamsg', msg)
 
 	def onOpen(self):
-		self.interface = Connection(self.factory.world)
+		self.interface = Connection(self.factory.world, self.factory.cache)
 		self.interface.on('update', self.send_messages)
 		self.interface.on('frame', self.send_messages)
 		self.interface.on('remove', self.send_messages)
@@ -46,7 +46,7 @@ class UserCommunication(WebSocketServerProtocol):
 		self.factory.register(self)
 
 		#force initial full update
-		self.interface.on_update(self.factory.world)
+		self.interface.trigger('step')
 		#then send all meta, probably should live somewhere else
 		for conn in self.factory.clients:
 			msg = simplejson.dumps(conn.interface.meta, separators=(',', ':'))
@@ -57,11 +57,7 @@ class UserCommunication(WebSocketServerProtocol):
 		self.factory.unregister(self)
 
 	def onClose(self, wasClean, code, reason):
-		try:
-			self.interface.trigger('disconnect')
-		except Exception:
-			#could be the browser never estabilished connection right. ignore
-			pass
+		self.interface.trigger('disconnect')
 
 	def send_messages(self, messages):
 		if(len(messages)):
@@ -93,6 +89,7 @@ class Archers():
 	def init_networking(self):
 		factory = BroadcastServerFactory("ws://localhost:9000")
 		factory.world = self.world
+		factory.cache = MessageCache(self.world)
 		factory.protocol = UserCommunication
 		listenWS(factory)
 		logging.info("Server is listening on %s:%i" % (factory.host, factory.port))

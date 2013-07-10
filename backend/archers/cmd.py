@@ -108,18 +108,19 @@ class CmdInterface(basic.LineReceiver):
 			self.out("Unknown subcommand for 'entities' command. Valid options: list, kill, show")
 
 	def help(self, *args):
-		pass
+		self.out("Options are: entities [list|show|kill], memory")
 
 	def lineReceived(self, line):
 		arguments = line.split()
-		command = arguments.pop(0)
 		try:
+			command = arguments.pop(0)
 			if(hasattr(self, command) and callable(getattr(self, command))):
 				getattr(self, command)(*arguments)
 			else:
 				self.out("Command not found: %s" % command)
+		except IndexError:
+			self.out("")
 		except TypeError:
 			self.out("Invalid arguments for command %s" % command)
 		except Exception:
 			self.out("Unable to process command %s" % line)
-

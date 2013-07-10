@@ -21,8 +21,16 @@ class EventsMixins(object):
 			self._callbacks[event] = list()
 		self._callbacks[event].append([callback, context])
 
-	def off(self, event):
-		del self._callbacks[event]
+	def off(self, *args):
+		if(len(args) == 2):
+			event, cb = args
+			for kurwa in self._callbacks[event]:
+				if(kurwa[0] == cb):
+					self._callbacks[event].remove(kurwa)
+		elif(len(args) == 1):
+			del self._callbacks[args[0]]
+		else:
+			self._callbacks = list()
 
 	def trigger(self, event, *args, **kwargs):
 		try:
