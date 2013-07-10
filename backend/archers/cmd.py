@@ -113,7 +113,7 @@ class CmdInterface(basic.LineReceiver):
 	def lineReceived(self, line):
 		arguments = line.split()
 		try:
-			 command = arguments.pop(0)
+			command = arguments.pop(0)
 			if(hasattr(self, command) and callable(getattr(self, command))):
 				getattr(self, command)(*arguments)
 			else:
