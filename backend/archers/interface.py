@@ -31,8 +31,7 @@ class Connection(EventsMixins):
 		logging.info("New connection %s" % self.session_id)
 
 		self.world.on('destroy_object', self.on_destroy)
-		self.world.on('step', self.on_update)
-		self.world.on('step', self.frame_maybe)
+		self.world.on('step', self.on_step)
 		self.on('useraction', self.on_user_action)
 		self.on('disconnect', self.on_disconnect)
 		self.on('metamsg', self.on_metamsg)
@@ -77,22 +76,6 @@ class Connection(EventsMixins):
 		if(message['action'] == 'attack'):
 			self.archer.want_attack(message['direction'])
 
-	def on_update(self, world):
-		if(self.last_world_index != world.object_index.index):
-			messages = list()
-			for index in range(self.last_world_index, world.object_index.index):
-				index = index+1
-				try:
-					world_object = world.get_object_by_id(index)
-					if(hasattr(world_object, 'get_update_message')):
-						msg = world_object.get_update_message(recipient=self)
-						if(msg):
-							messages.append(msg)
-				except KeyError:
-					# this object has been destroyed by now, so we don't care
-					pass
-				self.last_world_index = index
-			self.trigger('update', messages)
 
 	def on_destroy(self, world_object):
 		messages = list()
@@ -102,10 +85,28 @@ class Connection(EventsMixins):
 				messages.append(msg)
 		self.trigger('remove', messages)
 
-	def frame_maybe(self, world):
+
+	def on_step(self, world):
+		self.trigger('update', self.get_update())
 		self.trigger('frame', self.get_frame())
 
-	def get_frame(self, updated_only=True):
+	def get_update(self):
+		messages = list()
+		if(self.last_world_index != self.world.object_index.index):
+			for index in range(self.last_world_index, self.world.object_index.index):
+				index = index+1
+				try:
+					world_object = self.world.get_object_by_id(index)
+					if(hasattr(world_object, 'get_update_message')):
+						msg = world_object.get_update_message(recipient=self)
+						if(msg):
+							messages.append(msg)
+				except KeyError:
+					pass
+				self.last_world_index = index
+		return messages
+
+	def get_frame(self):
 		update = list()
 
 		for item in self.world.object_index.values():
@@ -128,7 +129,7 @@ def pack_messages(messages):
 	return buffer_
 
 
-def unpack_mesages(data):
+def unpack_mesages(data, message_types=message_types):
 	buffer_ = buffer(data)
 	messages = list()
 	message_cls = message_types[struct.unpack('B', buffer_[0])[0]]

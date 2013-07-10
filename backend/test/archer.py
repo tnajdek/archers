@@ -1,7 +1,7 @@
 import os
 from twisted.internet import task
 from archers.world import World, directions
-from archers.player import Player
+from archers.archer import Archer
 import settings
 from .base import BaseTestCase
 
@@ -13,10 +13,10 @@ class TestPlayer(BaseTestCase):
 		path = os.path.join(path, 'assets/test1.tmx')
 		self.world = World(path)
 		self.spawn_point = self.world.get_spawn_points()[0]
-		self.world_update_task = task.LoopingCall(self.world.step)
+		self.world_update_task = task.LoopingCall(self.world.processing_step)
 		self.world_update_task.clock = self.clock
-		self.world_update_task.start(settings.TIME_STEP)
-		self.player = Player(self.world, reactor=self.clock)
+		self.world_update_task.start(1.0/30)
+		self.player = Archer(self.world, reactor=self.clock)
 		self.player.spawn(self.spawn_point)
 
 	def tearDown(self):
@@ -70,17 +70,17 @@ class TestPlayer(BaseTestCase):
 		self.assertGreater(arrow.physics.position.y, player_position_plus_2m.y)
 
 	def test_arrow_collides(self):
-		self.player.want_attack(directions['east'])
+		self.player.want_attack(directions['south'])
 		self.advance_clock(40)
 		arrow = self.get_player_arrows(self.player)[0]
 		self.assertLess(arrow.physics.position.x, 6.0)
-		self.assertGreater(arrow.physics.position.x, self.player.physics.position.x)
+		self.assertGreater(arrow.physics.position.y, self.player.physics.position.y)
 
 	def test_player_kills_player(self):
 		attacker_spawn = self.world.get_object_by_name('spawn2')
 		defender_spawn = self.world.get_object_by_name('spawn3')
-		attacker = Player(self.world, name="attacker", reactor=self.clock)
-		defender = Player(self.world, name="defender", reactor=self.clock)
+		attacker = Archer(self.world, name="attacker", reactor=self.clock)
+		defender = Archer(self.world, name="defender", reactor=self.clock)
 		attacker.spawn(attacker_spawn)
 		defender.spawn(defender_spawn)
 

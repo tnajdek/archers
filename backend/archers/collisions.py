@@ -45,7 +45,7 @@ class Collisions(b2ContactListener):
 				if(archer.is_alive()):
 					arrow.owner.player.trigger('kill', archer.player)
 					archer.player.trigger('die', killer=arrow.owner.player)
-			elif(hasattr(archer, 'player')):
+			elif(hasattr(archer, 'player') and archer.player):
 				# killer a mob, player died
 				if(archer.is_alive()):
 					archer.player.trigger('die')

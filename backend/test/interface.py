@@ -3,10 +3,22 @@ from archers.world import World, directions, rotations
 from archers.archer import Archer
 from twisted.internet import task
 from .base import BaseTestCase
-from archers.interface import UpdateMessage, FrameMessage, Connection, pack_messages, unpack_mesages
+from archers.interface import Connection, pack_messages, unpack_mesages
+from archers.messages import Message, UpdateMessage, DirectionMessageMixin, message_types
 import struct
 import settings
 
+
+# create FakeMessage which we will use for testing
+class FakeMessage(Message, DirectionMessageMixin):
+	schema = {
+		'id': 255,
+		'format': ['x', 'y', 'direction'],
+		'byteformat': '!IfB'
+	}
+
+# and inject it so that it's recognized
+message_types[255] = FakeMessage
 
 class TestInterface(BaseTestCase):
 
@@ -16,75 +28,72 @@ class TestInterface(BaseTestCase):
 		path = os.path.join(path, 'assets/test1.tmx')
 		self.world = World(path)
 		self.spawn_point = self.world.get_object_by_name('spawn1')
-		self.world_update_task = task.LoopingCall(self.world.step)
+		
+		self.world_update_task = task.LoopingCall(self.world.processing_step)
 		self.world_update_task.clock = self.clock
-		self.world_update_task.start(settings.TIME_STEP)
+		self.world_update_task.start(1.0/30)
+
+		self.networking_task = task.LoopingCall(self.world.networking_step)
+		self.networking_task.clock = self.clock
+		self.networking_task.start(1.0/30)
+		
 		self.connection = Connection(self.world)
+		self.last_callback_data = None
 
 	def tearDown(self):
 		self.world_update_task.stop()
+		self.networking_task.stop()
 
-	def get_items_expected(self):
+	def get_items_expected(self, expected_attr):
 		# items_expected = self.world.object_lookup_by_name
 		items_expected = self.world.object_index
-		items_expected = {k: v for k, v in items_expected.items() if hasattr(v, 'physics')}
+		items_expected = {k: v for k, v in items_expected.items() if hasattr(v, expected_attr)}
 		return items_expected
 
-	# redundant, just reset the counter on_update?
-	# def test_generate_initial_update(self):
-	# 	items_expected = self.get_items_expected()
-	# 	update = self.connection.get_full_update()
-	# 	self.assertEqual(len(update), len(items_expected))
+	def callback(self, *args, **kwargs):
+		self.last_callback_data = list(*args)
 
-	# 	for message in update:
-	# 		self.assertIsInstance(message, UpdateMessage)
-	# 		matching_expected_item = items_expected.pop(message['id'])
-	# 		self.assertEqual(data['id'], item.id)
-	# 		self.assertEqual(data['center'], False)
+	def get_last_callback_arguments(self):
+		tmp = self.last_callback_data
+		self.last_callback_data = None
+		return tmp
 
 	def test_get_frame(self):
 		self.archer = Archer(self.world, reactor=self.clock)
 		self.archer.spawn(self.spawn_point)
-
-		frame = self.connection.get_frame()
-		items_expected = self.get_items_expected()
-
+		self.connection.on('frame', self.callback)
+		self.clock.advance(1)
+		frame = self.get_last_callback_arguments()
+		items_expected = self.get_items_expected('get_frame_message')
 		self.assertEqual(len(frame), len(items_expected))
 
 		for message in frame:
 			matching_expected_item = items_expected.pop(message['id'])
-			self.assertEqual(message['x'], int(settings.PPM*matching_expected_item.physics.position.x))
-			self.assertEqual(message['y'], int(settings.PPM*matching_expected_item.physics.position.y))
-			self.assertEqual(message['direction'], matching_expected_item.physics.angle)
+			self.assertEqual(message['x'], int(settings.PPM*matching_expected_item.get_position()['x']))
+			self.assertEqual(message['y'], int(settings.PPM*matching_expected_item.get_position()['y']))
+			self.assertEqual(message['direction'], matching_expected_item.get_direction())
 
 		self.assertEqual(len(items_expected), 0)
 
-		self.clock.advance(50)
-		frame = self.connection.get_frame()
-		#nothing has changed!
+			
+		self.clock.advance(1)
+		frame = self.get_last_callback_arguments()
+		# Nothing has changed!
 		self.assertEqual(len(frame), 0)
 		self.archer.want_move(directions['south'])
-		self.advance_clock(50)
-		frame = self.connection.get_frame()
+		self.advance_clock(1)
+		frame = self.get_last_callback_arguments()
 		self.assertEqual(len(frame), 1)
 		message = frame.pop()
-		self.assertEqual(message['x'], int(settings.PPM*self.archer.physics.position.x))
-		self.assertEqual(message['y'], int(settings.PPM*self.archer.physics.position.y))
-		self.assertEqual(message['direction'], self.archer.physics.angle)
+		self.assertEqual(message['x'], int(settings.PPM*self.archer.get_position()['x']))
+		self.assertEqual(message['y'], int(settings.PPM*self.archer.get_position()['y']))
+		self.assertEqual(message['direction'], self.archer.get_direction())
 
 	def test_get_update(self):
-		#oh dear python2, why u have no nonlocal?
-		out = {'result': None}
-
-		def callback(items, _context=None):
-			out['result'] = items
-
-		self.connection.on('update', callback)
-		frame = self.connection.get_frame()
+		self.connection.on('update', self.callback)
 		self.clock.advance(1)
-
-		items_expected = self.get_items_expected()
-		update = out['result']
+		items_expected = self.get_items_expected('get_update_message')
+		update = self.get_last_callback_arguments()
 		self.assertEqual(len(update), len(items_expected))
 		for message in update:
 			self.assertIsInstance(message, UpdateMessage)
@@ -95,78 +104,84 @@ class TestInterface(BaseTestCase):
 		self.assertEqual(len(items_expected), 0)
 
 		self.clock.advance(1)
-		update = out['result']
-		self.assertEqual(len(update), 0)
+		update = self.get_last_callback_arguments()
+
+
+		self.assertIsNone(update)
 		self.archer = Archer(self.world, reactor=self.clock)
 		self.archer.spawn(self.spawn_point)
 		self.clock.advance(1)
-		update = out['result']
+		update = self.get_last_callback_arguments()
 		self.assertEqual(len(update), 1)
 
-	def get_fake_msg(self, id=1, x=1, y=2, direction=rotations['south'], state=10):
-		msg = FrameMessage()
-		msg['id'] = id
+	def get_fake_msg(self, x=1, y=3.33, direction=directions['south']):
+		msg = FakeMessage()
 		msg['x'] = x
 		msg['y'] = y
 		msg['direction'] = direction
-		msg['state'] = state
 		return msg
 
 	def test_packing(self):
 		msg = self.get_fake_msg()
 		packed = msg.pack()
 		self.assertEqual(packed[0:4], struct.pack('!I', 1))
-		self.assertEqual(packed[4:8], struct.pack('!I', 1))
-		self.assertEqual(packed[8:12], struct.pack('!I', 2))
-		self.assertEqual(packed[12:13], struct.pack('!B', 2))
-		self.assertEqual(packed[13:14], struct.pack('!B', 10))
+		self.assertEqual(packed[4:8], struct.pack('!f', 3.33))
+		self.assertEqual(packed[8:9], struct.pack('!B', DirectionMessageMixin.direction_lookup[directions['south']]))
 
 
 	def test_dehydration(self):
-		dehydrated_item = [1, 1, 2, 2, 10]
-		msg = FrameMessage.from_dehydrated(dehydrated_item)
-		self.assertEqual(msg['id'], 1)
-		self.assertEqual(msg['x'], 1)
-		self.assertEqual(msg['y'], 2)
-		self.assertEqual(msg['direction'], rotations['south'])
-		self.assertEqual(msg['state'], 10)
+		x = 12
+		y = 4.44
+		dir = DirectionMessageMixin.direction_lookup[directions['west']]
+		dehydrated_item = [x, y, dir]
+		msg = FakeMessage.from_dehydrated(dehydrated_item)
+
+		self.assertEqual(msg['x'], x)
+		self.assertEqual(msg['y'], y)
+		self.assertEqual(msg['direction'], directions['west'])
 
 	def test_unpacking(self):
-		packed = '\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x02\x02\n'
-		msg = FrameMessage.from_packed(packed)
-		msg = msg
-		self.assertEqual(msg['id'], 1)
-		self.assertEqual(msg['x'], 1)
-		self.assertEqual(msg['y'], 2)
-		self.assertEqual(msg['direction'], rotations['south'])
-		self.assertEqual(msg['state'], 10)
+		# packed = '\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x02\x02\n'
+		x = 12
+		y = 7.77
+		dir = DirectionMessageMixin.direction_lookup[directions['west']]
+
+		packed = struct.pack("!I", x) + struct.pack("!f", y) + struct.pack("!B", dir) + "\n"
+		msg = FakeMessage.from_packed(packed)
+		self.assertEqual(msg['x'], x)
+		self.assertAlmostEqual(msg['y'], y, places=4)
+		self.assertEqual(msg['direction'], directions['west'])
 
 	def test_message_packing(self):
 		msg = self.get_fake_msg()
-		msg2 = self.get_fake_msg(id=2, x=5, y=10)
+		msg2 = self.get_fake_msg(x=5, direction=directions['east'])
 		result = pack_messages([msg, msg2])
 		expected_byte_length = 1 + 2 * msg.get_byte_length()
 		self.assertEqual(len(result), expected_byte_length)
 
 	def test_message_unpacking(self):
-		packed_msgs = '\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x02\x02\n\x00\x00\x00\x02\x00\x00\x00\x05\x00\x00\x00\n\x02\n'
-		messages = unpack_mesages(packed_msgs)
-		self.assertEqual(len(messages), 2)
-		self.assertEqual(messages[0]['id'], 1)
-		self.assertEqual(messages[0]['x'], 1)
-		self.assertEqual(messages[1]['id'], 2)
-		self.assertEqual(messages[1]['x'], 5)
+		x1 = 12
+		y1 = 4.44
+		dir1 = DirectionMessageMixin.direction_lookup[directions['west']]
+		packed = struct.pack("!I", x1) + struct.pack("!f", y1) + struct.pack("!B", dir1)
+		x2 = 42
+		y2 = 9.987654
+		dir2 = DirectionMessageMixin.direction_lookup[directions['north']]
+		packed = packed + struct.pack("!I", x2) + struct.pack("!f", y2) + struct.pack("!B", dir2) + "\n"
 
-	def test_update_message_packing(self):
-		msg = UpdateMessage()
-		msg['id'] = 12
-		msg['entity_type'] = 'Collidable'
-		msg['width'] = 300
-		msg['height'] = 42
-		msg['x'] = 5
-		msg['y'] = 10
-		msg['direction'] = rotations['west']
-		msg['state'] = 1
+		packed = struct.pack("!B", 255) + packed
+
+		messages = unpack_mesages(packed, message_types=message_types)
+		self.assertEqual(len(messages), 2)
+		self.assertEqual(messages[0]['x'], x1)
+		self.assertAlmostEqual(messages[0]['y'], y1, places=4)
+		self.assertEqual(messages[0]['direction'], directions['west'])
+		self.assertEqual(messages[1]['x'], x2)
+		self.assertAlmostEqual(messages[1]['y'], y2, places=4)
+		self.assertEqual(messages[1]['direction'], directions['north'])
+
+	def test_eating_own_dog_food(self):
+		msg = self.get_fake_msg(y=1.0) 
 		packed = msg.pack()
-		unpacked = UpdateMessage.from_packed(packed)
+		unpacked = FakeMessage.from_packed(packed)
 		self.assertEqual(msg, unpacked)
