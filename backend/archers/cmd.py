@@ -4,11 +4,13 @@ import simplejson
 from pprint import pformat
 import sys
 from guppy import hpy
+import gc
+
 
 class TablePrinter(object):
 	"Print a list of dicts as a table"
 	def __init__(self, fmt, sep='\t', ul="="):
-		"""        
+		"""
 		@param fmt: list of tuple(heading, key, width)
 						heading: str, column label
 						key: dictionary key to value to print
@@ -60,6 +62,21 @@ class CmdInterface(basic.LineReceiver):
 	def connectionMade(self):
 		self.prompt()
 
+	def c(self, *args):
+		return self.connections(*args)
+
+	def connections(self, *args):
+		gc.collect()
+		from archers.interface import Connection
+		connections = dict()
+		for obj in gc.get_objects():
+			if isinstance(obj, Connection):
+				connections[obj] = gc.get_referrers(obj)
+
+		self.out("Game currently has %i connections held open:" % len(connections))
+		for conn in connections:
+			self.out("%s with %i referrers" % (conn.session_id, len(connections[conn])))
+
 	def mem(self, *args):
 		return self.memory()
 
@@ -80,7 +97,18 @@ class CmdInterface(basic.LineReceiver):
 				self.out("Invalid entitiy id: %s" % args[0])
 			return None
 
-		if(what == 'list'):
+		if(what == 'show'):
+			e = get_entity(args)
+			if(e):
+				self.out(e)
+		elif(what == 'kill'):
+			e = get_entity(args)
+			if(e):
+				self.world.kill(e)
+				self.out("Done")
+		elif(what == 'help'):
+			self.out("Valid options: list, kill, show")
+		else:
 			ents = list()
 			fmt = [('id', 'id', 5), ('class', 'class', 20), ('type', 'type', 20), ('player', 'player', 20)]
 			self.out("World currently holds %i entities:" % len(self.world.object_index))
@@ -95,32 +123,21 @@ class CmdInterface(basic.LineReceiver):
 					ent['player'] = e.player.meta['username']
 				ents.append(ent)
 			self.out(TablePrinter(fmt)(ents))
-		elif(what == 'show'):
-			e = get_entity(args)
-			if(e):
-				self.out(e)
-		elif(what == 'kill'):
-			e = get_entity(args)
-			if(e):
-				self.world.kill(e)
-				self.out("Done")
-		else:
-			self.out("Unknown subcommand for 'entities' command. Valid options: list, kill, show")
 
 	def help(self, *args):
 		self.out("Options are: entities [list|show|kill], memory")
 
 	def lineReceived(self, line):
 		arguments = line.split()
-		try:
-			command = arguments.pop(0)
-			if(hasattr(self, command) and callable(getattr(self, command))):
-				getattr(self, command)(*arguments)
-			else:
-				self.out("Command not found: %s" % command)
-		except IndexError:
-			self.out("")
-		except TypeError:
-			self.out("Invalid arguments for command %s" % command)
-		except Exception:
-			self.out("Unable to process command %s" % line)
+		# try:
+		command = arguments.pop(0)
+		if(hasattr(self, command) and callable(getattr(self, command))):
+			getattr(self, command)(*arguments)
+		else:
+			self.out("Command not found: %s" % command)
+		# except IndexError:
+		# 	self.out("")
+		# except TypeError:
+		# 	self.out("Invalid arguments for command %s" % command)
+		# except Exception:
+		# 	self.out("Unable to process command %s" % line)

@@ -15,7 +15,8 @@ define(['jquery', 'lodash', 'vent'], function($, lodash, vent) {
 				players = _.map(this.metacollector, function(meta, id) {
 				return meta;
 			}),
-				players = _.sortBy(players, "score");
+				players = _.sortBy(players, "score").reverse();
+
 
 			ldTable.append(headrow);
 			_.each(players, function(player, index) {
