@@ -41,3 +41,4 @@ node_modules
 frontend/components
 frontend/public/js
 frontend/public/index.html
+backend/profile/data
