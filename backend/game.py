@@ -46,7 +46,7 @@ class UserCommunication(WebSocketServerProtocol):
 		self.factory.register(self)
 
 		#force initial full update
-		self.interface.on_update(self.factory.world)
+		self.interface.trigger('step')
 		#then send all meta, probably should live somewhere else
 		for conn in self.factory.clients:
 			msg = simplejson.dumps(conn.interface.meta, separators=(',', ':'))
@@ -62,6 +62,7 @@ class UserCommunication(WebSocketServerProtocol):
 		except Exception:
 			#could be the browser never estabilished connection right. ignore
 			pass
+		del self.interface
 
 	def send_messages(self, messages):
 		if(len(messages)):

@@ -46,7 +46,7 @@ class ProfileInterface(BaseTestCase):
 		self.pr.enable()
 		for i in range(100):
 			self.connection.get_frame()
-		self.pr.disable()
+ 		self.pr.disable()
 		print self.process_stats('test_get_frame.txt')
 
 	def test_building_frames(self):
