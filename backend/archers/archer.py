@@ -51,6 +51,8 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 
 	def destroy(self):
 		self.cancel_pending()
+		if(hasattr(self, 'player')):
+			self.player = None
 		if(hasattr(self, 'physics')):
 			self.world.physics.DestroyBody(self.physics)
 		super(Archer, self).destroy()
