@@ -79,6 +79,7 @@ class CmdInterface(basic.LineReceiver):
 			self.out("%s with %i referrers" % (conn.session_id, len(referrers)))
 			for referrer in referrers:
 				self.out("\t\t %s" % referrer.__class__.__name__)
+				# self.out(str(referrer))
 
 	def mem(self, *args):
 		return self.memory()

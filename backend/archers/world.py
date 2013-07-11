@@ -189,6 +189,8 @@ class WorldObject(Base):
 		self.world.object_lookup_by_name.pop(self.name)
 		self.world.object_lookup_by_type[self.type].remove(self)
 		del self.world.object_index[:self]
+		if(hasattr(self, 'world')):
+			self.world = None
 
 	def get_dimensions(self):
 		dimensions = dict()
