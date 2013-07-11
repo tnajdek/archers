@@ -75,7 +75,10 @@ class CmdInterface(basic.LineReceiver):
 
 		self.out("Game currently has %i connections held open:" % len(connections))
 		for conn in connections:
-			self.out("%s with %i referrers" % (conn.session_id, len(connections[conn])))
+			referrers = connections[conn]
+			self.out("%s with %i referrers" % (conn.session_id, len(referrers)))
+			for referrer in referrers:
+				self.out("\t\t %s" % referrer.__class__.__name__)
 
 	def mem(self, *args):
 		return self.memory()

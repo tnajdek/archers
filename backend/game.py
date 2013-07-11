@@ -57,7 +57,8 @@ class UserCommunication(WebSocketServerProtocol):
 		self.factory.unregister(self)
 
 	def onClose(self, wasClean, code, reason):
-		self.interface.trigger('disconnect')
+		if(hasattr(self, 'interface')):
+			self.interface.trigger('disconnect')
 
 	def send_messages(self, messages):
 		if(len(messages)):
