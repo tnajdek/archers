@@ -34,7 +34,7 @@ define(['pc'], function(pc) {
 			return true;
 		},
 
-		changeState:function (sprite, newState, newDirection, force) {
+		changeState:function (sprite, physics, newState, newDirection, force) {
 			var statedir;
 			if (this.state === newState && this.direction === newDirection && !force) {
 				return false;
@@ -43,6 +43,25 @@ define(['pc'], function(pc) {
 			this.state = newState;
 			this.direction = newDirection;
 			statedir = this.getStatedir();
+
+			if(physics && newState == 'walking' && newDirection) {
+				// why force of 3 is equal of force of 6 on the srv?
+				physics.setLinearVelocity(0,0);
+				if(newDirection == 'E') {
+					physics.applyImpulse(3, 0);
+				}
+				else if(newDirection == 'W') {
+					physics.applyImpulse(3, 180);
+				}
+				else if(newDirection == 'S') {
+					physics.applyImpulse(3, 90);
+				}
+				else if(newDirection == 'N') {
+					physics.applyImpulse(3, 270);
+				}
+			} else if(physics && newState != 'walking') {
+				physics.setLinearVelocity(0,0);
+			}
 
 			if(sprite.sprite.spriteSheet.animations.containsKey(statedir)) {
 				sprite.sprite.setAnimation(statedir);

@@ -154,6 +154,7 @@ class WorldObject(Base):
 		kwargs['box'] = kwargs.get('box', (0.5*w, 0.5*h))
 		kwargs['density'] = kwargs.get('density', 1)
 		kwargs['friction'] = kwargs.get('friction', 0.3)
+		kwargs['density'] = kwargs.get('mass', 1)
 		# kwargs['categoryBits'] = type(self).collision_category
 		# kwargs['maskBits'] = type(self).collision_mask
 		# kwargs['groupIndex'] = 1

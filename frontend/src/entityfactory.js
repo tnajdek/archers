@@ -44,6 +44,25 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skelet
 			});
 		},
 
+		getPhysics: function() {
+			var	properties = {
+					shapes: [{
+						"type":0,
+						"offset": {
+								"y":16,
+								"x":16,
+								"w":-16
+							}
+						}]
+					// maxSpeed:{x:24, y:24},
+					// friction:0,
+					// fixedRotation:true,
+					// bounce:0,
+					// mass:1.8
+			};			
+			return pc.components.Physics.create(properties);
+		},
+
 		makeCollidable: function(layer, x, y, dir, shape, props) {
 			var spatial = this.getSpatial(x, y, shape.x, shape.y),
 				entity = pc.Entity.create(layer);
@@ -57,12 +76,14 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skelet
 				state = stateComponent.create(props.state, dir),
 				meta = metaComponent.create(),
 				sprite = this.getSprite(archerSpritedef, state.getStatedir()),
-				entity = pc.Entity.create(layer);
+				entity = pc.Entity.create(layer),
+				physics = this.getPhysics();
 
 			entity.addComponent(state);
 			entity.addComponent(meta);
 			entity.addComponent(spatial);
 			entity.addComponent(sprite);
+			entity.addComponent(physics);
 
 			if(props.player) {
 				entity.addTag('PLAYER');

@@ -11,10 +11,10 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 
 			this.factory = new EntityFactory();
 			this.playercontrol = new PlayerControlSystem();
-			// this.physics = new pc.systems.Physics({
-			// 	gravity:{ x:0, y:0 },
-			// 	debug: false
-			// });
+			this.physics = new pc.systems.Physics({
+				gravity:{ x:0, y:0 },
+				debug: false
+			});
 
 			this.loadFromTMX(pc.device.loader.get('map').resource, this.factory);
 			this.layer = this.get('500main');
@@ -33,6 +33,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 
 			// this.layer.addSystem(this.physics);
 			this.layer.addSystem(new pc.systems.Render());
+			this.layer.addSystem(this.physics);
 			this.layer.addSystem(this.playercontrol);
 			this.layer.addSystem(new MetaSystem());
 
@@ -68,8 +69,12 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 					spatial = entity.getComponent('spatial'),
 					state = entity.getComponent('state'),
 					sprite = entity.getComponent('sprite'),
+					physics = entity.getComponent('physics'),
 					badStates = ['dead', 'unknown'];
 
+				if(physics) {
+					
+				}
 				if(spatial) {
 					spatial.getPos().x = msg.x-0.5*spatial.getDim().x;
 					spatial.getPos().y = msg.y-0.5*spatial.getDim().y;
@@ -91,7 +96,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 						lobbyManager.hide();
 						that.player.addComponent(that.factory.getInput());
 					}
-					state.changeState(sprite, msg.state, msg.direction);
+					state.changeState(sprite, physics, msg.state, msg.direction);
 				}
 			});
 
