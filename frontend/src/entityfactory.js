@@ -1,5 +1,5 @@
-define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skeleton', 'components/state', 'components/meta'],
-	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, stateComponent, metaComponent) {
+define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skeleton', 'components/state', 'components/meta', 'components/network'],
+	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, stateComponent, metaComponent, networkComponent) {
 	var EntityFactory = pc.EntityFactory.extend('pc.archers.EntityFactory', {}, {
 
 		// animationState to be automated based on state and dir
@@ -53,7 +53,10 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skelet
 								"x":16,
 								"w":-16
 							}
-						}]
+						}],
+						density: 1,
+						friction: 0.3,
+						mass: 1
 					// maxSpeed:{x:24, y:24},
 					// friction:0,
 					// fixedRotation:true,
@@ -77,13 +80,15 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skelet
 				meta = metaComponent.create(),
 				sprite = this.getSprite(archerSpritedef, state.getStatedir()),
 				entity = pc.Entity.create(layer),
-				physics = this.getPhysics();
+				physics = this.getPhysics(),
+				network = networkComponent.create();
 
 			entity.addComponent(state);
 			entity.addComponent(meta);
 			entity.addComponent(spatial);
 			entity.addComponent(sprite);
 			entity.addComponent(physics);
+			entity.addComponent(network);
 
 			if(props.player) {
 				entity.addTag('PLAYER');
@@ -97,12 +102,17 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skelet
 				state = stateComponent.create(props.state, dir),
 				meta = metaComponent.create(),
 				sprite = this.getSprite(skeletonSpritedef, state.getStatedir()),
-				entity = pc.Entity.create(layer);
+				entity = pc.Entity.create(layer),
+				physics = this.getPhysics(),
+				network = networkComponent.create();
+
 
 			entity.addComponent(state);
 			entity.addComponent(meta);
 			entity.addComponent(spatial);
 			entity.addComponent(sprite);
+			entity.addComponent(physics);
+			entity.addComponent(network);
 
 			return entity;
 		},
@@ -111,10 +121,12 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skelet
 			var spatial = this.getSpatial(x, y, 32, 32),
 				state = stateComponent.create(props.state, dir),
 				sprite = this.getSprite(arrowSpritedef, state.getStatedir()),
-				entity = pc.Entity.create(layer);
+				entity = pc.Entity.create(layer),
+				network = networkComponent.create();
 
 			entity.addComponent(spatial);
 			entity.addComponent(sprite);
+			entity.addComponent(network);
 
 			return entity;
 		},

@@ -1,5 +1,5 @@
-define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'systems/meta', 'lobbymanager'],
-	function(_, pc, vent, EntityFactory, PlayerControlSystem, MetaSystem, lobbyManager) {
+define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'systems/meta', 'systems/network', 'lobbymanager'],
+	function(_, pc, vent, EntityFactory, PlayerControlSystem, MetaSystem, NetworkSystem, lobbyManager) {
 	var GameScene = pc.Scene.extend('pc.archers.GameScene', {}, {
 		entities: {},
 		cameraOperationLag:0,
@@ -31,11 +31,12 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 				layerNode = layerNode.next();
 			}
 
-			// this.layer.addSystem(this.physics);
+			// order is important
 			this.layer.addSystem(new pc.systems.Render());
+			this.layer.addSystem(new MetaSystem());
+			this.layer.addSystem(new NetworkSystem());
 			this.layer.addSystem(this.physics);
 			this.layer.addSystem(this.playercontrol);
-			this.layer.addSystem(new MetaSystem());
 
 
 			vent.on('update', function(msg) {
@@ -66,18 +67,17 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 					return;
 				}
 				var entity = that.entities[msg.id],
-					spatial = entity.getComponent('spatial'),
+					// spatial = entity.getComponent('spatial'),
 					state = entity.getComponent('state'),
 					sprite = entity.getComponent('sprite'),
+					network = entity.getComponent('network'),
 					physics = entity.getComponent('physics'),
+
 					badStates = ['dead', 'unknown'];
 
-				if(physics) {
+				if(network) {
+					network.update(msg)
 					
-				}
-				if(spatial) {
-					spatial.getPos().x = msg.x-0.5*spatial.getDim().x;
-					spatial.getPos().y = msg.y-0.5*spatial.getDim().y;
 					// debugger;
 					// spatial.getCenterPos().x = msg.x;
 					// spatial.getCenterPos().y = msg.y;
