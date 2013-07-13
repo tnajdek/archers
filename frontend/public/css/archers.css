@@ -1,4 +1,4 @@
-@font-face {
+/*@font-face {
 	font-family: 'bloodynormal';
 	src: url('/fonts/bloody/BLOODY-webfont.eot');
 	src: url('/fonts/bloody/BLOODY-webfont.eot?#iefix') format('embedded-opentype'),
@@ -8,6 +8,20 @@
 	font-weight: normal;
 	font-style: normal;
 }
+*/
+
+@font-face {
+	font-family: 'ArchitectsDaughter';
+	src: url('/fonts/architects-daughter/ArchitectsDaughter.eot');
+	src: url('/fonts/architects-daughter/ArchitectsDaughter.eot?#iefix') format('embedded-opentype'),
+		 url('/fonts/architects-daughter/ArchitectsDaughter.woff') format('woff'),
+		 url('/fonts/architects-daughter/ArchitectsDaughter.ttf') format('truetype'),
+		 url('/fonts/architects-daughter/ArchitectsDaughter.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
 
 @font-face {
 	font-family: 'ponderosa';
@@ -36,6 +50,7 @@ body.game {
 	font-family: ponderosa, monospace;
 	font-size: 14px;
 	overflow: hidden;
+	background-color: #000;
 }
 
 body.page {
@@ -46,6 +61,7 @@ body.page {
 	font-family: ContaxSans55Regular, sans-serif;
 	font-size: 14px;
 	text-align: center;
+
 }
 
 .center {
@@ -132,7 +148,15 @@ button {
 	position: fixed;
 	top:0;
 	z-index: 5;
+}
 
+#init {
+	position:absolute;
+	color: #fff;
+	left:50%;
+	width:400px;
+	margin-left:-200px;
+	top: 10%;
 }
 
 
@@ -150,3 +174,4 @@ button {
 .leaderboard table {
 	width:100%;
 }
+

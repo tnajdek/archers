@@ -1,5 +1,5 @@
-define(['pc', 'networking', 'scenes/game', 'lobbymanager'],
-	function(pc, Networking, GameScene, lobbyManager) {
+define(['jquery', 'pc', 'networking', 'scenes/game', 'lobbymanager'],
+	function($, pc, Networking, GameScene, lobbyManager) {
 	var Archers = pc.Game.extend('Archers', {
 	// statics
 	}, {
@@ -35,20 +35,20 @@ define(['pc', 'networking', 'scenes/game', 'lobbymanager'],
 			pc.device.loader.start(this.onLoading.bind(this), this.onLoaded.bind(this));
 		},
 
-		onLoading:function (percentageComplete)
-		{
+		onLoading:function (percentageComplete) {
 			var ctx = pc.device.ctx;
+			$('#init').hide();
 			ctx.clearRect(0,0,pc.device.canvasWidth, pc.device.canvasHeight);
-			ctx.font = "normal 50px Times";
-			ctx.fillStyle = "#bbb";
+			ctx.font = "normal 50px ArchitectsDaughter";
+			// ctx.fillStyle = "#8A0707";
+			ctx.fillStyle = "#006b6d";
 			ctx.fillText('Archers!', 40, (pc.device.canvasHeight / 2)-50);
-			ctx.font = "normal 14px Verdana";
-			ctx.fillStyle = "#777";
-			ctx.fillText('Loading:  ' + percentageComplete + '%', 40, pc.device.canvasHeight/2);
+			ctx.font = "normal 14px ponderosa";
+			ctx.fillStyle = "#fefefe";
+			ctx.fillText('Loading Game Assets:  ' + percentageComplete + '%', 40, pc.device.canvasHeight/2);
 		},
 
-		onLoaded:function ()
-		{
+		onLoaded:function () {
 			// create the game scene (notice we do it here AFTER the resources are loaded)
 			this.gameScene = new GameScene();
 			this.addScene(this.gameScene);
