@@ -20,7 +20,7 @@ define(['pc'], function(pc) {
 		},
 
 		config: function() {
-			self.username = "";
+			this.username = "";
 		}
 
 	});

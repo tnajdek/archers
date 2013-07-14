@@ -1,5 +1,5 @@
-define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'systems/meta', 'systems/network', 'lobbymanager'],
-	function(_, pc, vent, EntityFactory, PlayerControlSystem, MetaSystem, NetworkSystem, lobbyManager) {
+define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/render', 'systems/playercontrol', 'systems/network', 'lobbymanager'],
+	function(_, pc, vent, EntityFactory, RenderSystem, PlayerControlSystem, NetworkSystem, lobbyManager) {
 	var GameScene = pc.Scene.extend('pc.archers.GameScene', {}, {
 		entities: {},
 		cameraOperationLag:0,
@@ -26,9 +26,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 				layerNode = layerNode.next();
 			}
 
-			// order is important
-			this.layer.addSystem(new pc.systems.Render());
-			this.layer.addSystem(new MetaSystem());
+			this.layer.addSystem(new RenderSystem());
 			this.layer.addSystem(new NetworkSystem());
 			this.layer.addSystem(this.playercontrol);
 
@@ -77,7 +75,6 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 					// spatial.getCenterPos().x = msg.x;
 					// spatial.getCenterPos().y = msg.y;
 				}
-
 
 				if(state && sprite) {
 					if(entity.hasTag('PLAYER') && !_.contains(badStates, state.state) && _.contains(badStates, msg.state)) {

@@ -122,6 +122,10 @@ button {
 	font-weight: bold;
 }
 
+input[disabled="disabled"] {
+	background-color: #bebebe;	
+}
+
 
 .game-container {
 	position: absolute;

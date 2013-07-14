@@ -104,11 +104,13 @@ define(['jquery', 'lodash', 'vent'], function($, lodash, vent) {
 			vent.on('player-has-spawned', function() {
 				that.hide();
 				$('.spawn').text('Suicide');
+				$('.username').attr('disabled', true);
 			});
 
 			vent.on('player-has-died', function() {
 				that.show();
 				$('.spawn').text('Play!');
+				$('.username').attr('disabled', false);
 			});
 		}
 	};
