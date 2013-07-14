@@ -114,7 +114,7 @@ class CmdInterface(basic.LineReceiver):
 			self.out("Valid options: list, kill, show")
 		else:
 			ents = list()
-			fmt = [('id', 'id', 5), ('class', 'class', 20), ('type', 'type', 20), ('player', 'player', 20)]
+			fmt = [('id', 'id', 5), ('class', 'class', 20), ('type', 'type', 20), ('player', 'player', 20), ('grpindex', 'grpindex', 5)]
 			self.out("World currently holds %i entities:" % len(self.world.object_index))
 			for eid in self.world.object_index:
 				e = self.world.object_index[eid]
@@ -123,8 +123,11 @@ class CmdInterface(basic.LineReceiver):
 				ent['class'] = e.__class__.__name__
 				ent['type'] = e.type or "not set"
 				ent['player'] = ''
+				ent['grpindex'] = ''
 				if(hasattr(e, 'player') and e.player):
 					ent['player'] = e.player.meta['username']
+				if(hasattr(e, 'group_index')):
+					ent['grpindex'] = e.group_index
 				ents.append(ent)
 			self.out(TablePrinter(fmt)(ents))
 

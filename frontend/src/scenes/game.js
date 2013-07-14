@@ -11,11 +11,6 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 
 			this.factory = new EntityFactory();
 			this.playercontrol = new PlayerControlSystem();
-			this.physics = new pc.systems.Physics({
-				gravity:{ x:0, y:0 },
-				debug: false
-			});
-
 			this.loadFromTMX(pc.device.loader.get('map').resource, this.factory);
 			this.layer = this.get('500main');
 
@@ -35,7 +30,6 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 			this.layer.addSystem(new pc.systems.Render());
 			this.layer.addSystem(new MetaSystem());
 			this.layer.addSystem(new NetworkSystem());
-			this.layer.addSystem(this.physics);
 			this.layer.addSystem(this.playercontrol);
 
 
@@ -71,17 +65,13 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 					state = entity.getComponent('state'),
 					sprite = entity.getComponent('sprite'),
 					network = entity.getComponent('network'),
-					physics = entity.getComponent('physics'),
-
 					badStates = ['dead', 'unknown'];
 
 				if(network) {
 					network.update(msg)
-					
 					// debugger;
 					// spatial.getCenterPos().x = msg.x;
 					// spatial.getCenterPos().y = msg.y;
-
 				}
 
 
@@ -96,7 +86,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 						lobbyManager.hide();
 						that.player.addComponent(that.factory.getInput());
 					}
-					state.changeState(sprite, physics, msg.state, msg.direction);
+					state.changeState(sprite, msg.state, msg.direction);
 				}
 			});
 
@@ -105,7 +95,9 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 					return;
 				}
 				var entity = that.entities[msg.id];
-				entity.remove();
+				if(entity) {
+					entity.remove();
+				}
 			});	
 
 			vent.on('meta', function(msg) {

@@ -25,8 +25,8 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skelet
 
 		getSpatial: function(x, y, width, height) {
 			return pc.components.Spatial.create({
-				x:x,
-				y:y,
+				x:x-0.5*width,
+				y:y-0.5*height,
 				w:width,
 				h:height
 			});
@@ -44,28 +44,6 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skelet
 			});
 		},
 
-		getPhysics: function() {
-			var	properties = {
-					shapes: [{
-						"type":0,
-						"offset": {
-								"y":16,
-								"x":16,
-								"w":-16
-							}
-						}],
-						density: 1,
-						friction: 0.3,
-						mass: 1
-					// maxSpeed:{x:24, y:24},
-					// friction:0,
-					// fixedRotation:true,
-					// bounce:0,
-					// mass:1.8
-			};			
-			return pc.components.Physics.create(properties);
-		},
-
 		makeCollidable: function(layer, x, y, dir, shape, props) {
 			var spatial = this.getSpatial(x, y, shape.x, shape.y),
 				entity = pc.Entity.create(layer);
@@ -80,14 +58,12 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skelet
 				meta = metaComponent.create(),
 				sprite = this.getSprite(archerSpritedef, state.getStatedir()),
 				entity = pc.Entity.create(layer),
-				physics = this.getPhysics(),
 				network = networkComponent.create();
 
 			entity.addComponent(state);
 			entity.addComponent(meta);
 			entity.addComponent(spatial);
 			entity.addComponent(sprite);
-			entity.addComponent(physics);
 			entity.addComponent(network);
 
 			if(props.player) {
@@ -103,7 +79,6 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skelet
 				meta = metaComponent.create(),
 				sprite = this.getSprite(skeletonSpritedef, state.getStatedir()),
 				entity = pc.Entity.create(layer),
-				physics = this.getPhysics(),
 				network = networkComponent.create();
 
 
@@ -111,7 +86,6 @@ define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skelet
 			entity.addComponent(meta);
 			entity.addComponent(spatial);
 			entity.addComponent(sprite);
-			entity.addComponent(physics);
 			entity.addComponent(network);
 
 			return entity;

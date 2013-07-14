@@ -7,6 +7,8 @@ define(['pc'], function(pc) {
 		}
 	}, {
 		frameStack: [],
+		lastFrameApplied: null,
+		lastFrameAppliedTime: 0,
 
 		init: function () {
 			this._super(this.Class.shortName);
@@ -14,12 +16,17 @@ define(['pc'], function(pc) {
 		},
 
 		update: function(frame) {
-			this.frameStack.push(frame)
+			this.frameStack.push(frame);
 			// spatial.getPos().x = msg.x-0.5*spatial.getDim().x;
 			// spatial.getPos().y = msg.y-0.5*spatial.getDim().y;
 		},
 
-		config: function() {}
+		config: function() {
+			this.lastFrameApplied = null;
+			this.lastFrameAppliedTime = 0;
+			this.frameStack = [];
+
+		}
 
 	});
 });

@@ -19,7 +19,9 @@ define(['pc'], function(pc) {
 			}
 		},
 
-		config: function() {}
+		config: function() {
+			self.username = "";
+		}
 
 	});
 });
