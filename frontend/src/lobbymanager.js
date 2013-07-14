@@ -15,8 +15,8 @@ define(['jquery', 'lodash', 'vent'], function($, lodash, vent) {
 				ldTable = $('<table/>'),
 				headrow = "<tr><td>Pos</td><td>Player</td><td>Kills</td><td>Deaths</td><td>Score</td></tr>",
 				players = _.map(this.metacollector, function(meta, id) {
-				return meta;
-			}),
+					return meta;
+				}),
 				players = _.sortBy(players, "score").reverse();
 
 
