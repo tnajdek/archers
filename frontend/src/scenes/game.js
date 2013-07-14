@@ -54,6 +54,10 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 					shape,
 					properties
 				);
+
+				// if(that.entities[msg.id].hasTag('PLAYER')) {
+				// 	lobbymanager.player = that.entities[msg.id];
+				// }
 			});
 
 			vent.on('frame', function(msg) {
@@ -77,13 +81,13 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/playercontrol', 'syste
 
 				if(state && sprite) {
 					if(entity.hasTag('PLAYER') && !_.contains(badStates, state.state) && _.contains(badStates, msg.state)) {
-						lobbyManager.show();
+						vent.trigger('player-has-died');
 						that.player.getComponent('input')._bound = false;
 						that.player.removeComponentByType('input');
 					}
 
 					if(entity.hasTag('PLAYER') && _.contains(badStates, state.state) && !_.contains(badStates, msg.state)) {
-						lobbyManager.hide();
+						vent.trigger('player-has-spawned');
 						that.player.addComponent(that.factory.getInput());
 					}
 					state.changeState(sprite, msg.state, msg.direction);

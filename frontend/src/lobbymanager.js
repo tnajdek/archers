@@ -2,10 +2,12 @@ define(['jquery', 'lodash', 'vent'], function($, lodash, vent) {
 	var Lobby = function() {
 		this.show = function() {
 			this.$lobby.show();
+			this.$button.hide();
 		};
 
 		this.hide = function() {
 			this.$lobby.hide();
+			this.$button.show();
 		};
 
 		this.updatedLeaderBoard = function() {
@@ -40,13 +42,23 @@ define(['jquery', 'lodash', 'vent'], function($, lodash, vent) {
 			var that = this;
 			this.metacollector = {};
 			this.leaderboardEntryTpl = _.template("<tr><td><%- position %></td><td><%- username %></td><td><%- kills %></td><td><%- deaths %></td><td><%- score %></td></tr>");
-			
+
 			if(!$('.username').val().length) {
 				$('.username').val(this.getRandomName());
 			}
 
 			this.$lobby = $('.lobby');
+			this.$button = $('.show-rankings');
 			this.$leaderboard = this.$lobby.find('.leaderboard');
+
+			this.$button.on('click', function(e) {
+				that.show();
+			});
+
+			this.$lobby.find('.close').on('click', function(e) {
+				that.hide();
+			});
+
 
 			this.$lobby.on('change', '.username', function(e) {
 				vent.trigger('username', $(this).val());
@@ -88,9 +100,16 @@ define(['jquery', 'lodash', 'vent'], function($, lodash, vent) {
 					that.updatedLeaderBoard();
 				}
 			});
-			
 
+			vent.on('player-has-spawned', function() {
+				that.hide();
+				$('.spawn').text('Suicide');
+			});
 
+			vent.on('player-has-died', function() {
+				that.show();
+				$('.spawn').text('Play!');
+			});
 		}
 	};
 

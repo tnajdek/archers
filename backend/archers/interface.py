@@ -72,7 +72,10 @@ class Connection(EventsMixins):
 		spawn_points = self.world.get_spawn_points()
 		shuffle(spawn_points)
 		if(message['action'] == 'spawn'):
-			self.archer.spawn(spawn_points[0])
+			if(not self.archer.is_alive()):
+				self.archer.spawn(spawn_points[0])
+			else:
+				self.archer.kill()
 		if(message['action'] == 'stop'):
 			self.archer.want_stop()
 		if(message['action'] == 'move'):
