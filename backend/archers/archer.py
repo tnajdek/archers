@@ -16,6 +16,7 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		self.player = player
 		self.width = 1.0
 		self.height = 1.5
+		self.group_index = world.get_free_group_index()
 
 		# self.arrows_shot = list()
 		self.state = 'unknown'
@@ -26,6 +27,10 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		self.create_dynamic_box_body(spawn_point.x, spawn_point.y, self.width, self.height)
 		self.physics.fixedRotation = True
 		self.direction = directions['east']
+
+	def attach_collision_data(self, fixture):
+		super(Archer, self).attach_collision_data(fixture)
+		fixture.filterData.groupIndex = self.group_index * -1
 
 	def kill(self, pernament=False):
 		if(not self.can_take_action()):
@@ -55,6 +60,8 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 			self.player = None
 		if(hasattr(self, 'physics')):
 			self.world.physics.DestroyBody(self.physics)
+		if(hasattr(self, 'group_index')):
+			self.world.release_group_index(self.group_index)
 		super(Archer, self).destroy()
 
 	def want_move(self, direction):
@@ -159,7 +166,7 @@ class Arrow(SelfDestructable, NetworkMixin):
 
 	def attach_collision_data(self, fixture):
 		super(Arrow, self).attach_collision_data(fixture)
-		fixture.filterData.groupIndex = self.owner.id*-1
+		fixture.filterData.groupIndex = self.owner.group_index*-1
 
 	def destroy(self, source="dupa"):
 		# self.owner.arrows_shot.remove(self)

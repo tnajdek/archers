@@ -110,7 +110,7 @@ class WorldObject(Base):
 	def attach_collision_data(self, fixture):
 		fixture.filterData.categoryBits = type(self).collision_category
 		fixture.filterData.maskBits = type(self).collision_mask
-		fixture.filterData.groupIndex = self.id*-1
+		fixture.filterData.groupIndex = 1
 
 	def create_static_polygon_body(self, x, y, vertices):
 		self.physics = self.world.physics.CreateStaticBody(
@@ -297,7 +297,8 @@ class World(EventsMixins):
 		self.objects_to_be_destroyed = list()
 		self.object_index = bidict()
 		self.object_index.index = 0
-		self.callbacks = list()
+		self.group_index = []
+
 		for layer in self.map.layers:
 			self.layers[layer.name] = layer
 		self.physics = b2World(
@@ -357,8 +358,17 @@ class World(EventsMixins):
 		if not killme in self.objects_to_be_destroyed:
 			self.objects_to_be_destroyed.append(killme)
 
-	def build_frame(self):
-		pass
+	def get_free_group_index(self):
+		for i in range(10, 32768):
+			if not i in self.group_index:
+				self.group_index.append(i)
+				return i
+		# pooo
+
+	def release_group_index(self, i):
+		if i in self.group_index:
+			self.group_index.remove(i)
+
 
 	def networking_step(self):
 		self.trigger('step', self)
