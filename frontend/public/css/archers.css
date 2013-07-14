@@ -45,6 +45,16 @@
 	font-style: normal;
 }
 
+button, button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner {
+	border:0;
+	padding:0;
+	margin:0;
+}
+
 
 body.game {
 	font-family: ponderosa, monospace;
@@ -175,3 +185,23 @@ button {
 	width:100%;
 }
 
+button.show-rankings {
+	position:absolute;
+	top: 10px;
+	left: 10px;
+	background-image: url('/gfx/skull.png');
+	width:32px;
+	height:32px;
+	z-index:10;
+	border:1px solid white;
+	box-shadow: 2px 2px 4px 0 #343434;
+	cursor:pointer;
+	display:none;
+}
+
+.lobby .close {
+	height: 14px;
+    margin-bottom: -20px;
+    text-align: right;
+    cursor:pointer;
+}
