@@ -32,18 +32,20 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/render', 'systems/play
 
 
 			vent.on('update', function(msg) {
+				var shape, meta, entity;
+
 				if(!that.isActive()) {
 					return;
 				}
 
-				var shape = pc.Point.create(msg.width, msg.height),
+				shape = pc.Point.create(msg.width, msg.height),
 					properties = {
 						id: msg.id,
 						state: msg.state,
 						player: msg.player
-					};
+					}
 
-				that.entities[msg.id] = that.factory.createEntity(
+				entity = that.entities[msg.id] = that.factory.createEntity(
 					that.layer,
 					msg.entityType,
 					msg.x,
@@ -53,9 +55,13 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/render', 'systems/play
 					properties
 				);
 
-				// if(that.entities[msg.id].hasTag('PLAYER')) {
-				// 	lobbymanager.player = that.entities[msg.id];
-				// }
+
+				if(entity) {
+					meta = entity.getComponent('meta');
+					if(meta && lobbyManager && lobbyManager.metacollector[msg.id]) {
+						meta.update(lobbyManager.metacollector[msg.id]);
+					}
+				}
 			});
 
 			vent.on('frame', function(msg) {
