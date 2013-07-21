@@ -48,6 +48,7 @@ class Connection(EventsMixins):
 
 	def on_die(self, killer=None):
 		self.meta['deaths'] = self.meta['deaths'] + 1
+		logging.info("%s died by the hand of %s" % (self.meta['username'], killer or "[unknown]"))
 		self.trigger('meta', self.meta)
 
 	def on_mob(self):
