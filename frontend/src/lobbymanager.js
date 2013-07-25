@@ -5,9 +5,11 @@ define(['jquery', 'lodash', 'vent'], function($, lodash, vent) {
 			this.$button.hide();
 		};
 
-		this.hide = function() {
+		this.hide = function(hideTrayButton) {
 			this.$lobby.hide();
-			this.$button.show();
+			if(!hideTrayButton) {
+				this.$button.show();
+			}
 		};
 
 		this.updatedLeaderBoard = function() {
@@ -69,8 +71,8 @@ define(['jquery', 'lodash', 'vent'], function($, lodash, vent) {
 				vent.trigger('spawn');
 			});
 
-			this.$lobby.on('click', '.need-help', function() {
-				$('.help').toggle();
+			this.$lobby.on('click', '.customize', function() {
+				vent.trigger('customize');
 			});
 
 			vent.on('connected', function() {

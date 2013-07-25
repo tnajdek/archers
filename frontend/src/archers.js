@@ -1,11 +1,12 @@
-define(['jquery', 'pc', 'networking', 'scenes/game', 'lobbymanager'],
-	function($, pc, Networking, GameScene, lobbyManager) {
+define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize', 'lobbymanager', 'customizer'],
+	function($, vent, pc, Networking, GameScene, CustomizeScene, lobbyManager, customizer) {
 	var Archers = pc.Game.extend('Archers', {
 	// statics
 	}, {
 		onReady: function () {
 			this._super();
 			lobbyManager.init();
+			customizer.init();
 
 			pc.device.loader.add(new pc.DataResource(
 				'map',
@@ -49,11 +50,23 @@ define(['jquery', 'pc', 'networking', 'scenes/game', 'lobbymanager'],
 		},
 
 		onLoaded:function () {
+			var that = this;
 			// create the game scene (notice we do it here AFTER the resources are loaded)
 			this.gameScene = new GameScene();
-			this.addScene(this.gameScene);
+			this.customizeScene = new CustomizeScene();
 
+			this.addScene(this.customizeScene, false);
+			this.addScene(this.gameScene, true);
 
+			vent.on('customize', function() {
+				that.deactivateScene(that.gameScene);
+				that.activateScene(that.customizeScene);
+			});
+
+			vent.on('endcustomize', function() {
+				that.deactivateScene(that.customizeScene);
+				that.activateScene(that.gameScene);
+			});
 
 			// // create the menu scene (but don't make it active)
 			// this.menuScene = new MenuScene();

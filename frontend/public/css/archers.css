@@ -138,7 +138,7 @@ input[disabled="disabled"] {
 	z-index: 1;
 }
 
-.lobby {
+.lobby, .customiser {
 	color:#fff;
 	border: 1px solid black;
 	display: none;

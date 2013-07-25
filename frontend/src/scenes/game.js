@@ -117,7 +117,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/render', 'systems/play
 						meta.update(msg);
 					}					
 				}
-			})
+			});
 		},
 
 		onActivated: function() {
@@ -125,7 +125,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/render', 'systems/play
 		},
 
 		onDeactivated: function() {
-			lobbyManager.hide();
+			lobbyManager.hide(true);
 		},
 
 		hoverCamera:function() {
