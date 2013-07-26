@@ -5,8 +5,11 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 	}, {
 		onReady: function () {
 			this._super();
-			lobbyManager.init();
-			customizer.init();
+
+			pc.device.loader.add(new pc.DataResource(
+				'items',
+				'/resources/items.json'
+			));
 
 			pc.device.loader.add(new pc.DataResource(
 				'map',
@@ -33,6 +36,21 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 				'/resources/skeleton.png'
 			));
 
+			pc.device.loader.add(new pc.Image('base.female.light', '/resources/archer/base.female.light.png'));
+			pc.device.loader.add(new pc.Image('base.female.orc', '/resources/archer/base.female.orc.png'));
+			pc.device.loader.add(new pc.Image('base.male.light', '/resources/archer/base.male.light.png'));
+			pc.device.loader.add(new pc.Image('base.male.orc', '/resources/archer/base.male.orc.png'));
+			pc.device.loader.add(new pc.Image('eqp.arrow', '/resources/archer/eqp.arrow.png'));
+			pc.device.loader.add(new pc.Image('eqp.bow', '/resources/archer/eqp.bow.png'));
+			pc.device.loader.add(new pc.Image('eqp.female.dress', '/resources/archer/eqp.female.dress.png'));
+			pc.device.loader.add(new pc.Image('eqp.greatbow', '/resources/archer/eqp.greatbow.png'));
+			pc.device.loader.add(new pc.Image('eqp.male.dagger', '/resources/archer/eqp.male.dagger.png'));
+			pc.device.loader.add(new pc.Image('eqp.male.pants.green', '/resources/archer/eqp.male.pants.green.png'));
+			pc.device.loader.add(new pc.Image('eqp.male.shirt.white', '/resources/archer/eqp.male.shirt.white.png'));
+			pc.device.loader.add(new pc.Image('eqp.recurvebow', '/resources/archer/eqp.recurvebow.png'));
+			pc.device.loader.add(new pc.Image('hair.male.plain.brunette', '/resources/archer/hair.male.plain.brunette.png'));
+
+
 			pc.device.loader.start(this.onLoading.bind(this), this.onLoaded.bind(this));
 		},
 
@@ -51,6 +69,13 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 
 		onLoaded:function () {
 			var that = this;
+
+			// parse JSON
+			pc.device.loader.get('items').resource.data = JSON.parse(pc.device.loader.get('items').resource.data);
+
+			lobbyManager.init();
+			customizer.init();
+
 			// create the game scene (notice we do it here AFTER the resources are loaded)
 			this.gameScene = new GameScene();
 			this.customizeScene = new CustomizeScene();

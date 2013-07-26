@@ -5,6 +5,7 @@ requirejs.config({
 		playcraft: '../components/playcraft/playcraftjs/lib',
 		jquery: '../components/jquery/dist/jquery',
 		virtualjoystick: '../components/virtualjoystick/index',
+		text: '../components/requirejs-text/text'
 	},
 	// enforceDefine: true,
 	shim: {

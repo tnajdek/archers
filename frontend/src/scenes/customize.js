@@ -1,5 +1,5 @@
-define(['pc', 'vent', 'entityfactory'],
-	function(pc, vent, EntityFactory) {
+define(['lodash', 'pc', 'vent', 'entityfactory', 'spritedef/archer'],
+	function(_, pc, vent, EntityFactory, archerSpritedef) {
 	var CustomisationScene = pc.Scene.extend('pc.archers.CustomisationScene', {}, {
 		init: function() {
 			this._super();
@@ -25,12 +25,22 @@ define(['pc', 'vent', 'entityfactory'],
 				},
 				{}
 			);
+			vent.on('customize:change', _.bind(this.updateSprite, this));
 			// debugger;
 		},
 
 		onDeactivated: function() {
 			this.character.remove();
 			this.character = null;
+			vent.off('customize:change');
+		},
+
+		updateSprite: function(selected) {
+			var newsprite = this.factory.getDynamicSprite(selected, archerSpritedef),
+				state = this.character.getComponent('state');
+			this.character.removeComponentByType('sprite');
+			this.character.addComponent(newsprite);
+			state.changeState(newsprite, 'walking', 'S', true);
 		},
 
 		process: function() {

@@ -1,0 +1,58 @@
+{
+
+	"slots": {
+		"0": "body",
+		"1": "hair",
+		"2": "eyes",
+		"10": "armor",
+		"11": "head",
+		"20": "weapon"
+	},
+
+	"items": {
+		"1": {
+			"name": "Human",
+			"filters": ["male", "female"],
+			"slot": 0,
+			"spritesheet": {
+				"male": "base.male.light",
+				"female": "base.female.light"
+			}
+		},
+
+		"2": {
+			"name": "Orc",
+			"filters": ["male", "female"],
+			"slot": 0,
+			"spritesheet": {
+				"male": "base.male.orc",
+				"female": "base.female.orc"
+			}
+		},
+
+		"100": {
+			"name": "Plain clothing",
+			"price": 0,
+			"slot": 10,
+			"filters": ["male", "female"],
+			"spritesheet": {
+				"male": [
+					"eqp.male.shirt.white",
+					"eqp.male.pants.green"
+				],
+				"female": "eqp.female.dress"
+			}
+		},
+
+		"200": {
+			"name": "Bow",
+			"price": 0,
+			"slot": 20,
+			"filters": ["male", "female"],
+			"spritesheet": [
+				"eqp.bow",
+				"eqp.arrow"
+			]
+		}
+	}
+}

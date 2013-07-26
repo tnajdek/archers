@@ -22,6 +22,7 @@ module.exports = function(grunt) {
 					optimize: 'none', // neet to remove console.log before minification
 					include: ['bootstrap'],
 					insertRequire: ['bootstrap'],
+					stubModules: ['text'],
 					preserveLicenseComments: false,
 					wrap: {
 						start: "(function() { if(!window.pc) { window.pc = {}; pc.VERSION = '0.5.6'; }",

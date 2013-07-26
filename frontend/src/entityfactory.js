@@ -1,7 +1,55 @@
-define(['pc', 'lodash', 'spritedef/archer', 'spritedef/arrow', 'spritedef/skeleton', 'components/state', 'components/meta', 'components/network'],
-	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, stateComponent, metaComponent, networkComponent) {
+define(['pc',
+	'lodash',
+	'spritedef/archer',
+	'spritedef/arrow',
+	'spritedef/skeleton',
+	'components/state',
+	'components/meta',
+	'components/network',
+	'dynamic-image'],
+	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, stateComponent, metaComponent, networkComponent, DynamicImage) {
 	var EntityFactory = pc.EntityFactory.extend('pc.archers.EntityFactory', {}, {
 
+		getDynamicSprite: function(selected, spriteDef, animationState) {
+			var data = pc.device.loader.get('items').resource.data,
+				keys = _.keys(selected).sort(),
+				layers = [],
+				image, ss;
+
+			_.each(keys, function(key) {
+				// debugger;
+				var selectedItem = selected[key],
+					ssSpec;
+
+				if(selectedItem) {
+					ssSpec = data.items[selectedItem].spritesheet;
+
+					if(_.isObject(ssSpec) && ssSpec['male']) {
+						//TODO: gender selector
+						ssSpec = ssSpec['male'];
+					}
+					layers = layers.concat(ssSpec);
+				}
+			});
+
+			image = new DynamicImage("", layers);
+			ss = new pc.SpriteSheet({
+				image: image,
+				frameWidth: spriteDef.frameWidth,
+				frameHeight: spriteDef.frameHeight
+			});
+
+			// TODO: deduplicate common code with getSprite
+			animationState = animationState || spriteDef.frameDefault;
+			_.each(spriteDef.frames, function(a) {
+				ss.addAnimation(a);
+			});
+
+			return pc.components.Sprite.create({
+				spriteSheet:ss,
+				animationStart: animationState
+			});
+		},
 		// animationState to be automated based on state and dir
 		getSprite: function(spriteDef, animationState) {
 			var spriteImage = pc.device.loader.get(spriteDef.spriteName).resource,
