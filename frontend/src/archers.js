@@ -48,7 +48,7 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 			pc.device.loader.add(new pc.Image('eqp.male.pants.green', '/resources/archer/eqp.male.pants.green.png'));
 			pc.device.loader.add(new pc.Image('eqp.male.shirt.white', '/resources/archer/eqp.male.shirt.white.png'));
 			pc.device.loader.add(new pc.Image('eqp.recurvebow', '/resources/archer/eqp.recurvebow.png'));
-			pc.device.loader.add(new pc.Image('hair.male.plain.brunette', '/resources/archer/hair.male.plain.brunette.png'));
+			pc.device.loader.add(new pc.Image('hair.male.page', '/resources/archer/hair.male.page.png'));
 
 
 			pc.device.loader.start(this.onLoading.bind(this), this.onLoaded.bind(this));

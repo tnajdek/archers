@@ -30,6 +30,22 @@
 			}
 		},
 
+		"10": {
+			"name": "Page",
+			"filters": ["male"],
+			"slot": 1,
+			"spritesheet": "hair.male.page",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+
 		"100": {
 			"name": "Plain clothing",
 			"price": 0,

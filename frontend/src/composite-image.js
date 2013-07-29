@@ -1,5 +1,5 @@
 define(['lodash', 'pc'], function(_, pc) {
-	return pc.Image.extend('pc.Image.Dynamic',
+	return pc.Image.extend('pc.Image.Composite',
 		{},
 		{
 			// @TODO: optimise (single array pass etc.)
@@ -7,6 +7,9 @@ define(['lodash', 'pc'], function(_, pc) {
 				var canvas, ctx, image, images = [];
 
 				images = _.map(sources, function(source) {
+					if(_.isObject(source)) {
+						return source;
+					}
 					return pc.device.loader.get(source).resource;
 				});
 

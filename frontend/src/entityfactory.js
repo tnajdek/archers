@@ -6,33 +6,47 @@ define(['pc',
 	'components/state',
 	'components/meta',
 	'components/network',
-	'dynamic-image'],
-	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, stateComponent, metaComponent, networkComponent, DynamicImage) {
+	'composite-image',
+	'filtered-image'],
+	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, stateComponent, metaComponent, networkComponent, CompositeImage, FilteredImage) {
 	var EntityFactory = pc.EntityFactory.extend('pc.archers.EntityFactory', {}, {
 
 		getDynamicSprite: function(selected, spriteDef, animationState) {
 			var data = pc.device.loader.get('items').resource.data,
 				keys = _.keys(selected).sort(),
 				layers = [],
+				gender = selected['gender'],
 				image, ss;
 
+			delete selected['gender'];
 			_.each(keys, function(key) {
-				// debugger;
 				var selectedItem = selected[key],
-					ssSpec;
+					ssSpec, selectedVariant, layerImage;
+
+				if(_.isArray(selectedItem)) {
+					selectedVariant = selectedItem[1];
+					selectedItem = selectedItem[0];
+				}
 
 				if(selectedItem) {
 					ssSpec = data.items[selectedItem].spritesheet;
 
-					if(_.isObject(ssSpec) && ssSpec['male']) {
-						//TODO: gender selector
-						ssSpec = ssSpec['male'];
+					if(_.isObject(ssSpec) && ssSpec[gender]) {
+						ssSpec = ssSpec[gender];
 					}
-					layers = layers.concat(ssSpec);
+					if(selectedVariant) {
+						layerImage = new FilteredImage("", ssSpec, data.items[selectedItem].variants[selectedVariant]);
+					}
+
+					if(layerImage) {
+						layers.push(layerImage);
+					} else {
+						layers = layers.concat(ssSpec);
+					}
 				}
 			});
 
-			image = new DynamicImage("", layers);
+			image = new CompositeImage("", layers);
 			ss = new pc.SpriteSheet({
 				image: image,
 				frameWidth: spriteDef.frameWidth,
