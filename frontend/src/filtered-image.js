@@ -1,4 +1,5 @@
-	define(['lodash', 'pc'], function(_, pc) {
+define(['lodash', 'pc', 'shader', 'text!shaders/space.vert', 'text!shaders/multiply.frag'],
+function(_, pc, shader, spaceVertexShader, multiplyFragmentShader) {
 	return pc.Image.extend('pc.Image.Filtered',
 		{
 
@@ -12,6 +13,66 @@
 
 			multiplyPixel: function(topValue, bottomValue) {
 				return topValue * bottomValue / 255;
+			},
+
+			multiplyFallback: function(src, multiplyColor) {
+				// Very very slow, especially on FF. Will take few seconds to complete
+				// while completely blocking the interface
+				var canvas = document.createElement('canvas'),
+					ctx, imageData, pix, pixLength;
+
+				canvas.width = src.width;
+				canvas.height = src.height;
+				ctx = canvas.getContext('2d');
+
+				ctx.drawImage(src, 0,0);
+				imageData = ctx.getImageData(0, 0, src.width, src.height);
+				pix = imageData.data;
+				pixLength = pix.length;
+
+
+				if(!_.isArray(multiplyColor)) {
+					multiplyColor = this.hex2rgb(multiplyColor);
+				}
+
+				// Loop over each pixel and change the color.
+				for (var i = 0, n = pixLength; i < n; i += 4) {
+					pix[i  ] = this.multiplyPixel(multiplyColor[0], pix[i  ]); // red
+					pix[i+1] = this.multiplyPixel(multiplyColor[1], pix[i+1]); // green
+					pix[i+2] = this.multiplyPixel(multiplyColor[2], pix[i+2]); // blue
+					// pix[i+3] is alpha channel (ignored)
+				}
+				ctx.putImageData(imageData, 0, 0);
+				return canvas;
+			},
+
+			multiplyGL: function(src, multiplyColor) {
+				var arguments;
+
+				if(!_.isArray(multiplyColor)) {
+					multiplyColor = this.hex2rgb(multiplyColor);
+				}
+
+				arguments = {
+					"r": multiplyColor[0],
+					"g": multiplyColor[1],
+					"b": multiplyColor[2]
+				};
+
+				return shader(src, spaceVertexShader, multiplyFragmentShader, arguments);
+
+			},
+
+			copyImage: function(src) {
+				var canvas = document.createElement('canvas'),
+					ctx;
+
+				canvas.width = src.width;
+				canvas.height = src.height;
+				ctx = canvas.getContext('2d');
+				ctx.drawImage(src, 0,0);
+
+				return canvas;
 			}
 		},
 		{
@@ -20,11 +81,9 @@
 				var canvas, ctx, image, images = [];
 
 				image = pc.device.loader.get(source).resource;
-				this.image = canvas = document.createElement('canvas');
-				this.width = canvas.width = image.width;
-				this.height = canvas.height = image.height;
-				this.ctx = ctx = canvas.getContext('2d');
-				ctx.drawImage(image.image, 0,0);
+				this.image = image;
+				this.width = image.width;
+				this.height = image.height;
 
 				if(filters) {
 					this.applyFilters(filters);
@@ -54,52 +113,11 @@
 			},
 
 			multiply: function(multiplyColor) {
-					// OMG SOOOOOO SLOOOOOOOOOW
-				var imageData = this.ctx.getImageData(0, 0, this.image.width, this.image.height),
-					pix = imageData.data;
-
-				if(!_.isArray(multiplyColor)) {
-					multiplyColor = this.Class.hex2rgb(multiplyColor);
+				try {
+					this.image = this.Class.multiplyGL(this.image.image, multiplyColor);
+				} catch(e) {
+					this.image = this.Class.multiplyFallback(this.image.image, multiplyColor);
 				}
-				// Loop over each pixel and change the color.
-				
-				// naive and so freaking SLOOOOOOOOOOOOW!!!
-				for (var i = 0, n = pix.length; i < n; i += 4) {
-					if(pix[i  ] !== 0) {
-						// debugger;
-					}
-					pix[i  ] = this.Class.multiplyPixel(multiplyColor[0], pix[i  ]); // red
-					pix[i+1] = this.Class.multiplyPixel(multiplyColor[1], pix[i+1]); // green
-					pix[i+2] = this.Class.multiplyPixel(multiplyColor[2], pix[i+2]); // blue
-					// pix[i+3] is alpha channel (ignored)
-				}
-/*				var pixels = new Int32Array( imageData.data.buffer );
-
-				for (var y = 0; y < this.image.height; ++y) {
-					for (var x = 0; x < this.image.width; ++x) {
-						var value = x * y & 0xff;
-						pixel = pixels[y * this.image.width + x]
-
-						pixels[y * this.image.width + x] =
-							(255   << 24) |    // alpha
-							(value << 16) |    // blue
-							(value <<  8) |    // green
-							value;            // red
-						}
-
-						pixels[y * this.image.width + x] =
-							(255   << 24) |    // alpha
-							this.Class.multiplyPixel(multiplyColor[2], (value << 16)) |    // blue
-							this.Class.multiplyPixel(multiplyColor[1], (value <<  8)) |    // green
-							this.Class.multiplyPixel(multiplyColor[0], value);            // red
-					}
-				}
-
-				var buf = new ArrayBuffer(imageData.data.length);
-*/
-				this.ctx.putImageData(imageData, 0, 0);
-				// imageData.data.set(buf8);
-
 			}
 		}
 	);
