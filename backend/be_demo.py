@@ -13,7 +13,6 @@ def spawn_archer():
 	spawn_point = world.get_spawn_points()[0]
 	archer = Archer(world)
 	archer.spawn(spawn_point)
-	import ipdb; ipdb.set_trace()
 
 
 def move_archer(direction):
