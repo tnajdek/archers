@@ -46,6 +46,150 @@
 			}
 		},
 
+		"11": {
+			"name": "Bangs",
+			"filters": ["male"],
+			"slot": 1,
+			"spritesheet": "hair.male.page",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+
+		"12": {
+			"name": "Bedhead",
+			"filters": ["male"],
+			"slot": 1,
+			"spritesheet": "hair.male.bedhead",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+
+		"13": {
+			"name": "Long",
+			"filters": ["male"],
+			"slot": 1,
+			"spritesheet": "hair.male.long",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+
+		"14": {
+			"name": "Longhawk",
+			"filters": ["male"],
+			"slot": 1,
+			"spritesheet": "hair.male.longhawk",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+
+		"15": {
+			"name": "Messy 1",
+			"filters": ["male"],
+			"slot": 1,
+			"spritesheet": "hair.male.messy1",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+
+		"16": {
+			"name": "Messy 2",
+			"filters": ["male"],
+			"slot": 1,
+			"spritesheet": "hair.male.messy2",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+
+		"17": {
+			"name": "Mohawk",
+			"filters": ["male"],
+			"slot": 1,
+			"spritesheet": "hair.male.mohawk",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+
+		"18": {
+			"name": "Parted",
+			"filters": ["male"],
+			"slot": 1,
+			"spritesheet": "hair.male.parted",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+
+		"19": {
+			"name": "Shorthawk",
+			"filters": ["male"],
+			"slot": 1,
+			"spritesheet": "hair.male.shorthawk",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+
 		"100": {
 			"name": "Plain clothing",
 			"price": 0,

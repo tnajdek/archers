@@ -48,7 +48,29 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 			pc.device.loader.add(new pc.Image('eqp.male.pants.green', '/resources/archer/eqp.male.pants.green.png'));
 			pc.device.loader.add(new pc.Image('eqp.male.shirt.white', '/resources/archer/eqp.male.shirt.white.png'));
 			pc.device.loader.add(new pc.Image('eqp.recurvebow', '/resources/archer/eqp.recurvebow.png'));
+
+			// hair
+			pc.device.loader.add(new pc.Image('hair.female.bangslong', '/resources/archer/hair.female.bangslong.png'));
+			pc.device.loader.add(new pc.Image('hair.female.bangsshort', '/resources/archer/hair.female.bangsshort.png'));
+			pc.device.loader.add(new pc.Image('hair.female.loose', '/resources/archer/hair.female.loose.png'));
+			pc.device.loader.add(new pc.Image('hair.female.pixie', '/resources/archer/hair.female.pixie.png'));
+			pc.device.loader.add(new pc.Image('hair.female.ponytail', '/resources/archer/hair.female.ponytail.png'));
+			pc.device.loader.add(new pc.Image('hair.female.princess', '/resources/archer/hair.female.princess.png'));
+			pc.device.loader.add(new pc.Image('hair.female.swoop', '/resources/archer/hair.female.swoop.png'));
+			pc.device.loader.add(new pc.Image('hair.female.unkempt', '/resources/archer/hair.female.unkempt.png'));
+			pc.device.loader.add(new pc.Image('hair.male.bangs', '/resources/archer/hair.male.bangs.png'));
+			pc.device.loader.add(new pc.Image('hair.male.bedhead', '/resources/archer/hair.male.bedhead.png'));
+			pc.device.loader.add(new pc.Image('hair.male.longhawk', '/resources/archer/hair.male.longhawk.png'));
+			pc.device.loader.add(new pc.Image('hair.male.long', '/resources/archer/hair.male.long.png'));
+			pc.device.loader.add(new pc.Image('hair.male.messy1', '/resources/archer/hair.male.messy1.png'));
+			pc.device.loader.add(new pc.Image('hair.male.messy2', '/resources/archer/hair.male.messy2.png'));
+			pc.device.loader.add(new pc.Image('hair.male.mohawk', '/resources/archer/hair.male.mohawk.png'));
 			pc.device.loader.add(new pc.Image('hair.male.page', '/resources/archer/hair.male.page.png'));
+			pc.device.loader.add(new pc.Image('hair.male.parted', '/resources/archer/hair.male.parted.png'));
+			pc.device.loader.add(new pc.Image('hair.male.shorthawk', '/resources/archer/hair.male.shorthawk.png'));
+
+
+
 
 
 			pc.device.loader.start(this.onLoading.bind(this), this.onLoaded.bind(this));

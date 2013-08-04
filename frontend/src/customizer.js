@@ -45,16 +45,19 @@ define(['lodash',
 					if(item.slot === index) {
 						optionTag = itemOption({id: itemId, name:item.name });
 						$tag.find('select').append(optionTag);
+						$variantSelector = $tag.find('.variant-selector');
 						if(item.variants) {
-							$variantSelector = $tag.find('.variant-selector');
 							if(!$variantSelector.length) {
 								$variantSelector = $(variantSelector({name: value+'-variant', slotId: index}));
 								$tag.find('.slot-selector').after($variantSelector);
 							}
+							$variantSelector.empty();
 							_.each(item.variants, function(variantValue, variantName) {
 								variantTag = itemOption({id:variantName, name:variantName});
 								$variantSelector.append(variantTag);
 							});
+						} else if($variantSelector.length) {
+							$variantSelector.remove();
 						}
 					}
 				});
