@@ -7,6 +7,10 @@ define(['lodash',
 	'text!templates/variant-selector.html',
 	], function(_, $, lodash, vent, slotSelectorTpl, itemOptionTpl, variantSelectorTpl) {
 	var Customizer = function() {
+		var slotSelector = _.template(slotSelectorTpl),
+			itemOption = _.template(itemOptionTpl),
+			variantSelector = _.template(variantSelectorTpl);
+
 		this.show = function() {
 			this.$customiser.show();
 		};
@@ -15,41 +19,54 @@ define(['lodash',
 			this.$customiser.hide();
 		};
 
-		this.init = function() {
-			var that = this,
-				data = pc.device.loader.get('items').resource.data,
-				slotSelector = _.template(slotSelectorTpl),
-				itemOption = _.template(itemOptionTpl),
-				variantSelector = _.template(variantSelectorTpl),
+		this.selectors = function(data) {
+				var that = this,
+					$container = this.$customiser.find('.selectors'),
+					$tag = $('#slot-selector-gender').closest('div'),
+					gender;
+
+			if(!$tag.length) {
 				$tag = $(slotSelector({name: "Gender", slotId: "gender"}));
-
-			this.$customiser = $('.customiser');
-
-			_.each(['male', 'female'], function(item) {
-				var optionTag = itemOption({
-					id: item,
-					name:item.charAt(0).toUpperCase()+item.slice(1)
+				$container.append($tag);
+				_.each(['male', 'female'], function(item) {
+					var optionTag = itemOption({
+						id: item,
+						name:item.charAt(0).toUpperCase()+item.slice(1)
+					});
+					$tag.find('select').append(optionTag);
 				});
-				$tag.find('select').append(optionTag);
-			});
-			that.$customiser.append($tag);
+			}
+
+			gender = $tag.find('select').val();
 
 			_.each(data.slots, function(value, index) {
-				var $tag = $(slotSelector({name: value, slotId: index})),
-					$variantSelector;
+				var $tag = $('#slot-selector-'+index).closest('div'),
+					$variantSelector, $slotSelector, predefinedValue,
+					predefinedVariant;
+
+				if(!$tag.length) {
+					$tag = $(slotSelector({name: value, slotId: index}));
+					$container.append($tag);
+				}
+				$slotSelector = $tag.find('.slot-selector');
+				$variantSelector = $tag.find('.variant-selector');
+
+				predefinedValue = $slotSelector.val();
+				predefinedVariant = $variantSelector.val();
+				$slotSelector.empty();
+				$variantSelector.empty();
+
 
 				index = parseInt(index, 10);
-				that.$customiser.append($tag);
 				_.each(data.items, function(item, itemId) {
 					var optionTag, variantTag;
-					if(item.slot === index) {
+					if(item.slot === index && _.contains(item.genderRestrictions, gender)) {
 						optionTag = itemOption({id: itemId, name:item.name });
-						$tag.find('select').append(optionTag);
-						$variantSelector = $tag.find('.variant-selector');
+						$slotSelector.append(optionTag);
 						if(item.variants) {
 							if(!$variantSelector.length) {
 								$variantSelector = $(variantSelector({name: value+'-variant', slotId: index}));
-								$tag.find('.slot-selector').after($variantSelector);
+								$slotSelector.after($variantSelector);
 							}
 							$variantSelector.empty();
 							_.each(item.variants, function(variantValue, variantName) {
@@ -61,12 +78,30 @@ define(['lodash',
 						}
 					}
 				});
+
+				if(predefinedValue) {
+					$slotSelector.val(predefinedValue);
+				}
+
+				if(predefinedVariant) {
+					$variantSelector.val(predefinedVariant);
+				}
 			});
+		};
+
+		this.init = function() {
+			var that = this,
+				data = pc.device.loader.get('items').resource.data;
+				
+			this.$customiser = $('.customiser');
+			this.selectors(data);
 
 			this.$customiser.on('change', 'select', function() {
 				var selectedItems = {};
+				that.selectors(data);
+
 				$('.slot-selector').each(function(i, select) {
-					var $select = $(select);
+					var $select = $(select),
 						slotId = $select.data('slotId'),
 						$variantSelector = $('#variant-selector-'+slotId);
 
@@ -77,9 +112,7 @@ define(['lodash',
 					}
 				});
 				vent.trigger('customize:change', selectedItems);
-			})
-
-
+			});
 
 			vent.on('customize', function() {
 				that.$customiser.show();
@@ -91,7 +124,7 @@ define(['lodash',
 			this.$customiser.on('click', '.exit', function() {
 				vent.trigger('endcustomize');
 			});
-		}
+		};
 	};
 
 	return new Customizer();

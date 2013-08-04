@@ -12,7 +12,7 @@
 	"items": {
 		"1": {
 			"name": "Human",
-			"filters": ["male", "female"],
+			"genderRestrictions": ["male", "female"],
 			"slot": 0,
 			"spritesheet": {
 				"male": "base.male.light",
@@ -22,7 +22,7 @@
 
 		"2": {
 			"name": "Orc",
-			"filters": ["male", "female"],
+			"genderRestrictions": ["male", "female"],
 			"slot": 0,
 			"spritesheet": {
 				"male": "base.male.orc",
@@ -32,7 +32,7 @@
 
 		"10": {
 			"name": "Page",
-			"filters": ["male"],
+			"genderRestrictions": ["male"],
 			"slot": 1,
 			"spritesheet": "hair.male.page",
 			"variants": {
@@ -48,7 +48,7 @@
 
 		"11": {
 			"name": "Bangs",
-			"filters": ["male"],
+			"genderRestrictions": ["male"],
 			"slot": 1,
 			"spritesheet": "hair.male.page",
 			"variants": {
@@ -64,7 +64,7 @@
 
 		"12": {
 			"name": "Bedhead",
-			"filters": ["male"],
+			"genderRestrictions": ["male"],
 			"slot": 1,
 			"spritesheet": "hair.male.bedhead",
 			"variants": {
@@ -80,7 +80,7 @@
 
 		"13": {
 			"name": "Long",
-			"filters": ["male"],
+			"genderRestrictions": ["male"],
 			"slot": 1,
 			"spritesheet": "hair.male.long",
 			"variants": {
@@ -96,7 +96,7 @@
 
 		"14": {
 			"name": "Longhawk",
-			"filters": ["male"],
+			"genderRestrictions": ["male"],
 			"slot": 1,
 			"spritesheet": "hair.male.longhawk",
 			"variants": {
@@ -112,7 +112,7 @@
 
 		"15": {
 			"name": "Messy 1",
-			"filters": ["male"],
+			"genderRestrictions": ["male"],
 			"slot": 1,
 			"spritesheet": "hair.male.messy1",
 			"variants": {
@@ -128,7 +128,7 @@
 
 		"16": {
 			"name": "Messy 2",
-			"filters": ["male"],
+			"genderRestrictions": ["male"],
 			"slot": 1,
 			"spritesheet": "hair.male.messy2",
 			"variants": {
@@ -144,7 +144,7 @@
 
 		"17": {
 			"name": "Mohawk",
-			"filters": ["male"],
+			"genderRestrictions": ["male"],
 			"slot": 1,
 			"spritesheet": "hair.male.mohawk",
 			"variants": {
@@ -160,7 +160,7 @@
 
 		"18": {
 			"name": "Parted",
-			"filters": ["male"],
+			"genderRestrictions": ["male"],
 			"slot": 1,
 			"spritesheet": "hair.male.parted",
 			"variants": {
@@ -176,9 +176,115 @@
 
 		"19": {
 			"name": "Shorthawk",
-			"filters": ["male"],
+			"genderRestrictions": ["male"],
 			"slot": 1,
 			"spritesheet": "hair.male.shorthawk",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+
+		"21": {
+			"name": "Bangs",
+			"genderRestrictions": ["female"],
+			"slot": 1,
+			"spritesheet": "hair.female.bangsshort",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+		"22": {
+			"name": "Loose",
+			"genderRestrictions": ["female"],
+			"slot": 1,
+			"spritesheet": "hair.female.loose",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+		"23": {
+			"name": "Pixie",
+			"genderRestrictions": ["female"],
+			"slot": 1,
+			"spritesheet": "hair.female.pixie",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+		"24": {
+			"name": "Ponytail",
+			"genderRestrictions": ["female"],
+			"slot": 1,
+			"spritesheet": "hairfe.male.ponytail",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+		"25": {
+			"name": "Princess",
+			"genderRestrictions": ["female"],
+			"slot": 1,
+			"spritesheet": "hair.female.princess",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+		"26": {
+			"name": "Swoop",
+			"genderRestrictions": ["female"],
+			"slot": 1,
+			"spritesheet": "hair.female.swoop",
+			"variants": {
+				"green": [{"multiply": "3dbd61"}],
+				"redhair": [{"multiply": "d50b10"}],
+				"purple": [{"multiply": "651593"}],
+				"blue": [{"multiply": "1c57c4"}],
+				"black": [{"multiply": "301012"}],
+				"brown": [{"multiply": "800009"}],
+				"blond": [{"multiply": "ffa801"}]
+			}
+		},
+		"27": {
+			"name": "Unkempt",
+			"genderRestrictions": ["female"],
+			"slot": 1,
+			"spritesheet": "hair.female.unkempt",
 			"variants": {
 				"green": [{"multiply": "3dbd61"}],
 				"redhair": [{"multiply": "d50b10"}],
@@ -194,7 +300,7 @@
 			"name": "Plain clothing",
 			"price": 0,
 			"slot": 10,
-			"filters": ["male", "female"],
+			"genderRestrictions": ["male", "female"],
 			"spritesheet": {
 				"male": [
 					"eqp.male.shirt.white",
@@ -208,7 +314,7 @@
 			"name": "Bow",
 			"price": 0,
 			"slot": 20,
-			"filters": ["male", "female"],
+			"genderRestrictions": ["male", "female"],
 			"spritesheet": [
 				"eqp.bow",
 				"eqp.arrow"

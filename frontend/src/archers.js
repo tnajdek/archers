@@ -50,7 +50,6 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 			pc.device.loader.add(new pc.Image('eqp.recurvebow', '/resources/archer/eqp.recurvebow.png'));
 
 			// hair
-			pc.device.loader.add(new pc.Image('hair.female.bangslong', '/resources/archer/hair.female.bangslong.png'));
 			pc.device.loader.add(new pc.Image('hair.female.bangsshort', '/resources/archer/hair.female.bangsshort.png'));
 			pc.device.loader.add(new pc.Image('hair.female.loose', '/resources/archer/hair.female.loose.png'));
 			pc.device.loader.add(new pc.Image('hair.female.pixie', '/resources/archer/hair.female.pixie.png'));
