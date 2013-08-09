@@ -27,10 +27,14 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 			if(e && e.length){
 				metamsg = {
 					"username": e
-				}
+				};
 				that.ws.send(JSON.stringify(metamsg));
 			}
-		}
+		};
+
+		this.onMetaChange = function(e) {
+			that.ws.send(JSON.stringify(e));
+		};
 
 		this.onmessage = function(e) {
 			if(e.data instanceof ArrayBuffer) {
@@ -63,6 +67,7 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 			vent.on('input', that.oninput)
 
 			vent.on('username', that.onUsernameChange);
+			vent.on('endcustomize', that.onMetaChange);
 		};
 
 		this.ws.onclose = function(e) {

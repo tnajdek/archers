@@ -89,6 +89,24 @@ define(['lodash',
 			});
 		};
 
+		this.getSelectedItems = function() {
+			var selectedItems = {};
+
+			$('.slot-selector').each(function(i, select) {
+				var $select = $(select),
+					slotId = $select.data('slotId'),
+					$variantSelector = $('#variant-selector-'+slotId);
+
+				if($variantSelector.length) {
+					selectedItems[slotId] = [$select.val(), $variantSelector.val()];
+				} else {
+					selectedItems[slotId] = $select.val();
+				}
+			});
+
+			return selectedItems;
+		};
+
 		this.init = function() {
 			var that = this,
 				data = pc.device.loader.get('items').resource.data;
@@ -97,32 +115,23 @@ define(['lodash',
 			this.selectors(data);
 
 			this.$customiser.on('change', 'select', function() {
-				var selectedItems = {};
+				var selectedItems;
+
 				that.selectors(data);
-
-				$('.slot-selector').each(function(i, select) {
-					var $select = $(select),
-						slotId = $select.data('slotId'),
-						$variantSelector = $('#variant-selector-'+slotId);
-
-					if($variantSelector.length) {
-						selectedItems[slotId] = [$select.val(), $variantSelector.val()];
-					} else {
-						selectedItems[slotId] = $select.val();
-					}
-				});
+				selectedItems = that.getSelectedItems();
 				vent.trigger('customize:change', selectedItems);
 			});
 
 			vent.on('customize', function() {
 				that.$customiser.show();
 			});
-			vent.on('endcustomize', function() {
+			vent.on('endcustomize', function(items) {
 				that.$customiser.hide();
 			});
 
 			this.$customiser.on('click', '.exit', function() {
-				vent.trigger('endcustomize');
+				var selectedItems = that.getSelectedItems();
+				vent.trigger('endcustomize', selectedItems);
 			});
 		};
 	};

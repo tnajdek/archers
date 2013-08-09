@@ -239,7 +239,7 @@
 			"name": "Ponytail",
 			"genderRestrictions": ["female"],
 			"slot": 1,
-			"spritesheet": "hairfe.male.ponytail",
+			"spritesheet": "hair.female.ponytail",
 			"variants": {
 				"green": [{"multiply": "3dbd61"}],
 				"redhair": [{"multiply": "d50b10"}],
