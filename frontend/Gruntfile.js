@@ -56,6 +56,37 @@ module.exports = function(grunt) {
 				'public/js/archers.js': ["public/js/archers.js"]
 				}
 			}
+		},
+		less: {
+			develop: {
+				options: {
+					compress: false,
+					yuicompress: false,
+					dumpLineNumbers: 'all'
+				},
+				files: {
+					"css/archers.css": "less/archers.less"
+				}
+			},
+			production: {
+				options: {
+					optimization: 0,
+					compress: true,
+					yuicompress: true
+				},
+				files: {
+					"css/archers.css": "less/archers.less"
+				}
+			}
+		},
+		watch: {
+			less: {
+				files: ['less/*.less', 'src/less/**/*.less'],
+				tasks: ['less:develop'],
+				options: {
+					spawn: false,
+				}
+			}
 		}
 	});
 
@@ -66,7 +97,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-replace');
 	grunt.loadNpmTasks("grunt-remove-logging");
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 
+	grunt.registerTask('develop', ['less:develop', 'watch:less']);
 	grunt.registerTask('build', ['requirejs', 'removelogging', 'uglify', 'replace']);
 	grunt.registerTask('test', ['karma']);
 };

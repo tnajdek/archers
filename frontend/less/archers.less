@@ -1,0 +1,229 @@
+/*@font-face {
+	font-family: 'bloodynormal';
+	src: url('/fonts/bloody/BLOODY-webfont.eot');
+	src: url('/fonts/bloody/BLOODY-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('/fonts/bloody/BLOODY-webfont.woff') format('woff'),
+		 url('/fonts/bloody/BLOODY-webfont.ttf') format('truetype'),
+		 url('/fonts/bloody/BLOODY-webfont.svg#bloodynormal') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+*/
+
+@font-face {
+	font-family: 'ArchitectsDaughter';
+	src: url('/fonts/architects-daughter/ArchitectsDaughter.eot');
+	src: url('/fonts/architects-daughter/ArchitectsDaughter.eot?#iefix') format('embedded-opentype'),
+		 url('/fonts/architects-daughter/ArchitectsDaughter.woff') format('woff'),
+		 url('/fonts/architects-daughter/ArchitectsDaughter.ttf') format('truetype'),
+		 url('/fonts/architects-daughter/ArchitectsDaughter.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+
+@font-face {
+	font-family: 'ponderosa';
+	src: url('/fonts/ponderosa/ponderosa.eot');
+	src: url('/fonts/ponderosa/ponderosa.eot?#iefix') format('embedded-opentype'),
+		 url('/fonts/ponderosa/ponderosa.woff') format('woff'),
+		 url('/fonts/ponderosa/ponderosa.ttf') format('truetype'),
+		 url('/fonts/ponderosa/ponderosa.svg#bloodynormal') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'ContaxSans55Regular';
+	src: url('/fonts/contax/ContaxSans55Reg-webfont.eot');
+	src: url('/fonts/contax/ContaxSans55Reg-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('/fonts/contax/ContaxSans55Reg-webfont.woff') format('woff'),
+		 url('/fonts/contax/ContaxSans55Reg-webfont.ttf') format('truetype'),
+		 url('/fonts/contax/ContaxSans55Reg-webfont.svg#ContaxSans55Regular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+button, button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner {
+	border:0;
+	padding:0;
+	margin:0;
+}
+
+
+body.game {
+	font-family: ponderosa, monospace;
+	font-size: 14px;
+	overflow: hidden;
+	background-color: #000;
+}
+
+body.page {
+	background-image: url('/gfx/texture/binding_dark.png');
+	margin:0;
+	padding:0;
+	-webkit-font-smoothing: subpixel-antialiased;
+	font-family: ContaxSans55Regular, sans-serif;
+	font-size: 14px;
+	text-align: center;
+
+}
+
+.center {
+	text-align: center;
+}
+
+body.page .contents {
+	max-width:900px;
+	min-width: 300px;
+	padding:30px;
+	width:85%;
+	background-color: #121212;
+	margin:0 auto;
+	text-align: left;
+	color: #efefef;
+	line-height: 1.5em;
+	border-radius: 10px 10px 10px 10px;
+    box-shadow: 0 0 37px 3px;
+    margin: 36px auto;
+}
+
+a, a:hover, a:visited {
+	color:#92E4FF;
+	
+	text-decoration: none;
+}
+
+a:hover {
+	color: #0ff;
+}
+
+input {
+	display:inline-block;
+	background-color: white;
+	border:1px solid black;
+	padding:5px;
+	color:black;
+	font-weight: bold;
+}
+
+button {
+	display:inline-block;
+	text-align: center;
+	background-color: white;
+	border:1px solid black;
+	padding:5px;
+	color:black;
+	font-weight: bold;
+}
+
+input[disabled="disabled"] {
+	background-color: #bebebe;	
+}
+
+
+.game-container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	padding:0;
+	margin:0;
+	left:0;
+	top:0;
+	z-index: 1;
+}
+
+.lobby, .customiser {
+	color:#fff;
+	border: 1px solid black;
+	display: none;
+	min-height: 200px;
+	max-height: 90%;
+	left: 50%;
+	margin-left: -200px;
+	position: fixed;
+	width: 400px;
+	z-index: 10;
+	background-color: rgba(0,0,0,0.6);
+	padding: 10px;
+	border-radius: 5px;
+	text-align:center;
+	overflow-y: auto;
+}
+
+#virtualjoystick {
+	width:100%;
+	height:100%;
+	position: fixed;
+	top:0;
+	z-index: 5;
+}
+
+#init {
+	position:absolute;
+	color: #fff;
+	left:50%;
+	width:400px;
+	margin-left:-200px;
+	top: 10%;
+}
+
+
+.lobby p {
+	text-align: left;
+}
+
+.help, .spawn {
+	display:none;
+}
+
+.leaderboard {
+	margin: 10px auto;
+}
+.leaderboard table {
+	width:100%;
+}
+
+button.show-rankings {
+	position:absolute;
+	top: 10px;
+	left: 10px;
+	background-image: url('/gfx/skull.png');
+	width:32px;
+	height:32px;
+	z-index:10;
+	border:1px solid white;
+	box-shadow: 2px 2px 4px 0 #343434;
+	cursor:pointer;
+	display:none;
+}
+
+.lobby .close {
+	height: 14px;
+    margin-bottom: -20px;
+    text-align: right;
+    cursor:pointer;
+}
+
+
+.customiser {
+	width: 360px;
+	margin-left: auto;
+	text-align: left;
+	border:1px solid red;
+
+	@media only screen and (max-width: 1000px) {
+		position: fixed;
+		right:0;
+	}
+	@media only screen and (min-width: 1000px) {
+		position: fixed;
+		left:640px;
+	}
+
+}

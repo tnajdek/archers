@@ -295,6 +295,12 @@
 				"blond": [{"multiply": "ffa801"}]
 			}
 		},
+		"28": {
+			"name": "Bald",
+			"genderRestrictions": ["male", "female"],
+			"slot": 1,
+			"variants": {}
+		},
 
 		"100": {
 			"name": "Plain clothing",

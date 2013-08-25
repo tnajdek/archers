@@ -42,7 +42,7 @@ define(['lodash',
 			_.each(data.slots, function(value, index) {
 				var $tag = $('#slot-selector-'+index).closest('div'),
 					$variantSelector, $slotSelector, predefinedValue,
-					predefinedVariant;
+					item, predefinedVariant;
 
 				if(!$tag.length) {
 					$tag = $(slotSelector({name: value, slotId: index}));
@@ -63,28 +63,35 @@ define(['lodash',
 					if(item.slot === index && _.contains(item.genderRestrictions, gender)) {
 						optionTag = itemOption({id: itemId, name:item.name });
 						$slotSelector.append(optionTag);
-						if(item.variants) {
-							if(!$variantSelector.length) {
-								$variantSelector = $(variantSelector({name: value+'-variant', slotId: index}));
-								$slotSelector.after($variantSelector);
-							}
-							$variantSelector.empty();
-							_.each(item.variants, function(variantValue, variantName) {
-								variantTag = itemOption({id:variantName, name:variantName});
-								$variantSelector.append(variantTag);
-							});
-						} else if($variantSelector.length) {
-							$variantSelector.remove();
-						}
 					}
 				});
 
-				if(predefinedValue) {
-					$slotSelector.val(predefinedValue);
+				$slotSelector.val(predefinedValue);
+				if($slotSelector[0].selectedIndex === -1) {
+					$slotSelector[0].selectedIndex = 0;
 				}
-
-				if(predefinedVariant) {
-					$variantSelector.val(predefinedVariant);
+				
+				if($slotSelector.val() && data.items[$slotSelector.val()] && data.items[$slotSelector.val()].variants) {
+					item = data.items[$slotSelector.val()];
+					// selected item has variants
+					if(_.size(item.variants) > 0) {
+						if(!$variantSelector.length) {
+							$variantSelector = $(variantSelector({name: value+'-variant', slotId: index}));
+							$slotSelector.after($variantSelector);
+						}
+						$variantSelector.empty();
+						_.each(item.variants, function(variantValue, variantName) {
+							variantTag = itemOption({id:variantName, name:variantName});
+							$variantSelector.append(variantTag);
+						});
+						if(predefinedVariant) {
+							$variantSelector.val(predefinedVariant);
+						}
+					} else {
+						$variantSelector.remove();
+					}
+				} else if($variantSelector.length) {
+					$variantSelector.remove();
 				}
 			});
 		};

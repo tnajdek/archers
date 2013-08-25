@@ -16,6 +16,11 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 				'/resources/map.tmx'
 			));
 
+			pc.device.loader.add(new pc.DataResource(
+				'customizer',
+				'/resources/customizer.tmx'
+			));
+
 			pc.device.loader.add(new pc.Image(
 				'combined',
 				'/resources/tiles.png'
@@ -67,10 +72,6 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 			pc.device.loader.add(new pc.Image('hair.male.page', '/resources/archer/hair.male.page.png'));
 			pc.device.loader.add(new pc.Image('hair.male.parted', '/resources/archer/hair.male.parted.png'));
 			pc.device.loader.add(new pc.Image('hair.male.shorthawk', '/resources/archer/hair.male.shorthawk.png'));
-
-
-
-
 
 			pc.device.loader.start(this.onLoading.bind(this), this.onLoaded.bind(this));
 		},

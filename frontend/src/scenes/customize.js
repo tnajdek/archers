@@ -5,6 +5,10 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'spritedef/archer'],
 			this._super();
 
 			this.factory = new EntityFactory();
+			this.loadFromTMX(
+				pc.device.loader.get('customizer').resource,
+				this.factory
+			);
 			this.layer = new pc.EntityLayer('main', 500, 500);
 			this.addLayer(this.layer);
 			this.layer.addSystem(new pc.systems.Render());

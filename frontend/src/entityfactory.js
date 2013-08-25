@@ -28,7 +28,7 @@ define(['pc',
 					selectedItem = selectedItem[0];
 				}
 
-				if(selectedItem) {
+				if(selectedItem && data.items[selectedItem].spritesheet) {
 					ssSpec = data.items[selectedItem].spritesheet;
 
 					if(_.isObject(ssSpec) && ssSpec[gender]) {
