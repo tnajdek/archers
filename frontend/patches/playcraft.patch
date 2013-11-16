@@ -1,6 +1,6 @@
 diff -Naur ../components/playcraft-release/playcraftjs/lib/scene.js ../components/playcraft/playcraftjs/lib/scene.js
 --- ../components/playcraft-release/playcraftjs/lib/scene.js	2013-07-04 14:37:46.846812099 +0100
-+++ ../components/playcraft/playcraftjs/lib/scene.js	2013-07-04 14:38:35.420145762 +0100
++++ ../bower_components/playcraftengine/playcraftjs/lib/scene.js	2013-07-04 14:38:35.420145762 +0100
 @@ -427,15 +427,18 @@
                  var tile = tiles[p];
                  var tileId = parseInt(tile.getAttribute('id'));

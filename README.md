@@ -14,16 +14,7 @@ Get f/e deps
     cd frontend
     npm install
     bower install
-
-    cd components
-    wget playcraft
-    wget virtualjoystick-amd
-    git checkout https://github.com/jquery/jquery.git
-    cd jquery
-    git checkout $(git describe --abbrev=0 --tags)
-    npm install && grunt
-    grunt custom:-ajax,-deprecated,-dimensions,-effects,-event-alias,-offset,-wrap,-sizzle
-    npm install && grunt
+    patch < patches/*.patch
 
 Build f/e
 ---------
