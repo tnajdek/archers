@@ -1,0 +1,29 @@
+<div class="customizer-form">
+	<label for="customiser-gender">gender</label>
+	<select id="customiser-gender" value="{{gender}}">
+		<option value="male">Male</option>
+		<option value="female">Female</option>
+	</select>
+	{{#data.slots:i}}
+		{{>slot}}
+	{{/data.slots}}
+</div>
+
+<!-- {{>slot}} -->
+	<label for="customiser-slot-{{ i }}">
+		{{ . }}
+	</label>
+	<select id="customiser-slot-{{ i }}">
+		{{#data.items:j}}
+			{{>option}}
+		{{/data.items}}
+	</select>
+<!-- {{/slot}} -->
+
+<!-- {{>option}} -->
+	{{# filterSlot( (.), i ) }}
+		{{# filterGender( (.), gender) }}
+			<option>{{ .name }}</option>
+		{{/ filter gender}}
+	{{/ filter slot }}
+<!-- {{/option}} -->
