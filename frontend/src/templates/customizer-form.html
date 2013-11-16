@@ -4,26 +4,33 @@
 		<option value="male">Male</option>
 		<option value="female">Female</option>
 	</select>
-	{{#data.slots:i}}
-		{{>slot}}
-	{{/data.slots}}
+	{{#slotData:i}}
+		<label for="customiser-slot-{{ .id }}">
+			{{ .name }}
+		</label>
+		<select value="{{.selectedItem}}" id="customiser-slot-{{ .id }}">
+			{{#data.items:j}}
+				{{>option}}
+			{{/data.items}}
+		</select>
+		{{# !isEmpty(data.items[selectedItem].variants) }}
+			<select value="{{.selectedVariant}}">
+			{{# data.items[selectedItem].variants:k }}
+				<option value="{{stringify(.)}}">{{ k }}</option>
+			{{/data.items[selectedItem].variants}}
+			</select>
+		{{/ end length}}
+	{{/slotData}}
 </div>
 
 <!-- {{>slot}} -->
-	<label for="customiser-slot-{{ i }}">
-		{{ . }}
-	</label>
-	<select id="customiser-slot-{{ i }}">
-		{{#data.items:j}}
-			{{>option}}
-		{{/data.items}}
-	</select>
+
 <!-- {{/slot}} -->
 
 <!-- {{>option}} -->
 	{{# filterSlot( (.), i ) }}
 		{{# filterGender( (.), gender) }}
-			<option>{{ .name }}</option>
+			<option value="{{ j }}">{{ .name }}</option>
 		{{/ filter gender}}
 	{{/ filter slot }}
 <!-- {{/option}} -->

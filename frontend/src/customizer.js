@@ -10,21 +10,21 @@ define(['lodash',
 			var that = this,
 				data = pc.device.loader.get('items').resource.data,
 				$container = $('.customiser'),
-				tplData = {};
+				slotData = {};
 
-			// tplData.slots = {};
-			// _.each(data.items, function(itemid, item) {
-			// 	if(!tplData.slots[data.slots[item['slot']]]) {
-			// 		tplData.slots[data.slots[item['slot']]] = [];
-			// 	}
-			// 	tplData.slots[data.slots[item['slot']]].push(item);
-			// });
+			_.each(data.slots, function(slotname, slotid) {
+				slotData[slotid] = {
+					'name': slotname,
+					'id': slotid
+				};
+			});
 
 			new Ractive({
 				el: $container[0],
 				template: customizerTpl,
 				data: {
 					data: data,
+					slotData: slotData,
 					filterSlot: function ( item, value ) {
 						
 						return item.slot == value;
@@ -35,7 +35,11 @@ define(['lodash',
 						} else {
 							return _.contains(item.genderRestrictions, gender);
 						}
-					}
+					},
+					stringify: function(item) {
+						return JSON.stringify(item);
+					},
+					isEmpty: _.isEmpty
 				}
 			});
 			$container.show();
