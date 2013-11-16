@@ -26,9 +26,14 @@ define(['lodash', 'pc'], function(_, pc) {
 				this.width = canvas.width = dimensions.width;
 				this.height = canvas.height = dimensions.height;
 				ctx = canvas.getContext('2d');
-
+				
+				// @TODO: simplify logic below
 				_.each(images, function(image) {
-					ctx.drawImage(image.image, 0,0);
+					if(_.has(image.image, 'image')) {
+						ctx.drawImage(image.image.image, 0,0);	
+					} else {
+						ctx.drawImage(image.image, 0,0);
+					}
 				});
 
 				this.name = name;
@@ -42,5 +47,5 @@ define(['lodash', 'pc'], function(_, pc) {
 				// no need for that sir
 			}
 		}
-	)
+	);
 });

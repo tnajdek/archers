@@ -16,16 +16,13 @@
 		{{# !isEmpty(data.items[selectedItem].variants) }}
 			<select value="{{.selectedVariant}}">
 			{{# data.items[selectedItem].variants:k }}
-				<option value="{{stringify(.)}}">{{ k }}</option>
+				<option value="{{ k }}">{{ k }}</option>
 			{{/data.items[selectedItem].variants}}
 			</select>
 		{{/ end length}}
 	{{/slotData}}
+	<button on-tap="update">Finish</button>
 </div>
-
-<!-- {{>slot}} -->
-
-<!-- {{/slot}} -->
 
 <!-- {{>option}} -->
 	{{# filterSlot( (.), i ) }}

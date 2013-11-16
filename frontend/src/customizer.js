@@ -6,11 +6,14 @@ define(['lodash',
 	'text!templates/customizer-form.html'
 	], function(_, $, lodash, vent, Ractive, customizerTpl) {
 	var Customizer = function() {
+
+
 		this.init = function() {
 			var that = this,
 				data = pc.device.loader.get('items').resource.data,
-				$container = $('.customiser'),
-				slotData = {};
+				$customiser = $('.customiser'),
+				slotData = {},
+				ractive;
 
 			_.each(data.slots, function(slotname, slotid) {
 				slotData[slotid] = {
@@ -19,8 +22,8 @@ define(['lodash',
 				};
 			});
 
-			new Ractive({
-				el: $container[0],
+			ractive = new Ractive({
+				el: $customiser[0],
 				template: customizerTpl,
 				data: {
 					data: data,
@@ -42,7 +45,41 @@ define(['lodash',
 					isEmpty: _.isEmpty
 				}
 			});
-			$container.show();
+
+			ractive.observe('slotData', function(newValue) {
+				var slots = {};
+				slots['gender'] = ractive.get('gender');
+				_.each(newValue, function(val, key) {
+					if(val.selectedVariant) {
+						slots[key] = [val.selectedItem, val.selectedVariant];
+					} else {
+						slots[key] = val.selectedItem;
+					}
+				});
+				vent.trigger('customize:change', slots);
+			});
+
+			ractive.on('update', function() {
+				
+			});
+
+			vent.on('customize', function() {
+				var slots = {};
+				slots['gender'] = ractive.get('gender');
+				_.each(ractive.get('slotData'), function(val, key) {
+					if(val.selectedVariant) {
+						slots[key] = [val.selectedItem, val.selectedVariant];
+					} else {
+						slots[key] = val.selectedItem;
+					}
+				});
+				vent.trigger('customize:change', slots);
+				$customiser.show();
+			});
+
+			vent.on('endcustomize', function(items) {
+				$customiser.hide();
+			});
 		};
 	};
 

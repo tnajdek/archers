@@ -18,6 +18,7 @@ define(['pc',
 				gender = selected['gender'],
 				image, ss;
 
+
 			delete selected['gender'];
 			_.each(keys, function(key) {
 				var selectedItem = selected[key],
@@ -46,6 +47,7 @@ define(['pc',
 				}
 			});
 
+
 			image = new CompositeImage("", layers);
 			ss = new pc.SpriteSheet({
 				image: image,
@@ -58,6 +60,8 @@ define(['pc',
 			_.each(spriteDef.frames, function(a) {
 				ss.addAnimation(a);
 			});
+
+
 
 			return pc.components.Sprite.create({
 				spriteSheet:ss,

@@ -12,9 +12,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'spritedef/archer'],
 			this.layer = new pc.EntityLayer('main', 500, 500);
 			this.addLayer(this.layer);
 			this.layer.addSystem(new pc.systems.Render());
-		},
 
-		onActivated: function() {
 			this.character = this.factory.createEntity(
 				this.layer,
 				'archer',
@@ -30,18 +28,22 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'spritedef/archer'],
 				{}
 			);
 			vent.on('customize:change', _.bind(this.updateSprite, this));
-			// debugger;
+
+		},
+
+		onActivated: function() {
+			// ;
 		},
 
 		onDeactivated: function() {
 			this.character.remove();
 			this.character = null;
-			vent.off('customize:change');
 		},
 
 		updateSprite: function(selected) {
 			var newsprite = this.factory.getDynamicSprite(selected, archerSpritedef),
 				state = this.character.getComponent('state');
+
 			this.character.removeComponentByType('sprite');
 			this.character.addComponent(newsprite);
 			state.changeState(newsprite, 'walking', 'S', true);
