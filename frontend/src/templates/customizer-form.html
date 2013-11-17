@@ -16,7 +16,7 @@
 		{{# !isEmpty(data.items[selectedItem].variants) }}
 			<select value="{{.selectedVariant}}">
 			{{# data.items[selectedItem].variants:k }}
-				<option value="{{ k }}">{{ k }}</option>
+				<option value="{{ k }}">{{ .name }}</option>
 			{{/data.items[selectedItem].variants}}
 			</select>
 		{{/ end length}}

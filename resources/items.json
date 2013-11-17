@@ -36,29 +36,70 @@
 			"slot": 1,
 			"spritesheet": "hair.male.page",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
-
 		"11": {
 			"name": "Bangs",
 			"genderRestrictions": ["male"],
 			"slot": 1,
 			"spritesheet": "hair.male.page",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 
@@ -68,13 +109,34 @@
 			"slot": 1,
 			"spritesheet": "hair.male.bedhead",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 
@@ -84,13 +146,34 @@
 			"slot": 1,
 			"spritesheet": "hair.male.long",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 
@@ -100,13 +183,34 @@
 			"slot": 1,
 			"spritesheet": "hair.male.longhawk",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 
@@ -116,13 +220,34 @@
 			"slot": 1,
 			"spritesheet": "hair.male.messy1",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 
@@ -132,13 +257,34 @@
 			"slot": 1,
 			"spritesheet": "hair.male.messy2",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 
@@ -148,13 +294,34 @@
 			"slot": 1,
 			"spritesheet": "hair.male.mohawk",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 
@@ -164,13 +331,34 @@
 			"slot": 1,
 			"spritesheet": "hair.male.parted",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 
@@ -180,13 +368,34 @@
 			"slot": 1,
 			"spritesheet": "hair.male.shorthawk",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 
@@ -196,13 +405,34 @@
 			"slot": 1,
 			"spritesheet": "hair.female.bangsshort",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 		"22": {
@@ -211,13 +441,34 @@
 			"slot": 1,
 			"spritesheet": "hair.female.loose",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 		"23": {
@@ -226,13 +477,34 @@
 			"slot": 1,
 			"spritesheet": "hair.female.pixie",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 		"24": {
@@ -241,13 +513,34 @@
 			"slot": 1,
 			"spritesheet": "hair.female.ponytail",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 		"25": {
@@ -256,13 +549,34 @@
 			"slot": 1,
 			"spritesheet": "hair.female.princess",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 		"26": {
@@ -271,13 +585,34 @@
 			"slot": 1,
 			"spritesheet": "hair.female.swoop",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 		"27": {
@@ -286,13 +621,34 @@
 			"slot": 1,
 			"spritesheet": "hair.female.unkempt",
 			"variants": {
-				"green": [{"multiply": "3dbd61"}],
-				"redhair": [{"multiply": "d50b10"}],
-				"purple": [{"multiply": "651593"}],
-				"blue": [{"multiply": "1c57c4"}],
-				"black": [{"multiply": "301012"}],
-				"brown": [{"multiply": "800009"}],
-				"blond": [{"multiply": "ffa801"}]
+				"1": {
+					"name": "green",
+					"filters": [{"multiply": "3dbd61"}]
+				},
+				"2": {
+					"name": "redhair",
+					"filters": [{"multiply": "d50b10"}]
+				},
+				"3": {
+					"name": "purple",
+					"filters": [{"multiply": "651593"}]
+				},
+				"4": {
+					"name": "blue",
+					"filters": [{"multiply": "1c57c4"}]
+				},
+				"5": {
+					"name": "black",
+					"filters": [{"multiply": "301012"}]
+				},
+				"6": {
+					"name": "brown",
+					"filters": [{"multiply": "800009"}]
+				},
+				"7": {
+					"name": "blond",
+					"filters": [{"multiply": "ffa801"}]
+				}
 			}
 		},
 		"28": {

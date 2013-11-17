@@ -36,7 +36,7 @@ define(['pc',
 						ssSpec = ssSpec[gender];
 					}
 					if(selectedVariant) {
-						layerImage = new FilteredImage("", ssSpec, data.items[selectedItem].variants[selectedVariant]);
+						layerImage = new FilteredImage("", ssSpec, data.items[selectedItem].variants[selectedVariant].filters);
 					}
 
 					if(layerImage) {
