@@ -45,6 +45,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/render', 'systems/play
 						player: msg.player
 					}
 
+				// @TODO: ADD META to render unique characers
 				entity = that.entities[msg.id] = that.factory.createEntity(
 					that.layer,
 					msg.entityType,
@@ -111,6 +112,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/render', 'systems/play
 				var entity = that.entities[msg.id],
 					meta;
 
+				// @TODO: UPDATE ENTITY META render unique characers
 				if(entity) {
 					meta = entity.getComponent('meta');
 					if(meta) {

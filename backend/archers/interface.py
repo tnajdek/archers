@@ -24,6 +24,8 @@ class Connection(EventsMixins):
 		self.meta = {
 			"id": self.archer.id,
 			"username": "Unnamed",
+			"gender": "male",
+			"slots": {},
 			"kills": 0,
 			"deaths": 0,
 			"score": 0
@@ -56,17 +58,25 @@ class Connection(EventsMixins):
 		self.trigger('meta', self.meta)
 
 	def on_user_message(self, meta):
-		logging.info('GOT USER MSG')
-		logging.info(meta)
+		changed = False
 		if('username' in meta):
 			new_username = meta['username'][0:10]
 			if(new_username != self.meta['username']):
 				self.meta['username'] = new_username
 				logging.info("%s is now known as %s" % (self.session_id, self.meta['username']))
-				self.trigger('meta', self.meta)
+				changed = True
+				
+		if('gender' in meta and meta.gender != self.meta.gender):
+			self.meta.gender = meta.gender
+			changed = True
 
-		if('slots' in meta):
-			logging.info("got slots")
+		if('slots' in meta and meta.slots != self.meta.slots):
+			#@TODO: check if slots make sense?
+			self.meta.slots = meta.slots
+			changed = True
+
+		if(changed):
+			self.trigger('meta', self.meta)
 
 
 	def on_disconnect(self):
