@@ -7,19 +7,81 @@ define(['lodash',
 	], function(_, $, lodash, vent, Ractive, customizerTpl) {
 	var Customizer = function() {
 
+		function getRandomName(female) {
+			var maleNames = ['Anakin Skywalker','Atton Rand','Bao-Dur','Boba Fett','Canderous Ordo','Carth Onasi','Chewbacca','Chuundar','Dooku','Malak','Nihilus','Sion','Han Solo','Hanharr','Jolee Bindo','Kit Fisto','Kyle Katarn','Luke Skywalker','Mace Windu','Mical','Obi-Wan Kenobi','Palpatine','Plo Koon','Starkiller','Yoda','Zaalbar'],
+				femaleNames = ['Aayla Secura','Ahsoka Tano','Asajj Ventress','Bastila Shan','Brianna','Jan Ors','Juhani','Kreia','Leia Organa','Luminara Unduli','Mara Jade','Mira','Mission Vao','Mon Mothma','Visas Marr'],
+				prefix = ["Darth", "Count", "Commander", "Lord", "Emperor", "Duke"],
+				names = female ? femaleNames : maleNames,
+				random_name = names[_.random(names.length-1)],
+				random_prefix = prefix[_.random(prefix.length-1)],
+				random_long_name = random_prefix + ' ' + random_name;
+
+			return random_long_name.length > 12 ? random_name : random_long_name;
+		}
+
+		function getRandomAccount() {
+			var account = {},
+				data = pc.device.loader.get('items').resource.data;
+
+			account.gender = _.shuffle(['male', 'female']).pop();
+			account.username = getRandomName(account.gender === 'female');
+			account.slots = {};
+
+			_.each(data.slots, function(name, slotid) {
+				var candidates = [];
+				_.each(data.items, function(item, itemid) {
+					if(item.slot == slotid) {
+						if(item.variants && !_.isEmpty(item.variants)) {
+							candidates.push([
+								itemid,
+								_.shuffle(_.keys(item.variants)).pop()
+							]);
+						} else {
+							candidates.push(itemid);
+						}
+					}
+				});
+				account.slots[slotid] = _.shuffle(candidates).pop();
+			});
+
+			return account;
+		}
+
+		function getSlots(ractive, slotData) {
+			var slots = {};
+			_.each(ractive.get('slotData'), function(val, key) {
+				if(val.selectedVariant) {
+					slots[key] = [val.selectedItem, val.selectedVariant];
+				} else {
+					slots[key] = val.selectedItem;
+				}
+			});
+			return slots;
+		}
 
 		this.init = function() {
 			var that = this,
 				data = pc.device.loader.get('items').resource.data,
 				$customiser = $('.customiser'),
 				slotData = {},
+				localAccount = localStorage.getObject('account'),
 				ractive;
+
+			if(!localAccount) {
+				localAccount = getRandomAccount();
+			}
 
 			_.each(data.slots, function(slotname, slotid) {
 				slotData[slotid] = {
 					'name': slotname,
-					'id': slotid
+					'id': slotid,
 				};
+				if(localAccount.slots[slotid] && _.isArray(localAccount.slots[slotid])) {
+					slotData[slotid]['selectedItem'] = localAccount.slots[slotid][0];
+					slotData[slotid]['selectedVariant'] = localAccount.slots[slotid][1];
+				} else if(localAccount.slots[slotid]) {
+					slotData[slotid]['selectedItem'] = localAccount.slots[slotid];
+				}
 			});
 
 			ractive = new Ractive({
@@ -28,6 +90,8 @@ define(['lodash',
 				data: {
 					data: data,
 					slotData: slotData,
+					username: localAccount.username,
+					gender: localAccount.gender,
 					filterSlot: function ( item, value ) {
 						
 						return item.slot == value;
@@ -47,37 +111,38 @@ define(['lodash',
 			});
 
 			ractive.observe('slotData', function(newValue) {
-				var slots = {};
-				slots['gender'] = ractive.get('gender');
-				_.each(newValue, function(val, key) {
-					if(val.selectedVariant) {
-						slots[key] = [val.selectedItem, val.selectedVariant];
-					} else {
-						slots[key] = val.selectedItem;
-					}
-				});
+				var account = {};
+				
+				account.username = ractive.get('username');
+				account.gender = ractive.get('gender');
+				account.slots = getSlots(ractive, newValue);
+
 				vent.trigger('customize:change', slots);
 			});
 
 			ractive.on('update', function() {
-				
+				var account = {};
+
+				account.username = ractive.get('username');
+				account.gender = ractive.get('gender');
+				account.slots = getSlots(ractive, slotData);
+
+				vent.trigger('customize:end', account);
+				localStorage.setObject('account', account);
 			});
 
 			vent.on('customize', function() {
-				var slots = {};
-				slots['gender'] = ractive.get('gender');
-				_.each(ractive.get('slotData'), function(val, key) {
-					if(val.selectedVariant) {
-						slots[key] = [val.selectedItem, val.selectedVariant];
-					} else {
-						slots[key] = val.selectedItem;
-					}
-				});
-				vent.trigger('customize:change', slots);
+				var account = {};
+				
+				account.username = ractive.get('username');
+				account.gender = ractive.get('gender');
+				account.slots = getSlots(ractive, slotData);
+
+				vent.trigger('customize:change', account);
 				$customiser.show();
 			});
 
-			vent.on('endcustomize', function(items) {
+			vent.on('customize:end', function(items) {
 				$customiser.hide();
 			});
 		};

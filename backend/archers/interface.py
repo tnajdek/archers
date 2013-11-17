@@ -35,7 +35,7 @@ class Connection(EventsMixins):
 		self.world.on('step', self.on_step)
 		self.on('useraction', self.on_user_action)
 		self.on('disconnect', self.on_disconnect)
-		self.on('metamsg', self.on_metamsg)
+		self.on('usermsg', self.on_user_message)
 		self.on('kill', self.on_kill)
 		self.on('die', self.on_die)
 		self.on('mob', self.on_mob)
@@ -55,13 +55,19 @@ class Connection(EventsMixins):
 		self.meta['score'] = self.meta['score'] + settings.score['mob']
 		self.trigger('meta', self.meta)
 
-	def on_metamsg(self, meta):
+	def on_user_message(self, meta):
+		logging.info('GOT USER MSG')
+		logging.info(meta)
 		if('username' in meta):
 			new_username = meta['username'][0:10]
 			if(new_username != self.meta['username']):
 				self.meta['username'] = new_username
 				logging.info("%s is now known as %s" % (self.session_id, self.meta['username']))
 				self.trigger('meta', self.meta)
+
+		if('slots' in meta):
+			logging.info("got slots")
+
 
 	def on_disconnect(self):
 		self.world.off('destroy_object', self.on_destroy)

@@ -35,7 +35,7 @@ class UserCommunication(WebSocketServerProtocol):
 				msg = simplejson.loads(msg)
 			except Exception:
 				log.warning("Unable to decode meta msg %s coming from the client" % msg)
-			self.interface.trigger('metamsg', msg)
+			self.interface.trigger('usermsg', msg)
 
 	def onOpen(self):
 		self.interface = Connection(self.factory.world, self.factory.cache)

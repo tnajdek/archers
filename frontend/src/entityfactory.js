@@ -11,17 +11,17 @@ define(['pc',
 	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, stateComponent, metaComponent, networkComponent, CompositeImage, FilteredImage) {
 	var EntityFactory = pc.EntityFactory.extend('pc.archers.EntityFactory', {}, {
 
-		getDynamicSprite: function(selected, spriteDef, animationState) {
+		getDynamicSprite: function(account, spriteDef, animationState) {
 			var data = pc.device.loader.get('items').resource.data,
-				keys = _.keys(selected).sort(),
 				layers = [],
-				gender = selected['gender'],
+				gender = account.gender,
+				slots = account.slots,
+				keys = _.keys(slots).sort(),
 				image, ss;
 
 
-			delete selected['gender'];
 			_.each(keys, function(key) {
-				var selectedItem = selected[key],
+				var selectedItem = slots[key],
 					ssSpec, selectedVariant, layerImage;
 
 				if(_.isArray(selectedItem)) {

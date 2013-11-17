@@ -22,17 +22,18 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 			that.ws.send(Messaging.toBuffer([msg]));
 		};
 
-		this.onUsernameChange = function(e) {
-			var metamsg;
-			if(e && e.length){
-				metamsg = {
-					"username": e
-				};
-				that.ws.send(JSON.stringify(metamsg));
-			}
-		};
+		// this.onUsernameChange = function(e) {
+		// 	var metamsg;
+		// 	if(e && e.length){
+		// 		metamsg = {
+		// 			"username": e
+		// 		};
+		// 		that.ws.send(JSON.stringify(metamsg));
+		// 	}
+		// };
 
 		this.onMetaChange = function(e) {
+			console.info("METAMSG", e);
 			that.ws.send(JSON.stringify(e));
 		};
 
@@ -66,8 +67,9 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 			vent.on('spawn', that.onspawn);
 			vent.on('input', that.oninput)
 
-			vent.on('username', that.onUsernameChange);
-			vent.on('endcustomize', that.onMetaChange);
+			// vent.on('username', that.onUsernameChange);
+			vent.on('customize:end', that.onMetaChange);
+			vent.on('localAccountFound', that.onMetaChange);
 		};
 
 		this.ws.onclose = function(e) {
