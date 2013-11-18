@@ -14,7 +14,7 @@ Get f/e deps
     cd frontend
     npm install
     bower install
-    patch < patches/*.patch
+    patch --verbose -p0 < patches/*.patch
 
 Build f/e
 ---------

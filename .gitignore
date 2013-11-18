@@ -38,7 +38,7 @@ _res/*
 *.log
 
 node_modules
-frontend/components
+bower_components
 frontend/public/js
 frontend/public/index.html
 backend/profile/data

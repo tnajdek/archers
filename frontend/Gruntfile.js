@@ -87,6 +87,15 @@ module.exports = function(grunt) {
 					spawn: false,
 				}
 			}
+		},
+		connect: {
+			server: {
+				options: {
+					port: 8080,
+					hostname: '*',
+					base: '.'
+				}
+			}
 		}
 	});
 
@@ -99,8 +108,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-connect');
 
-	grunt.registerTask('develop', ['less:develop', 'watch:less']);
+	grunt.registerTask('develop', ['less:develop']);
 	grunt.registerTask('build', ['requirejs', 'removelogging', 'uglify', 'replace']);
 	grunt.registerTask('test', ['karma']);
+	grunt.registerTask('default', ['less:develop', 'connect', 'watch']);
 };
