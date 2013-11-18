@@ -1,0 +1,33 @@
+<div class="close">&#x274c;</div>
+<span>{{ status }}</span>
+<table>
+	<tr>
+		<th>Pos</th>
+		<th>Player</th>
+		<th>Kills</th>
+		<th>Deaths</th>
+		<th>Score</th>
+	</tr>
+	{{#sort(players): pos}}
+		<tr>
+			<th>{{ pos+1 }}</th>
+			<th>{{ .username }}</th>
+			<th>{{ .kills }}</th>
+			<th>{{ .deaths }}</th>
+			<th>{{ .score }}</th>
+		</tr>
+	{{/players}}
+</table>
+
+{{#account}}
+	{{#status == 'connected'}}
+		<button on-tap="spawn">Play!</button>
+	{{/status == 'connected'}}
+{{/account}}
+
+{{#!account}}
+	<button on-tap="customize">Select Character</button>
+{{/!account}}
+
+<a href="/help.html" target="_blank">Help</a> |
+<a href="/credits.html" target="_blank">Credits</a>
