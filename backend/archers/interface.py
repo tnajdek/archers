@@ -66,13 +66,13 @@ class Connection(EventsMixins):
 				logging.info("%s is now known as %s" % (self.session_id, self.meta['username']))
 				changed = True
 				
-		if('gender' in meta and meta.gender != self.meta.gender):
-			self.meta.gender = meta.gender
+		if('gender' in meta and meta['gender'] != self.meta['gender']):
+			self.meta['gender'] = meta['gender']
 			changed = True
 
-		if('slots' in meta and meta.slots != self.meta.slots):
+		if('slots' in meta and meta['slots'] != self.meta['slots']):
 			#@TODO: check if slots make sense?
-			self.meta.slots = meta.slots
+			self.meta['slots'] = meta['slots']
 			changed = True
 
 		if(changed):

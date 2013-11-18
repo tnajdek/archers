@@ -117,7 +117,9 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/render', 'systems/play
 					meta = entity.getComponent('meta');
 					if(meta) {
 						meta.update(msg);
-					}					
+					}
+					// @TODO: test if changed
+					that.factory.updateArcherSprite(entity, msg);
 				}
 			});
 		},

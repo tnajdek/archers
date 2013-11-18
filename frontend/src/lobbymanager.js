@@ -86,14 +86,14 @@ define(['jquery',
 
 			vent.on('player-has-spawned', function() {
 				that.hide();
-				$('.spawn').text('Suicide');
-				$('.username').attr('disabled', true);
+				// $('.spawn').text('Suicide');
+				// $('.username').attr('disabled', true);
 			});
 
 			vent.on('player-has-died', function() {
 				that.show();
-				$('.spawn').text('Play!');
-				$('.username').attr('disabled', false);
+				// $('.spawn').text('Play!');
+				// $('.username').attr('disabled', false);
 			});
 
 			vent.on('customize:end', function() {
@@ -122,7 +122,7 @@ define(['jquery',
 			});
 
 			this.ractive.on('spawn', function() {
-
+				vent.trigger('spawn');
 			});
 		};
 	};

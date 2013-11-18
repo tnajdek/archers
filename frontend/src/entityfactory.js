@@ -7,8 +7,10 @@ define(['pc',
 	'components/meta',
 	'components/network',
 	'composite-image',
-	'filtered-image'],
-	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, stateComponent, metaComponent, networkComponent, CompositeImage, FilteredImage) {
+	'filtered-image',
+	'lobbymanager'
+	],
+	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, stateComponent, metaComponent, networkComponent, CompositeImage, FilteredImage, lobbyManager) {
 	var EntityFactory = pc.EntityFactory.extend('pc.archers.EntityFactory', {}, {
 
 		getDynamicSprite: function(account, spriteDef, animationState) {
@@ -68,6 +70,19 @@ define(['pc',
 				animationStart: animationState
 			});
 		},
+
+		updateArcherSprite: function(entity, account) {
+			var state = entity.getComponent('state'),
+				newsprite;
+
+			if(entity.hasComponentOfType('sprite')) {
+				entity.removeComponentByType('sprite');
+			}
+
+			newsprite = this.getDynamicSprite(account, archerSpritedef, state.getStatedir());
+			entity.addComponent(newsprite);
+		},
+
 		// animationState to be automated based on state and dir
 		getSprite: function(spriteDef, animationState) {
 			var spriteImage = pc.device.loader.get(spriteDef.spriteName).resource,
@@ -119,17 +134,30 @@ define(['pc',
 		},
 
 		makeArcher: function(layer, x, y, dir, shape, props) {
-			var spatial = this.getSpatial(x, y, 64, 64),
-				state = stateComponent.create(props.state, dir),
+			var state = stateComponent.create(props.state, dir),
 				meta = metaComponent.create(),
-				sprite = this.getSprite(archerSpritedef, state.getStatedir()),
 				entity = pc.Entity.create(layer),
-				network = networkComponent.create();
+				network = networkComponent.create(),
+				spatial = this.getSpatial(x, y, 64, 64),
+				metadata = lobbyManager.metacollector[props.id],
+				sprite;
+
+			if(metadata && !_.isEmpty(metadata.slots)) {
+				sprite = this.getDynamicSprite(metadata, archerSpritedef, state.getStatedir());
+				// 
+			} else {
+				//@TODO: nulify
+				sprite = this.getSprite(archerSpritedef, state.getStatedir());
+				//ghost/observer/whatever - no avatar
+				// spatial = this.getSpatial(0, 0, 64, 64);
+			}
 
 			entity.addComponent(state);
 			entity.addComponent(meta);
 			entity.addComponent(spatial);
-			entity.addComponent(sprite);
+			if(sprite) {
+				entity.addComponent(sprite);
+			}
 			entity.addComponent(network);
 
 			if(props.player) {
