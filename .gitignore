@@ -41,4 +41,5 @@ node_modules
 bower_components
 frontend/public/js
 frontend/public/index.html
+frontend/public/css
 backend/profile/data

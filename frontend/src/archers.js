@@ -110,7 +110,7 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 				that.activateScene(that.customizeScene);
 			});
 
-			vent.on('endcustomize', function() {
+			vent.on('customize:end', function() {
 				that.deactivateScene(that.customizeScene);
 				that.activateScene(that.gameScene);
 			});

@@ -6,56 +6,19 @@ define(['jquery',
 	], function($, lodash, vent, Ractive, lobbyTpl) {
 	var Lobby = function() {
 		this.show = function() {
-			this.$lobby.show();
-			// this.$button.hide();
+			this.$container.show();
 		};
 
 		this.hide = function(hideTrayButton) {
-			this.$lobby.hide();
-			// if(!hideTrayButton) {
-			// 	this.$button.show();
-			// }
+			this.$container.hide();
 		};
 
-		// this.updatedLeaderBoard = function() {
-		// 	var that = this,
-		// 		ldTable = $('<table/>'),
-		// 		headrow = "<tr><td>Pos</td><td>Player</td><td>Kills</td><td>Deaths</td><td>Score</td></tr>",
-		// 		players = _.map(this.metacollector, function(meta, id) {
-		// 			return meta;
-		// 		}),
-		// 		players = _.sortBy(players, "score").reverse();
-
-
-		// 	ldTable.append(headrow);
-		// 	_.each(players, function(player, index) {
-		// 		player.position = index+1;
-		// 		ldTable.append(that.leaderboardEntryTpl(player));
-		// 	});
-		// 	this.$leaderboard.html(ldTable);
-		// };
-
-
-
 		this.init = function() {
-			var that = this
+			var that = this,
 				localAccount = localStorage.getObject('account');
 
-			this.$lobby = $('.lobby');
+			this.$container = $('.overlay-lobby');
 			this.metacollector = {};
-
-			// this.$lobby.on('change', '.username', function(e) {
-			// 	vent.trigger('username', $(this).val());
-			// });
-
-			// this.$lobby.on('click', '.spawn', function() {
-			// 	vent.trigger('username', $('.username').val());
-			// 	vent.trigger('spawn');
-			// });
-
-			// this.$lobby.on('click', '.customize', function() {
-			// 	vent.trigger('customize');
-			// });
 
 			vent.on('connected', function() {
 				that.ractive.set('status', 'connected');
@@ -68,7 +31,8 @@ define(['jquery',
 			});
 
 			vent.on('disconnected', function() {
-				that.$lobby.show();
+				that.ractive.set('visible', "true");
+				that.ractive.set('spawned', "false");
 				that.ractive.set('status', "disconnected");
 			});
 
@@ -79,35 +43,39 @@ define(['jquery',
 			});
 			vent.on('remove', function(msg) {
 				if(that.metacollector[msg.id]) {
-					delete metacollector[msg.id];
+					delete that.metacollector[msg.id];
 					that.ractive.set('players', that.metacollector);
 				}
 			});
 
 			vent.on('player-has-spawned', function() {
-				that.hide();
+				that.ractive.set('visible', false);
+				that.ractive.set('spawned', true);
 				// $('.spawn').text('Suicide');
 				// $('.username').attr('disabled', true);
 			});
 
 			vent.on('player-has-died', function() {
-				that.show();
+				that.ractive.set('visible', true);
+				that.ractive.set('spawned', false);
 				// $('.spawn').text('Play!');
 				// $('.username').attr('disabled', false);
 			});
 
-			vent.on('customize:end', function() {
+			vent.on('customize:end', function(localAccount) {
 				localAccount = localStorage.getObject('account');
 				that.ractive.set('account', localAccount);
 			});
 
 			this.ractive = new Ractive({
-				el: this.$lobby[0],
+				el: this.$container[0],
 				template: lobbyTpl,
 				data: {
 					players: this.metacollector,
 					account: localAccount,
 					status: 'connecting...',
+					spawned: false,
+					visible: true,
 					sort: function(players) {
 						//sort players by score desc
 						return _.sortBy(_.map(players, function(meta, id) {
@@ -123,6 +91,14 @@ define(['jquery',
 
 			this.ractive.on('spawn', function() {
 				vent.trigger('spawn');
+			});
+
+			this.ractive.on('close', function() {
+				that.ractive.set('visible', false);
+			});
+
+			this.ractive.on('open', function() {
+				that.ractive.set('visible', true);
 			});
 		};
 	};

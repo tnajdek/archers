@@ -177,43 +177,6 @@
 			}
 		},
 
-		"14": {
-			"name": "Longhawk",
-			"genderRestrictions": ["male"],
-			"slot": 1,
-			"spritesheet": "hair.male.longhawk",
-			"variants": {
-				"1": {
-					"name": "green",
-					"filters": [{"multiply": "3dbd61"}]
-				},
-				"2": {
-					"name": "redhair",
-					"filters": [{"multiply": "d50b10"}]
-				},
-				"3": {
-					"name": "purple",
-					"filters": [{"multiply": "651593"}]
-				},
-				"4": {
-					"name": "blue",
-					"filters": [{"multiply": "1c57c4"}]
-				},
-				"5": {
-					"name": "black",
-					"filters": [{"multiply": "301012"}]
-				},
-				"6": {
-					"name": "brown",
-					"filters": [{"multiply": "800009"}]
-				},
-				"7": {
-					"name": "blond",
-					"filters": [{"multiply": "ffa801"}]
-				}
-			}
-		},
-
 		"15": {
 			"name": "Messy 1",
 			"genderRestrictions": ["male"],

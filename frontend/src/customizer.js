@@ -62,7 +62,7 @@ define(['lodash',
 		this.init = function() {
 			var that = this,
 				data = pc.device.loader.get('items').resource.data,
-				$customiser = $('.customiser'),
+				$customiser = $('.overlay-customiser'),
 				slotData = {},
 				localAccount = localStorage.getObject('account'),
 				ractive;
@@ -117,7 +117,17 @@ define(['lodash',
 				account.gender = ractive.get('gender');
 				account.slots = getSlots(ractive, newValue);
 
-				vent.trigger('customize:change', slots);
+				vent.trigger('customize:change', account);
+			});
+
+			ractive.observe('gender', function(newValue) {
+				var account = {};
+				
+				account.username = ractive.get('username');
+				account.gender = newValue;
+				account.slots = getSlots(ractive, slotData);
+
+				vent.trigger('customize:change', account);
 			});
 
 			ractive.on('update', function() {
@@ -127,8 +137,9 @@ define(['lodash',
 				account.gender = ractive.get('gender');
 				account.slots = getSlots(ractive, slotData);
 
-				vent.trigger('customize:end', account);
 				localStorage.setObject('account', account);
+				vent.trigger('customize:end', account);
+				
 			});
 
 			vent.on('customize', function() {

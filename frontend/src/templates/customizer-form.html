@@ -1,28 +1,30 @@
-<div class="customizer-form">
-	<input type="text" value="{{username}}" placeholder="Username">
-	<label for="customiser-gender">gender</label>
-	<select id="customiser-gender" value="{{gender}}">
-		<option value="male">Male</option>
-		<option value="female">Female</option>
-	</select>
-	{{#slotData:i}}
-		<label for="customiser-slot-{{ .id }}">
-			{{ .name }}
-		</label>
-		<select value="{{.selectedItem}}" id="customiser-slot-{{ .id }}">
-			{{#data.items:j}}
-				{{>option}}
-			{{/data.items}}
+<div class="customiser">
+	<div class="customizer-form">
+		<input type="text" value="{{username}}" placeholder="Username">
+		<label for="customiser-gender">gender</label>
+		<select id="customiser-gender" value="{{gender}}">
+			<option value="male">Male</option>
+			<option value="female">Female</option>
 		</select>
-		{{# !isEmpty(data.items[selectedItem].variants) }}
-			<select value="{{.selectedVariant}}">
-			{{# data.items[selectedItem].variants:k }}
-				<option value="{{ k }}">{{ .name }}</option>
-			{{/data.items[selectedItem].variants}}
+		{{#slotData:i}}
+			<label for="customiser-slot-{{ .id }}">
+				{{ .name }}
+			</label>
+			<select value="{{.selectedItem}}" id="customiser-slot-{{ .id }}">
+				{{#data.items:j}}
+					{{>option}}
+				{{/data.items}}
 			</select>
-		{{/ end length}}
-	{{/slotData}}
-	<button on-tap="update">Finish</button>
+			{{# !isEmpty(data.items[selectedItem].variants) }}
+				<select value="{{.selectedVariant}}">
+				{{# data.items[selectedItem].variants:k }}
+					<option value="{{ k }}">{{ .name }}</option>
+				{{/data.items[selectedItem].variants}}
+				</select>
+			{{/ end length}}
+		{{/slotData}}
+		<button on-tap="update">Finish</button>
+	</div>
 </div>
 
 <!-- {{>option}} -->

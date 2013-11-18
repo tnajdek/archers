@@ -1,33 +1,50 @@
-<div class="close">&#x274c;</div>
-<span>{{ status }}</span>
-<table>
-	<tr>
-		<th>Pos</th>
-		<th>Player</th>
-		<th>Kills</th>
-		<th>Deaths</th>
-		<th>Score</th>
-	</tr>
-	{{#sort(players): pos}}
-		<tr>
-			<th>{{ pos+1 }}</th>
-			<th>{{ .username }}</th>
-			<th>{{ .kills }}</th>
-			<th>{{ .deaths }}</th>
-			<th>{{ .score }}</th>
-		</tr>
-	{{/players}}
-</table>
+{{#!visible}}
+	<button class="show-rankings" on-tap="open"></button>
+{{/!visible}}
 
-{{#account}}
-	{{#status == 'connected'}}
-		<button on-tap="spawn">Play!</button>
-	{{/status == 'connected'}}
-{{/account}}
+{{#visible}}
+	<div class="lobby">
+		<div class="close" on-tap="close">&#x274c;</div>
+		<span>{{ status }}</span>
+		<table>
+			<tr>
+				<th>Pos</th>
+				<th>Player</th>
+				<th>Kills</th>
+				<th>Deaths</th>
+				<th>Score</th>
+			</tr>
+			{{#sort(players): pos}}
+				<tr>
+					<th>{{ pos+1 }}</th>
+					<th>{{ .username }}</th>
+					<th>{{ .kills }}</th>
+					<th>{{ .deaths }}</th>
+					<th>{{ .score }}</th>
+				</tr>
+			{{/players}}
+		</table>
 
-{{#!account}}
-	<button on-tap="customize">Select Character</button>
-{{/!account}}
+		{{#!spawned}}
+			<button on-tap="customize">Select Character</button>
+		{{/!spawned}}
 
-<a href="/help.html" target="_blank">Help</a> |
-<a href="/credits.html" target="_blank">Credits</a>
+		{{#account}}
+			{{#status == 'connected'}}
+				{{#spawned}}
+					<button on-tap="spawn">Suicide!</button>
+				{{/spawned}}
+				{{#!spawned}}
+					<button on-tap="spawn">Play!</button>
+				{{/!spawned}}
+			{{/status == 'connected'}}
+		{{/account}}
+
+
+
+
+
+		<a href="/help.html" target="_blank">Help</a> |
+		<a href="/credits.html" target="_blank">Credits</a>
+	</div>
+{{/visible}}

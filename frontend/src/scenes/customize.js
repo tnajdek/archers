@@ -32,12 +32,10 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'spritedef/archer'],
 		},
 
 		onActivated: function() {
-			// ;
+
 		},
 
 		onDeactivated: function() {
-			this.character.remove();
-			this.character = null;
 		},
 
 		updateSprite: function(selected) {
