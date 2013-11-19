@@ -112,12 +112,22 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 
 	def commit_kill(self):
 		self.state = "dead"
+		if(not hasattr(self, 'delayed_cleanup') or not self.delayed_cleanup.active()):
+			self.delayed_cleanup = self.reactor.callLater(
+				1.0,
+				self.commit_cleanup
+			)
+
+	def commit_cleanup(self):
+		self.state = 'unknown'
 
 	def cancel_pending(self):
 		if(hasattr(self, 'delayed_attack') and self.delayed_attack.active()):
 			self.delayed_attack.cancel()
 		if(hasattr(self, 'delayed_dying') and self.delayed_dying.active()):
 			self.delayed_dying.cancel()
+		if(hasattr(self, 'delayed_cleanup') and self.delayed_cleanup.active()):
+			self.delayed_cleanup.cancel()
 
 
 class Arrow(SelfDestructable, NetworkMixin):

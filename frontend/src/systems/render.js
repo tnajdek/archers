@@ -14,18 +14,19 @@ define(['pc'], function(pc) {
 
 		process:function (entity) {
 			var spatial = entity.getComponent('spatial'),
+				state = entity.getComponent('state'),
 				meta = entity.getComponent('meta'),
 				ctx = pc.device.ctx;
 
-			if(spatial && meta && meta.username) {
+			if(spatial && state && state.state != 'unknown' && meta && meta.username) {
 
-				ctx.font = "11px ponderosa,monospace"
-				ctx.textAlign = 'center'
+				ctx.font = "11px ponderosa,monospace";
+				ctx.textAlign = 'center';
 				if(entity.hasTag('PLAYER')) {
 					// ctx.fillStyle = "rgba(10,174,255,1.0)"
-					ctx.fillStyle = "rgba(255,255,255,1.0)"
-				} else {
 					ctx.fillStyle = "rgba(255,157,0,1.0)";
+				} else {
+					ctx.fillStyle = "rgba(235,235,235,1.0)";
 				}
 				ctx.fillText(meta.username,
 					entity.layer.screenX(spatial.pos.x+0.5*spatial.getDim().x),
@@ -35,5 +36,5 @@ define(['pc'], function(pc) {
 
 			this._super();
 		}
-	})
+	});
 });

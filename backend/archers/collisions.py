@@ -37,6 +37,8 @@ class Collisions(b2ContactListener):
 		a = contact.fixtureA.userData
 		b = contact.fixtureB.userData
 
+		#dead and unknown players should not collide
+
 		pair = self.is_pair(a, b, 'Arrow', 'Archer')
 		if(pair):
 			arrow, archer = pair

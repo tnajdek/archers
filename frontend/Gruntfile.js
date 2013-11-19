@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 		requirejs: {
 			compile: {
 				options: {
-					name: "../components/almond/almond",
+					name: "../bower_components/almond/almond",
 					baseUrl: "src/",
 					mainConfigFile: "src/require-config.js",
 					out: "public/js/archers.js",
