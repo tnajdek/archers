@@ -108,9 +108,12 @@ class WorldObject(Base):
 	# collision_mask = CLCAT_EVERYTHING
 
 	def attach_collision_data(self, fixture):
-		fixture.filterData.categoryBits = type(self).collision_category
-		fixture.filterData.maskBits = type(self).collision_mask
+		fixture.filterData.categoryBits = self.collision_category
+		fixture.filterData.maskBits = self.collision_mask
 		fixture.filterData.groupIndex = 1
+
+	def update_collision_definition(self):
+		self.attach_collision_data(self.physics.fixtures[0])
 
 	def create_static_polygon_body(self, x, y, vertices):
 		self.physics = self.world.physics.CreateStaticBody(
@@ -169,6 +172,12 @@ class WorldObject(Base):
 		self.world.add_object(self)
 		self.type = type
 		self.name = name
+
+		# copy collision cat/mask from class to instance
+		# self.collision_category = type(self).collision_category
+		# self.collision_mask = type(self).collision_mask
+		# print(self.collision_category)
+
 
 		if(not self.type):
 			self.type = self.__class__.default_type

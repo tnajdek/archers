@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from archers.utils import rad2vec, vec2rad
 from settings import PPM
+from collisions import CLCAT_NOTHING
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1024, 1024
 
@@ -23,14 +24,23 @@ class Renderer():
 		pygame.display.set_caption('Debug renderer')
 		self.world = world
 
+	def get_color(self, world_object):
+		class_ = world_object.__class__.__name__.lower()
+		color = colors.get(class_, colors['fallback'])
+
+		if(hasattr( world_object, 'collision_mask') and world_object.collision_mask == CLCAT_NOTHING):
+			color = (color[0]/2, color[1]/2, color[2]/2, color[3]/2)
+
+		return color
+
 	def render_frame(self):
 		self.screen.fill(colors['background'])
 		for world_object in self.world.object_lookup_by_name.values():
 			if(hasattr(world_object, "physics") and hasattr(world_object.physics, 'fixtures')):
-				class_ = world_object.__class__.__name__.lower()
-				type_ = world_object.type
-				name_ = world_object.name
-				color = colors.get(class_, colors['fallback'])
+				color = self.get_color(world_object)
+				# type_ = world_object.type
+				# name_ = world_object.name
+								
 				for fixture in world_object.physics.fixtures:
 					shape = fixture.shape
 					vertices = [(world_object.physics.transform*v)*PPM for v in shape.vertices]

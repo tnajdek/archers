@@ -1,13 +1,14 @@
 from Box2D import *
 from archers.world import WorldObject, ReactorMixin, SelfDestructable, NetworkMixin, directions
 from archers.utils import vec2rad, rad2vec
-from collisions import CLCAT_CREATURE, CLCAT_BULLET, CLCAT_EVERYTHING, CLCAT_AIRBORNE_OBSTACLE, CLCAT_TERRESTRIAL_OBSTACLE
+from collisions import CLCAT_CREATURE, CLCAT_BULLET, CLCAT_EVERYTHING, CLCAT_AIRBORNE_OBSTACLE, CLCAT_TERRESTRIAL_OBSTACLE, CLCAT_NOTHING
 
 
 class Archer(WorldObject, ReactorMixin, NetworkMixin):
 	default_type = 'archer'
 	collision_category = CLCAT_CREATURE
-	collision_mask = CLCAT_EVERYTHING ^ CLCAT_AIRBORNE_OBSTACLE
+	collision_mask = CLCAT_NOTHING
+	
 
 	def __init__(self, world, player=None, *args, **kwargs):
 		self.speed = 1.0
@@ -17,6 +18,7 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		self.width = 1.0
 		self.height = 1.5
 		self.group_index = world.get_free_group_index()
+		
 
 		# self.arrows_shot = list()
 		self.state = 'unknown'
@@ -27,6 +29,9 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		self.create_dynamic_box_body(spawn_point.x, spawn_point.y, self.width, self.height)
 		self.physics.fixedRotation = True
 		self.direction = directions['east']
+		self.collision_mask = CLCAT_EVERYTHING ^ CLCAT_AIRBORNE_OBSTACLE
+		self.update_collision_definition()
+
 
 	def attach_collision_data(self, fixture):
 		super(Archer, self).attach_collision_data(fixture)
@@ -38,6 +43,8 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		self.cancel_pending()
 		self.want_stop()
 		self.state = 'dying'
+		self.collision_mask = CLCAT_NOTHING
+		self.update_collision_definition()
 		if(not hasattr(self, 'delayed_dying') or not self.delayed_dying.active()):
 			self.delayed_dying = self.reactor.callLater(
 				0.9,
