@@ -634,6 +634,26 @@
 				"female": "eqp.female.dress"
 			}
 		},
+		"101": {
+			"name": "Leather Armor",
+				"price": 20,
+				"slot": 10,
+				"genderRestrictions": ["male", "female"],
+				"spritesheet": {
+					"male": [
+						"eqp.male.leather.chest",
+						"eqp.male.leather.bracers",
+						"eqp.male.leather.shoulders",
+						"eqp.male.green-pants"
+					],
+					"female": [
+						"eqp.female.leather.chest",
+						"eqp.female.leather.bracers",
+						"eqp.female.leather.shoulders",
+						"eqp.female.green-pants"
+					]
+				}
+		},
 
 		"200": {
 			"name": "Bow",

@@ -40,7 +40,8 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 				'skeleton',
 				'/resources/skeleton.png'
 			));
-
+			
+			// @TODO: automate or read from items.json
 			pc.device.loader.add(new pc.Image('base.female.light', '/resources/archer/base.female.light.png'));
 			pc.device.loader.add(new pc.Image('base.female.orc', '/resources/archer/base.female.orc.png'));
 			pc.device.loader.add(new pc.Image('base.male.light', '/resources/archer/base.male.light.png'));
@@ -54,6 +55,16 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 			pc.device.loader.add(new pc.Image('eqp.male.shirt.white', '/resources/archer/eqp.male.shirt.white.png'));
 			pc.device.loader.add(new pc.Image('eqp.recurvebow', '/resources/archer/eqp.recurvebow.png'));
 
+			pc.device.loader.add(new pc.Image('eqp.male.leather.chest', '/resources/archer/eqp.male.leather.chest.png'));
+			pc.device.loader.add(new pc.Image('eqp.male.leather.bracers', '/resources/archer/eqp.male.leather.bracers.png'));
+			pc.device.loader.add(new pc.Image('eqp.male.leather.shoulders', '/resources/archer/eqp.male.leather.shoulders.png'));
+			pc.device.loader.add(new pc.Image('eqp.female.leather.chest', '/resources/archer/eqp.female.leather.chest.png'));
+			pc.device.loader.add(new pc.Image('eqp.female.leather.bracers', '/resources/archer/eqp.female.leather.bracers.png'));
+			pc.device.loader.add(new pc.Image('eqp.female.leather.shoulders', '/resources/archer/eqp.female.leather.shoulders.png'));
+			
+			pc.device.loader.add(new pc.Image('eqp.male.green-pants', '/resources/archer/eqp.male.green-pants.png'));
+			pc.device.loader.add(new pc.Image('eqp.female.green-pants', '/resources/archer/eqp.female.green-pants.png'));
+
 			// hair
 			pc.device.loader.add(new pc.Image('hair.female.bangsshort', '/resources/archer/hair.female.bangsshort.png'));
 			pc.device.loader.add(new pc.Image('hair.female.loose', '/resources/archer/hair.female.loose.png'));
@@ -64,7 +75,7 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 			pc.device.loader.add(new pc.Image('hair.female.unkempt', '/resources/archer/hair.female.unkempt.png'));
 			pc.device.loader.add(new pc.Image('hair.male.bangs', '/resources/archer/hair.male.bangs.png'));
 			pc.device.loader.add(new pc.Image('hair.male.bedhead', '/resources/archer/hair.male.bedhead.png'));
-			pc.device.loader.add(new pc.Image('hair.male.longhawk', '/resources/archer/hair.male.longhawk.png'));
+
 			pc.device.loader.add(new pc.Image('hair.male.long', '/resources/archer/hair.male.long.png'));
 			pc.device.loader.add(new pc.Image('hair.male.messy1', '/resources/archer/hair.male.messy1.png'));
 			pc.device.loader.add(new pc.Image('hair.male.messy2', '/resources/archer/hair.male.messy2.png'));
