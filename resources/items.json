@@ -656,12 +656,86 @@
 		},
 
 		"200": {
-			"name": "Bow",
+			"name": "Short Bow",
 			"price": 0,
 			"slot": 20,
+			"speed": 0.75,
+			"distance": 0.75,
 			"genderRestrictions": ["male", "female"],
 			"spritesheet": [
 				"eqp.bow",
+				"eqp.arrow"
+			]
+		},
+		"201": {
+			"name": "Long Bow",
+			"price": 0,
+			"slot": 20,
+			"speed": 1.0,
+			"distance": 1.0,
+			"genderRestrictions": ["male", "female"],
+			"spritesheet": [
+				"eqp.greatbow",
+				"eqp.arrow"
+			]
+		},
+		"202": {
+			"name": "Holmegaard Bow",
+			"price": 0,
+			"slot": 20,
+			"speed": 0.75,
+			"distance": 1.25,
+			"genderRestrictions": ["male", "female"],
+			"spritesheet": [
+				"eqp.greatbow",
+				"eqp.arrow"
+			]
+		},
+		"203": {
+			"name": "Yumi",
+			"price": 0,
+			"slot": 20,
+			"speed": 0.75,
+			"distance": 1.5,
+			"genderRestrictions": ["male", "female"],
+			"spritesheet": [
+				"eqp.greatbow",
+				"eqp.arrow"
+			]
+		},
+		"204": {
+			"name": "Gungdo",
+			"price": 0,
+			"slot": 20,
+			"speed": 0.5,
+			"distance": 0.75,
+			"genderRestrictions": ["male", "female"],
+			"spritesheet": [
+				"eqp.recurvebow",
+				"eqp.arrow"
+			]
+		},
+		"205": {
+			"name": "Recurve Bow",
+			"price": 1,
+			"slot": 20,
+			"speed": 0.25,
+			"distance": 0.75,
+			"genderRestrictions": ["male", "female"],
+			"spritesheet": [
+				"eqp.recurvebow",
+				"eqp.arrow"
+			]
+		},
+		"206": {
+			"name": "Composite Recurve Bow",
+			"price": 1,
+			"slot": 20,
+			"speed": 0.25,
+			"distance": 1.25,
+			"genderRestrictions": ["male", "female"],
+			"spritesheet": [
+				"eqp.recurvebow",
 				"eqp.arrow"
 			]
 		}

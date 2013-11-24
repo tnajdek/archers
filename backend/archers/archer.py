@@ -1,6 +1,8 @@
+import logging
 from Box2D import *
 from archers.world import WorldObject, ReactorMixin, SelfDestructable, NetworkMixin, directions
 from archers.utils import vec2rad, rad2vec
+from archers.items import items, get_slot_for
 from collisions import CLCAT_CREATURE, CLCAT_BULLET, CLCAT_EVERYTHING, CLCAT_AIRBORNE_OBSTACLE, CLCAT_TERRESTRIAL_OBSTACLE, CLCAT_NOTHING
 
 
@@ -106,14 +108,16 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		self.direction = direction
 		if(not hasattr(self, 'delayed_attack') or not self.delayed_attack.active()):
 			self.delayed_attack = self.reactor.callLater(
-				0.75*self.attack_speed,
+				0.75*self.get_attack_speed(),
 				self.commit_attack,
 				direction
 			)
 			self.state = "shooting"
 
 	def commit_attack(self, direction):
-		Arrow(direction, self.arrows_speed, self, reactor=self.reactor)
+		Arrow(direction, self.arrows_speed, self, reactor=self.reactor,
+			lifetime=self.get_arrow_lifetime())
+
 		self.want_stop()
 		# self.arrows_shot.append(arrow)
 
@@ -136,6 +140,29 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		if(hasattr(self, 'delayed_cleanup') and self.delayed_cleanup.active()):
 			self.delayed_cleanup.cancel()
 
+	def get_arrow_lifetime(self):
+		weapon_slot = get_slot_for('weapon')
+		if(weapon_slot):
+			bow_id = self.interface.meta['slots'][weapon_slot]
+			bow = items[bow_id]
+			if "distance" in bow:
+				return bow['distance']
+		logging.warning("got invalid weapon_slot (%s) or bow definition (%s)."
+			% (weapon_slot, bow))
+		return 1.0
+
+	def get_attack_speed(self):
+		weapon_slot = get_slot_for('weapon')
+		if(weapon_slot):
+			bow_id = self.interface.meta['slots'][weapon_slot]
+			bow = items[bow_id]
+			if "speed" in bow:
+				print(bow['speed'])
+				return bow['speed']
+		logging.warning("got invalid weapon_slot (%s) or bow definition (%s)."
+			% (weapon_slot, bow))
+		return 1.0
+
 
 class Arrow(SelfDestructable, NetworkMixin):
 	collision_category = CLCAT_BULLET
@@ -153,7 +180,7 @@ class Arrow(SelfDestructable, NetworkMixin):
 		super(Arrow, self).__init__(
 			owner.world,
 			type="arrow",
-			lifetime=1.0,
+			lifetime=kwargs.pop('lifetime', 1.0),
 			**kwargs)
 
 		target_position = b2Vec2(
@@ -185,7 +212,7 @@ class Arrow(SelfDestructable, NetworkMixin):
 		super(Arrow, self).attach_collision_data(fixture)
 		fixture.filterData.groupIndex = self.owner.group_index*-1
 
-	def destroy(self, source="dupa"):
+	def destroy(self):
 		# self.owner.arrows_shot.remove(self)
 		self.world.physics.DestroyBody(self.physics)
 		super(Arrow, self).destroy()

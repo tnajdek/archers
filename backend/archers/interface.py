@@ -31,6 +31,8 @@ class Connection(EventsMixins):
 			"score": 0
 		}
 
+		self.archer.interface = self
+
 		logging.info("New connection %s" % self.session_id)
 
 		self.world.on('destroy_object', self.on_destroy)
