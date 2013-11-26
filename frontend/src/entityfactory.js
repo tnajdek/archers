@@ -73,13 +73,28 @@ define(['pc',
 
 		updateArcherSprite: function(entity, account) {
 			var state = entity.getComponent('state'),
+				data = pc.device.loader.get('items').resource.data,
+				weaponSlot = _.invert(data.slots)['weapon'],
+				weaponId = account.slots[weaponSlot],
+				weapon = data.items[weaponId],
+				spriteDef = JSON.parse(JSON.stringify(archerSpritedef)), //clone deep
 				newsprite;
 
 			if(entity.hasComponentOfType('sprite')) {
 				entity.removeComponentByType('sprite');
 			}
 
-			newsprite = this.getDynamicSprite(account, archerSpritedef, state.getStatedir());
+			_.each(spriteDef.frames, function(frame, key) {
+				if(frame.name.indexOf("shooting") === 0) {
+					spriteDef.frames[key].time = weapon.speed * spriteDef.frames[key].time;
+					console.log(spriteDef.frames[key].time);
+				}
+
+			});
+
+
+
+			newsprite = this.getDynamicSprite(account, spriteDef, state.getStatedir());
 			entity.addComponent(newsprite);
 		},
 
