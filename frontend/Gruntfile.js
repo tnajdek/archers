@@ -79,10 +79,15 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		autoprefixer: {
+			develop: {
+				  src: 'css/archers.css'
+			},
+		},
 		watch: {
 			less: {
 				files: ['less/*.less', 'src/less/**/*.less'],
-				tasks: ['less:develop'],
+				tasks: ['less:develop', 'autoprefixer:develop'],
 				options: {
 					spawn: false,
 				}
@@ -109,9 +114,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-connect');
+	grunt.loadNpmTasks('grunt-autoprefixer');
 
 	grunt.registerTask('develop', ['less:develop']);
 	grunt.registerTask('build', ['requirejs', 'removelogging', 'uglify', 'replace']);
 	grunt.registerTask('test', ['karma']);
-	grunt.registerTask('default', ['less:develop', 'connect', 'watch']);
+	grunt.registerTask('default', ['less:develop', 'autoprefixer:develop', 'connect', 'watch']);
 };

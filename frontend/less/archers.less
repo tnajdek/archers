@@ -214,7 +214,10 @@ button.show-rankings {
 	width: 360px;
 	margin-left: auto;
 	text-align: left;
-	border:1px solid red;
+	border-style: solid;
+	border-width: 68px 68px 68px 68px;
+	border-image: url('/gfx/border.png') 68 68 68 68 fill repeat;
+	background: url('/gfx/texture/dark_leather.png') repeat;
 
 	@media only screen and (max-width: 1000px) {
 		position: fixed;
@@ -223,6 +226,55 @@ button.show-rankings {
 	@media only screen and (min-width: 1000px) {
 		position: fixed;
 		left:640px;
+	}
+
+	.character {
+		background: url('/gfx/shiloutte.png') no-repeat;
+		width:323px;
+		height:400px;
+		margin:0 auto;
+		position:relative;
+
+		.slot {
+
+			position: absolute;
+			&:before {
+				background: url('/gfx/slot.png') no-repeat;
+				width:42px;
+				height:42px;
+				opacity: 0.6;
+				content:" ";
+				display: block;
+				transition: opacity 0.5s, ease-in-out;
+			}
+
+			&:hover {
+				&:before {
+					opacity: 1;
+				}
+			}
+
+			&.head {
+				left: 75px;
+			}
+			&.armor {
+				left: 81px;
+				top: 87px;
+			}
+			&.weapon {
+				left: 230px;
+				top: 120px;
+			}
+
+			&.boots {
+				left: 120px;
+				top: 360px;
+			}
+
+			&.eyes, &.body, &.hair {
+				display:none;
+			}
+		}
 	}
 
 }
