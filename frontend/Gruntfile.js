@@ -65,7 +65,7 @@ module.exports = function(grunt) {
 					dumpLineNumbers: 'all'
 				},
 				files: {
-					"css/archers.css": "less/archers.less"
+					"css/archers.css": "src/less/archers.less"
 				}
 			},
 			production: {
@@ -75,7 +75,7 @@ module.exports = function(grunt) {
 					yuicompress: true
 				},
 				files: {
-					"css/archers.css": "less/archers.less"
+					"css/archers.css": "src/less/archers.less"
 				}
 			}
 		},
@@ -91,6 +91,14 @@ module.exports = function(grunt) {
 				options: {
 					spawn: false,
 				}
+			}
+		},
+		sprite:{
+			gfx: {
+				src: 'src/gfx-sprites/*.png',
+				destImg: 'public/gfx/sprites.png',
+				destCSS: 'src/less/sprites.less',
+				cssFormat: 'less',
 			}
 		},
 		connect: {
@@ -115,6 +123,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-autoprefixer');
+	grunt.loadNpmTasks('grunt-spritesmith');
 
 	grunt.registerTask('develop', ['less:develop']);
 	grunt.registerTask('build', ['requirejs', 'removelogging', 'uglify', 'replace']);
