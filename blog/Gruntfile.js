@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 					dumpLineNumbers: 'all'
 				},
 				files: {
-					"build/css/archers.css": "less/archers.less"
+					"build/css/archers.css": "src/less/archers.less"
 				}
 			},
 			production: {
@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 					yuicompress: true
 				},
 				files: {
-					"build/css/archers.css": "less/archers.less"
+					"build/css/archers.css": "src/less/archers.less"
 				}
 			}
 		},
@@ -30,14 +30,14 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			less: {
-				files: ['less/*.less', 'src/less/**/*.less'],
+				files: ['src/less/*.*ss',  'src/less/**/*.*ss'],
 				tasks: ['less:develop', 'autoprefixer:develop'],
 				options: {
 					spawn: false,
 				}
 			},
 			pages: {
-				files: ["posts/*.hbs", "pages/*.hbs", "layouts/*.hbs", "includes/*.hbs", "data/*"],
+				files: ["src/posts/*.hbs", "src/pages/*.hbs", "src/layouts/*.hbs", "src/includes/*.hbs", "src/data/*"],
 				tasks: ["assemble"]
 			}
 		},
@@ -54,8 +54,8 @@ module.exports = function(grunt) {
 			options: {
 					assets: 'assets',
 					plugins: ['permalinks'],
-					partials: ['includes/*.hbs'],
-					layoutdir: 'layouts',
+					partials: ['src/includes/*.hbs'],
+					layoutdir: 'src/layouts',
 					layout: ['default.hbs'],
 					helpers: ['yfm'],
 					buildTimestamp: new Date().getTime(),
@@ -65,7 +65,7 @@ module.exports = function(grunt) {
 				options: {
 					flatten: true
 				},
-				src: ['posts/*.hbs'],
+				src: ['src/posts/*.hbs'],
 				dest: 'build/'
 			},
 			index: {
@@ -73,12 +73,18 @@ module.exports = function(grunt) {
 					flatten: true
 				},
 				files: {
-					'build/': ['pages/*.hbs']
+					'build/': ['src/pages/*.hbs']
 				}
 			}
 		},
 		clean: {
 			build :['build']
+		},
+		symlink: {
+			fonts: {
+				src: 'src/fonts',
+				dest: 'build/fonts'
+			}
 		},
 		'gh-pages': {
 			options: {
@@ -96,8 +102,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-gh-pages');
+	grunt.loadNpmTasks('grunt-contrib-symlink');
 
-	grunt.registerTask('default', ['clean:build', 'less:develop', 'autoprefixer:develop', 'assemble', 'connect', 'watch']);
-	grunt.registerTask('build', ['clean:build', 'less:production', 'autoprefixer:production', 'assemble']);
+	grunt.registerTask('default', ['clean:build', 'symlink:fonts', 'less:develop', 'autoprefixer:develop', 'assemble', 'connect', 'watch']);
+	grunt.registerTask('build', ['clean:build', 'symlink:fonts', 'less:production', 'autoprefixer:production', 'assemble']);
 	grunt.registerTask('deploy', ['build', 'gh-pages']);
 };
