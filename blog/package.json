@@ -1,0 +1,23 @@
+{
+  "name": "archers-blog",
+  "version": "0.1.0",
+  "description": "Archers",
+  "main": "blog.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "Tom Najdek",
+  "license": "BSD",
+  "devDependencies": {
+    "assemble": "~0.4.30",
+    "grunt": "~0.4.2",
+    "grunt-autoprefixer": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-connect": "~0.5.0",
+    "grunt-contrib-less": "~0.8.2",
+    "grunt-contrib-clean": "~0.5.0",
+    "yfm": "~0.1.1",
+    "grunt-gh-pages": "~0.9.0"
+  }
+}

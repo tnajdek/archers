@@ -1,0 +1,13 @@
+---
+layout: default.hbs
+title: Archers Blog
+date: 2011-01-01
+lead: "bla bla"
+base_url: "../"
+---
+
+<strong>dupa</srong>
+
+{{#eachYFM 'posts/*.hbs'}}
+  <span>{{ title }}</span>
+{{/eachYFM}}
