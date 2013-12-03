@@ -21,13 +21,16 @@
 	</header>
 	<div class="wrap">
 		<main role="main">
-			<section>
 			 {{> body }}
-			</section>
 		</main>
 	</div>
 	<footer role="contentinfo">
-		<small>Copyright &copy; <time datetime="{{buildYear}}">{{buildYear}}</time></small>		
+		<small>
+			&copy; <time datetime="{{buildYear}}">{{buildYear}}</time>
+			<span>Stormsoft Ltd</span>
+			|
+			<a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>			
+		</small>
 	</footer>
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
