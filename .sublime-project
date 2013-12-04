@@ -1,0 +1,35 @@
+{
+	"ternjs": {
+		"libs": [
+				"browser",
+				"jquery"
+		],
+		"exclude": [
+            "./**/node_modules/**",
+            "./**/bower_components/**"
+        ],
+        "include": [
+            "./frontend/src/**",
+			"./frontend/src/frontend/bower_components/lodash/dist/lodash.compat.js",
+			"./frontend/src/frontend/bower_components/requirejs-text/text.js",
+			"./frontend/src/frontend/bower_components/jquery/jquery.js",
+			"./frontend/src/frontend/bower_components/ractive/build/Ractive.js",
+			"./frontend/src/frontend/bower_components/playcraftengine/playcraftjs/lib/*.js",
+			"./frontend/src/frontend/bower_components/virtualjoystick/index.js"
+        ],
+		"plugins": {
+			"requirejs": {
+					"baseURL": "./frontend/src",
+					"paths": {
+						"lodash": "../bower_components/lodash/dist/lodash.compat",
+						"playcraft": "../bower_components/playcraftengine/playcraftjs/lib",
+						"jquery": "../bower_components/jquery/jquery",
+						"virtualjoystick": "../bower_components/virtualjoystick/index",
+						"text": "../bower_components/requirejs-text/text",
+						"ractive": "../bower_components/ractive/build/Ractive",
+						"gamecore": "../bower_components/gamecore.js/gamecore"
+					}
+			}
+		}
+	}
+}
