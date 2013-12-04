@@ -130,6 +130,17 @@ define(['lodash',
 				vent.trigger('customize:change', account);
 			});
 
+			ractive.on('select', function(event) {
+				var slot = event.node.getAttribute('data-slot'),
+					id = event.node.getAttribute('data-id');
+
+				if(slot == 'gender') {
+					ractive.set('gender', id);
+				} else {
+					ractive.set(['slotData', slot, 'selectedItem'].join('.'), id);
+				}
+			});
+
 			ractive.on('update', function() {
 				var account = {};
 
@@ -139,7 +150,6 @@ define(['lodash',
 
 				localStorage.setObject('account', account);
 				vent.trigger('customize:end', account);
-				
 			});
 
 			vent.on('customize', function() {
