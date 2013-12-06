@@ -4,3 +4,4 @@ autobahn
 bidict
 simplejson
 guppy
+-e "git://github.com/tnajdek/pytmxlib#egg=tmxlib"
