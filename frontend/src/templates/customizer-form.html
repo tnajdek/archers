@@ -1,29 +1,34 @@
 <div class="customiser">
-	<div class="name">
-		<input type="text" value="{{username}}" placeholder="Username">
+	<div class="main">
+		<div class="name">
+			<input type="text" value="{{username}}" placeholder="Username">
+		</div>
+		<div class="gender">
+			<button proxy-tap="select" data-slot="gender" data-id="male" class="sprite-male {{# gender == 'male'}}active{{/selectedItem}}"></button>
+			<button proxy-tap="select" data-slot="gender" data-id="female" class="sprite-female {{# gender == 'female'}}active{{/selectedItem}}"></button>
+		</div>
+		<div class="clan">
+			{{#slotData['0']}}
+				{{#data.items:j}}
+					{{# filterSlot( (.), '0' ) }}
+						<button proxy-tap="select" data-slot="0" data-id="{{ j }}" class="sprite-{{ .name }} {{# slotData.0.selectedItem == j}}active{{/selectedItem}}"></button>
+					 {{/ filter slot }}
+				 {{/data.items}}
+			{{/slotData['0']}}
+		</div>
+		<div class="character">
+			{{#slotData:i}}
+				{{# i != '0'}}
+					<button class="slot {{ .name }}"></button>
+				{{/ i != '0'}}
+			{{/slotData}}
+		</div>
+		<div class="actions">
+			<button proxy-tap="update">Finish</button>
+		</div>
 	</div>
-	<div class="gender">
-		<button proxy-tap="select" data-slot="gender" data-id="male" class="sprite-male {{# gender == 'male'}}active{{/selectedItem}}"></button>
-		<button proxy-tap="select" data-slot="gender" data-id="female" class="sprite-female {{# gender == 'female'}}active{{/selectedItem}}"></button>
-	</div>
-	<div class="clan">
-		{{#slotData['0']}}
-			{{#data.items:j}}
-				{{# filterSlot( (.), '0' ) }}
-					<button proxy-tap="select" data-slot="0" data-id="{{ j }}" class="sprite-{{ .name }} {{# slotData.0.selectedItem == j}}active{{/selectedItem}}"></button>
-				 {{/ filter slot }}
-			 {{/data.items}}
-		{{/slotData['0']}}
-	</div>
-	<div class="character">
-		{{#slotData:i}}
-			{{# i != '0'}}
-				<button class="slot {{ .name }}"></button>
-			{{/ i != '0'}}
-		{{/slotData}}
-	</div>
-	<div class="actions">
-		<button proxy-tap="update">Finish</button>
+	<div class="help">
+		
 	</div>
 </div>
 
