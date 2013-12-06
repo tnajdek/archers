@@ -1,4 +1,4 @@
-box2d
+box2d>=2.3b
 tornado
 autobahn
 bidict
