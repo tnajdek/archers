@@ -98,7 +98,11 @@ module.exports = function(grunt) {
 				src: 'src/gfx-sprites/*.png',
 				destImg: 'public/gfx/sprites.png',
 				destCSS: 'src/less/sprites.less',
+				imgPath: '/gfx/sprites.png',
 				cssFormat: 'less',
+				padding: 2,
+				algorithm: 'binary-tree',
+				cssTemplate: 'grunt/sprite-tpl.mustache'
 			}
 		},
 		connect: {

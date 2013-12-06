@@ -12,7 +12,7 @@
 
 	"items": {
 		"1": {
-			"name": "Human",
+			"name": "clan-wolf",
 			"genderRestrictions": ["male", "female"],
 			"slot": 0,
 			"spritesheet": {
@@ -22,12 +22,32 @@
 		},
 
 		"2": {
-			"name": "Orc",
+			"name": "clan-grunt",
 			"genderRestrictions": ["male", "female"],
 			"slot": 0,
 			"spritesheet": {
 				"male": "base.male.orc",
 				"female": "base.female.orc"
+			}
+		},
+
+		"3": {
+			"name": "clan-lion",
+			"genderRestrictions": ["male", "female"],
+			"slot": 0,
+			"spritesheet": {
+				"male": "base.male.olive",
+				"female": "base.female.olive"
+			}
+		},
+
+		"4": {
+			"name": "clan-sun",
+			"genderRestrictions": ["male", "female"],
+			"slot": 0,
+			"spritesheet": {
+				"male": "base.male.dark",
+				"female": "base.female.dark"
 			}
 		},
 

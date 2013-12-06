@@ -46,6 +46,12 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 			pc.device.loader.add(new pc.Image('base.female.orc', '/resources/archer/base.female.orc.png'));
 			pc.device.loader.add(new pc.Image('base.male.light', '/resources/archer/base.male.light.png'));
 			pc.device.loader.add(new pc.Image('base.male.orc', '/resources/archer/base.male.orc.png'));
+			
+			pc.device.loader.add(new pc.Image('base.female.olive', '/resources/archer/base.female.olive.png'));
+			pc.device.loader.add(new pc.Image('base.female.dark', '/resources/archer/base.female.dark.png'));
+			pc.device.loader.add(new pc.Image('base.male.olive', '/resources/archer/base.male.olive.png'));
+			pc.device.loader.add(new pc.Image('base.male.dark', '/resources/archer/base.male.dark.png'));
+
 			pc.device.loader.add(new pc.Image('eqp.arrow', '/resources/archer/eqp.arrow.png'));
 			pc.device.loader.add(new pc.Image('eqp.bow', '/resources/archer/eqp.bow.png'));
 			pc.device.loader.add(new pc.Image('eqp.female.dress', '/resources/archer/eqp.female.dress.png'));
