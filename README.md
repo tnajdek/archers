@@ -1,13 +1,9 @@
 
 Get b/e dependencies
 ----------------
-    pacman -Sy swig
-
-    #for the time being we're using rogue version of the tmxlib
-    cd ../../
-    git clone https://github.com/tnajdek/pytmxlib.git
-    cd archers/backend/
-    ln -s ../../pytmxlib/tmxlib/ .
+    
+    # Get Swig lib ('pacman -Sy swig' or 'brew install swig' etc.)
+    sudo pip install -r requirements.txt
 
 Get f/e deps
 ------------
