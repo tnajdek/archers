@@ -9,21 +9,26 @@
 	<!--[if lt IE 9]><script src="js/html5shiv-printshiv.js" media="all"></script><![endif]-->
 </head>
 <body>
-	<header role="banner">
-		<h1></h1>
-		<nav role="navigation">
-			<ul>
-				{{#withSort pages date}}
-				<li>{{data.title}}</li>
-				{{/withSort}}
-			</ul>
-		</nav>
-	</header>
-	<div class="wrap">
-		<main role="main">
-			<h1>{{title}}</h1>
-			 {{> body }}
-		</main>
+	<div class="pre-footer-wrapper">
+		<header role="banner">
+			<h1>Archers! - Development Blog</h1>
+			<nav role="navigation">
+				<ul>
+					{{#withSort pages date}}
+					<li>{{data.title}}</li>
+					{{/withSort}}
+				</ul>
+			</nav>
+		</header>
+		<div class="wrap">
+			<main role="main">
+				<h1>
+				<span>{{title}}</span><time datetime="{{date}}">{{formatDate date "%d %b %Y"}}</time>
+				</h1>
+				 {{> body }}
+			</main>
+		</div>
+		<div class="push"></div>
 	</div>
 	<footer role="contentinfo">
 		<small>

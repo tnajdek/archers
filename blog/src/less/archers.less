@@ -1,8 +1,23 @@
 @import "reset.less";
 @import (less) "corbert.css";
+@import (less) "nove.css";
+
+@accent1: rgb(255, 217, 0);
+@headerfooter: rgb(0,0,0);
+@bodytext: rgb(239,239,239);
 
 body {
 	font-family: corbertregular, sans-serif;
+	background: url('/img/bgmap.jpg') center center no-repeat #000;
+	color: @bodytext;
+}
+
+header {
+	min-height: 100px;
+	background-color: @headerfooter;
+	padding:1em;
+	box-sizing: border-box;
+	margin-bottom: 2em;
 }
 
 main {
@@ -10,4 +25,66 @@ main {
 	max-width: 960px;
 	display: block;
 	margin: 0 auto;
+	font-size: 16px;
+	line-height: 1.65em;
+	background: rgba(0,0,0, 0.65);
+	border:1px solid @accent1;
+	border-radius: 8px;
+	box-shadow: inset 0 0 10px alpha(@accent1, 0.4);
+	padding: 1.5em 2.25em;
+	box-sizing: border-box;
+	margin-bottom: 2em;
+}
+
+a {
+	color: @accent1;
+	text-decoration: none;
+	&:hover { 
+		color: #fff;
+	}
+
+	&:visited {
+		color: darken(@accent1, 10%);
+	}
+}
+
+p {
+	margin: 1em 0 1em 0;
+}
+
+h1 {
+	font-family: novecento_sans_widemedium, sans-serif;
+	span, time {
+		width:50%;
+		display: inline-block;
+	}
+
+	time {
+		text-align: right;
+	}
+}
+
+ul {
+	margin-left: 60px;
+}
+
+html, body {
+	height: 100%;
+}
+
+.pre-footer-wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -3em;
+}
+
+footer, .push {
+	height: 3em;
+}
+
+footer {
+	background-color: @headerfooter;
+	padding:1em;
+	box-sizing: border-box;
 }
