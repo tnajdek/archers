@@ -44,4 +44,6 @@ frontend/public/index.html
 frontend/public/css
 backend/profile/data
 blog/build
-backend/src/tmxlib
+
+# pip install dir
+backend/src
