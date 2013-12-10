@@ -10,8 +10,9 @@
 </head>
 <body>
 	<nav role="navigation" class="post-menu">
+		<h2>All Posts</h2><button class="close">&times;</button>
 		<ul>
-			{{#withSort pages date}}
+			{{#withSort pages "date"}}
 			<li>
 				<a href="/{{data.slug}}.html">{{data.title}}</a>
 			</li>
@@ -28,7 +29,9 @@
 				<h1>
 				<span>{{title}}</span><time datetime="{{date}}">{{formatDate date "%d %b %Y"}}</time>
 				</h1>
-				 {{> body }}
+				<article>
+				 	{{> body }}
+				 </article>
 			</main>
 		</div>
 		<div class="push"></div>

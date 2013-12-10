@@ -78,14 +78,45 @@ nav {
 	box-shadow: inset -3px 0 0 @accent1, 5px 0 10px rgba(0, 0, 0, 0.75);
 
 	padding: 1.5em 0;
-	box-sizing:border-box;
+	box-sizing: border-box;
 
 	&.show {
 		transform:translateX(0);
 	}
 
+
+	h2, button {
+		display: inline-block;
+
+	}
+
+	h2 {
+		font-family: novecento_sans_widemedium, sans-serif;
+		width: 240px;
+		margin-left:20px;
+	}
+
+	button {
+		width: 20px;
+		height:20px;
+		border: 1px solid @accent1;
+		color: @accent1;
+		background: transparent;
+		cursor:pointer;
+
+		transition-duration: 0.5s;
+		transition-property: color border;
+		transition-timing-function: ease-in-out;
+
+		&:hover {
+			color: #fff;
+			border-color: #fff;
+		}
+	}
+
+
 	ul {
-		margin: 0;
+		margin: 2em 0 0 0;
 		padding:0;
 		list-style: none;
 
@@ -110,6 +141,10 @@ nav {
 
 		li + li, li:last-child {
 			border-bottom:1px solid @accent1;
+		}
+
+		li:hover + li {
+			border-color: #fff;	
 		}
 
 	}
