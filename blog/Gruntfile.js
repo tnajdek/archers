@@ -88,6 +88,14 @@ module.exports = function(grunt) {
 			img: {
 				src: 'src/img',
 				dest: 'build/img'
+			},
+			logo: {
+				src: '../frontend/gfx/archers.svg',
+				dest: 'build/img/logo.svg'
+			},
+			js: {
+				src: 'src/js',
+				dest: 'build/js'
 			}
 		},
 		'gh-pages': {

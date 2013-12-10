@@ -45,3 +45,9 @@ a img {
 :focus {
   outline: 0;
 }
+
+button::-moz-focus-inner,
+input::-moz-focus-inner { // Inner padding and border oddities in FF3/4
+  padding: 0;
+  border: 0;
+}
