@@ -14,7 +14,12 @@
 		<ul>
 			{{#withSort pages "date"}}
 			<li>
-				<a href="/{{data.slug}}.html">{{data.title}}</a>
+				{{#is data.title ../title }}
+					{{data.title}}
+				{{/is}}
+				{{#isnt data.title ../title }}
+					<a href="/{{basename}}.html">{{ data.title }}</a>
+				{{/isnt}}
 			</li>
 			{{/withSort}}
 		</ul>
@@ -22,6 +27,7 @@
 	<div class="pre-footer-wrapper">
 		<header role="banner">
 			<button class="menu">Browse Posts</button>
+			<button class="menu small-screen">&#9776;</button>
 			<img src="/img/logo.svg" alt="Archers Logo"><h1>Archers! - Development Blog</h1>
 		</header>
 		<div class="wrap">
@@ -32,6 +38,15 @@
 				<article>
 				 	{{> body }}
 				 </article>
+				 
+				 {{#nextArticle pages this}}
+				 	{{#if data.title }}
+				 	<aside>
+				 		<h2>Next: </h2><a href="/{{basename}}.html">{{ data.title }}</a>
+				 	</aside>
+				 	{{/if}}
+				 {{/nextArticle}}
+				 
 			</main>
 		</div>
 		<div class="push"></div>

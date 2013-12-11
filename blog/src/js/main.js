@@ -1,12 +1,16 @@
 (function () {
 	var $ = document.querySelector.bind(document),
-		$menuButton = $('button.menu'),
+		$menuButtons = document.querySelectorAll('button.menu'),
 		$closeButton = $('button.close'),
-		$nav = $('nav.post-menu');
+		$nav = $('nav.post-menu'),
+		menuOpener = function() {
+			$nav.classList.toggle('show');
+		}, i;
 
-	$menuButton.addEventListener('click', function() {
-		$nav.classList.toggle('show');
-	});
+
+	for(i=0; i<$menuButtons.length; i++) {
+		$menuButtons[i].addEventListener('click', menuOpener);
+	}
 
 	$closeButton.addEventListener('click', function() {
 		$nav.classList.remove('show');

@@ -57,7 +57,7 @@ module.exports = function(grunt) {
 					partials: ['src/includes/*.hbs'],
 					layoutdir: 'src/layouts',
 					layout: ['default.hbs'],
-					helpers: ['yfm', "handlebars-helpers"],
+					helpers: ['yfm', "handlebars-helpers", "helpers/helper.js"],
 					buildTimestamp: new Date().getTime(),
 					buildYear: new Date().getFullYear()
 			},
