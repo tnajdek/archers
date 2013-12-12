@@ -96,6 +96,10 @@ module.exports = function(grunt) {
 			js: {
 				src: 'src/js',
 				dest: 'build/js'
+			},
+			gh: {
+				src: 'src/CNAME',
+				dest: 'build/CNAME'	
 			}
 		},
 		'gh-pages': {
