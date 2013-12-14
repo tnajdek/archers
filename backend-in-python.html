@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Dynamic multiplayer online game - Archers! Development Blog</title>
+	<title>Backend in Python - Archers! Development Blog</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="css/archers.css?v=1386991741579" rel="stylesheet" media="all">
@@ -15,15 +15,15 @@
 			
 			<li>
 				
+					Backend in Python
 				
-					<a href="/backend-in-python.html">Backend in Python</a>
 				
 			</li>
 			
 			<li>
 				
-					Dynamic multiplayer online game
 				
+					<a href="/dynamic-multiplayer-online-game.html">Dynamic multiplayer online game</a>
 				
 			</li>
 			
@@ -47,36 +47,16 @@
 		<div class="wrap">
 			<main role="main">
 				<h1>
-				<span>Dynamic multiplayer online game</span><time datetime="Sat May 11 2013 01:00:00 GMT+0100 (BST)">11 May 2013</time>
+				<span>Backend in Python</span><time datetime="Tue May 21 2013 01:00:00 GMT+0100 (BST)">21 May 2013</time>
 				</h1>
 				<article>
 				 	
 
-<p>I've attempted to make an HTML 5 game before. Never finished anything but experimented with various concepts. This one is for real and since I'm the only person working on it, I'll keep the scope to minimum. On the other hand I want something that might, potentially, be fun to play from time to time. Here are some base concepts:</p>
+<p>While I was happy to use Playcraft for browser-side rendering of the game, I wanted something solid, fast and stable to maintain the current state of the game on the server end. I realised it didn't have to be JS-based and started looking into asynchroneus Python and WebSockets support. I quickly landed on <a href="http://twistedmatrix.com/trac/" target="_blank">Twisted</a> for event-driven, asynchroneus engine and <a href="http://autobahn.ws/python/" target="_blank">Autobahn</a> completed the picture with easy but comprehensive support for the WebSockets protocol.</p>
 
-<ul>
-	<li>2D multiplayer shooter. Sounds fun and doable</li>
-	<li>Browser-based, no plugins (i.e. pure HTML/JS/CSS)</li>
-	<li>Keep it simple, make sure you deliver</li>
-	<li>Use free graphics, from <a href="http://opengameart.org/" target="_blank">Open Game Art</a> or something. LPC looks like a good start</li>
-</ul>
-
-<p>And some technical ground rules based on problems with all my previous concepts:</p>
-
-<ul>
-	<li>Clear separation of backend and frontend.</li>
-	<li><a href="http://socket.io/">SocketIO</a> is a wonderful library, but for a game you might need something lighter. Binary web sockets?</li>
-	<li>Select a good framework for the frontend and stick to it. Needs research.</li>
-	<li>Backend: either <a href="http://nodejs.org/">Node</a> or something python-based?</li>
-</ul>
+<p>I'll also need something to open and process maps in TMX format, currently my eyese are on <a href="https://github.com/encukou/pytmxlib" target="_blank">pytmxlib</a> which does just that and nothing else. There are more commonly used alternatives, however these usually come tightly coupled with a rendering engine such as <a href="http://www.pygame.org/" target="_blank">pygame</a> which doesn't make sense as I want my server to be capable of running headless in production. For development however, a very simple method of picturing current state of the game will be useful - pygame might be just what I need for a debug renderer.</p>
 				 </article>
 				 
-				 
-				 	
-				 	<aside>
-				 		<h2>Next: </h2><a href="/searching-for-a-frontend-engine.html">Searching for a frontend engine</a>
-				 	</aside>
-				 	
 				 
 				 
 			</main>
