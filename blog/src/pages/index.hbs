@@ -8,9 +8,9 @@ base_url: "../"
 
 
 <ul class="posts-list">
-	{{#eachYFM 'src/posts/*.hbs'}}
+	{{#getPosts 'src/posts/*.hbs'}}
 		<li>
 			<time datetime="{{date}}">{{formatDate date "%d %b %Y"}}</time><a href="{{slug}}.html">{{ title }}</a>
 		</li>
-	{{/eachYFM}}
+	{{/getPosts}}
 </ul>
