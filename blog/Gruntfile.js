@@ -27,6 +27,17 @@ module.exports = function(grunt) {
 			develop: {
 				src: 'build/css/archers.css'
 			},
+			production: {
+				src: 'build/css/archers.css'
+			}
+		},
+		uglify: {
+			js: {
+				options: {},
+				files: {
+					'build/js/main.js': ['src/js/*.js'],
+				}
+			}
 		},
 		watch: {
 			less: {
@@ -96,6 +107,10 @@ module.exports = function(grunt) {
 			js: {
 				src: 'src/js',
 				dest: 'build/js'
+			},
+			gh: {
+				src: 'src/CNAME',
+				dest: 'build/CNAME'
 			}
 		},
 		'gh-pages': {
@@ -115,8 +130,30 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-gh-pages');
 	grunt.loadNpmTasks('grunt-contrib-symlink');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 
-	grunt.registerTask('default', ['clean:build', 'symlink', 'less:develop', 'autoprefixer:develop', 'assemble', 'connect', 'watch']);
-	grunt.registerTask('build', ['clean:build', 'symlink', 'less:production', 'autoprefixer:production', 'assemble']);
+	grunt.registerTask('default', [
+		'clean:build',
+		'symlink:fonts',
+		'symlink:img',
+		'symlink:logo',
+		'symlink:js',
+		'less:develop',
+		'autoprefixer:develop',
+		'assemble',
+		'connect',
+		'watch'
+	]);
+	grunt.registerTask('build', [
+		'clean:build',
+		'symlink:fonts',
+		'symlink:img',
+		'symlink:logo',
+		'symlink:gh',
+		'uglify:js',
+		'less:production',
+		'autoprefixer:production',
+		'assemble'
+	]);
 	grunt.registerTask('deploy', ['build', 'gh-pages']);
 };
