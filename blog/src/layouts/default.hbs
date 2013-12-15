@@ -3,16 +3,16 @@
 	<nav role="navigation" class="post-menu">
 		<h2>All Posts</h2><button class="close">&times;</button>
 		<ul>
-			{{#withSort pages "date"}}
+			{{#getPosts 'src/posts/*.hbs'}}
 			<li>
-				{{#is data.title ../title }}
-					{{data.title}}
+				{{#is title ../title }}
+					{{title}}
 				{{/is}}
-				{{#isnt data.title ../title }}
-					<a href="/{{basename}}.html">{{ data.title }}</a>
+				{{#isnt title ../title }}
+					<a href="/{{slug}}.html">{{ title }}</a>
 				{{/isnt}}
 			</li>
-			{{/withSort}}
+			{{/getPosts}}
 		</ul>
 	</nav>
 	<div class="pre-footer-wrapper">

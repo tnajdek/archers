@@ -23,15 +23,12 @@ module.exports.register = function (Handlebars, options) {
 
 	Handlebars.registerHelper('getPosts', function(src, options) {
 		var yfm = require('assemble-yaml'),
-			glob = require('globule').
+			glob = require('globule'),
 			files, data;
 
 		options = options || {
 			fromFile: true
 		};
-
-		grunt.log.writeln(glob);
-		grunt.log.writeln('meh---------------');
 
 		files = glob.find(src);
 
@@ -42,6 +39,8 @@ module.exports.register = function (Handlebars, options) {
 		data = _.sortBy(data, function(item) {
 			return item.date;
 		});
+
+		data.reverse();
 
 		return data.map(function (obj) {
 			return options.fn(obj);
