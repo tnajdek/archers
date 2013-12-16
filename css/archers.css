@@ -274,28 +274,8 @@ nav button {
 
 nav h2 {
   font-family: novecento_sans_widemedium,sans-serif;
-  width: 240px;
+  width: 230px;
   margin-left: 20px;
-}
-
-nav button {
-  width: 20px;
-  height: 20px;
-  border: 1px solid #ffd900;
-  color: #ffd900;
-  background: transparent;
-  cursor: pointer;
-  -webkit-transition-duration: 0.5s;
-  transition-duration: 0.5s;
-  -webkit-transition-property: color border;
-  transition-property: color border;
-  -webkit-transition-timing-function: ease-in-out;
-  transition-timing-function: ease-in-out;
-}
-
-nav button:hover {
-  color: #fff;
-  border-color: #fff;
 }
 
 nav ul {
@@ -400,7 +380,8 @@ main aside a {
   text-align: right;
 }
 
-button.menu {
+button.menu,
+button.close {
   background: #e6c300;
   color: #fff;
   font-size: 14px;
@@ -420,29 +401,42 @@ button.menu {
 }
 
 @media (max-width:550px) {
-  button.menu {
+  button.menu,
+  button.close {
     font-size: 12px;
   }
 }
 
-button.menu:hover {
+button.menu:hover,
+button.close:hover {
   background: #ffd900;
 }
 
 @media (max-width:480px) {
-  button.menu {
+  button.menu,
+  button.close {
     display: none;
   }
 
-  button.menu.small-screen {
+  button.menu.small-screen,
+  button.close.small-screen {
     display: inline-block;
   }
 }
 
 @media (min-width:481px) {
-  button.menu.small-screen {
+  button.menu.small-screen,
+  button.close.small-screen {
     display: none;
   }
+}
+
+button.close {
+  line-height: 0px;
+  font-size: 20px;
+  text-align: center;
+  vertical-align: top;
+  padding: 15px 8px 15px 8px;
 }
 
 p {
