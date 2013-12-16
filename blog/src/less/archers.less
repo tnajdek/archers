@@ -117,26 +117,8 @@ nav {
 
 	h2 {
 		font-family: novecento_sans_widemedium, sans-serif;
-		width: 240px;
+		width: 230px;
 		margin-left:20px;
-	}
-
-	button {
-		width: 20px;
-		height:20px;
-		border: 1px solid @accent1;
-		color: @accent1;
-		background: transparent;
-		cursor:pointer;
-
-		transition-duration: 0.5s;
-		transition-property: color border;
-		transition-timing-function: ease-in-out;
-
-		&:hover {
-			color: #fff;
-			border-color: #fff;
-		}
 	}
 
 
@@ -197,7 +179,6 @@ main {
 	display: block;
 	margin: 0 auto;
 	line-height: 1.65em;
-	border-radius: 8px;
 	padding: 1.5em 2.25em;
 	box-sizing: border-box;
 	margin-bottom: 2em;
@@ -228,29 +209,32 @@ main {
 
 
 
-button.menu {
-	background: transparent;
-	border: 1px solid @accent1;
+button.menu, button.close {
+	background: darken(@accent1, 5%);
 	color: #fff;
-	font-size: 16px;
+	font-size: 14px;
+	font-weight: bold;
 	text-transform: capitalize;
 	padding: 0.75em;
-	color:@accent1;
+	color:#000;
 	cursor:pointer;
+	border: none;
+	border-radius: 8px;
 
 	@media (max-width: 550px) {
 		font-size: 12px;
 	}
 
 	transition-duration: 0.5s;
-	transition-property: color border;
+	transition-property: background;
 	transition-timing-function: ease-in-out;
 
 	&:hover {
-		color: #fff;
-		border: 1px solid #fff;
+		background: @accent1;
 	}
+}
 
+button.menu {
 	@media (max-width: 480px) {
 		display: none;
 		&.small-screen {
@@ -264,6 +248,14 @@ button.menu {
 		}	
 	}
 }
+
+ button.close {
+	line-height: 0px;
+	font-size: 20px;
+	text-align: center;
+	vertical-align: top;
+	padding: 15px 8px 15px 8px;
+ }
 
 p {
 	margin: 1em 0 1em 0;
