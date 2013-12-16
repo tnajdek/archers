@@ -362,7 +362,6 @@ main {
   display: block;
   margin: 0 auto;
   line-height: 1.65em;
-  border-radius: 8px;
   padding: 1.5em 2.25em;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -402,13 +401,12 @@ main aside a {
 }
 
 button.menu {
-  background: transparent;
-  border: 1px solid #ffd900;
+  background: #ffd900;
   color: #fff;
   font-size: 16px;
   text-transform: capitalize;
   padding: 0.75em;
-  color: #ffd900;
+  color: #000;
   cursor: pointer;
   -webkit-transition-duration: 0.5s;
   transition-duration: 0.5s;
