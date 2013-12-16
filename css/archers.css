@@ -403,12 +403,14 @@ main aside a {
 button.menu {
   background: #e6c300;
   color: #fff;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: bold;
   text-transform: capitalize;
   padding: 0.75em;
   color: #000;
   cursor: pointer;
   border: none;
+  border-radius: 8px;
   -webkit-transition-duration: 0.5s;
   transition-duration: 0.5s;
   -webkit-transition-property: background;
