@@ -21,12 +21,20 @@
 	.main, .help {
 		width:50%;
 		display: inline-block;
+		vertical-align: top;
 	}
 
 	.help {
-		background: url('/gfx/texture/old_map.png') no-repeat;
-		width:100%;
-		height: 100%;
+		background: url('/gfx/texture/old_map.png') repeat;
+		height: 600px;
+		border-style: solid;
+		border-width: 6px;
+		border-image: url('/gfx/border-small.png') 6 fill repeat;
+		background-color: rgba(0,0,0,0.25);
+		box-sizing:border-box;
+		color: #121212;
+		padding: 1em;
+
 	}
 
 

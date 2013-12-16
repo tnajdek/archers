@@ -10,11 +10,17 @@
 		"20": "weapon"
 	},
 
+	"genders": {
+		"male": "Play as a male character. Playing as either gender has no impact on the gameplay apart from visual differences.",
+		"female": "Play as a female character. Playing as either gender has no impact on the gameplay apart from visual differences."
+	},
+
 	"items": {
 		"1": {
 			"name": "clan-wolf",
 			"genderRestrictions": ["male", "female"],
 			"slot": 0,
+			"description": "",
 			"spritesheet": {
 				"male": "base.male.light",
 				"female": "base.female.light"
