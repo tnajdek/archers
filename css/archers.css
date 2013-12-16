@@ -413,20 +413,17 @@ button.close:hover {
 }
 
 @media (max-width:480px) {
-  button.menu,
-  button.close {
+  button.menu {
     display: none;
   }
 
-  button.menu.small-screen,
-  button.close.small-screen {
+  button.menu.small-screen {
     display: inline-block;
   }
 }
 
 @media (min-width:481px) {
-  button.menu.small-screen,
-  button.close.small-screen {
+  button.menu.small-screen {
     display: none;
   }
 }
