@@ -401,17 +401,18 @@ main aside a {
 }
 
 button.menu {
-  background: #ffd900;
+  background: #e6c300;
   color: #fff;
   font-size: 16px;
   text-transform: capitalize;
   padding: 0.75em;
   color: #000;
   cursor: pointer;
+  border: none;
   -webkit-transition-duration: 0.5s;
   transition-duration: 0.5s;
-  -webkit-transition-property: color border;
-  transition-property: color border;
+  -webkit-transition-property: background;
+  transition-property: background;
   -webkit-transition-timing-function: ease-in-out;
   transition-timing-function: ease-in-out;
 }
@@ -423,8 +424,7 @@ button.menu {
 }
 
 button.menu:hover {
-  color: #fff;
-  border: 1px solid #fff;
+  background: #ffd900;
 }
 
 @media (max-width:480px) {
