@@ -20,7 +20,7 @@
 			"name": "clan-wolf",
 			"genderRestrictions": ["male", "female"],
 			"slot": 0,
-			"description": "",
+			"description": "Clan Wolf",
 			"spritesheet": {
 				"male": "base.male.light",
 				"female": "base.female.light"
@@ -31,6 +31,7 @@
 			"name": "clan-grunt",
 			"genderRestrictions": ["male", "female"],
 			"slot": 0,
+			"description": "Clan Grunt",
 			"spritesheet": {
 				"male": "base.male.orc",
 				"female": "base.female.orc"
@@ -41,6 +42,7 @@
 			"name": "clan-lion",
 			"genderRestrictions": ["male", "female"],
 			"slot": 0,
+			"description": "Clan Lion",
 			"spritesheet": {
 				"male": "base.male.olive",
 				"female": "base.female.olive"
@@ -51,6 +53,7 @@
 			"name": "clan-sun",
 			"genderRestrictions": ["male", "female"],
 			"slot": 0,
+			"description": "Clan Sun",
 			"spritesheet": {
 				"male": "base.male.dark",
 				"female": "base.female.dark"

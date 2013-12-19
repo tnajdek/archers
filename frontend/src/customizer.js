@@ -141,6 +141,22 @@ define(['lodash',
 				}
 			});
 
+			ractive.on('hint', function(event) {
+				var slot = event.node.getAttribute('data-slot'),
+					id = event.node.getAttribute('data-id');
+
+				if(slot == 'gender') {
+					ractive.set('hint', data.genders[id]);
+				} else {
+					ractive.set('hint', data.items[id].description);
+				}
+
+			});
+
+			ractive.on('clearHint', function(event) {
+				ractive.set('hint', '');
+			});
+
 			ractive.on('update', function() {
 				var account = {};
 
