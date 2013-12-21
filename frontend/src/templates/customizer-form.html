@@ -18,8 +18,16 @@
 		</div>
 		<div class="character">
 			{{#slotData:i}}
-				{{# i != '0'}}
-					<button class="slot {{ .name }}"></button>
+				{{# i != '0' &&  i != '1' }}
+					<button proxy-mouseover="hint" proxy-mouseout="clearHint" class="slot {{ .name }}">
+					</button>
+					<div class="item-selector">
+						<ul>
+							{{#data.items:j}}
+								{{>option}}
+							{{/data.items}}
+						</ul>
+					</div>
 				{{/ i != '0'}}
 			{{/slotData}}
 		</div>
@@ -34,7 +42,16 @@
 <!-- {{>option}} -->
 	{{# filterSlot( (.), i ) }}
 		{{# filterGender( (.), gender) }}
-			<option value="{{ j }}">{{ .name }}</option>
+			<li data-id="{{ j }}">
+				<div class="sprite-{{ .icon }}"></div>
+				{{# !isEmpty(data.items[slotData[i].selectedItem].variants) }}
+						<select value="{{.selectedVariant}}">
+						{{# data.items[selectedItem].variants:k }}
+								<option value="{{ k }}">{{ .name }}</option>
+						{{/data.items[selectedItem].variants}}
+						</select>
+				{{/ end length}}
+			</li>
 		{{/ filter gender}}
 	{{/ filter slot }}
 <!-- {{/option}} -->

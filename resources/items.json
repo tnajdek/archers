@@ -656,6 +656,7 @@
 			"price": 0,
 			"slot": 10,
 			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-plain-clothing",
 			"spritesheet": {
 				"male": [
 					"eqp.male.shirt.white",
@@ -669,6 +670,7 @@
 				"price": 20,
 				"slot": 10,
 				"genderRestrictions": ["male", "female"],
+				"icon": "eqp-icon-leather-armor",
 				"spritesheet": {
 					"male": [
 						"eqp.male.leather.chest",
@@ -692,6 +694,7 @@
 			"speed": 0.75,
 			"distance": 0.75,
 			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-bow",
 			"spritesheet": [
 				"eqp.bow",
 				"eqp.arrow"
@@ -704,6 +707,7 @@
 			"speed": 1.0,
 			"distance": 1.0,
 			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-greatbow",
 			"spritesheet": [
 				"eqp.greatbow",
 				"eqp.arrow"
@@ -716,6 +720,7 @@
 			"speed": 0.75,
 			"distance": 1.25,
 			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-greatbow",
 			"spritesheet": [
 				"eqp.greatbow",
 				"eqp.arrow"
@@ -728,6 +733,7 @@
 			"speed": 0.75,
 			"distance": 1.5,
 			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-greatbow",
 			"spritesheet": [
 				"eqp.greatbow",
 				"eqp.arrow"
@@ -740,6 +746,7 @@
 			"speed": 0.5,
 			"distance": 0.75,
 			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-recurvebow",
 			"spritesheet": [
 				"eqp.recurvebow",
 				"eqp.arrow"
@@ -752,6 +759,7 @@
 			"speed": 0.25,
 			"distance": 0.75,
 			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-recurvebow",
 			"spritesheet": [
 				"eqp.recurvebow",
 				"eqp.arrow"
@@ -764,6 +772,7 @@
 			"speed": 0.25,
 			"distance": 1.25,
 			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-recurvebow",
 			"spritesheet": [
 				"eqp.recurvebow",
 				"eqp.arrow"

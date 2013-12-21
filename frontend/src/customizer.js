@@ -145,7 +145,10 @@ define(['lodash',
 				var slot = event.node.getAttribute('data-slot'),
 					id = event.node.getAttribute('data-id');
 
-				if(slot == 'gender') {
+				if(event.node.classList.contains('slot')) {
+					//@TODO: define descriptions in items.json?
+					ractive.set("hint", "Press to select equipment");
+				} else if(slot == 'gender') {
 					ractive.set('hint', data.genders[id]);
 				} else {
 					ractive.set('hint', data.items[id].description);
