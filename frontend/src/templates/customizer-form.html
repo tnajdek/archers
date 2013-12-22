@@ -21,6 +21,7 @@
 				{{# i != '0' &&  i != '1' }}
 					<div class="slot {{ .name }} {{# openedSlot == i }}open{{/ openedSlot }}">
 						<button data-slot="{{ i }}" proxy-mouseover="hint" proxy-click="openSlot" proxy-mouseout="clearHint">
+							<span class="sprite-{{ data.items[slotData[i].selectedItem].icon }}"></span>
 						</button>
 						<div class="item-selector">
 							<ul>

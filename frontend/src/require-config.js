@@ -62,7 +62,7 @@ requirejs.config({
 		'playcraft/systems/entitysystem': ['playcraft/boot'],
 		'playcraft/systems/physics': ['playcraft/boot', 'playcraft/systems/entitysystem'],
 		'playcraft/systems/effects': ['playcraft/boot', 'playcraft/systems/entitysystem'],
-		'playcraft/systems/particles': ['playcraft/boot'],
+		'playcraft/systems/particles': ['playcraft/boot', 'playcraft/systems/entitysystem'],
 		'playcraft/systems/input': ['playcraft/boot', 'playcraft/systems/entitysystem'],
 		'playcraft/systems/expiry': ['playcraft/boot', 'playcraft/components/component'],
 		'playcraft/systems/activation': ['playcraft/boot', 'playcraft/systems/entitysystem'],
