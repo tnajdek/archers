@@ -38,8 +38,6 @@
 	}
 
 
-
-
 	.character {
 		background: url('/gfx/shiloutte.png') no-repeat;
 		width:323px;
@@ -49,22 +47,7 @@
 
 		.slot {
 			position: absolute;
-			&:before {
-				background: url('/gfx/slot.png') no-repeat;
-				width:42px;
-				height:42px;
-				opacity: 0.6;
-				content:" ";
-				display: block;
-				transition: opacity 0.5s, ease-in-out;
-			}
-
-			&:hover {
-				&:before {
-					opacity: 1;
-				}
-			}
-
+			
 			&.head {
 				left: 75px;
 			}
@@ -84,6 +67,32 @@
 
 			&.eyes, &.body, &.hair {
 				display:none;
+			}
+
+			>button {
+				&:before {
+					background: url('/gfx/slot.png') no-repeat;
+					width:42px;
+					height:42px;
+					opacity: 0.6;
+					content:" ";
+					display: block;
+					transition: opacity 0.5s, ease-in-out;
+				}
+
+				&:hover {
+					&:before {
+						opacity: 1;
+					}
+				}
+			}
+
+			.item-selector {
+				display:none;
+			}
+
+			&.open .item-selector {
+				display: block;
 			}
 		}
 	}

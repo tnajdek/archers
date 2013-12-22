@@ -1,4 +1,4 @@
-<div class="customiser">
+<div class="customiser" proxy-click="closeSlots">
 	<div class="main">
 		<div class="name">
 			<input type="text" value="{{username}}" placeholder="Username">
@@ -19,16 +19,18 @@
 		<div class="character">
 			{{#slotData:i}}
 				{{# i != '0' &&  i != '1' }}
-					<button proxy-mouseover="hint" proxy-mouseout="clearHint" class="slot {{ .name }}">
-					</button>
-					<div class="item-selector">
-						<ul>
-							{{#data.items:j}}
-								{{>option}}
-							{{/data.items}}
-						</ul>
+					<div class="slot {{ .name }} {{# openedSlot == i }}open{{/ openedSlot }}">
+						<button data-slot="{{ i }}" proxy-mouseover="hint" proxy-click="openSlot" proxy-mouseout="clearHint">
+						</button>
+						<div class="item-selector">
+							<ul>
+								{{#data.items:j}}
+									{{>option}}
+								{{/data.items}}
+							</ul>
+						</div>
 					</div>
-				{{/ i != '0'}}
+				{{/ i }}
 			{{/slotData}}
 		</div>
 		<div class="actions">
@@ -42,8 +44,8 @@
 <!-- {{>option}} -->
 	{{# filterSlot( (.), i ) }}
 		{{# filterGender( (.), gender) }}
-			<li data-id="{{ j }}">
-				<div class="sprite-{{ .icon }}"></div>
+			<li>
+				<button proxy-click="" data-id="{{ j }}" class="sprite-{{ .icon }}"></button>
 				{{# !isEmpty(data.items[slotData[i].selectedItem].variants) }}
 						<select value="{{.selectedVariant}}">
 						{{# data.items[selectedItem].variants:k }}

@@ -145,15 +145,25 @@ define(['lodash',
 				var slot = event.node.getAttribute('data-slot'),
 					id = event.node.getAttribute('data-id');
 
-				if(event.node.classList.contains('slot')) {
+				if(slot == 'gender') {
+					ractive.set('hint', data.genders[id]);
+				} else if(slot) {
 					//@TODO: define descriptions in items.json?
 					ractive.set("hint", "Press to select equipment");
-				} else if(slot == 'gender') {
-					ractive.set('hint', data.genders[id]);
 				} else {
 					ractive.set('hint', data.items[id].description);
 				}
+			});
 
+			ractive.on('openSlot',function(event) {
+				ractive.set('openedSlot', event.node.getAttribute('data-slot'));
+			});
+
+			ractive.on('closeSlots', function(event) {
+				if(event.original.originalTarget.getAttribute('data-slot')) {
+					return;
+				}
+				ractive.set('openedSlot', null);
 			});
 
 			ractive.on('clearHint', function(event) {

@@ -67,7 +67,7 @@ requirejs.config({
 		'playcraft/systems/expiry': ['playcraft/boot', 'playcraft/components/component'],
 		'playcraft/systems/activation': ['playcraft/boot', 'playcraft/systems/entitysystem'],
 		'playcraft/systems/render': ['playcraft/boot', 'playcraft/systems/entitysystem'],
-		'playcraft/systems/layout': ['playcraft/boot']
+		'playcraft/systems/layout': ['playcraft/boot', 'playcraft/systems/entitysystem']
 	}
 });
 
