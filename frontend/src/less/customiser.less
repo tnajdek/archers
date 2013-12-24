@@ -1,21 +1,32 @@
 .customiser {
-	z-index: 10;
 	color:#fff;
-	width: 720px;
+	box-sizing:border-box;
+	width:100%;
 	margin-left: auto;
 	text-align: left;
-	border-style: solid;
-	border-width: 68px 68px 68px 68px;
-	border-image: url('/gfx/border.png') 68 68 68 68 fill repeat;
+
 	background: url('/gfx/texture/dark_leather.png') repeat;
 
-	@media only screen and (max-width: 1000px) {
-		position: fixed;
-		right:0;
+
+	border-style: solid;
+	border-width: 68px;
+	border-image: url('/gfx/border.png') 68 fill repeat;
+
+	@media @upto-small {
+		border-image: url('/gfx/border-small.png') 6 fill repeat;
+		border-width: 6px;
 	}
-	@media only screen and (min-width: 1000px) {
+	
+	z-index: 10;
+	position: relative;
+
+	@media @from-large {
 		position: fixed;
-		left:640px;
+	}
+
+	.main {
+		position: relative;
+		height:auto
 	}
 
 	.main, .help {
@@ -26,7 +37,8 @@
 
 	.help {
 		background: url('/gfx/texture/old_map.png') repeat;
-		height: 600px;
+
+		height:100%;
 		border-style: solid;
 		border-width: 6px;
 		border-image: url('/gfx/border-small.png') 6 fill repeat;
