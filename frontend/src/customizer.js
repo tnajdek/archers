@@ -139,6 +139,8 @@ define(['lodash',
 				} else {
 					ractive.set(['slotData', slot, 'selectedItem'].join('.'), id);
 				}
+
+				ractive.set('openedSlot', null);
 			});
 
 			ractive.on('hint', function(event) {
@@ -147,11 +149,11 @@ define(['lodash',
 
 				if(slot == 'gender') {
 					ractive.set('hint', data.genders[id]);
-				} else if(slot) {
+				} else if(slot && id) {
+					ractive.set('hint', data.items[id].name + "<br>" + data.items[id].description);
+				} else {
 					//@TODO: define descriptions in items.json?
 					ractive.set("hint", "Press to select equipment");
-				} else {
-					ractive.set('hint', data.items[id].description);
 				}
 			});
 

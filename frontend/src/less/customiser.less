@@ -101,6 +101,28 @@
 
 			.item-selector {
 				display:none;
+
+				ul {
+					list-style: none;
+					padding: 0;
+
+					li {
+						text-align: center;
+						button {
+							width:42px;
+							height: 42px;
+							border: 1px solid #ffd700;
+							text-align: center;
+							line-height: 42px;
+							padding:0;
+
+							span {
+								display: inline-block;
+								vertical-align: middle;
+							}
+						}
+					}
+				}
 			}
 
 			&.open .item-selector {
@@ -109,7 +131,7 @@
 		}
 	}
 
-	button {
+	button.icon {
 		background-color: transparent;
 		border:none;
 		opacity: 0.6;

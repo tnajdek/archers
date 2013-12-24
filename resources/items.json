@@ -657,6 +657,7 @@
 			"slot": 10,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-plain-clothing",
+			"description": "",
 			"spritesheet": {
 				"male": [
 					"eqp.male.shirt.white",
@@ -671,6 +672,7 @@
 				"slot": 10,
 				"genderRestrictions": ["male", "female"],
 				"icon": "eqp-icon-leather-armor",
+				"description": "",
 				"spritesheet": {
 					"male": [
 						"eqp.male.leather.chest",
@@ -695,6 +697,7 @@
 			"distance": 0.75,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-bow",
+			"description": "",
 			"spritesheet": [
 				"eqp.bow",
 				"eqp.arrow"
@@ -708,6 +711,7 @@
 			"distance": 1.0,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-greatbow",
+			"description": "",
 			"spritesheet": [
 				"eqp.greatbow",
 				"eqp.arrow"
@@ -721,6 +725,7 @@
 			"distance": 1.25,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-greatbow",
+			"description": "",
 			"spritesheet": [
 				"eqp.greatbow",
 				"eqp.arrow"
@@ -734,6 +739,7 @@
 			"distance": 1.5,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-greatbow",
+			"description": "",
 			"spritesheet": [
 				"eqp.greatbow",
 				"eqp.arrow"
@@ -747,6 +753,7 @@
 			"distance": 0.75,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-recurvebow",
+			"description": "",
 			"spritesheet": [
 				"eqp.recurvebow",
 				"eqp.arrow"
@@ -760,6 +767,7 @@
 			"distance": 0.75,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-recurvebow",
+			"description": "",
 			"spritesheet": [
 				"eqp.recurvebow",
 				"eqp.arrow"
@@ -773,6 +781,7 @@
 			"distance": 1.25,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-recurvebow",
+			"description": "",
 			"spritesheet": [
 				"eqp.recurvebow",
 				"eqp.arrow"
