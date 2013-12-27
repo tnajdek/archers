@@ -130,6 +130,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-spritesmith');
 
 	grunt.registerTask('develop', ['less:develop']);
+	grunt.registerTask('sprites', ['sprite']);
 	grunt.registerTask('build', ['requirejs', 'removelogging', 'uglify', 'replace']);
 	grunt.registerTask('test', ['karma']);
 	grunt.registerTask('default', ['less:develop', 'autoprefixer:develop', 'connect', 'watch']);

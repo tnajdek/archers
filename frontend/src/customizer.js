@@ -92,6 +92,8 @@ define(['lodash',
 					slotData: slotData,
 					username: localAccount.username,
 					gender: localAccount.gender,
+					activeScreen: 'character',
+					preview: false,
 					filterSlot: function ( item, value ) {
 						
 						return item.slot == value;
@@ -166,6 +168,14 @@ define(['lodash',
 					return;
 				}
 				ractive.set('openedSlot', null);
+				
+			});
+
+			ractive.on('clearPreview', function(event) {
+				if(event.original.originalTarget.classList.contains('action-preview')) {
+					return;
+				}
+				ractive.set('preview', false);
 			});
 
 			ractive.on('clearHint', function(event) {
@@ -183,6 +193,17 @@ define(['lodash',
 				vent.trigger('customize:end', account);
 			});
 
+			// mobile only, switch screen (view)
+			ractive.on('switchScreen', function(event) {
+				var scr = event.node.getAttribute('data-target-screen');
+				ractive.set('activeScreen', scr);
+			});
+
+			// mobile only (?), show character preview
+			ractive.on('preview', function(event) {
+				ractive.set('preview', true);
+			});
+
 			vent.on('customize', function() {
 				var account = {};
 				
@@ -193,6 +214,8 @@ define(['lodash',
 				vent.trigger('customize:change', account);
 				$customiser.show();
 			});
+
+
 
 			vent.on('customize:end', function(items) {
 				$customiser.hide();

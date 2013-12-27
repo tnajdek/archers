@@ -6,22 +6,36 @@
 	text-align: left;
 
 	background: url('/gfx/texture/dark_leather.png') repeat;
-
-
 	border-style: solid;
-	border-width: 68px;
-	border-image: url('/gfx/border.png') 68 fill repeat;
+
+	@media @from-small {
+		border-width: 68px;
+		border-image: url('/gfx/border.png') 68 fill repeat;
+	}
+
+	transition-delay: 0s;
+	transition-duration: 0.5s;
+	transition-property: transform;
+	transition-timing-function: ease-in-out;
+	
 
 	@media @upto-small {
-		border-image: url('/gfx/border-small.png') 6 fill repeat;
-		border-width: 6px;
+		top:0;
+		bottom:0;
+		left:0;
+		right:0;
+
+		&.preview {
+			transform:translateX(240px) translateZ(0);
+		}
 	}
 	
 	z-index: 10;
-	position: relative;
+	// position: relative;
+	position: fixed;
 
 	@media @from-large {
-		position: fixed;
+		
 	}
 
 	.main {
@@ -33,11 +47,23 @@
 		width:50%;
 		display: inline-block;
 		vertical-align: top;
+		@media @upto-small {
+			display: block;
+			width:100%;
+		}
 	}
+
+	.actions {
+		@media @upto-small {
+			height:32px;
+			position:fixed;
+			bottom:0;
+		}
+	}
+
 
 	.help {
 		background: url('/gfx/texture/old_map.png') repeat;
-
 		height:100%;
 		border-style: solid;
 		border-width: 6px;
@@ -46,68 +72,75 @@
 		box-sizing:border-box;
 		color: #121212;
 		padding: 1em;
+		@media @upto-small {
+			position: fixed;
+			left:0;
+			height: 100px;
+			bottom: 32px;
+			overflow-y: scroll;
+		}
 
 	}
 
 
 	.character {
-		background: url('/gfx/shiloutte.png') no-repeat;
-		width:323px;
-		height:400px;
-		margin:0 auto;
-		position:relative;
+		text-align: center;
 
 		.slot {
-			position: absolute;
-			
-			&.head {
-				left: 75px;
-			}
-			&.armor {
-				left: 81px;
-				top: 87px;
-			}
-			&.weapon {
-				left: 230px;
-				top: 120px;
+			// border: 1px solid red;
+
+			border-style: solid;
+			border-width: 6px;
+			border-image: url('/gfx/border-button.png') 6 fill repeat;
+
+			background: rgba(255, 255, 255, 0.10);
+
+			display: inline-block;
+			width:48px;
+			height:64px;
+			line-height: 64px;
+
+			position: relative;
+			vertical-align: top;
+			text-align: center;
+
+			button.icon {
+				min-height: 60px;
+				margin-bottom: 1em;
 			}
 
-			&.boots {
-				left: 120px;
-				top: 360px;
+
+			span {
+				display:inline-block;
+				text-align: center;
+				vertical-align: text-bottom;
+				position: relative;
+				z-index: 2;
 			}
 
-			&.eyes, &.body, &.hair {
-				display:none;
-			}
+			@perslot: 64px;
 
-			>button {
-				line-height: 42px;
-
-				&:before {
-					background: url('/gfx/slot.png') no-repeat;
-					width:42px;
-					height:42px;
-					opacity: 0.6;
-					content:" ";
-					display: block;
-					transition: opacity 0.5s, ease-in-out;
-					margin-bottom: -42px;
+			&:nth-child(2) {
+				ul {
+					margin-left: -1*@perslot;
 				}
+			}
 
-				span {
-					display:inline-block;
-					text-align: center;
-					vertical-align: text-bottom;
-					position: relative;
-					z-index: 2;
-
+			&:nth-child(3) {
+				ul {
+					margin-left: -2*@perslot;
 				}
+			}
 
-				&:hover {
-					&:before {
-						opacity: 1;
-					}
+			&:nth-child(4) {
+				ul {
+					margin-left: -3*@perslot;
+				}
+			}
+
+			&:nth-child(5) {
+				ul {
+					margin-left: -4*@perslot;
 				}
 			}
 
@@ -117,15 +150,21 @@
 				ul {
 					list-style: none;
 					padding: 0;
+					display: block;
+					position: fixed;
+					width: 240px;
+					text-align: left;
+
 
 					li {
 						text-align: center;
+						display: inline-block;
+
 						button {
-							width:42px;
-							height: 42px;
-							border: 1px solid #ffd700;
+							width:48px;
+							height: 64px;
 							text-align: center;
-							line-height: 42px;
+							line-height: 48px;
 							padding:0;
 
 							span {
@@ -141,7 +180,69 @@
 				display: block;
 			}
 		}
-	}
+
+		// background: url('/gfx/shiloutte.png') no-repeat;
+		// width:323px;
+		// height:400px;
+		// margin:0 auto;
+		// position:relative;
+
+		// .slot {
+		// 	position: absolute;
+			
+		// 	&.head {
+		// 		left: 75px;
+		// 	}
+		// 	&.armor {
+		// 		left: 81px;
+		// 		top: 87px;
+		// 	}
+		// 	&.weapon {
+		// 		left: 230px;
+		// 		top: 120px;
+		// 	}
+
+		// 	&.boots {
+		// 		left: 120px;
+		// 		top: 360px;
+		// 	}
+
+		// 	&.eyes, &.body, &.hair {
+		// 		display:none;
+		// 	}
+
+		// 	>button {
+		// 		line-height: 42px;
+
+		// 		&:before {
+		// 			background: url('/gfx/slot.png') no-repeat;
+		// 			width:42px;
+		// 			height:42px;
+		// 			opacity: 0.6;
+		// 			content:" ";
+		// 			display: block;
+		// 			transition: opacity 0.5s, ease-in-out;
+		// 			margin-bottom: -42px;
+		// 		}
+
+		// 		span {
+		// 			display:inline-block;
+		// 			text-align: center;
+		// 			vertical-align: text-bottom;
+		// 			position: relative;
+		// 			z-index: 2;
+
+		// 		}
+
+		// 		&:hover {
+		// 			&:before {
+		// 				opacity: 1;
+		// 			}
+		// 		}
+		// 	}
+
+		// }
+}
 
 	button.icon {
 		background-color: transparent;
@@ -150,6 +251,54 @@
 		transition: opacity 0.5s, ease-in-out;
 		&:hover, &.active {
 			opacity: 1;
+		}
+	}
+
+	.small-secreen-tab-control {
+		button {
+			background-color: transparent;
+			display: inline-block;
+			color:#eee;
+			width:50%;
+			vertical-align: middle;
+			text-align: left;
+			border-bottom: 1px solid gold;
+
+			&:hover {
+				color: #fff;
+				cursor:pointer;
+			}
+
+			&:before {
+				content: "";
+				display: inline-block;
+				vertical-align: middle;
+				margin-right: 0.5em;
+			}
+
+			&.switch-to-character:before { 
+				&:extend(.sprite-icon-character);
+			}
+
+			&.switch-to-equipment:before {
+				&:extend(.sprite-icon-equipment);	
+			}
+		}
+
+		button + button { 
+			border-left: 1px solid gold;
+		}
+	}
+
+	@media @upto-small {
+
+		.screen {
+			display: none;
+			padding: 5px;
+
+			&.active {
+				display: block;
+			}
 		}
 	}
 }

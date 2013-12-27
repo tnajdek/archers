@@ -1,51 +1,63 @@
-<div class="customiser" proxy-click="closeSlots">
+<div class="customiser {{# preview}}preview{{/ preview}}" proxy-click="closeSlots" proxy-tap="clearPreview">
 	<div class="main">
-		<div class="name">
-			<input type="text" value="{{username}}" placeholder="Username">
+		<div class="small-secreen-tab-control">
+			<button class="switch-to-character" proxy-tap="switchScreen" data-target-screen="character">
+				Character
+			</button><button class="switch-to-equipment" proxy-tap="switchScreen" data-target-screen="equipment">
+				Equipment
+			</button>
 		</div>
-		<div class="gender">
-			<button proxy-tap="select" proxy-mouseover="hint" data-slot="gender" proxy-mouseout="clearHint" data-id="male" class="icon sprite-male {{# gender == 'male'}}active{{/selectedItem}}"></button>
-			<button proxy-tap="select" proxy-mouseover="hint" data-slot="gender" proxy-mouseout="clearHint" data-id="female" class="icon sprite-female {{# gender == 'female'}}active{{/selectedItem}}"></button>
+		<div class="screen character-screen {{# activeScreen == 'character' }}active{{/ activeScreen}}">
+			<div class="name">
+				<input type="text" value="{{username}}" placeholder="Username">
+			</div>
+			<div class="gender">
+				<button proxy-tap="select" proxy-mouseover="hint" data-slot="gender" proxy-mouseout="clearHint" data-id="male" class="icon sprite-male {{# gender == 'male'}}active{{/selectedItem}}"></button>
+				<button proxy-tap="select" proxy-mouseover="hint" data-slot="gender" proxy-mouseout="clearHint" data-id="female" class="icon sprite-female {{# gender == 'female'}}active{{/selectedItem}}"></button>
+			</div>
+			<div class="clan">
+				{{#slotData['0']}}
+					{{#data.items:j}}
+						{{# filterSlot( (.), '0' ) }}
+							<button proxy-tap="select" proxy-mouseover="hint" proxy-mouseout="clearHint" data-slot="0" data-id="{{ j }}" class="icon sprite-{{ .name }} {{# slotData.0.selectedItem == j}}active{{/selectedItem}}"></button>
+						 {{/ filter slot }}
+					 {{/data.items}}
+				{{/slotData['0']}}
+			</div>
 		</div>
-		<div class="clan">
-			{{#slotData['0']}}
-				{{#data.items:j}}
-					{{# filterSlot( (.), '0' ) }}
-						<button proxy-tap="select" proxy-mouseover="hint" proxy-mouseout="clearHint" data-slot="0" data-id="{{ j }}" class="icon sprite-{{ .name }} {{# slotData.0.selectedItem == j}}active{{/selectedItem}}"></button>
-					 {{/ filter slot }}
-				 {{/data.items}}
-			{{/slotData['0']}}
-		</div>
-		<div class="character">
-			{{#slotData:i}}
-				{{# i != '0' &&  i != '1' }}
-					<div class="slot {{ .name }} {{# openedSlot == i }}open{{/ openedSlot }}">
-						<button class="icon" data-slot="{{ i }}" proxy-mouseover="hint" proxy-click="openSlot" proxy-mouseout="clearHint">
-							<span class="sprite-{{ data.items[slotData[i].selectedItem].icon }}"></span>
-						</button>
-						<div class="item-selector">
-							<ul>
-								{{#data.items:j}}
-									{{>option}}
-								{{/data.items}}
-							</ul>
+		<div class="screen equipment-screen {{# activeScreen == 'equipment' }}active{{/ activeScreen}}">
+			<div class="character">
+				{{#slotData:i}}
+					{{# i >= 10  }}
+						<div class="slot {{ .name }} {{# openedSlot == i }}open{{/ openedSlot }}">
+							<button class="icon" data-slot="{{ i }}" proxy-mouseover="hint" proxy-click="openSlot" proxy-mouseout="clearHint">
+								<span class="sprite-{{ data.items[slotData[i].selectedItem].icon }}"></span>
+							</button>
+							<div class="item-selector">
+								<ul>
+									{{#data.items:j}}
+										{{>option}}
+									{{/data.items}}
+								</ul>
+							</div>
 						</div>
-					</div>
-				{{/ i }}
-			{{/slotData}}
-		</div>
-		<div class="actions">
-			<button proxy-tap="update">Finish</button>
+					{{/ i >= 10 }}
+				{{/slotData}}
+			</div>
+			
 		</div>
 	</div><div class="help">
 		{{{ hint }}}
+	</div>
+	<div class="actions">
+		<button class="action-preview" proxy-tap="preview">Preview</button>
+		<button class="action-finish" proxy-tap="update">Finish</button>
 	</div>
 </div>
 
 <!-- {{>option}} -->
 	{{# filterSlot( (.), i ) }}
-		{{# filterGender( (.), gender) }}
-			<li>
+		{{# filterGender( (.), gender) }}<li>
 				<button class="icon" proxy-click="select" proxy-mouseover="hint" data-slot="{{ i }}" data-id="{{ j }}">
 					<span class="sprite-{{ .icon }}"></span>
 				</button>
@@ -56,7 +68,6 @@
 						{{/data.items[selectedItem].variants}}
 						</select>
 				{{/ end length}}
-			</li>
-		{{/ filter gender}}
+			</li>{{/ filter gender}}
 	{{/ filter slot }}
 <!-- {{/option}} -->
