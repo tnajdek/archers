@@ -32,10 +32,18 @@ module.exports = function(grunt) {
 			}
 		},
 		uglify: {
-			js: {
+			production: {
 				options: {},
 				files: {
-					'build/js/main.js': ['src/js/*.js'],
+					'build/js/main.js': ['src/js/*.js']
+				}
+			},
+			develop: {
+				options: {
+					beautify: true
+				},
+				files: {
+					'build/js/main.js': ['src/js/*.js']
 				}
 			}
 		},
@@ -137,7 +145,7 @@ module.exports = function(grunt) {
 		'symlink:fonts',
 		'symlink:img',
 		'symlink:logo',
-		'symlink:js',
+		'uglify:develop',
 		'less:develop',
 		'autoprefixer:develop',
 		'assemble',
@@ -150,7 +158,7 @@ module.exports = function(grunt) {
 		'symlink:img',
 		'symlink:logo',
 		'symlink:gh',
-		'uglify:js',
+		'uglify:production',
 		'less:production',
 		'autoprefixer:production',
 		'assemble'
