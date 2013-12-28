@@ -5,7 +5,7 @@
 	<title>Handling network messaging - Archers! Development Blog</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="css/archers.css?v=1388202482425" rel="stylesheet" media="all">
+	<link href="css/archers.css?v=1388254688144" rel="stylesheet" media="all">
 	<!--[if lt IE 9]><script src="js/html5shiv-printshiv.js" media="all"></script><![endif]-->
 </head>
 <body>
@@ -77,6 +77,24 @@
 <p>As you can see above, I would like to use compact messages for the most common client-server traffic. I would like to use just few bytes of data per frame and luckilly Web Sockets specification allows for sending binary data. It's a relatively new feature but is supported by all the modern browsers (Chrome 15+, Firefox 11+, Internet Explorer 10, and Safari nightly). Luckily my backend framework (Autobahn) is capable of sending and receiving binary messages over Web Socket.</p>
 
 <p>To keep the message size to the minimum, I've devised a schema-based, binary protocol. Client and server will need a small JSON file listing all the possible messages as well as details on how to read/build each individual message. For example a simple frame message would consist of four unsigned integers, first representing message id (so that decoder can pull up correct schema), second and third representing X and Y coordinates of the character and fourth representing unique character id. Since each integer requires 4 bytes, the frame message as specified above would require a total of 16 bytes. Much less than the equivalent message sent as JSON.</p>
+
+<p>So instead of this:</p>
+
+<pre><code class="language-javascript">{
+	"message_id": 1,
+	"coordinates": {
+		"x": 123,
+		"y": 456
+	},
+	"user_id": 1001
+}
+</code></pre>
+
+<p>I'll be transmitting this:</p>
+
+<pre><code class="language-python">\x00\x00\x00\x01\x00\x00\x00{\x00\x00\x01\xc8\x00\x00\x03\xe9</code></pre>
+
+<p>However this message will be automatically re-assembled on the other end so I can conviniently access properties by their names.</p>
 
 <p>I haven't been able to find any open-source library that support efficient messaging over Web Sockets as described above. Once the game is release I hope to release the part of code that does message encoding &amp; decoding as a stand-alone library</p>
 
