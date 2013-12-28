@@ -1,14 +1,15 @@
 .customiser {
 	color:#fff;
 	box-sizing:border-box;
-	width:100%;
+	// height: 100%;
+	width: 100%;
 	margin-left: auto;
 	text-align: left;
 
 	background: url('/gfx/texture/dark_leather.png') repeat;
 	border-style: solid;
 
-	@media @from-small {
+	@media @from-medium {
 		border-width: 68px;
 		border-image: url('/gfx/border.png') 68 fill repeat;
 	}
@@ -19,15 +20,15 @@
 	transition-timing-function: ease-in-out;
 	
 
-	@media @upto-small {
+	// @media @upto-medium {
 		top:0;
 		bottom:0;
 		left:0;
 		right:0;
+	// }
 
-		&.preview {
-			transform:translateX(240px) translateZ(0);
-		}
+	&.preview {
+		transform:translateX(240px) translateZ(0);
 	}
 	
 	z-index: 10;
@@ -40,24 +41,50 @@
 
 	.main {
 		position: relative;
-		height:auto
+		height:auto;
+
+		@media @from-medium {
+
+		}
 	}
 
 	.main, .help {
 		width:50%;
 		display: inline-block;
 		vertical-align: top;
-		@media @upto-small {
+		@media @upto-medium {
 			display: block;
 			width:100%;
 		}
 	}
 
 	.actions {
-		@media @upto-small {
+		@media @upto-medium {
 			height:32px;
+			width: 100%;
 			position:fixed;
 			bottom:0;
+
+			button {
+				width:50%;
+				display: inline-block;
+			}
+		}
+
+		@media @from-medium {
+			text-align: right;
+			margin-top: 1em;
+
+			button + button {
+				margin-left: 1.5em;
+			}
+		}
+
+		button {
+			border: 1px solid gold;
+			background-color: transparent;
+			color: #fff;
+			cursor:pointer;
 		}
 	}
 
@@ -72,7 +99,7 @@
 		box-sizing:border-box;
 		color: #121212;
 		padding: 1em;
-		@media @upto-small {
+		@media @upto-medium {
 			position: fixed;
 			left:0;
 			height: 100px;
@@ -180,68 +207,6 @@
 				display: block;
 			}
 		}
-
-		// background: url('/gfx/shiloutte.png') no-repeat;
-		// width:323px;
-		// height:400px;
-		// margin:0 auto;
-		// position:relative;
-
-		// .slot {
-		// 	position: absolute;
-			
-		// 	&.head {
-		// 		left: 75px;
-		// 	}
-		// 	&.armor {
-		// 		left: 81px;
-		// 		top: 87px;
-		// 	}
-		// 	&.weapon {
-		// 		left: 230px;
-		// 		top: 120px;
-		// 	}
-
-		// 	&.boots {
-		// 		left: 120px;
-		// 		top: 360px;
-		// 	}
-
-		// 	&.eyes, &.body, &.hair {
-		// 		display:none;
-		// 	}
-
-		// 	>button {
-		// 		line-height: 42px;
-
-		// 		&:before {
-		// 			background: url('/gfx/slot.png') no-repeat;
-		// 			width:42px;
-		// 			height:42px;
-		// 			opacity: 0.6;
-		// 			content:" ";
-		// 			display: block;
-		// 			transition: opacity 0.5s, ease-in-out;
-		// 			margin-bottom: -42px;
-		// 		}
-
-		// 		span {
-		// 			display:inline-block;
-		// 			text-align: center;
-		// 			vertical-align: text-bottom;
-		// 			position: relative;
-		// 			z-index: 2;
-
-		// 		}
-
-		// 		&:hover {
-		// 			&:before {
-		// 				opacity: 1;
-		// 			}
-		// 		}
-		// 	}
-
-		// }
 }
 
 	button.icon {
@@ -255,6 +220,10 @@
 	}
 
 	.small-secreen-tab-control {
+		@media @from-medium {
+			display: none;
+		}
+		
 		button {
 			background-color: transparent;
 			display: inline-block;
@@ -263,10 +232,18 @@
 			vertical-align: middle;
 			text-align: left;
 			border-bottom: 1px solid gold;
+			opacity: 0.55;
 
-			&:hover {
+			transition-delay: 0s;
+			transition-duration: 0.5s;
+			transition-property: opacity;
+			transition-timing-function: ease-in-out;
+
+
+			&:hover, &.active {
 				color: #fff;
 				cursor:pointer;
+				opacity: 1;
 			}
 
 			&:before {
@@ -286,13 +263,12 @@
 		}
 
 		button + button { 
-			border-left: 1px solid gold;
+			// border-left: 1px solid gold;
 		}
 	}
 
-	@media @upto-small {
-
-		.screen {
+	.screen {
+		@media @upto-medium {	
 			display: none;
 			padding: 5px;
 
@@ -300,5 +276,32 @@
 				display: block;
 			}
 		}
+
+		@media @from-medium {
+			margin-top: 2em;
+		}
+	}
+
+	.subsection {
+		width: 90%;
+		label {
+			padding: 0.25em 0 0.25em 0;
+			color: gold;
+			border-bottom: 1px solid gold;
+			display: block;
+			margin-bottom: 0.5em;
+		}
+
+		&.name {
+			input {
+				width: 100%;
+				margin: 0 auto;
+				box-sizing: border-box;
+			}
+		}
+	}
+
+	.subsection + .subsection {
+		margin-top: 2.5em;
 	}
 }
