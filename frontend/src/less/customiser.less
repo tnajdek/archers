@@ -41,10 +41,11 @@
 
 	.main {
 		position: relative;
-		height:auto;
-
+		height: ~"calc(100% - 176px)";
+		overflow-y: scroll;
 		@media @from-medium {
-
+			height:100%;
+			overflow-y: auto;
 		}
 	}
 
@@ -283,7 +284,11 @@
 	}
 
 	.subsection {
-		width: 90%;
+
+		@media @from-medium {
+			width: 90%;
+		}
+
 		label {
 			padding: 0.25em 0 0.25em 0;
 			color: gold;
@@ -303,5 +308,21 @@
 
 	.subsection + .subsection {
 		margin-top: 2.5em;
+	}
+
+	.hair {
+		select {
+			width:48%;
+		}
+
+		span.select + span.select {
+			margin-left: 4%;
+		}
+	}
+
+	.eyes {
+		select {
+			width:100%;
+		}
 	}
 }

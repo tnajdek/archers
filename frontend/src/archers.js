@@ -90,6 +90,31 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 			pc.device.loader.add(new pc.Image('hair.male.parted', '/resources/archer/hair.male.parted.png'));
 			pc.device.loader.add(new pc.Image('hair.male.shorthawk', '/resources/archer/hair.male.shorthawk.png'));
 
+			pc.device.loader.add(new pc.Image('eyes.male.blue', '/resources/archer/eyes.male.blue.png'));
+			pc.device.loader.add(new pc.Image('eyes.male.brown', '/resources/archer/eyes.male.brown.png'));
+			pc.device.loader.add(new pc.Image('eyes.male.gray', '/resources/archer/eyes.male.gray.png'));
+			pc.device.loader.add(new pc.Image('eyes.male.green', '/resources/archer/eyes.male.green.png'));
+			pc.device.loader.add(new pc.Image('eyes.male.red', '/resources/archer/eyes.male.red.png'));
+			pc.device.loader.add(new pc.Image('eyes.female.blue', '/resources/archer/eyes.female.blue.png'));
+			pc.device.loader.add(new pc.Image('eyes.female.brown', '/resources/archer/eyes.female.brown.png'));
+			pc.device.loader.add(new pc.Image('eyes.female.gray', '/resources/archer/eyes.female.gray.png'));
+			pc.device.loader.add(new pc.Image('eyes.female.green', '/resources/archer/eyes.female.green.png'));
+			pc.device.loader.add(new pc.Image('eyes.female.red', '/resources/archer/eyes.female.red.png'));
+
+			pc.device.loader.add(new pc.Image('eqp.female.chain.hood', '/resources/archer/eqp.female.chain.hood.png'));
+			pc.device.loader.add(new pc.Image('eqp.female.golden.helm', '/resources/archer/eqp.female.golden.helm.png'));
+			pc.device.loader.add(new pc.Image('eqp.female.kettle.hat', '/resources/archer/eqp.female.kettle.hat.png'));
+			pc.device.loader.add(new pc.Image('eqp.female.leather.cap', '/resources/archer/eqp.female.leather.cap.png'));
+			pc.device.loader.add(new pc.Image('eqp.female.leather.hood', '/resources/archer/eqp.female.leather.hood.png'));
+			pc.device.loader.add(new pc.Image('eqp.female.metal.helm', '/resources/archer/eqp.female.metal.helm.png'));
+			pc.device.loader.add(new pc.Image('eqp.male.chain.hood', '/resources/archer/eqp.male.chain.hood.png'));
+			pc.device.loader.add(new pc.Image('eqp.male.golden.helm', '/resources/archer/eqp.male.golden.helm.png'));
+			pc.device.loader.add(new pc.Image('eqp.male.kettle.hat', '/resources/archer/eqp.male.kettle.hat.png'));
+			pc.device.loader.add(new pc.Image('eqp.male.leather.cap', '/resources/archer/eqp.male.leather.cap.png'));
+			pc.device.loader.add(new pc.Image('eqp.male.leather.hood', '/resources/archer/eqp.male.leather.hood.png'));
+			pc.device.loader.add(new pc.Image('eqp.male.metal.helm', '/resources/archer/eqp.male.metal.helm.png'));
+
+
 			pc.device.loader.start(this.onLoading.bind(this), this.onLoaded.bind(this));
 		},
 

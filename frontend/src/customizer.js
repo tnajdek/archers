@@ -71,9 +71,9 @@ define(['lodash',
 				localAccount = getRandomAccount();
 			}
 
-			_.each(data.slots, function(slotname, slotid) {
+			_.each(data.slots, function(slot, slotid) {
 				slotData[slotid] = {
-					'name': slotname,
+					'name': slot.name,
 					'id': slotid,
 				};
 				if(localAccount.slots[slotid] && _.isArray(localAccount.slots[slotid])) {
@@ -95,7 +95,6 @@ define(['lodash',
 					activeScreen: 'character',
 					preview: false,
 					filterSlot: function ( item, value ) {
-						
 						return item.slot == value;
 					},
 					filterGender: function( item, gender) {

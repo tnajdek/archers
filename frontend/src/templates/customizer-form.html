@@ -1,12 +1,12 @@
 <div class="customiser {{# preview}}preview{{/ preview}}" proxy-click="closeSlots" proxy-tap="clearPreview">
+	<div class="small-secreen-tab-control">
+		<button class="switch-to-character {{# activeScreen == 'character' }}active{{/ activeScreen}}" proxy-tap="switchScreen" data-target-screen="character">
+			Character
+		</button><button class="switch-to-equipment {{# activeScreen == 'equipment' }}active{{/ activeScreen}}" proxy-tap="switchScreen" data-target-screen="equipment">
+			Equipment
+		</button>
+	</div>
 	<div class="main">
-		<div class="small-secreen-tab-control">
-			<button class="switch-to-character {{# activeScreen == 'character' }}active{{/ activeScreen}}" proxy-tap="switchScreen" data-target-screen="character">
-				Character
-			</button><button class="switch-to-equipment {{# activeScreen == 'equipment' }}active{{/ activeScreen}}" proxy-tap="switchScreen" data-target-screen="equipment">
-				Equipment
-			</button>
-		</div>
 		<div class="screen character-screen {{# activeScreen == 'character' }}active{{/ activeScreen}}">
 			<div class="subsection name">
 				<label for="character-name">Name</label>
@@ -17,25 +17,42 @@
 				<button proxy-tap="select" proxy-mouseover="hint" data-slot="gender" proxy-mouseout="clearHint" data-id="male" class="icon sprite-male {{# gender == 'male'}}active{{/selectedItem}}"></button>
 				<button proxy-tap="select" proxy-mouseover="hint" data-slot="gender" proxy-mouseout="clearHint" data-id="female" class="icon sprite-female {{# gender == 'female'}}active{{/selectedItem}}"></button>
 			</div>
+
 			<div class="subsection hair">
-				<label for="character-name">Hair style</label>
-				{{#slotData['1']}}
-					{{#data.items:j}}
-						{{# filterSlot( (.), '1' ) }}
-							<button proxy-tap="select" proxy-mouseover="hint" proxy-mouseout="clearHint" data-slot="0" data-id="{{ j }}" class="icon {{# slotData.0.selectedItem == j}}active{{/selectedItem}}">{{ .name }}</button>
-						 {{/ filter slot }}
-					 {{/data.items}}
-					 {{# !isEmpty(data.items[slotData[1].selectedItem].variants) }}
-						<select value="{{.selectedVariant}}">
-						{{# data.items[selectedItem].variants:k }}
+				<label>Hair style</label>
+				<span class="select">
+					<select value="{{slotData[1].selectedItem}}">
+						{{#data.items:j}}
+							{{# filterSlot( (.), '1' ) }}
+								{{# filterGender( (.), gender) }}
+									<option value="{{ j }}" >{{ .name }}</option>
+								{{/ filterGender( (.), gender) }}
+							 {{/ filter slot }}
+						 {{/data.items}}
+					</select>
+				</span>{{# !isEmpty(data.items[slotData[1].selectedItem].variants) }}<span class="select">
+						<select value="{{slotData[1].selectedVariant}}">
+						{{# data.items[slotData[1].selectedItem].variants:k }}
 								<option value="{{ k }}">{{ .name }}</option>
-						{{/data.items[selectedItem].variants}}
+						{{/data.items[slotData[1].selectedItem].variants}}
 						</select>
-					{{/ end length}}
-				{{/slotData['1']}}
+				</span>
+				{{/isEmpty}}
 			</div>
+
 			<div class="subsection eyes">
-				<label for="character-name">Eyes color</label>
+				<label>Eyes color</label>
+				<span class="select">
+					<select value="{{slotData[2].selectedItem}}">
+						{{#data.items:j}}
+							{{# filterSlot( (.), '2' ) }}
+								{{# filterGender( (.), gender) }}
+									<option value="{{ j }}" >{{ .name }}</option>
+								{{/ filterGender( (.), gender) }}
+							 {{/ filter slot }}
+						 {{/data.items}}
+					</select>
+				</span>
 			</div>
 
 			<div class="subsection clan">

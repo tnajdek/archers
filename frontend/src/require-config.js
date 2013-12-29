@@ -55,7 +55,7 @@ requirejs.config({
 		'playcraft/components/text': ['playcraft/boot', 'playcraft/components/component'],
 		'playcraft/components/sprite': ['playcraft/boot', 'playcraft/components/component'],
 		'playcraft/components/layout': ['playcraft/boot', 'playcraft/components/component'],
-		'playcraft/components/particleemitter': ['playcraft/boot'],
+		'playcraft/components/particleemitter': ['playcraft/boot', 'playcraft/components/component'],
 		'playcraft/systems/system': ['playcraft/boot'],
 		'playcraft/es/entitymanager': ['playcraft/boot'],
 		'playcraft/es/systemmanager': ['playcraft/boot'],

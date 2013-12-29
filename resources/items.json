@@ -1,13 +1,41 @@
 {
 
 	"slots": {
-		"0": "body",
-		"1": "hair",
-		"2": "eyes",
-		"10": "armor",
-		"11": "head",
-		"12": "boots",
-		"20": "weapon"
+		"0": {
+			"name":"body",
+			"description": "",
+			"allowEmpty": false
+		},
+		"1": {
+			"name": "hair",
+			"description": "",
+			"allowEmpty": false
+		},
+		"2":  {
+			"name": "eyes",
+			"description": "",
+			"allowEmpty": false
+		},
+		"10": {
+			"name": "armor",
+			"description": "",
+			"allowEmpty": false
+		},
+		"11": {
+			"name":"head",
+			"description": "",
+			"allowEmpty": true,
+		},
+		"12": {
+			"name": "boots",
+			"description": "",
+			"allowEmpty": true,
+		},
+		"20": {
+			"name": "weapon",
+			"description": "",
+			"allowEmpty": true
+		}
 	},
 
 	"genders": {
@@ -650,7 +678,51 @@
 			"slot": 1,
 			"variants": {}
 		},
-
+		"40": {
+			"name": "Blue",
+			"genderRestrictions": ["male", "female"],
+			"slot": 2,
+			"spritesheet": {
+				"male": "eyes.male.blue",
+				"female": "eyes.female.blue"
+			}
+		},
+		"41": {
+			"name": "Brown",
+			"genderRestrictions": ["male", "female"],
+			"slot": 2,
+			"spritesheet": {
+				"male": "eyes.male.brown",
+				"female": "eyes.female.brown"
+			}
+		},
+		"42": {
+			"name": "Gray",
+			"genderRestrictions": ["male", "female"],
+			"slot": 2,
+			"spritesheet": {
+				"male": "eyes.male.gray",
+				"female": "eyes.female.gray"
+			}
+		},
+		"43": {
+			"name": "Green",
+			"genderRestrictions": ["male", "female"],
+			"slot": 2,
+			"spritesheet": {
+				"male": "eyes.male.green",
+				"female": "eyes.female.green"
+			}
+		},
+		"44": {
+			"name": "Red",
+			"genderRestrictions": ["male", "female"],
+			"slot": 2,
+			"spritesheet": {
+				"male": "eyes.male.red",
+				"female": "eyes.female.red"
+			}
+		},
 		"100": {
 			"name": "Plain clothing",
 			"price": 0,
@@ -668,27 +740,26 @@
 		},
 		"101": {
 			"name": "Leather Armor",
-				"price": 20,
-				"slot": 10,
-				"genderRestrictions": ["male", "female"],
-				"icon": "eqp-icon-leather-armor",
-				"description": "",
-				"spritesheet": {
-					"male": [
-						"eqp.male.leather.chest",
-						"eqp.male.leather.bracers",
-						"eqp.male.leather.shoulders",
-						"eqp.male.green-pants"
-					],
-					"female": [
-						"eqp.female.leather.chest",
-						"eqp.female.leather.bracers",
-						"eqp.female.leather.shoulders",
-						"eqp.female.green-pants"
-					]
-				}
+			"price": 20,
+			"slot": 10,
+			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-leather-armor",
+			"description": "",
+			"spritesheet": {
+				"male": [
+					"eqp.male.leather.chest",
+					"eqp.male.leather.bracers",
+					"eqp.male.leather.shoulders",
+					"eqp.male.green-pants"
+				],
+				"female": [
+					"eqp.female.leather.chest",
+					"eqp.female.leather.bracers",
+					"eqp.female.leather.shoulders",
+					"eqp.female.green-pants"
+				]
+			}
 		},
-
 		"200": {
 			"name": "Short Bow",
 			"price": 0,
@@ -786,6 +857,66 @@
 				"eqp.recurvebow",
 				"eqp.arrow"
 			]
+		},
+		"300": {
+			"name": "Leather Hood",
+			"price": 5,
+			"slot": 11,
+			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-leather-hood",
+			"description": "",
+			"spritesheet": {
+				"male": "eqp.male.leather.hood",
+				"female": "eqp.female.leather.hood"
+			}
+		},
+		"301": {
+			"name": "Leather Cap",
+			"price": 10,
+			"slot": 11,
+			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-leather-cap",
+			"description": "",
+			"spritesheet": {
+				"male": "eqp.male.leather.cap",
+				"female": "eqp.female.leather.cap"
+			}
+		},
+		"302": {
+			"name": "Metal Helm",
+			"price": 30,
+			"slot": 11,
+			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-metal-helm",
+			"description": "",
+			"spritesheet": {
+				"male": "eqp.male.metal.helm",
+				"female": "eqp.female.metal.helm"
+			}
+		},
+		"303": {
+			"name": "Kettle Hat",
+			"price": 20,
+			"slot": 11,
+			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-kettle-hat",
+			"description": "",
+			"spritesheet": {
+				"male": "eqp.male.kettle.hat",
+				"female": "eqp.female.kettle.hat"
+			}
+		},
+		"304": {
+			"name": "Golden Helm",
+			"price": 50,
+			"slot": 11,
+			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-golden-helm",
+			"description": "",
+			"spritesheet": {
+				"male": "eqp.male.golden.helm",
+				"female": "eqp.female.golden.helm"
+			}
 		}
 	}
 }

@@ -26,6 +26,12 @@ define(['pc',
 				var selectedItem = slots[key],
 					ssSpec, selectedVariant, layerImage;
 
+
+				if(key == 1 && slots[11]) {
+					// hair and helmet selected, don't render hair
+					return;
+				}
+
 				if(_.isArray(selectedItem)) {
 					selectedVariant = selectedItem[1];
 					selectedItem = selectedItem[0];

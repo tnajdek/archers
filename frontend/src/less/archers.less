@@ -93,8 +93,8 @@ body.page .contents {
 	color: #efefef;
 	line-height: 1.5em;
 	border-radius: 10px 10px 10px 10px;
-    box-shadow: 0 0 37px 3px;
-    margin: 36px auto;
+	box-shadow: 0 0 37px 3px;
+	margin: 36px auto;
 }
 
 a, a:hover, a:visited {
@@ -208,9 +208,9 @@ button.show-rankings {
 
 .lobby .close {
 	height: 14px;
-    margin-bottom: -20px;
-    text-align: right;
-    cursor:pointer;
+	margin-bottom: -20px;
+	text-align: right;
+	cursor:pointer;
 }
 
 
@@ -219,8 +219,40 @@ button.show-rankings {
 	width:100%;
 }
 
-input {
+input, select {
 	border: 1px solid #ffd700;
 	background: transparent;
 	color: #efefef;
 }
+
+span.select {
+	position: relative;
+
+	select {
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		// https://bugzilla.mozilla.org/show_bug.cgi?id=649849
+		text-indent: 5px;
+		text-overflow: '';
+		padding: 5px 10px 5px 0;
+
+		option {
+			background: black;
+			color:gold;
+		}
+	}
+
+	&::after {
+		content: ">";
+		font:11px "Consolas", monospace;
+		color: #FFD700;
+		font: 14px "Consolas",monospace;
+		position: absolute;
+		right: 8px;
+		top: 0;
+		transform: rotate(90deg);
+		z-index: -1;
+	}
+}
+
+
