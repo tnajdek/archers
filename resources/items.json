@@ -740,7 +740,7 @@
 		},
 		"101": {
 			"name": "Leather Armor",
-			"price": 20,
+			"price": 10,
 			"slot": 10,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-leather-armor",
@@ -757,6 +757,62 @@
 					"eqp.female.leather.bracers",
 					"eqp.female.leather.shoulders",
 					"eqp.female.green-pants"
+				]
+			}
+		},
+		"102": {
+			"name": "Chain Armor",
+			"price": 20,
+			"slot": 10,
+			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-chain-armor",
+			"description": "",
+			"spritesheet": {
+				"male": "eqp.male.chain.chest",
+				"female":"eqp.female.chain.chest"
+			}
+		},
+		"103": {
+			"name": "Plate Armor",
+			"price": 30,
+			"slot": 10,
+			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-plate-armor",
+			"description": "",
+			"spritesheet": {
+				"male": [
+					"eqp.male.plate.chest",
+					"eqp.male.plate.arms",
+					"eqp.male.plate.gloves",
+					"eqp.male.plate.pants"
+				],
+				"female": [
+					"eqp.female.plate.chest",
+					"eqp.female.plate.arms",
+					"eqp.female.plate.gloves",
+					"eqp.female.plate.pants"
+				]
+			}
+		},
+		"104": {
+			"name": "Gold Armor",
+			"price": 50,
+			"slot": 10,
+			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-gold-armor",
+			"description": "",
+			"spritesheet": {
+				"male": [
+					"eqp.male.gold.chest",
+					"eqp.male.gold.arms",
+					"eqp.male.gold.gloves",
+					"eqp.male.gold.pants"
+				],
+				"female": [
+					"eqp.female.gold.chest",
+					"eqp.female.gold.arms",
+					"eqp.female.gold.gloves",
+					"eqp.female.gold.pants"
 				]
 			}
 		},
@@ -887,11 +943,11 @@
 			"price": 30,
 			"slot": 11,
 			"genderRestrictions": ["male", "female"],
-			"icon": "eqp-icon-metal-helm",
+			"icon": "eqp-icon-plate-helm",
 			"description": "",
 			"spritesheet": {
-				"male": "eqp.male.metal.helm",
-				"female": "eqp.female.metal.helm"
+				"male": "eqp.male.plate.helm",
+				"female": "eqp.female.plate.helm"
 			}
 		},
 		"303": {
@@ -911,11 +967,59 @@
 			"price": 50,
 			"slot": 11,
 			"genderRestrictions": ["male", "female"],
-			"icon": "eqp-icon-golden-helm",
+			"icon": "eqp-icon-gold-helm",
 			"description": "",
 			"spritesheet": {
-				"male": "eqp.male.golden.helm",
-				"female": "eqp.female.golden.helm"
+				"male": "eqp.male.gold.helm",
+				"female": "eqp.female.gold.helm"
+			}
+		},
+		"400": {
+			"name": "Black Shoes",
+			"price": 0,
+			"slot": 12,
+			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-black-boots",
+			"description": "",
+			"spritesheet": {
+				"male": "eqp.male.black.boots",
+				"female": "eqp.female.black.boots"
+			}
+		},
+		"401": {
+			"name": "Brown Shoes",
+			"price": 0,
+			"slot": 12,
+			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-brown-boots",
+			"description": "",
+			"spritesheet": {
+				"male": "eqp.male.brown.boots",
+				"female": "eqp.female.brown.boots"
+			}
+		},
+		"402": {
+			"name": "Plate Boots",
+			"price": 10,
+			"slot": 12,
+			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-plate-boots",
+			"description": "",
+			"spritesheet": {
+				"male": "eqp.male.plate.boots",
+				"female": "eqp.female.plate.boots"
+			}
+		},
+		"403": {
+			"name": "Gold Boots",
+			"price": 10,
+			"slot": 12,
+			"genderRestrictions": ["male", "female"],
+			"icon": "eqp-icon-gold-boots",
+			"description": "",
+			"spritesheet": {
+				"male": "eqp.male.gold.boots",
+				"female": "eqp.female.gold.boots"
 			}
 		}
 	}
