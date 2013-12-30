@@ -138,7 +138,7 @@ define(['lodash',
 				if(slot == 'gender') {
 					ractive.set('gender', id);
 				} else {
-					ractive.set(['slotData', slot, 'selectedItem'].join('.'), id);
+					ractive.set(['slotData', slot, 'selectedItem'].join('.'), id);					
 				}
 
 				ractive.set('openedSlot', null);
@@ -150,8 +150,12 @@ define(['lodash',
 
 				if(slot == 'gender') {
 					ractive.set('hint', data.genders[id]);
-				} else if(slot && id) {
-					ractive.set('hint', data.items[id].name + "<br>" + data.items[id].description);
+				} else if(slot && id || slot && id === "") {
+					if(id == "") {
+						ractive.set('hint', "No " + data.slots[slot].name);
+					} else {
+						ractive.set('hint', data.items[id].name + "<br>" + data.items[id].description);
+					}
 				} else {
 					//@TODO: define descriptions in items.json?
 					ractive.set("hint", "Press to select equipment");

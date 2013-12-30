@@ -71,11 +71,21 @@
 				{{#slotData:i}}
 					{{# i >= 10  }}
 						<div class="slot {{ .name }} {{# openedSlot == i }}open{{/ openedSlot }}">
+							
 							<button class="icon" data-slot="{{ i }}" proxy-mouseover="hint" proxy-click="openSlot" proxy-mouseout="clearHint">
-								<span class="sprite-{{ data.items[slotData[i].selectedItem].icon }}"></span>
+								{{# slotData[i].selectedItem }}
+									<span class="sprite-{{ data.items[slotData[i].selectedItem].icon }}"></span>
+								{{/ end }}
 							</button>
 							<div class="item-selector">
 								<ul>
+									{{#data.slots[i].allowEmpty}}
+										<li>
+											<button class="icon" proxy-tap="select" proxy-mouseover="hint" data-slot="{{i}}" data-id="">
+												<span class="sprite-empty"></span>	
+											</button>
+										</li>
+									{{//allowEmpty}}
 									{{#data.items:j}}
 										{{>option}}
 									{{/data.items}}

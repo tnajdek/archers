@@ -2,39 +2,39 @@
 
 	"slots": {
 		"0": {
-			"name":"body",
+			"name":"Body",
 			"description": "",
 			"allowEmpty": false
 		},
 		"1": {
-			"name": "hair",
+			"name": "Hair",
 			"description": "",
 			"allowEmpty": false
 		},
 		"2":  {
-			"name": "eyes",
+			"name": "Eyes",
 			"description": "",
 			"allowEmpty": false
 		},
 		"10": {
-			"name": "armor",
+			"name": "Armor",
 			"description": "",
 			"allowEmpty": false
 		},
 		"11": {
-			"name":"head",
-			"description": "",
-			"allowEmpty": true,
-		},
-		"12": {
-			"name": "boots",
-			"description": "",
-			"allowEmpty": true,
-		},
-		"20": {
-			"name": "weapon",
+			"name":"Helm",
 			"description": "",
 			"allowEmpty": true
+		},
+		"12": {
+			"name": "Boots",
+			"description": "",
+			"allowEmpty": true
+		},
+		"20": {
+			"name": "Weapon",
+			"description": "",
+			"allowEmpty": false
 		}
 	},
 
