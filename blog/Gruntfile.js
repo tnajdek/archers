@@ -119,6 +119,10 @@ module.exports = function(grunt) {
 			gh: {
 				src: 'src/CNAME',
 				dest: 'build/CNAME'
+			},
+			postgfx: {
+				src: 'src/postgfx',
+				dest: 'build/postgfx'
 			}
 		},
 		'gh-pages': {
@@ -145,6 +149,7 @@ module.exports = function(grunt) {
 		'symlink:fonts',
 		'symlink:img',
 		'symlink:logo',
+		'symlink:postgfx',
 		'uglify:develop',
 		'less:develop',
 		'autoprefixer:develop',
@@ -158,6 +163,7 @@ module.exports = function(grunt) {
 		'symlink:img',
 		'symlink:logo',
 		'symlink:gh',
+		'symlink:postgfx',
 		'uglify:production',
 		'less:production',
 		'autoprefixer:production',
