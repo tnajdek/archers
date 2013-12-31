@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Searching for a frontend engine - Archers! Development Blog</title>
+	<title>Works on mobiles too! - Archers! Development Blog</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="css/archers.css?v=1388464368699" rel="stylesheet" media="all">
@@ -29,8 +29,8 @@
 			
 			<li>
 				
+					Works on mobiles too!
 				
-					<a href="/works-on-mobiles-too.html">Works on mobiles too!</a>
 				
 			</li>
 			
@@ -57,8 +57,8 @@
 			
 			<li>
 				
-					Searching for a frontend engine
 				
+					<a href="/searching-for-a-frontend-engine.html">Searching for a frontend engine</a>
 				
 			</li>
 			
@@ -82,31 +82,26 @@
 		<div class="wrap">
 			<main role="main">
 				<h1>
-				<span>Searching for a frontend engine</span><time datetime="Mon May 20 2013 01:00:00 GMT+0100 (BST)">20 May 2013</time>
+				<span>Works on mobiles too!</span><time datetime="Sun Jul 07 2013 01:00:00 GMT+0100 (BST)">07 Jul 2013</time>
 				</h1>
 				<article>
 				 	
 
-<p>One of the first thing you need to do when making a browser-based game is to decide on technologies used and then see if there is an engine with enough flexibility and power to support the vision of you game. In my prior attempts I've been playing with few different engines including <a href="http://melonjs.org/" target="_blank">MelonJS</a> and <a href="http://gamejs.org/" target="_blank">GameJS</a>. However neither of them would be suitable for the game I had in mind. Because I want to write a game and not yet another engine, I've been experimenting with various engines using <a href="https://github.com/bebraw/jswiki/wiki/Game-Engines" target="_blank">this list</a> as a starting point. After fooling around with few more options I've settled down for <a href="http://www.playcraftlabs.com/">Playcraft</a> - it's a commercial solution but comes with source code and a license friendly to indie developers.</p>
+<p>Since day one I've been planning support for modern smartphones and here is a first working version:</p>
 
-<p>Why Playcraft? Here is a quick list of criteria I've used:</p>
+<a href="/postgfx/archers-on-mobile.png">
+	<img class="fullwidth" src="/postgfx/archers-on-mobile.png" alt="">
+</a>
 
-<ul>
-	<li>It's quite flexible, as long as it's a 2D (or even 2.5D) game, it will support it</li>
-	<li>It supports TMX maps, for a while now I'm set on using <a href="http://www.mapeditor.org/" target="_blank">Tiled</a> to design game maps</li>
-	<li>It's very modular and looking at the source coude I feel like it could be easilly extended or tweaked</li>
-	<li>It implements entity pooling and seems to offer decent performance</li>
-	<li>It comes with relatively high-level components I can use off-the-shelf (e.g. sprites, scenes, input processing, data loader etc.)</li>
-</ul>
+<p>This is an actual screenshot from my Nexus 4, currently left half of the screen controls moving and the right one - shooting. On the screenshot above you can see orange rings as a response to my touch input. I've adapted brilliantly simple <a href="https://github.com/jeromeetienne/virtualjoystick.js">virtualjoystick.js</a> lib to support touch input.</p>
 
-<p>Playcraft works just fine for the frontend and though current version doesn't offer a server-side component, with few hacks I even managed to get it up and running for the backend on Node. However it doesn't feel stable nor particularly ellegant. I need something solid to maintain the state of the game, contain all the mechanics etc. Perhaps I should consider a python-based backend?</p>
-
+<p>Oh and archers are no longer bald!</p>
 				 </article>
 				 
 				 
 				 	
 				 	<aside>
-				 		<h2>Next: </h2><a href="/backend-in-python.html">Backend in Python</a>
+				 		<h2>Next: </h2><a href="/alpha-tests.html">Alpha Tests!</a>
 				 	</aside>
 				 	
 				 

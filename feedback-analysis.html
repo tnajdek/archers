@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Feedback Analysis - Archers! Development Blog</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="css/archers.css?v=1388464368699" rel="stylesheet" media="all">
+	<!--[if lt IE 9]><script src="js/html5shiv-printshiv.js" media="all"></script><![endif]-->
+</head>
+<body>
+	<nav role="navigation" class="post-menu">
+		<h2>All Posts</h2><button class="close">&times;</button>
+		<ul>
+			
+			<li>
+				
+					Feedback Analysis
+				
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/alpha-tests.html">Alpha Tests!</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/works-on-mobiles-too.html">Works on mobiles too!</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/first-working-version.html">First working version</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/handling-network-messaging.html">Handling network messaging</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/backend-in-python.html">Backend in Python</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/searching-for-a-frontend-engine.html">Searching for a frontend engine</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/dynamic-multiplayer-online-game.html">Dynamic multiplayer online game</a>
+				
+			</li>
+			
+		</ul>
+	</nav>
+	<div class="pre-footer-wrapper">
+		<header role="banner">
+			<button class="menu">Browse Posts</button>
+			<button class="menu small-screen">&#9776;</button>
+			<a href="/">
+				<img src="/img/logo.svg" alt="Archers Logo"><h1>Archers! - Development Blog</h1>
+			</a>
+		</header>
+		<div class="wrap">
+			<main role="main">
+				<h1>
+				<span>Feedback Analysis</span><time datetime="Mon Jul 22 2013 01:00:00 GMT+0100 (BST)">22 Jul 2013</time>
+				</h1>
+				<article>
+				 	
+
+<p>About a week I've <a href="/alpha-tests.html">published an early alpha</a> version of the game and send a link to few selected people asking for feedback. I've got 15 people filling in my online form + few emails/chats with more specific comments. Not exactly statistically significant, but gives me a good idea of what people think.</p>
+
+<h2>About audience</h2>
+<p>First four questions on my feedback form were about the tester and not the actual game. First two questions were about device and browser used - testers were predominantly using Chrome on desktop. Out of all testers, only four also tested on a handheld device. Third question was about the internet connection speed - seems everyone got a better one than me, 20+Mbit/s being the most common answer. Finally in the fourth question I've asked how many other players there were playing. Now: I've made a huge mistake here - I didn't setup testing for a particula time of the day. Testers ended up playing with either just 1-2 other players or absolutely no-one on the server! Luckily I've hastily put in AI-controlled skeletons in the game so at least there was somethign to shoot at when there was no one else on the server.</p>
+
+
+<h2>About the game</h2>
+<p>Following 3 questions were about game controls (scale: 1 being bad and 5 being great). I got an average of 3.25 for how responsive the game felt, 3 for touch controls and 3.66 for the keyboard controls. Sounds like a lot of space for improvement! Here are some comments I've received regarding controls and responsiveness of the game:</p>
+
+<ul>
+	<li>It's weird/misleading that you need to keep the attack key (or touch equivalent) pressed to complete shooting</li>
+	<li>When pressing 2 arrows at once (say up and left), character will always go up regardless of which button was pressed first.</li>
+	<li>Bow takes too long to warm up so it's very hard to hit anything</li>
+	<li>Touchscreen controls don't do anything 'on touch' (you have to point the 'virtual joystick' in some direction to get any action)</li>
+</ul>
+
+<p>I was quite surprised to find out that people so badly don't want to keep attack button pressed to complete attack. However this seems like a common comment so I'll need to address this somehow. I agree with the other comments, especially the fact that the bow takes way to loong to warm up which makes the game bit boring. Will need to add some dynamics!</p>
+
+<h2>Suggestions for further development</h2>
+<p>Ahh, In the next question I've asked testers to rate features they would like to see implemented in the game in future, offering the following choices:</p>
+
+<ul>
+	<li>Bonus pickups (faster movement/shooting, invincibility etc.)</li>
+	<li>Character customization (change the look of your archer)</li>
+	<li>Co-op play (team up against tasks, quests and environment/AI challenges</li>
+	<li>Player vs. Player modes (team deathmatch, capture the flag etc.)</li>
+	<li>Make it into a MOBA game (like LOL/DOTA)</li>
+	<li>Make it into a medieval-battle game (melee weapons and strongholds to defend/conquer)</li>
+	<li>Make it into a RPG game, drop multiplayer</li>
+	<li>Make it into a MMORPG game</li>
+</ul>
+
+<p>To my surpirse the best scoring answer was: "drop multiplayer, make a single-player RPG" (average score 3.5). This was quite shocking, especially that at this stage it cannot happen - however I'll keep it in mind for my next game.</p>
+
+<p>Other two high scoring answers were "bonus pickups" (average score 3.88) and "customisation" (average score 3.9) - both reasonable and very likely to happen in the next iteration of the game. I've also got lots of comments about the fact that all the archers look alike so some form of customisation is a must.</p>
+
+<p>Medieval battle concept got average score of 4.5, PvP and MOBA both 4.625, MMORPG 5.33 and co-op 5.44.</p>
+
+<h2>Other suggestions</h2>
+<p>I've got a lots of suggestion coming in either posted in a last interview question (free text) or via other channels, here are some of the most common ones:</p>
+
+<ul>
+	<li>Map collision glitches - walking through the bridge or around the ruins sometimes you can hit an 'invisible' wall.</li>
+	<li>Add music and sound effects (got lots of that!)</li>
+	<li>Add more weapons, more types of ai-controlled mobs etc.</li>
+</ul>
+
+<p>On top of that I've got a long list of issues and bugs reported that I'll now need to verify and fix. Many thanks to everyone who send me their feedback, your help is invaluable!</p>
+				 </article>
+				 
+				 
+				 
+			</main>
+		</div>
+		<div class="push"></div>
+	</div>
+	<footer role="contentinfo">
+	<small>
+		&copy; <time datetime="2013">2013</time>
+		<span>Tom Najdek</span>
+		|
+		<a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>			
+	</small>
+</footer>
+	<script src="/js/main.js"></script>
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-46126772-1', 'archersgame.com');
+	ga('send', 'pageview');
+</script>
+</body>
+</html>
