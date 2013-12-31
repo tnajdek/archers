@@ -11,6 +11,6 @@ slots = data['slots']
 
 def get_slot_for(string_repr):
 	for key, value in slots.iteritems():
-		if(value == string_repr):
+		if(value['name'] == string_repr):
 			return key
 	return None

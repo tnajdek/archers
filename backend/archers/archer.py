@@ -141,7 +141,7 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 			self.delayed_cleanup.cancel()
 
 	def get_arrow_lifetime(self):
-		weapon_slot = get_slot_for('weapon')
+		weapon_slot = get_slot_for('Weapon')
 		if(weapon_slot):
 			bow_id = self.interface.meta['slots'][weapon_slot]
 			bow = items[bow_id]
@@ -152,12 +152,11 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		return 1.0
 
 	def get_attack_speed(self):
-		weapon_slot = get_slot_for('weapon')
+		weapon_slot = get_slot_for('Weapon')
 		if(weapon_slot):
 			bow_id = self.interface.meta['slots'][weapon_slot]
 			bow = items[bow_id]
 			if "speed" in bow:
-				print(bow['speed'])
 				return bow['speed']
 		logging.warning("got invalid weapon_slot (%s) or bow definition (%s)."
 			% (weapon_slot, bow))
