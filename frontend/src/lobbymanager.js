@@ -40,11 +40,13 @@ define(['jquery',
 			vent.on('welcome', function(msg) {
 				that.session_id = msg.session_id;
 				that.player_id = msg.id;
+				that.ractive.set('player', that.metacollector[that.player_id]);
 			});
 
 			vent.on('meta', function(meta) {
 				that.metacollector[meta.id] = meta;
 				that.ractive.set('players', that.metacollector);
+				that.ractive.set('player', that.metacollector[that.player_id]);
 			});
 			vent.on('remove', function(msg) {
 				if(that.metacollector[msg.id]) {
@@ -77,6 +79,7 @@ define(['jquery',
 				template: lobbyTpl,
 				data: {
 					players: this.metacollector,
+					player: {},
 					account: localAccount,
 					status: 'connecting...',
 					spawned: false,

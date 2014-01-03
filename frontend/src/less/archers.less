@@ -14,6 +14,7 @@
 @import "respond.less";
 @import "sprites.less";
 @import "customiser.less";
+@import "lobby.less";
 
 @font-face {
 	font-family: 'ArchitectsDaughter';
@@ -25,8 +26,6 @@
 	font-weight: normal;
 	font-style: normal;
 }
-
-
 
 @font-face {
 	font-family: 'ponderosa';
@@ -142,23 +141,6 @@ input[disabled="disabled"] {
 	z-index: 1;
 }
 
-.lobby {
-	color:#fff;
-	border: 1px solid black;
-	min-height: 200px;
-	max-height: 90%;
-	left: 50%;
-	margin-left: -200px;
-	position: fixed;
-	width: 400px;
-	z-index: 10;
-	background-color: rgba(0,0,0,0.6);
-	padding: 10px;
-	border-radius: 5px;
-	text-align:center;
-	overflow-y: auto;
-}
-
 #virtualjoystick {
 	width:100%;
 	height:100%;
@@ -177,42 +159,12 @@ input[disabled="disabled"] {
 }
 
 
-.lobby p {
-	text-align: left;
-}
-
-.help, .spawn {
-	display:none;
-}
-
 .leaderboard {
 	margin: 10px auto;
 }
 .leaderboard table {
 	width:100%;
 }
-
-button.show-rankings {
-	position:absolute;
-	top: 10px;
-	left: 10px;
-	background-image: url('/gfx/skull.png');
-	width:32px;
-	height:32px;
-	z-index:10;
-	border:1px solid white;
-	box-shadow: 2px 2px 4px 0 #343434;
-	cursor:pointer;
-	// display:none;
-}
-
-.lobby .close {
-	height: 14px;
-	margin-bottom: -20px;
-	text-align: right;
-	cursor:pointer;
-}
-
 
 .overlay {
 	display: none;

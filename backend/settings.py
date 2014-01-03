@@ -14,3 +14,5 @@ score = {
 	"kill": 100,
 	"mob": 10
 }
+
+initial_budget = 10

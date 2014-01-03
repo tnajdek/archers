@@ -69,10 +69,10 @@
 		<div class="screen equipment-screen {{# activeScreen == 'equipment' }}active{{/ activeScreen}}">
 			<div class="budget">
 				<span>
-					Budget: {{ playermeta.budget }} <span class="sprite-coin-copper"></span>
+					Budget: <span class="sprite-coin-copper"></span>{{ playermeta.budget }} 
 				</span><span class="{{# currentcost > playermeta.budget}}exceed{{/currentcost}}">
 
-					Cost: {{ currentcost }} <span class="sprite-coin-copper"></span>
+					Cost: <span class="sprite-coin-copper"></span>{{ currentcost }} 
 				</span>
 			</div>
 			<div class="character">

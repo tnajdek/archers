@@ -29,7 +29,7 @@ class Connection(EventsMixins):
 			"kills": 0,
 			"deaths": 0,
 			"score": 0,
-			"budget": 10,
+			"budget": settings.initial_budget,
 		}
 
 		self.archer.interface = self
@@ -45,6 +45,12 @@ class Connection(EventsMixins):
 		self.on('die', self.on_die)
 		self.on('mob', self.on_mob)
 		self.on('pickup', self.on_pickup)
+		self.on('spawn', self.on_spawn)
+
+
+	def on_spawn(self):
+		self.meta['budget'] = settings.initial_budget
+		self.trigger('meta', self.meta)
 
 	def on_kill(self, prey):
 		self.meta['kills'] = self.meta['kills'] + 1
