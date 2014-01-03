@@ -3,8 +3,9 @@ define(['lodash',
 	'lodash',
 	'vent',
 	'ractive',
+	'lobbymanager',
 	'text!templates/customizer-form.html'
-	], function(_, $, lodash, vent, Ractive, customizerTpl) {
+	], function(_, $, lodash, vent, Ractive, Lobby, customizerTpl) {
 	var Customizer = function() {
 
 		function getRandomName(female) {
@@ -47,9 +48,9 @@ define(['lodash',
 			return account;
 		}
 
-		function getSlots(ractive, slotData) {
+		function getSlots(slotData) {
 			var slots = {};
-			_.each(ractive.get('slotData'), function(val, key) {
+			_.each(slotData, function(val, key) {
 				if(val.selectedVariant) {
 					slots[key] = [val.selectedItem, val.selectedVariant];
 				} else {
@@ -57,6 +58,20 @@ define(['lodash',
 				}
 			});
 			return slots;
+		}
+
+		function getCost(slotData) {
+			var slots = getSlots(slotData),
+				data = pc.device.loader.get('items').resource.data,
+				cost = 0;
+
+			_.each(slots, function(item, slot) {
+				if(slot>=10 && _.has(data.items, item)) {
+					cost += data.items[item].price;
+				}
+			});
+
+			return cost;
 		}
 
 		this.init = function() {
@@ -93,6 +108,7 @@ define(['lodash',
 					username: localAccount.username,
 					gender: localAccount.gender,
 					activeScreen: 'character',
+					playermeta: {},
 					preview: false,
 					filterSlot: function ( item, value ) {
 						return item.slot == value;
@@ -107,6 +123,7 @@ define(['lodash',
 					stringify: function(item) {
 						return JSON.stringify(item);
 					},
+					currentcost: getCost(slotData),
 					isEmpty: _.isEmpty
 				}
 			});
@@ -116,7 +133,7 @@ define(['lodash',
 				
 				account.username = ractive.get('username');
 				account.gender = ractive.get('gender');
-				account.slots = getSlots(ractive, newValue);
+				account.slots = getSlots(newValue);
 
 				vent.trigger('customize:change', account);
 			});
@@ -126,7 +143,7 @@ define(['lodash',
 				
 				account.username = ractive.get('username');
 				account.gender = newValue;
-				account.slots = getSlots(ractive, slotData);
+				account.slots = getSlots(ractive.get('slotData'));
 
 				vent.trigger('customize:change', account);
 			});
@@ -138,9 +155,10 @@ define(['lodash',
 				if(slot == 'gender') {
 					ractive.set('gender', id);
 				} else {
-					ractive.set(['slotData', slot, 'selectedItem'].join('.'), id);					
+					ractive.set(['slotData', slot, 'selectedItem'].join('.'), id);
 				}
 
+				ractive.set('currentcost', getCost(ractive.get("slotData")));
 				ractive.set('openedSlot', null);
 			});
 
@@ -190,7 +208,7 @@ define(['lodash',
 
 				account.username = ractive.get('username');
 				account.gender = ractive.get('gender');
-				account.slots = getSlots(ractive, slotData);
+				account.slots = getSlots(ractive.get("slotData"));
 
 				localStorage.setObject('account', account);
 				vent.trigger('customize:end', account);
@@ -212,16 +230,22 @@ define(['lodash',
 				
 				account.username = ractive.get('username');
 				account.gender = ractive.get('gender');
-				account.slots = getSlots(ractive, slotData);
+				account.slots = getSlots(ractive.get("slotData"));
 
 				vent.trigger('customize:change', account);
 				$customiser.show();
 			});
 
-
-
 			vent.on('customize:end', function(items) {
 				$customiser.hide();
+			});
+
+			vent.on('welcome', function() {
+				ractive.set('playermeta', Lobby.metacollector[Lobby.player_id]);
+			});
+
+			vent.on('meta', function() {
+				ractive.set('playermeta', Lobby.metacollector[Lobby.player_id]);
 			});
 		};
 	};

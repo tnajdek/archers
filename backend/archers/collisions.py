@@ -1,4 +1,5 @@
 from Box2D import b2ContactListener
+from utils import get_class
 
 
 CLCAT_OBSTACLE = 0x0002
@@ -25,12 +26,14 @@ class Collisions(b2ContactListener):
 	# 	pass
 
 	def is_pair(self, a, b, x, y):
-		a_name = a.get_class_name()
-		b_name = b.get_class_name()
-		if(a_name == x and b_name == y):
-			return (a, b)
-		if(a_name == y and b_name == x):
-			return (b, a)
+		x = get_class(x)
+		y = get_class(y)
+
+		if(isinstance(a, x) and isinstance(b, y)):
+			return(a, b)
+		if(isinstance(a, y) and isinstance(b, x)):
+			return(b, a)
+
 		return False
 
 	def PreSolve(self, contact, old_manifold,  *args, **kwargs):
@@ -39,7 +42,7 @@ class Collisions(b2ContactListener):
 
 		#dead and unknown players should not collide
 
-		pair = self.is_pair(a, b, 'Arrow', 'Archer')
+		pair = self.is_pair(a, b, 'archers.archer.Arrow', 'archers.archer.Archer')
 		if(pair):
 			arrow, archer = pair
 			if(hasattr(arrow, 'owner') and hasattr(arrow.owner, 'player') and arrow.owner.player and hasattr(archer, 'player') and archer.player):
@@ -56,7 +59,7 @@ class Collisions(b2ContactListener):
 			self.world.kill(archer)
 			return
 
-		pair = self.is_pair(a, b, 'Arrow', 'Skeleton')
+		pair = self.is_pair(a, b, 'archers.archer.Arrow', 'archers.archer.Skeleton')
 		if(pair):
 			arrow, skeleton = pair
 			if(hasattr(arrow, 'owner') and hasattr(arrow.owner, 'player') and arrow.owner.player):
@@ -64,13 +67,24 @@ class Collisions(b2ContactListener):
 					arrow.owner.player.trigger('mob')
 			self.world.kill(arrow)
 			self.world.kill(skeleton)
+			return
+
+		pair = self.is_pair(a, b, 'archers.archer.Archer', 'archers.pickups.Pickup')
+		if(pair):
+			archer, pickup = pair
+			if(hasattr(archer, 'player') and archer.player):
+				archer.player.trigger('pickup', pickup)
+			self.world.kill(pickup)
+			return
 
 
-		pair = self.is_pair(a, b, 'Arrow', 'Collidable')
+		pair = self.is_pair(a, b, 'archers.archer.Arrow', 'archers.world.Collidable')
 		if(pair):
 			arrow, collidable = pair
 			self.world.kill(arrow)
 			return
+
+		
 
 	# def PostSolve(self, contact, impulse):
 	# 	pass

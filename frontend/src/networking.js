@@ -57,7 +57,11 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 				}
 			} else {
 				msg = JSON.parse(e.data);
-				vent.trigger('meta', msg);
+				if(msg.session_id) {
+					vent.trigger('welcome', msg);
+				} else {
+					vent.trigger('meta', msg);
+				}
 			}
 		};
 

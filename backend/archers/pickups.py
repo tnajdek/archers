@@ -1,14 +1,17 @@
 from archers.world import MapObject, NetworkMixin, Collidable
+from archers.collisions import CLCAT_TERRESTRIAL_OBSTACLE
 
 PICKUP_BONUS_COIN = 1;
 
 
 class Pickup(Collidable, NetworkMixin):
 	default_type =  "pickup"
+	collision_category = CLCAT_TERRESTRIAL_OBSTACLE
 	"""docstring for Pickup"""
 	def __init__(self, world, data, **kwargs):
 		self.x = data.x
 		self.y = data.y
+		self.state = 'standing'
 		super(Pickup, self).__init__(world, data, **kwargs)
 
 

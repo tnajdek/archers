@@ -47,10 +47,18 @@ class UserCommunication(WebSocketServerProtocol):
 
 		#force initial full update
 		self.interface.trigger('step')
+	
 		#then send all meta, probably should live somewhere else
 		for conn in self.factory.clients:
 			msg = simplejson.dumps(conn.interface.meta, separators=(',', ':'))
 			self.sendMessage(msg)
+
+		#finally send 'weclome msg', at this point game should be playable on the client-side
+		welcome_pack = {
+			"id": self.interface.archer.id,
+			"session_id": self.interface.session_id.hex
+		}
+		self.sendMessage(simplejson.dumps(welcome_pack, separators=(',', ':')))
 
 	def connectionLost(self, reason):
 		WebSocketServerProtocol.connectionLost(self, reason)

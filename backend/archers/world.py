@@ -258,6 +258,10 @@ class Collidable(MapObject):
 		else:
 			raise Exception("Object type %s is not supported" % data.__class__.__name__)
 
+	def destroy(self):
+		self.world.physics.DestroyBody(self.physics)
+		super(Collidable, self).destroy()
+
 
 class GroundCollidable(Collidable):
 	default_type = 'groundcollidable'

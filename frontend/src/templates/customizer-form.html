@@ -67,6 +67,14 @@
 			</div>
 		</div>
 		<div class="screen equipment-screen {{# activeScreen == 'equipment' }}active{{/ activeScreen}}">
+			<div class="budget">
+				<span>
+					Budget: {{ playermeta.budget }} <span class="sprite-coin-copper"></span>
+				</span><span class="{{# currentcost > playermeta.budget}}exceed{{/currentcost}}">
+
+					Cost: {{ currentcost }} <span class="sprite-coin-copper"></span>
+				</span>
+			</div>
 			<div class="character">
 				{{#slotData:i}}
 					{{# i >= 10  }}
@@ -104,7 +112,8 @@
 		<button class="action-preview" proxy-tap="preview">
 			Preview
 		</button><button class="action-finish" proxy-tap="update">
-			Finish
+			{{# currentcost > playermeta.budget}}Can't Afford!{{/currentcost}}
+			{{# currentcost <= playermeta.budget}}Finish{{/currentcost}}		
 		</button>
 	</div>
 </div>

@@ -34,6 +34,8 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/render', 'systems/play
 			vent.on('update', function(msg) {
 				var shape, meta, entity;
 
+				console.log(msg);
+
 				if(!that.isActive()) {
 					return;
 				}

@@ -36,10 +36,15 @@ define(['jquery',
 				that.ractive.set('status', "disconnected");
 			});
 
+			// this should leave someplace else (together with metacollector!)
+			vent.on('welcome', function(msg) {
+				that.session_id = msg.session_id;
+				that.player_id = msg.id;
+			});
+
 			vent.on('meta', function(meta) {
 				that.metacollector[meta.id] = meta;
 				that.ractive.set('players', that.metacollector);
-				
 			});
 			vent.on('remove', function(msg) {
 				if(that.metacollector[msg.id]) {

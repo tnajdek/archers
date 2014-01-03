@@ -28,7 +28,8 @@ class Connection(EventsMixins):
 			"slots": {},
 			"kills": 0,
 			"deaths": 0,
-			"score": 0
+			"score": 0,
+			"budget": 10,
 		}
 
 		self.archer.interface = self
@@ -43,6 +44,7 @@ class Connection(EventsMixins):
 		self.on('kill', self.on_kill)
 		self.on('die', self.on_die)
 		self.on('mob', self.on_mob)
+		self.on('pickup', self.on_pickup)
 
 	def on_kill(self, prey):
 		self.meta['kills'] = self.meta['kills'] + 1
@@ -57,6 +59,10 @@ class Connection(EventsMixins):
 
 	def on_mob(self):
 		self.meta['score'] = self.meta['score'] + settings.score['mob']
+		self.trigger('meta', self.meta)
+
+	def on_pickup(self, bonus):
+		self.meta['budget'] = self.meta["budget"] + bonus.value
 		self.trigger('meta', self.meta)
 
 	def on_user_message(self, meta):
