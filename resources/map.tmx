@@ -551,4 +551,11 @@
   <object name="spawn3" x="303" y="544" width="32" height="32"/>
   <object name="spawn4" x="1484" y="1574" width="32" height="32"/>
  </objectgroup>
+ <objectgroup color="#ff55ff" name="pickups" width="64" height="64">
+  <object type="SilverCoin" x="658" y="852" width="40" height="38"/>
+  <object type="GoldCoin" x="847" y="1123" width="40" height="38"/>
+  <object type="SilverCoin" x="1261" y="1675" width="40" height="38"/>
+  <object type="CopperCoin" x="573" y="1781" width="40" height="38"/>
+  <object type="CopperCoin" x="573" y="1715" width="40" height="38"/>
+ </objectgroup>
 </map>

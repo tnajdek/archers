@@ -12,6 +12,7 @@ colors = {
 	"collidable": (0, 255, 0, 120),
 	"groundcollidable": (0, 0, 255, 120),
 	"direction": (255, 157, 0, 255),
+	"pickup": (255, 182, 193, 255),
 	"archer": (255, 255, 255, 255),
 }
 
@@ -26,7 +27,8 @@ class Renderer():
 
 	def get_color(self, world_object):
 		class_ = world_object.__class__.__name__.lower()
-		color = colors.get(class_, colors['fallback'])
+		type_ = getattr(world_object, 'default_type', class_)
+		color = colors.get(type_, colors['fallback'])
 
 		if(hasattr( world_object, 'collision_mask') and world_object.collision_mask == CLCAT_NOTHING):
 			color = (color[0]/2, color[1]/2, color[2]/2, color[3]/2)

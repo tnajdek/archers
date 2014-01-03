@@ -95,6 +95,9 @@ class EntityMessageMixin(object):
 		'Archer': 2,
 		'Arrow': 3,
 		'Skeleton': 4,
+		'CopperCoin': 5,
+		'SilverCoin': 6,
+		'GoldCoin': 7,
 	})
 
 	def hydrate_entity_type(self, value):

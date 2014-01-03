@@ -4,7 +4,7 @@ from bidict import bidict
 import settings
 from twisted.internet import reactor
 from archers.utils import vec2rad, EventsMixins
-from archers.utils import p2m, m2p, limit
+from archers.utils import p2m, m2p, limit, get_class
 from collisions import Collisions, CLCAT_OBSTACLE, CLCAT_TERRESTRIAL_OBSTACLE, CLCAT_BULLET, CLCAT_EVERYTHING
 
 directions = {
@@ -316,18 +316,25 @@ class World(EventsMixins):
 		)
 		self.init_collidable_bodies(self.layers['collision'], Collidable)
 		self.init_collidable_bodies(self.layers['groundcollision'], GroundCollidable)
+		self.init_pickups(self.layers['pickups'])
 		self.init_spawn_points(self.layers['spawn'])
-
 
 	def init_collidable_bodies(self, layer, klass):
 		for collidable in layer.all_objects():
 			klass(self, collidable)
 
-
-
 	def init_spawn_points(self, layer):
 		for sp in layer.all_objects():
 				SpawnPoint(self, sp)
+
+	def init_pickups(self, layer):
+		# from archers.pickups import BronzeCoin, SilverCoin, GoldCoin
+		for pickup in layer.all_objects():
+			# try:
+			classname = get_class('.'.join(['archers', 'pickups', pickup.type]))
+			classname(self, pickup)
+			# except NameError:
+			# 	pass
 
 	def get_spawn_points(self):
 		return self.object_lookup_by_type['spawn']

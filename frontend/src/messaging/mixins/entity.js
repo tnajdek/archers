@@ -5,7 +5,10 @@ define(function() {
 				1: 'collidable',
 				2: 'archer',
 				3: 'arrow',
-				4: 'skeleton'
+				4: 'skeleton',
+				5: 'CopperCoin',
+				6: 'SilverCoin',
+				7: 'GoldCoin'
 			},
 
 			hydrateEntityType: function(value) {

@@ -3,6 +3,7 @@ define(['pc',
 	'spritedef/archer',
 	'spritedef/arrow',
 	'spritedef/skeleton',
+	'spritedef/coin',
 	'components/state',
 	'components/meta',
 	'components/network',
@@ -10,7 +11,7 @@ define(['pc',
 	'filtered-image',
 	'lobbymanager'
 	],
-	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, stateComponent, metaComponent, networkComponent, CompositeImage, FilteredImage, lobbyManager) {
+	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, coinSpritedef, stateComponent, metaComponent, networkComponent, CompositeImage, FilteredImage, lobbyManager) {
 	var EntityFactory = pc.EntityFactory.extend('pc.archers.EntityFactory', {}, {
 
 		getDynamicSprite: function(account, spriteDef, animationState) {
@@ -216,6 +217,38 @@ define(['pc',
 			entity.addComponent(network);
 
 			return entity;
+		},
+
+		makeCoin: function(layer, x, y, dir, shape, props, color) {
+			
+			var spatial = this.getSpatial(x, y, 32, 32),
+				state = stateComponent.create(props.state, dir),
+				entity = pc.Entity.create(layer),
+				spriteDef = _.clone(coinSpritedef),
+				sprite;
+
+
+		spriteDef.spriteName = color;
+
+		sprite = this.getSprite(spriteDef, state.getStatedir());
+
+		entity.addComponent(spatial);
+		entity.addComponent(sprite);
+
+		return entity;
+
+		},
+
+		makeGoldCoin: function() {
+			return this.makeCoin.apply(this, _.toArray(arguments).concat('pickup.coin.gold'));
+		},
+
+		makeSilverCoin: function() {
+			return this.makeCoin.apply(this, _.toArray(arguments).concat('pickup.coin.silver'));
+		},
+
+		makeCopperCoin: function() {
+			return this.makeCoin.apply(this, _.toArray(arguments).concat('pickup.coin.copper'));
 		},
 
 		createEntity: function(layer, type, x, y, dir, point, properties) {

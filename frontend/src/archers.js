@@ -40,6 +40,10 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 				'skeleton',
 				'/resources/skeleton.png'
 			));
+
+			pc.device.loader.add(new pc.Image('pickup.coin.gold', '/resources/pickup/coin.gold.png'));
+			pc.device.loader.add(new pc.Image('pickup.coin.silver', '/resources/pickup/coin.silver.png'));
+			pc.device.loader.add(new pc.Image('pickup.coin.copper', '/resources/pickup/coin.copper.png'));
 			
 			// @TODO: automate or read from items.json
 			pc.device.loader.add(new pc.Image('base.female.light', '/resources/archer/base.female.light.png'));
