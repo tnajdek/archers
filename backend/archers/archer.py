@@ -33,6 +33,7 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		self.direction = directions['east']
 		self.collision_mask = CLCAT_EVERYTHING ^ CLCAT_AIRBORNE_OBSTACLE
 		self.update_collision_definition()
+		self.interface.trigger('spawn')
 
 
 	def attach_collision_data(self, fixture):

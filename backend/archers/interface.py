@@ -8,6 +8,7 @@ import uuid
 from os import urandom
 import logging
 import settings
+from archers.items import verify_slots
 
 
 class Connection(EventsMixins):
@@ -85,9 +86,12 @@ class Connection(EventsMixins):
 			changed = True
 
 		if('slots' in meta and meta['slots'] != self.meta['slots']):
-			#@TODO: check if slots make sense?
-			self.meta['slots'] = meta['slots']
-			changed = True
+			if(verify_slots(meta['slots'], self.meta['budget'])):
+				self.meta['slots'] = meta['slots']
+				changed = True
+			else:
+				logging.info("%s provided incorrect meta msg (%s). Discarding" 
+					% (self.meta['username'], meta['slots']))
 
 		if(changed):
 			self.trigger('meta', self.meta)
@@ -104,7 +108,10 @@ class Connection(EventsMixins):
 		shuffle(spawn_points)
 		if(message['action'] == 'spawn'):
 			if(not self.archer.is_alive()):
-				self.archer.spawn(spawn_points[0])
+				if(verify_slots(self.meta['slots'], self.meta['budget'])):
+					self.archer.spawn(spawn_points[0])
+				else:
+					logging.info('denying %s spawn, incorrect slots %s' % (self.meta['username'], self.meta['slots']))
 			else:
 				self.archer.kill()
 		if(message['action'] == 'stop'):

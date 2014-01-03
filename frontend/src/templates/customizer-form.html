@@ -111,10 +111,10 @@
 	<div class="actions">
 		<button class="action-preview" proxy-tap="preview">
 			Preview
-		</button><button class="action-finish" proxy-tap="update">
-			{{# currentcost > playermeta.budget}}Can't Afford!{{/currentcost}}
-			{{# currentcost <= playermeta.budget}}Finish{{/currentcost}}		
+		</button>{{# currentcost <= playermeta.budget}}<button class="action-finish" proxy-tap="update">
+			Finish
 		</button>
+		{{/currentcost}}
 	</div>
 </div>
 

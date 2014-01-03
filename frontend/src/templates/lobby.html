@@ -29,7 +29,7 @@
 		</table>
 
 		{{#!spawned}}
-			<button on-tap="customize">Select Character</button>
+			<button on-tap="customize">Customize &amp; select equipment</button>
 		{{/!spawned}}
 
 		{{#account}}
@@ -38,13 +38,12 @@
 					<button on-tap="spawn">Suicide!</button>
 				{{/spawned}}
 				{{#!spawned}}
-					<button on-tap="spawn">Play!</button>
+					{{# currentcost <= player.budget}}
+						<button on-tap="spawn">Play!</button>
+					{{/currentcost}}
 				{{/!spawned}}
 			{{/status == 'connected'}}
 		{{/account}}
-
-
-
 
 
 		<a href="/help.html" target="_blank">Help</a> |

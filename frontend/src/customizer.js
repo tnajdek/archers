@@ -150,7 +150,8 @@ define(['lodash',
 
 			ractive.on('select', function(event) {
 				var slot = event.node.getAttribute('data-slot'),
-					id = event.node.getAttribute('data-id');
+					id = event.node.getAttribute('data-id'),
+					currentcost;
 
 				if(slot == 'gender') {
 					ractive.set('gender', id);
@@ -158,7 +159,9 @@ define(['lodash',
 					ractive.set(['slotData', slot, 'selectedItem'].join('.'), id);
 				}
 
-				ractive.set('currentcost', getCost(ractive.get("slotData")));
+				currentcost = getCost(ractive.get("slotData"));
+
+				ractive.set('currentcost', currentcost);
 				ractive.set('openedSlot', null);
 			});
 

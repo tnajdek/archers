@@ -5,6 +5,21 @@ define(['jquery',
 		'text!templates/lobby.html'
 	], function($, lodash, vent, Ractive, lobbyTpl) {
 	var Lobby = function() {
+
+
+		function getCost(slots) {
+			var data = pc.device.loader.get('items').resource.data,
+				cost = 0;
+
+			_.each(slots, function(item, slot) {
+				if(slot>=10 && _.has(data.items, item)) {
+					cost += data.items[item].price;
+				}
+			});
+
+			return cost;
+		}
+
 		this.show = function() {
 			this.$container.show();
 		};
@@ -23,6 +38,7 @@ define(['jquery',
 			vent.on('connected', function() {
 				that.ractive.set('status', 'connected');
 				if(localAccount) {
+					that.ractive.set('currentcost', getCost(localAccount.slots));
 					// send local data to the server
 					_.delay(function() {
 						vent.trigger('localAccountFound', localAccount);
@@ -72,6 +88,7 @@ define(['jquery',
 			vent.on('customize:end', function(localAccount) {
 				localAccount = localStorage.getObject('account');
 				that.ractive.set('account', localAccount);
+				that.ractive.set('currentcost', getCost(localAccount.slots));
 			});
 
 			this.ractive = new Ractive({
@@ -82,6 +99,7 @@ define(['jquery',
 					player: {},
 					account: localAccount,
 					status: 'connecting...',
+					currentcost: 0,
 					spawned: false,
 					visible: true,
 					sort: function(players) {
