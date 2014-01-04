@@ -9,8 +9,8 @@ base_url: "../"
 
 <p>It's buggy, all archers are bald and look alike, map is quite boring, but it works!</p>
 
-<a href="/postgfx/archers-pre-alpha.png">
-	<img class="fullwidth" src="/postgfx/archers-pre-alpha.png" alt="">
+<a class="fullwidth" href="/postgfx/archers-pre-alpha.png">
+	<img src="/postgfx/archers-pre-alpha.png" alt="Archers! game screenshot">
 </a>
 
 <p>On the screenshot above the large window is Firefox showing the actual game as a player would. Offscreen I've a couple of instances of Chrome pointing at the same URL to simulate other players. Small black/green/blue window on the right-hand side is a server-side debug renderer. It's rendered using pygame and will be disabled so that the game can run headless (and has no dependency on pygame). However having a debug renderer for testing purposes is pretty much essential. Oh and 4 charts at the bottom are actually rendered in the game window (Firefox) and come free with Playcraft engine. From left to right these are performance (time spent processing and rendering each frmae), memory used (doesn't seem to work in FF), pooled entities count, drawn (visible) entities count.</p>
