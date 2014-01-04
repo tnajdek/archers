@@ -5,13 +5,27 @@
 	<title>Dynamic sprite coloring - Archers! Development Blog</title>
 	<meta name="description" content="In this post I describe a technique of producing tinted spritesheets off screen (and on-the-fly) and then using them in the main rendering screen.">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="css/archers.css?v=1388866983495" rel="stylesheet" media="all">
+	<link href="css/archers.css?v=1388868969139" rel="stylesheet" media="all">
 	<!--[if lt IE 9]><script src="js/html5shiv-printshiv.js" media="all"></script><![endif]-->
 </head>
 <body>
 	<nav role="navigation" class="post-menu">
 		<h2>All Posts</h2><button class="close">&times;</button>
 		<ul>
+			
+			<li>
+				
+				
+					<a href="/development-screenshots.html">Development screenshots</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/customized-characters.html">Customized characters</a>
+				
+			</li>
 			
 			<li>
 				
@@ -108,6 +122,12 @@
 <p>As an alternative I've started looking at using <a href="https://developer.mozilla.org/en-US/docs/Web/WebGL" target="_blank">WebGL</a>. Surprisingly I couldn't find any off-the-shelf, 3rd party library/engine to apply simple shaders (pixel multiplication in my case) to an existing image/canvas so I had to learn basics of WebGL (thanks Gregg fro your <a href="http://greggman.github.io/webgl-fundamentals/webgl/lessons/webgl-how-it-works.html" target="_blank">amazing tutorial</a>!). Once I grasped the basics I was able to develop a <a href="http://tnajdek.github.io/webgl-color-multiply-shader/" target="_blank">simple demo</a> that uses no 3rd party code and does exactly what I need (<a href="https://github.com/tnajdek/webgl-color-multiply-shader" target="_blank">source code is available on Github</a>). I've used this technique in the game to render hair spritesheets colored based on user choice and it works like a charm. For the time being my naive pixel-by-pixel approach is still used in the game as a fallback for browsers without WebGL.</p>
 				 </article>
 				 
+				 
+				 	
+				 	<aside>
+				 		<h2>Next: </h2><a href="/customized-characters.html">Customized characters</a>
+				 	</aside>
+				 	
 				 
 				 
 			</main>
