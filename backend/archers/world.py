@@ -1,6 +1,7 @@
 import tmxlib
 from Box2D import *
 from bidict import bidict
+import random
 import settings
 from twisted.internet import reactor
 from archers.utils import vec2rad, EventsMixins
@@ -311,6 +312,7 @@ class World(EventsMixins):
 		self.object_index = bidict()
 		self.object_index.index = 0
 		self.group_index = []
+		self.pickups_lookup = dict()
 
 		for layer in self.map.layers:
 			self.layers[layer.name] = layer
@@ -334,11 +336,41 @@ class World(EventsMixins):
 	def init_pickups(self, layer):
 		# from archers.pickups import BronzeCoin, SilverCoin, GoldCoin
 		for pickup in layer.all_objects():
+			if(not 'respawn_time' in pickup.properties):
+				pickup.properties['respawn_time'] = random.randint(30, 120)
+			
 			# try:
 			classname = get_class('.'.join(['archers', 'pickups', pickup.type]))
-			classname(self, pickup)
+			obj = classname(self, pickup)
+			self.pickups_lookup[pickup] = {
+				'pickup_id': self.get_object_id(obj),
+				'step_placed': self.step,
+				'step_destroyed': None
+			}
 			# except NameError:
 			# 	pass
+
+	def recreate_pickups(self, layer):
+		for pickup in layer.all_objects():
+			in_lookup = self.pickups_lookup[pickup]
+			if(in_lookup):
+				try:
+					existing_pickup = self.get_object_by_id(in_lookup['pickup_id'])
+				except KeyError:
+					gone_seconds_ago = (self.step - in_lookup['step_destroyed'])/60.0
+					if(gone_seconds_ago >= int(pickup.properties['respawn_time'])):
+						
+						#@TODO:Duplicate code above!
+						classname = get_class('.'.join(['archers', 'pickups', pickup.type]))
+						obj = classname(self, pickup)
+						self.pickups_lookup[pickup] = {
+							'pickup_id': self.get_object_id(obj),
+							'step_placed': self.step,
+							'step_destroyed': None
+						}
+
+
+
 
 	def get_spawn_points(self):
 		return self.object_lookup_by_type['spawn']
@@ -401,6 +433,9 @@ class World(EventsMixins):
 				killme.kill()
 			else:
 				killme.destroy()
+
+		if(self.step % (1.0/settings.PROCESSING_STEP) == 0.0):
+			self.recreate_pickups(self.layers['pickups'])
 
 		self.physics.Step(settings.PROCESSING_STEP, settings.PHYSICS_VEL_ITERS, settings.PHYSICS_POS_ITERS)
 		self.step = self.step+1

@@ -9,10 +9,15 @@ class Pickup(Collidable, NetworkMixin):
 	collision_category = CLCAT_TERRESTRIAL_OBSTACLE
 	"""docstring for Pickup"""
 	def __init__(self, world, data, **kwargs):
+		self._data = data
 		self.x = data.x
 		self.y = data.y
 		self.state = 'standing'
 		super(Pickup, self).__init__(world, data, **kwargs)
+
+	def destroy(self):
+		self.world.pickups_lookup[self._data]['step_destroyed'] = self.world.step
+		super(Pickup, self).destroy()
 
 
 class CopperCoin(Pickup):
