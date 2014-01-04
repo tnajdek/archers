@@ -493,6 +493,29 @@ main a:hover img {
   border: 1px solid gold;
 }
 
+main .table-container {
+  text-align: center;
+}
+
+main table {
+  max-width: 100%;
+  margin: 1.5em auto 1.5em auto;
+}
+
+main table td,
+main table th {
+  vertical-align: top;
+}
+
+main table td+td,
+main table th+th {
+  padding-left: 2em;
+}
+
+main table th {
+  border-bottom: 1px solid #fff;
+}
+
 button.menu,
 button.close {
   background: #e6c300;
