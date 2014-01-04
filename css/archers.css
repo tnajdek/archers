@@ -476,6 +476,12 @@ main aside a {
   text-align: right;
 }
 
+main a.fullwidth {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
 main img {
   text-align: center;
   max-width: 100%;
