@@ -1,0 +1,14 @@
+---
+layout: default.hbs
+title: Dynamic sprite coloring
+slug: dynamic-sprite-coloring
+date: 2013-08-03
+lead: "In this post I describe a technique of producing tinted spritesheets off screen (and on-the-fly) and then using them in the main rendering screen."
+base_url: "../"
+---
+
+<p>Thanks to many people releasing free culture licensed artwork, LPC characters can have <a href="https://github.com/makrohn/Universal-LPC-spritesheet/tree/master/hair/male" target="_blank">all kinds of crazy hair cuts</a>. I'm currently working on character customization and would like to include all these hair styles in my game - and in various colors! Unfortunately in order to allow that I would need to include more than one hundred spritesheets and increase download size by few megabytes just for the haircut spritesheets. Or do I? If you have a look at <a href="https://github.com/makrohn/Universal-LPC-spritesheet/blob/master/spritesheet.xcf" target="_blank">this master spritesheet</a> you can notice that all the hair colors use exactly the same base image and a simple, solid color mask. The color on the image is multiplied by the image on the mask producing the desired hair color. Implementing this logic in the game would reduce the required download size and could potentially be re-used for item tinting (like in Diablo 2 for 'magic' items)</p>
+
+<p>My first approach was rather naive: take every pixel in the canvas, multiply it by the desired mask value and store the resulting image. Unfortunately this technique is dead-slow, especially in Firefox, processing one spritesheet could take up to 10 seconds on a powerfull machine. Even after few optimisations, <code class="inline">getImageData</code> just takes too much time.</p>
+
+<p>As an alternative I've started looking at using <a href="https://developer.mozilla.org/en-US/docs/Web/WebGL" target="_blank">WebGL</a>. Surprisingly I couldn't find any off-the-shelf, 3rd party library/engine to apply simple shaders (pixel multiplication in my case) to an existing image/canvas so I had to learn basics of WebGL (thanks Gregg fro your <a href="http://greggman.github.io/webgl-fundamentals/webgl/lessons/webgl-how-it-works.html" target="_blank">amazing tutorial</a>!). Once I grasped the basics I was able to develop a <a href="http://tnajdek.github.io/webgl-color-multiply-shader/" target="_blank">simple demo</a> that uses no 3rd party code and does exactly what I need (<a href="https://github.com/tnajdek/webgl-color-multiply-shader" target="_blank">source code is available on Github</a>). I've used this technique in the game to render hair spritesheets colored based on user choice and it works like a charm. For the time being my naive pixel-by-pixel approach is still used in the game as a fallback for browsers without WebGL.</p>
