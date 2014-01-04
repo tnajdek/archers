@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Dynamic sprite coloring - Archers! Development Blog</title>
+	<meta name="description" content="In this post I describe a technique of producing tinted spritesheets off screen (and on-the-fly) and then using them in the main rendering screen.">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="css/archers.css?v=1388866983495" rel="stylesheet" media="all">
+	<!--[if lt IE 9]><script src="js/html5shiv-printshiv.js" media="all"></script><![endif]-->
+</head>
+<body>
+	<nav role="navigation" class="post-menu">
+		<h2>All Posts</h2><button class="close">&times;</button>
+		<ul>
+			
+			<li>
+				
+					Dynamic sprite coloring
+				
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/character-customization.html">Character customization</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/feedback-analysis.html">Feedback Analysis</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/alpha-tests.html">Alpha Tests!</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/works-on-mobiles-too.html">Works on mobiles too!</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/first-working-version.html">First working version</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/handling-network-messaging.html">Handling network messaging</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/backend-in-python.html">Backend in Python</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/searching-for-a-frontend-engine.html">Searching for a frontend engine</a>
+				
+			</li>
+			
+			<li>
+				
+				
+					<a href="/dynamic-multiplayer-online-game.html">Dynamic multiplayer online game</a>
+				
+			</li>
+			
+		</ul>
+	</nav>
+	<div class="pre-footer-wrapper">
+		<header role="banner">
+			<button class="menu">Browse Posts</button>
+			<button class="menu small-screen">&#9776;</button>
+			<a href="/">
+				<img src="/img/logo.svg" alt="Archers Logo"><h1>Archers! - Development Blog</h1>
+			</a>
+		</header>
+		<div class="wrap">
+			<main role="main">
+				<h1>
+				<span>Dynamic sprite coloring</span><time datetime="Sat Aug 03 2013 01:00:00 GMT+0100 (BST)">03 Aug 2013</time>
+				</h1>
+				<article>
+				 	
+
+<p>Thanks to many people releasing free culture licensed artwork, LPC characters can have <a href="https://github.com/makrohn/Universal-LPC-spritesheet/tree/master/hair/male" target="_blank">all kinds of crazy hair cuts</a>. I'm currently working on character customization and would like to include all these hair styles in my game - and in various colors! Unfortunately in order to allow that I would need to include more than one hundred spritesheets and increase download size by few megabytes just for the haircut spritesheets. Or do I? If you have a look at <a href="https://github.com/makrohn/Universal-LPC-spritesheet/blob/master/spritesheet.xcf" target="_blank">this master spritesheet</a> you can notice that all the hair colors use exactly the same base image and a simple, solid color mask. The color on the image is multiplied by the image on the mask producing the desired hair color. Implementing this logic in the game would reduce the required download size and could potentially be re-used for item tinting (like in Diablo 2 for 'magic' items)</p>
+
+<p>My first approach was rather naive: take every pixel in the canvas, multiply it by the desired mask value and store the resulting image. Unfortunately this technique is dead-slow, especially in Firefox, processing one spritesheet could take up to 10 seconds on a powerfull machine. Even after few optimisations, <code class="inline">getImageData</code> just takes too much time.</p>
+
+<p>As an alternative I've started looking at using <a href="https://developer.mozilla.org/en-US/docs/Web/WebGL" target="_blank">WebGL</a>. Surprisingly I couldn't find any off-the-shelf, 3rd party library/engine to apply simple shaders (pixel multiplication in my case) to an existing image/canvas so I had to learn basics of WebGL (thanks Gregg fro your <a href="http://greggman.github.io/webgl-fundamentals/webgl/lessons/webgl-how-it-works.html" target="_blank">amazing tutorial</a>!). Once I grasped the basics I was able to develop a <a href="http://tnajdek.github.io/webgl-color-multiply-shader/" target="_blank">simple demo</a> that uses no 3rd party code and does exactly what I need (<a href="https://github.com/tnajdek/webgl-color-multiply-shader" target="_blank">source code is available on Github</a>). I've used this technique in the game to render hair spritesheets colored based on user choice and it works like a charm. For the time being my naive pixel-by-pixel approach is still used in the game as a fallback for browsers without WebGL.</p>
+				 </article>
+				 
+				 
+				 
+			</main>
+		</div>
+		<div class="push"></div>
+	</div>
+	<footer role="contentinfo">
+	<small>
+		&copy; <time datetime="2014">2014</time>
+		<span>Tom Najdek</span>
+		|
+		<a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>			
+	</small>
+</footer>
+	<script src="/js/main.js"></script>
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-46126772-1', 'archersgame.com');
+	ga('send', 'pageview');
+</script>
+</body>
+</html>
