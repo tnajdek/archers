@@ -1,6 +1,7 @@
 @import "reset.less";
 @import (less) "corbert.css";
 @import (less) "nove.css";
+@import "icons.less";
 @import (less) "../../bower_components/prismjs/prism-okaidia.css";
 
 @accent1: rgb(255, 217, 0);
@@ -16,6 +17,9 @@ body {
 	color: @bodytext;
 	font-size: 16px;
 	min-width: 320px;
+	@media (max-width:800px) {
+		font-size: 14px;
+	}
 }
 
 
@@ -99,6 +103,7 @@ nav {
 	transition-timing-function: ease-in-out;
 	transform:translateX(-310px) translateZ(0);
 	z-index: 100;
+	overflow-y: auto;
 
 	border-right: 1px solid darken(@accent1, 15%);
 	box-shadow: inset -3px 0 0 @accent1, 5px 0 10px rgba(0, 0, 0, 0.75);
@@ -184,6 +189,10 @@ main {
 	box-sizing: border-box;
 	margin-bottom: 2em;
 
+	@media (max-width: 800px) {
+		padding: 1.5em 0.75em;
+	}
+
 	@media (min-width: 800px) {
 		border:1px solid @accent1;
 		box-shadow: inset 0 0 10px alpha(@accent1, 0.4);
@@ -203,6 +212,31 @@ main {
 
 		a {
 			text-align: right;
+		}
+	}
+
+	ul {
+		margin-left: 60px;
+		@media screen and (max-width: 800px) {
+			margin-left: 40px;
+		}
+
+		li {
+			list-style: none;
+			&:before {
+				/* For a round bullet */
+				content:'\2022';
+				/* For a square bullet */
+				// content:'\25A0';
+				display: block;
+				position: relative;
+				max-width: 0px;
+				max-height: 0px;
+				left: -12px;
+				top: -2px;
+				color: gold;
+				font-size: 25px;
+			}
 		}
 	}
 
@@ -274,6 +308,26 @@ button.menu, button.close {
 }
 
 button.menu {
+	&.small-screen {
+		position: relative;
+		width:2.5em;
+		&:before {
+			content: "";
+			position: absolute;
+			left: 0.75em;
+			height: 16px;
+			width: 1em;
+			background: linear-gradient(
+				to bottom, 
+				black 0%, black 12.5%,
+				transparent 12.5%, transparent 43.75%,
+				black 43.75%, black 56.25%,
+				transparent 56.25%, transparent 87.5%, 
+				black 87.5%, black 100%
+			);
+		}
+	}
+
 	@media (max-width: 480px) {
 		display: none;
 		&.small-screen {
@@ -302,22 +356,32 @@ p {
 
 h1 {
 	font-family: novecento_sans_widemedium, sans-serif;
+	font-size: 16px;
+	time {
+		text-align: right;
+	}
+
 	span, time {
 		width:50%;
 		@media (max-width: 800px) {
 			width:100%;
+			text-align: center;
 		}
 		display: inline-block;
 	}
 
-	time {
-		text-align: right;
+	@media (max-width: 800px) {
+		span {
+			text-decoration: underline;
+		}
+
+		time {
+			margin-top: 1em;
+		}
 	}
 }
 
-ul {
-	margin-left: 60px;
-}
+
 
 html, body {
 	height: 100%;
@@ -336,11 +400,28 @@ footer, .push {
 
 footer {
 	background-color: @headerfooter;
-	padding:1em;
+	padding:0.75em 1em 1.75em 1em;
 	box-sizing: border-box;
 	border-top: 1px solid darken(@accent1, 15%);
 	box-shadow: inset 0 3px 0 @accent1;
 	text-align: right;
+	>div {
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+	.copy {
+		width:70%;
+	}
+
+	.social {
+		font-size: 16px;
+		width:30%;
+		text-align: left;
+		a + a {
+			margin-left: 1em;
+		}
+	}
 }
 
 .posts-list {
@@ -382,6 +463,13 @@ code.inline {
 	color:pink;
 }
 
+a.inline {
+	display:inline-block;
+	padding: 1em;
+	max-width: 100%;
+}
+
+
 pre[class*="language-"] {
 	box-shadow:0px 0px 5px rgba(255,255,255,0.5);
 	border: 1px solid #fff;
@@ -389,4 +477,19 @@ pre[class*="language-"] {
 
 .center {
 	text-align: center;
+}
+
+
+// THIS SHOULD BE AUTOMATED
+
+.github-icon {
+	.icon(@github);
+}
+
+.twitter-icon {
+	.icon(@twitter);
+}
+
+.gplus-icon {
+	.icon(@google-plus);
 }
