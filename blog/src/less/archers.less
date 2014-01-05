@@ -426,11 +426,15 @@ footer {
 
 .posts-list {
 	list-style: none;
-	margin:0;
+	margin:0 auto;
+	max-width: 500px;
 
 	li {
 		width:100%;
 		display: block;
+		&:before {
+			display: none;
+		}
 
 		time, a {
 			display:inline-block;
@@ -479,7 +483,6 @@ pre[class*="language-"] {
 	text-align: center;
 }
 
-
 // THIS SHOULD BE AUTOMATED
 
 .github-icon {
@@ -492,4 +495,8 @@ pre[class*="language-"] {
 
 .gplus-icon {
 	.icon(@google-plus);
+}
+
+.mail-icon {
+	.icon(@mail);
 }
