@@ -15,4 +15,4 @@ score = {
 	"mob": 10
 }
 
-initial_budget = 10
+initial_budget = 1000
