@@ -728,12 +728,17 @@ footer .social a+a {
 
 .posts-list {
   list-style: none;
-  margin: 0;
+  margin: 0 auto;
+  max-width: 500px;
 }
 
 .posts-list li {
   width: 100%;
   display: block;
+}
+
+.posts-list li:before {
+  display: none;
 }
 
 .posts-list li time,
@@ -798,7 +803,7 @@ pre[class*="language-"] {
 }
 
 .github-icon:before {
-  content: "\e002";
+  content: "\e003";
 }
 
 .twitter-icon {
@@ -828,5 +833,20 @@ pre[class*="language-"] {
 }
 
 .gplus-icon:before {
+  content: "\e002";
+}
+
+.mail-icon {
+  font-family: "fontsmith-icons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mail-icon:before {
   content: "\e001";
 }
