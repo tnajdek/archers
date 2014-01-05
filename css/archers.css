@@ -141,6 +141,14 @@ input::-moz-focus-inner {
   font-style: normal;
 }
 
+@font-face {
+  font-family: "fontsmith-icons";
+  src: url("/fonts/icons.eot");
+  src: url("/fonts/icons.eot?#iefix") format("embedded-opentype"),url("/fonts/icons.woff") format("woff"),url("/fonts/icons.ttf") format("truetype"),url("/fonts/icons.svg#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
 code[class*="language-"],
 pre[class*="language-"] {
   color: #f8f8f2;
@@ -251,6 +259,12 @@ body {
   }
 }
 
+@media (max-width:800px) {
+  body {
+    font-size: 14px;
+  }
+}
+
 a {
   color: #ffd900;
   text-decoration: none;
@@ -348,6 +362,7 @@ nav {
   -ms-transform: translateX(-310px) translateZ(0);
   transform: translateX(-310px) translateZ(0);
   z-index: 100;
+  overflow-y: auto;
   border-right: 1px solid #b39800;
   -webkit-box-shadow: inset -3px 0 0 #ffd900,5px 0 10px rgba(0,0,0,0.75);
   box-shadow: inset -3px 0 0 #ffd900,5px 0 10px rgba(0,0,0,0.75);
@@ -445,6 +460,12 @@ main {
   margin-bottom: 2em;
 }
 
+@media (max-width:800px) {
+  main {
+    padding: 1.5em 0.75em;
+  }
+}
+
 @media (min-width:800px) {
   main {
     border: 1px solid #ffd900;
@@ -474,6 +495,32 @@ main aside a {
 
 main aside a {
   text-align: right;
+}
+
+main ul {
+  margin-left: 60px;
+}
+
+@media screen and (max-width:800px) {
+  main ul {
+    margin-left: 40px;
+  }
+}
+
+main ul li {
+  list-style: none;
+}
+
+main ul li:before {
+  content: '\2022';
+  display: block;
+  position: relative;
+  max-width: 0px;
+  max-height: 0px;
+  left: -12px;
+  top: -2px;
+  color: gold;
+  font-size: 25px;
 }
 
 main a.fullwidth {
@@ -554,6 +601,22 @@ button.close:hover {
   background: #ffd900;
 }
 
+button.menu.small-screen {
+  position: relative;
+  width: 2.5em;
+}
+
+button.menu.small-screen:before {
+  content: "";
+  position: absolute;
+  left: 0.75em;
+  height: 16px;
+  width: 1em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#000), color-stop(12.5%, #000), color-stop(12.5%, transparent), color-stop(43.75%, transparent), color-stop(43.75%, #000), color-stop(56.25%, #000), color-stop(56.25%, transparent), color-stop(87.5%, transparent), color-stop(87.5%, #000), to(#000));
+  background: -webkit-linear-gradient(top, #000 0, #000 12.5%, transparent 12.5%, transparent 43.75%, #000 43.75%, #000 56.25%, transparent 56.25%, transparent 87.5%, #000 87.5%, #000 100%);
+  background: linear-gradient(to bottom, #000 0, #000 12.5%, transparent 12.5%, transparent 43.75%, #000 43.75%, #000 56.25%, transparent 56.25%, transparent 87.5%, #000 87.5%, #000 100%);
+}
+
 @media (max-width:480px) {
   button.menu {
     display: none;
@@ -584,6 +647,11 @@ p {
 
 h1 {
   font-family: novecento_sans_widemedium,sans-serif;
+  font-size: 16px;
+}
+
+h1 time {
+  text-align: right;
 }
 
 h1 span,
@@ -596,15 +664,18 @@ h1 time {
   h1 span,
   h1 time {
     width: 100%;
+    text-align: center;
   }
 }
 
-h1 time {
-  text-align: right;
-}
+@media (max-width:800px) {
+  h1 span {
+    text-decoration: underline;
+  }
 
-ul {
-  margin-left: 60px;
+  h1 time {
+    margin-top: 1em;
+  }
 }
 
 html,
@@ -626,7 +697,7 @@ footer,
 
 footer {
   background-color: #000;
-  padding: 1em;
+  padding: 0.75em 1em 1.75em 1em;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -634,6 +705,25 @@ footer {
   -webkit-box-shadow: inset 0 3px 0 #ffd900;
   box-shadow: inset 0 3px 0 #ffd900;
   text-align: right;
+}
+
+footer>div {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+footer .copy {
+  width: 70%;
+}
+
+footer .social {
+  font-size: 16px;
+  width: 30%;
+  text-align: left;
+}
+
+footer .social a+a {
+  margin-left: 1em;
 }
 
 .posts-list {
@@ -680,6 +770,12 @@ code.inline {
   color: pink;
 }
 
+a.inline {
+  display: inline-block;
+  padding: 1em;
+  max-width: 100%;
+}
+
 pre[class*="language-"] {
   -webkit-box-shadow: 0 0 5px rgba(255,255,255,0.5);
   box-shadow: 0 0 5px rgba(255,255,255,0.5);
@@ -688,4 +784,49 @@ pre[class*="language-"] {
 
 .center {
   text-align: center;
+}
+
+.github-icon {
+  font-family: "fontsmith-icons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.github-icon:before {
+  content: "\e002";
+}
+
+.twitter-icon {
+  font-family: "fontsmith-icons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.twitter-icon:before {
+  content: "\e000";
+}
+
+.gplus-icon {
+  font-family: "fontsmith-icons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.gplus-icon:before {
+  content: "\e001";
 }
