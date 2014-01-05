@@ -713,17 +713,23 @@ footer>div {
 }
 
 footer .copy {
-  width: 70%;
+  width: 65%;
+}
+
+@media screen and (max-width:600px) {
+  footer .copy {
+    font-size: 12px;
+  }
 }
 
 footer .social {
   font-size: 16px;
-  width: 30%;
+  width: 35%;
   text-align: left;
 }
 
 footer .social a+a {
-  margin-left: 1em;
+  margin-left: 10px;
 }
 
 .posts-list {
