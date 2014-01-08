@@ -69,9 +69,21 @@ class Base(object):
 
 
 class ReactorMixin(Base):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, world, *args, **kwargs):
 		self.reactor = kwargs.pop('reactor', reactor)
-		super(ReactorMixin, self).__init__(*args, **kwargs)
+		super(ReactorMixin, self).__init__(world, *args, **kwargs)
+
+class ProcessableMixin(Base):
+	def __init__(self, world, *args, **kwargs):
+		world.processables.append(self)
+		super(ProcessableMixin, self).__init__(world, *args, **kwargs)
+
+	def destroy(self):
+		self.world.processables.remove(self)
+		super(ProcessableMixin, self).destroy()
+
+	def process(self):
+		pass
 
 
 class NetworkMixin(Base):
@@ -192,7 +204,7 @@ class WorldObject(Base):
 		if(self.name in world.object_lookup_by_name.keys()):
 			raise Exception("Duplicate WorldObject with name %s found" % self.name)
 		world.object_lookup_by_name[self.name] = self
-		super(WorldObject, self).__init__(*args, **kwargs)
+		super(WorldObject, self).__init__(world, *args, **kwargs)
 
 	def destroy(self):
 		self.world.trigger('destroy_object', self)
@@ -313,6 +325,7 @@ class World(EventsMixins):
 		self.object_index.index = 0
 		self.group_index = []
 		self.pickups_lookup = dict()
+		self.processables = []
 
 		for layer in self.map.layers:
 			self.layers[layer.name] = layer
@@ -368,8 +381,6 @@ class World(EventsMixins):
 							'step_placed': self.step,
 							'step_destroyed': None
 						}
-
-
 
 
 	def get_spawn_points(self):
@@ -436,6 +447,9 @@ class World(EventsMixins):
 
 		if(self.step % (1.0/settings.PROCESSING_STEP) == 0.0):
 			self.recreate_pickups(self.layers['pickups'])
+
+		for obj in self.processables:
+			obj.process()
 
 		self.physics.Step(settings.PROCESSING_STEP, settings.PHYSICS_VEL_ITERS, settings.PHYSICS_POS_ITERS)
 		self.step = self.step+1

@@ -16,3 +16,4 @@ score = {
 }
 
 initial_budget = 1000
+base_movement_speed = 6

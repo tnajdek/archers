@@ -1,12 +1,13 @@
 import logging
 from Box2D import *
-from archers.world import WorldObject, ReactorMixin, SelfDestructable, NetworkMixin, directions
+from archers.world import WorldObject, ReactorMixin, SelfDestructable, NetworkMixin, ProcessableMixin, directions
 from archers.utils import vec2rad, rad2vec
 from archers.items import items, get_slot_for
 from collisions import CLCAT_CREATURE, CLCAT_BULLET, CLCAT_EVERYTHING, CLCAT_AIRBORNE_OBSTACLE, CLCAT_TERRESTRIAL_OBSTACLE, CLCAT_NOTHING
+import settings
 
 
-class Archer(WorldObject, ReactorMixin, NetworkMixin):
+class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 	default_type = 'archer'
 	collision_category = CLCAT_CREATURE
 	collision_mask = CLCAT_NOTHING
@@ -20,10 +21,8 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		self.width = 1.0
 		self.height = 1.5
 		self.group_index = world.get_free_group_index()
-		
-
-		# self.arrows_shot = list()
 		self.state = 'unknown'
+		
 		super(Archer, self).__init__(world, type="archer", *args, **kwargs)
 
 	def spawn(self, spawn_point):
@@ -83,13 +82,6 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		self.cancel_pending()
 		self.physics.linearVelocity = (0, 0)
 		self.direction = direction
-
-		speed_vector = direction*self.speed*6
-		self.physics.ApplyLinearImpulse(
-			impulse=self.physics.GetWorldVector(speed_vector),
-			point=self.physics.position,
-			wake=True
-		)
 		self.state = "walking"
 
 	def want_stop(self):
@@ -162,6 +154,15 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin):
 		logging.warning("got invalid weapon_slot (%s) or bow definition (%s)."
 			% (weapon_slot, bow))
 		return 1.0
+
+	def process(self):
+		if(hasattr(self, 'direction') 
+			and self.state == 'walking' 
+			and self.direction
+			and hasattr(self, 'physics')
+			):
+			speed_vector = self.direction*self.speed*settings.base_movement_speed
+			self.physics.linearVelocity = speed_vector
 
 
 class Arrow(SelfDestructable, NetworkMixin):
