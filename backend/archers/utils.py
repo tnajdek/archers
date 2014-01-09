@@ -10,6 +10,10 @@ def rad2vec(radians, m=1):
 def vec2rad(vector):
 	return atan2(vector.y, vector.x)
 
+def getSpeedFromVec(vector):
+	xspeed = abs(vector.x)
+	yspeed = abs(vector.y)
+	return xspeed + yspeed;
 
 class EventsMixins(object):
 	def __init__(self, *args, **kwargs):

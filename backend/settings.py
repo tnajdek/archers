@@ -16,4 +16,5 @@ score = {
 }
 
 initial_budget = 1000
-base_movement_speed = 6
+base_movement_speed = 20
+max_movement_speed = 25

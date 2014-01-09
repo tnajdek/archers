@@ -1,7 +1,7 @@
 import logging
 from Box2D import *
 from archers.world import WorldObject, ReactorMixin, SelfDestructable, NetworkMixin, ProcessableMixin, directions
-from archers.utils import vec2rad, rad2vec
+from archers.utils import vec2rad, rad2vec, getSpeedFromVec
 from archers.items import items, get_slot_for
 from collisions import CLCAT_CREATURE, CLCAT_BULLET, CLCAT_EVERYTHING, CLCAT_AIRBORNE_OBSTACLE, CLCAT_TERRESTRIAL_OBSTACLE, CLCAT_NOTHING
 import settings
@@ -27,8 +27,15 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 
 	def spawn(self, spawn_point):
 		self.state = 'standing'
-		self.create_dynamic_box_body(spawn_point.x, spawn_point.y, self.width, self.height)
+		self.create_dynamic_box_body(
+			spawn_point.x,
+			spawn_point.y,
+			self.width,
+			self.height,
+			density = 1
+		)
 		self.physics.fixedRotation = True
+		self.physics.linearDamping = 2.5
 		self.direction = directions['east']
 		self.collision_mask = CLCAT_EVERYTHING ^ CLCAT_AIRBORNE_OBSTACLE
 		self.update_collision_definition()
@@ -162,8 +169,13 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 			and hasattr(self, 'physics')
 			):
 			speed_vector = self.direction*self.speed*settings.base_movement_speed
-			self.physics.linearVelocity = speed_vector
-
+			max_speed_vector = self.direction*self.speed*settings.max_movement_speed
+			if(getSpeedFromVec(self.physics.linearVelocity) <= getSpeedFromVec(max_speed_vector)):
+				self.physics.ApplyForce(
+					force = speed_vector,
+					point = self.physics.position,
+					wake = True
+				)
 
 class Arrow(SelfDestructable, NetworkMixin):
 	collision_category = CLCAT_BULLET
@@ -175,7 +187,7 @@ class Arrow(SelfDestructable, NetworkMixin):
 	def __init__(self, direction, speed, owner, **kwargs):
 		self.owner = owner
 		self.speed = 1.0          
-		self.width = 0.5
+		self.width = 0.5 
 		self.height = 0.15
 		self.state = 'shooting'
 		super(Arrow, self).__init__(
@@ -193,10 +205,11 @@ class Arrow(SelfDestructable, NetworkMixin):
 		self.create_dynamic_box_body(
 			target_position.x,
 			target_position.y,
-			self.width, self.height, friction=0.9
+			self.width, self.height
 		)
 
 		self.physics.fixedRotation = True
+		self.physics.linearDamping = 0.2
 		self.direction = direction
 		self.physics.angle = vec2rad(direction)
 
