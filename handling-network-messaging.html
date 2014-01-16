@@ -3,9 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<title>Handling network messaging - Archers! Development Blog</title>
-	<meta name="description" content="Few thoughs on client-server interaction in a multiplayer, web-based game. Optimisation of the Web Sockets traffic using schema-based binary protocol">
+	<meta name="description" content="Few thoughts on client-server interaction in a multiplayer, web-based game. Optimization of the Web Sockets traffic using schema-based binary protocol">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="css/archers.css?v=1388936122588" rel="stylesheet" media="all">
+	<link href="css/archers.css?v=1389869109024" rel="stylesheet" media="all">
 	<!--[if lt IE 9]><script src="js/html5shiv-printshiv.js" media="all"></script><![endif]-->
 </head>
 <body>
@@ -93,7 +93,7 @@
 			<li>
 				
 				
-					<a href="/searching-for-a-frontend-engine.html">Searching for a frontend engine</a>
+					<a href="/searching-for-a-frontend-engine.html">Searching for a front end engine</a>
 				
 			</li>
 			
@@ -128,7 +128,7 @@
 	<li>Server always has the most up-to-date state of the game</li>
 	<li>Real-time communication is sent over Web Sockets</li>
 	<li>Physics, collisions etc. happens only on the server side, client just gets dummy position updates. This might not work for a dynamic, 3D FPS but will do just fine for a 2D action game</li>
-	<li>Don't do anything too clever on the frontend. It should render the output and relay the input.</li>
+	<li>Don't do anything too clever on the front end. It should render the output and relay the input.</li>
 	<li>Never trust the client, verify all data coming from the client and discard anything that doesn't check out</li>
 	<li>Very small frames containing only relevant changes in a compacted form will be sent the clients as often as feasible. Initially aiming for 20 frames a second</li>
 	<li>Larger updates containing state of the game or info about new player joining sent as required to the clients - still in a compacted form</li>
@@ -137,7 +137,7 @@
 	<li>To make the experience smoother, client might do some extrapolation (predicting the movement) or interpolation (drawing movement between 2 frames). This will require further research.</li>
 </ul>
 
-<p>As you can see above, I would like to use compact messages for the most common client-server traffic. I would like to use just few bytes of data per frame and luckilly Web Sockets specification allows for sending binary data. It's a relatively new feature but is supported by all the modern browsers (Chrome 15+, Firefox 11+, Internet Explorer 10, and Safari nightly). Luckily my backend framework (Autobahn) is capable of sending and receiving binary messages over Web Socket.</p>
+<p>As you can see above, I would like to use compact messages for the most common client-server traffic. I would like to use just few bytes of data per frame and luckily Web Sockets specification allows for sending binary data. It's a relatively new feature but is supported by all the modern browsers (Chrome 15+, Firefox 11+, Internet Explorer 10, and Safari nightly). Luckily my back end framework (Autobahn) is capable of sending and receiving binary messages over Web Socket.</p>
 
 <p>To keep the message size to the minimum, I've devised a schema-based, binary protocol. Client and server will need a small JSON file listing all the possible messages as well as details on how to read/build each individual message. For example a simple frame message would consist of four unsigned integers, first representing message id (so that decoder can pull up correct schema), second and third representing X and Y coordinates of the character and fourth representing unique character id. Since each integer requires 4 bytes, the frame message as specified above would require a total of 16 bytes. Much less than the equivalent message sent as JSON.</p>
 
@@ -157,7 +157,7 @@
 
 <pre><code class="language-python">\x00\x00\x00\x01\x00\x00\x00{\x00\x00\x01\xc8\x00\x00\x03\xe9</code></pre>
 
-<p>However this message will be automatically re-assembled on the other end so I can conviniently access properties by their names.</p>
+<p>However this message will be automatically re-assembled on the other end so I can conveniently access properties by their names.</p>
 
 <p>I haven't been able to find any open-source library that support efficient messaging over Web Sockets as described above. Once the game is release I hope to release the part of code that does message encoding &amp; decoding as a stand-alone library</p>
 
