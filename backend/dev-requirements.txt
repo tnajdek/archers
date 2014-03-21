@@ -1,0 +1,2 @@
+-r requirements.txt
+hg+http://bitbucket.org/pygame/pygame

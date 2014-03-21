@@ -9,7 +9,7 @@ import settings
 from Box2D import *
 
 # from twisted.internet import reactor
-from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS
+from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS
 import logging
 import simplejson
 
