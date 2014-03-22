@@ -84,6 +84,13 @@ class Collisions(b2ContactListener):
 			self.world.kill(arrow)
 			return
 
+		pair = self.is_pair(a, b, 'archers.archer.Archer', 'archers.archer.Archer')
+		if(pair):
+			archer1, archer2 = pair
+			archer1.bump_into(archer2)
+			archer2.bump_into(archer1)
+			return
+
 		
 
 	# def PostSolve(self, contact, impulse):

@@ -35,7 +35,7 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 			density = 1
 		)
 		self.physics.fixedRotation = True
-		self.physics.linearDamping = 2.5
+		self.physics.linearDamping = 25
 		self.direction = directions['east']
 		self.collision_mask = CLCAT_EVERYTHING ^ CLCAT_AIRBORNE_OBSTACLE
 		self.update_collision_definition()
@@ -129,6 +129,17 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 				self.commit_cleanup
 			)
 
+	def bump_into(self, other):
+		diff_vector = other.physics.position - self.physics.position
+		flat_vector = b2Vec2(round(diff_vector[0]), round(diff_vector[1]))
+		self.want_stop()
+		self.physics.ApplyForce(
+			force = -10*flat_vector,
+			point = self.physics.position,
+			wake = True
+		)
+
+
 	def commit_cleanup(self):
 		self.state = 'unknown'
 
@@ -169,13 +180,14 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 			and hasattr(self, 'physics')
 			):
 			speed_vector = self.direction*self.speed*settings.base_movement_speed
-			max_speed_vector = self.direction*self.speed*settings.max_movement_speed
-			if(getSpeedFromVec(self.physics.linearVelocity) <= getSpeedFromVec(max_speed_vector)):
-				self.physics.ApplyForce(
-					force = speed_vector,
-					point = self.physics.position,
-					wake = True
-				)
+			self.physics.linearVelocity = speed_vector
+			# max_speed_vector = self.direction*self.speed*settings.max_movement_speed
+			# if(getSpeedFromVec(self.physics.linearVelocity) <= getSpeedFromVec(max_speed_vector)):
+			# 	self.physics.ApplyForce(
+			# 		force = speed_vector,
+			# 		point = self.physics.position,
+			# 		wake = True
+			# 	)
 
 class Arrow(SelfDestructable, NetworkMixin):
 	collision_category = CLCAT_BULLET
