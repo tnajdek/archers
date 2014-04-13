@@ -1,5 +1,7 @@
-from Box2D import b2ContactListener
+import logging
 from utils import get_class
+
+from Box2D import b2ContactListener
 
 
 CLCAT_OBSTACLE = 0x0002
@@ -50,10 +52,12 @@ class Collisions(b2ContactListener):
 				if(archer.is_alive()):
 					arrow.owner.player.trigger('kill', archer.player)
 					archer.player.trigger('die', killer=arrow.owner.player)
+					logging.debug("Arrow of {} hits {}".format(arrow.owner, archer))
 			elif(hasattr(archer, 'player') and archer.player):
 				# killer a mob, player died
 				if(archer.is_alive()):
 					archer.player.trigger('die')
+					logging.debug("Arrow of a mob hits {}".format(archer))
 
 			self.world.kill(arrow)
 			self.world.kill(archer)
@@ -74,6 +78,7 @@ class Collisions(b2ContactListener):
 			archer, pickup = pair
 			if(hasattr(archer, 'player') and archer.player):
 				archer.player.trigger('pickup', pickup)
+				logging.debug("{} picked up {}".format(archer, pickup))
 			self.world.kill(pickup)
 			return
 
@@ -89,6 +94,7 @@ class Collisions(b2ContactListener):
 			archer1, archer2 = pair
 			archer1.bump_into(archer2)
 			archer2.bump_into(archer1)
+			logging.debug("{} bumped into {}".format(archer1, archer2))
 			return
 
 		

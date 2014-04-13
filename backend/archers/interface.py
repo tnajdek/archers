@@ -12,6 +12,10 @@ from archers.items import verify_slots
 
 
 class Connection(EventsMixins):
+
+	def __str__(self):
+		return self.meta['username'];
+
 	def __init__(self, world, cache):
 		super(Connection, self).__init__()
 		self.session_id = uuid.UUID(bytes=urandom(16))

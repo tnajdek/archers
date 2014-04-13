@@ -11,6 +11,12 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 	default_type = 'archer'
 	collision_category = CLCAT_CREATURE
 	collision_mask = CLCAT_NOTHING
+
+	def __str__(self):
+		if(self.player):
+			return "{}[A]".format(self.player)
+
+		return "__No_Player__[A]"
 	
 
 	def __init__(self, world, player=None, *args, **kwargs):
@@ -123,6 +129,7 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 
 	def commit_kill(self):
 		self.state = "dead"
+		logging.debug("Archer {} has died".format(self))
 		if(not hasattr(self, 'delayed_cleanup') or not self.delayed_cleanup.active()):
 			self.delayed_cleanup = self.reactor.callLater(
 				1.0,
