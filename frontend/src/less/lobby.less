@@ -13,11 +13,52 @@
 		padding: 10px;
 		border-radius: 5px;
 		text-align:center;
-		overflow-y: auto;
+
+		@media @upto-medium {
+			background-color: rgba(0,0,0,0.6);
+		}
+
+		@media @from-medium {
+			top: 10%;
+			border-width: 68px;
+			border-image: url('/gfx/border.png') 68 fill repeat;
+			background: url('/gfx/texture/dark_leather.png') repeat;
+		}
+
+		h1 {
+			font-size: 2em;
+			font-family: "ArchitectsDaughter";
+			color: gold;
+			position: relative;
+			top: -50px;
+		}
 
 		p {
 			text-align: left;
 		}
+
+		table {
+			top: -30px;
+			left: -20px;
+			right: -20px;
+			width: ~"calc(100% + 40px)";
+			position: relative;
+		}
+
+		.close {
+			color: gold;
+			width: 20px;
+			top: -40px;
+			right: -30px;
+			height: 20px;
+			position: absolute;
+			cursor:pointer;
+		}
+	}
+
+	nav.support {
+		position: relative;
+		bottom: -40px;
 	}
 
 	.help, .spawn {
@@ -25,12 +66,7 @@
 	}
 
 
-	.lobby .close {
-		height: 14px;
-		margin-bottom: -20px;
-		text-align: right;
-		cursor:pointer;
-	}
+
 
 	.current-budget {
 		position: absolute;

@@ -7,46 +7,50 @@
 
 {{#visible}}
 	<div class="lobby">
-		<div class="close" on-tap="close">&#x274c;</div>
-		<span>{{ status }}</span>
-		<table>
-			<tr>
-				<th>Pos</th>
-				<th>Player</th>
-				<th>Kills</th>
-				<th>Deaths</th>
-				<th>Score</th>
-			</tr>
-			{{#sort(players): pos}}
+		<h1>Archers!</h1>
+		{{# status == 'connected'}}
+			<div class="close" on-tap="close">&#x274c;</div>
+			<table>
 				<tr>
-					<th>{{ pos+1 }}</th>
-					<th>{{ .username }}</th>
-					<th>{{ .kills }}</th>
-					<th>{{ .deaths }}</th>
-					<th>{{ .score }}</th>
+					<th>Pos</th>
+					<th>Player</th>
+					<th>Kills</th>
+					<th>Deaths</th>
+					<th>Score</th>
 				</tr>
-			{{/players}}
-		</table>
+				{{#sort(players): pos}}
+					<tr>
+						<th>{{ pos+1 }}</th>
+						<th>{{ .username }}</th>
+						<th>{{ .kills }}</th>
+						<th>{{ .deaths }}</th>
+						<th>{{ .score }}</th>
+					</tr>
+				{{/players}}
+			</table>
 
-		{{#!spawned}}
-			<button on-tap="customize">Customize &amp; select equipment</button>
-		{{/!spawned}}
+			{{#!spawned}}
+				<button on-tap="customize">Select Equipment</button>
+			{{/!spawned}}
 
-		{{#account}}
-			{{#status == 'connected'}}
-				{{#spawned}}
-					<button on-tap="spawn">Suicide!</button>
-				{{/spawned}}
-				{{#!spawned}}
-					{{# currentcost <= player.budget}}
-						<button on-tap="spawn">Play!</button>
-					{{/currentcost}}
-				{{/!spawned}}
-			{{/status == 'connected'}}
-		{{/account}}
+			{{#account}}
+					{{#spawned}}
+						<button on-tap="spawn">Suicide!</button>
+					{{/spawned}}
+					{{#!spawned}}
+						{{# currentcost <= player.budget}}
+							<button on-tap="spawn">Play!</button>
+						{{/currentcost}}
+					{{/!spawned}}
+			{{/account}}
+		{{/connected}}
+		{{# status != 'connected'}}
+			<p> {{ status }} </p>
+		{{/connected}}
 
-
-		<a href="/help.html" target="_blank">Help</a> |
-		<a href="/credits.html" target="_blank">Credits</a>
+		<nav class="support">
+			<a href="/help.html" target="_blank">Help</a> |
+			<a href="/credits.html" target="_blank">Credits</a>
+		</nav>
 	</div>
 {{/visible}}
