@@ -6,7 +6,8 @@ requirejs.config({
 		jquery: '../bower_components/jquery/jquery',
 		virtualjoystick: '../bower_components/virtualjoystick/index',
 		text: '../bower_components/requirejs-text/text',
-		ractive: '../bower_components/ractive/build/Ractive',
+		ractive: '../bower_components/ractive/ractive',
+		ractiveTapEvent: '../bower_components/ractive-events-tap/Ractive-events-tap',
 		gamecore: '../bower_components/gamecore.js/gamecore'
 	},
 	// enforceDefine: true,

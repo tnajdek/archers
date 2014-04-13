@@ -2,7 +2,8 @@ define(['jquery',
 		'lodash',
 		'vent',
 		'ractive',
-		'text!templates/lobby.html'
+		'text!templates/lobby.html',
+		'ractiveTapEvent'
 	], function($, lodash, vent, Ractive, lobbyTpl) {
 	var Lobby = function() {
 

@@ -4,7 +4,8 @@ define(['lodash',
 	'vent',
 	'ractive',
 	'lobbymanager',
-	'text!templates/customizer-form.html'
+	'text!templates/customizer-form.html',
+	'ractiveTapEvent'
 	], function(_, $, lodash, vent, Ractive, Lobby, customizerTpl) {
 	var Customizer = function() {
 
@@ -223,7 +224,7 @@ define(['lodash',
 				ractive.set('activeScreen', scr);
 			});
 
-			// mobile only (?), show character preview
+			// mobile only show character preview
 			ractive.on('preview', function(event) {
 				ractive.set('preview', true);
 			});

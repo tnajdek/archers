@@ -17,8 +17,28 @@
 		top:0; left:0; bottom: 0; right: 0;
 		margin: auto;
 
+		h1 {
+			color: gold;
+			font-size: 1.25em;
+		}
+
+		.close {
+			color: #FFD700;
+			cursor: pointer;
+			height: 20px;
+			position: absolute;
+			right: 10px;
+			top: 10px;
+			width: 20px;
+		}
+
 		@media @upto-medium {
 			background-color: rgba(0,0,0,0.6);
+
+			h1 {
+				color: gold;
+				margin-bottom: 0.5em;
+			}
 		}
 
 		@media @from-medium {
@@ -32,8 +52,6 @@
 
 			h1 {
 				font-size: 2em;
-				font-family: "ArchitectsDaughter";
-				color: gold;
 				position: relative;
 				top: -50px;
 			}
@@ -48,13 +66,8 @@
 			}
 
 			.close {
-				color: gold;
-				width: 20px;
 				top: -40px;
 				right: -30px;
-				height: 20px;
-				position: absolute;
-				cursor:pointer;
 			}
 		}
 
