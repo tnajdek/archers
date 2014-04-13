@@ -8,62 +8,78 @@
 	</div>
 	<div class="main">
 		<div class="screen character-screen {{# activeScreen == 'character' }}active{{/ activeScreen}}">
+			
 			<div class="subsection name">
-				<label for="character-name">Name</label>
-				<input type="text" id="character-name" value="{{username}}" placeholder="Username">
+				<label for="character-name">
+					Name
+				</label><div class="controls">
+					<input type="text" id="character-name" value="{{username}}" placeholder="Username">
+				</div>
 			</div>
 			<div class="subsection gender">
-				<label for="character-name">Gender</label>
-				<button proxy-tap="select" proxy-mouseover="hint" data-slot="gender" proxy-mouseout="clearHint" data-id="male" class="icon sprite-male {{# gender == 'male'}}active{{/selectedItem}}"></button>
-				<button proxy-tap="select" proxy-mouseover="hint" data-slot="gender" proxy-mouseout="clearHint" data-id="female" class="icon sprite-female {{# gender == 'female'}}active{{/selectedItem}}"></button>
+				<label for="character-name">
+					Gender
+				</label><div class="controls">
+					<button proxy-tap="select" proxy-mouseover="hint" data-slot="gender" proxy-mouseout="clearHint" data-id="male" class="icon sprite-male {{# gender == 'male'}}active{{/selectedItem}}"></button>
+					<button proxy-tap="select" proxy-mouseover="hint" data-slot="gender" proxy-mouseout="clearHint" data-id="female" class="icon sprite-female {{# gender == 'female'}}active{{/selectedItem}}"></button>
+				</div>
 			</div>
 
 			<div class="subsection hair">
-				<label>Hair style</label>
-				<span class="select">
-					<select value="{{slotData[1].selectedItem}}">
-						{{#data.items:j}}
-							{{# filterSlot( (.), '1' ) }}
-								{{# filterGender( (.), gender) }}
-									<option value="{{ j }}" >{{ .name }}</option>
-								{{/ filterGender( (.), gender) }}
-							 {{/ filter slot }}
-						 {{/data.items}}
-					</select>
-				</span>{{# !isEmpty(data.items[slotData[1].selectedItem].variants) }}<span class="select">
-						<select value="{{slotData[1].selectedVariant}}">
-						{{# data.items[slotData[1].selectedItem].variants:k }}
-								<option value="{{ k }}">{{ .name }}</option>
-						{{/data.items[slotData[1].selectedItem].variants}}
+				<label>
+					Hair
+				</label><div class="controls">
+					<span class="select">
+						<select value="{{slotData[1].selectedItem}}">
+							{{#data.items:j}}
+								{{# filterSlot( (.), '1' ) }}
+									{{# filterGender( (.), gender) }}
+										<option value="{{ j }}" >{{ .name }}</option>
+									{{/ filterGender( (.), gender) }}
+								 {{/ filter slot }}
+							 {{/data.items}}
 						</select>
-				</span>
-				{{/isEmpty}}
+					</span>{{# !isEmpty(data.items[slotData[1].selectedItem].variants) }}<span class="select">
+							<select value="{{slotData[1].selectedVariant}}">
+							{{# data.items[slotData[1].selectedItem].variants:k }}
+									<option value="{{ k }}">{{ .name }}</option>
+							{{/data.items[slotData[1].selectedItem].variants}}
+							</select>
+					</span>
+					{{/isEmpty}}
+				</div>
 			</div>
 
 			<div class="subsection eyes">
-				<label>Eyes color</label>
-				<span class="select">
-					<select value="{{slotData[2].selectedItem}}">
-						{{#data.items:j}}
-							{{# filterSlot( (.), '2' ) }}
-								{{# filterGender( (.), gender) }}
-									<option value="{{ j }}" >{{ .name }}</option>
-								{{/ filterGender( (.), gender) }}
-							 {{/ filter slot }}
-						 {{/data.items}}
-					</select>
-				</span>
+				<label>
+					Eyes
+				</label><div class="controls">
+					<span class="select">
+						<select value="{{slotData[2].selectedItem}}">
+							{{#data.items:j}}
+								{{# filterSlot( (.), '2' ) }}
+									{{# filterGender( (.), gender) }}
+										<option value="{{ j }}" >{{ .name }}</option>
+									{{/ filterGender( (.), gender) }}
+								 {{/ filter slot }}
+							 {{/data.items}}
+						</select>
+					</span>
+				</div>
 			</div>
 
 			<div class="subsection clan">
-				<label for="character-name">Clan</label>
-				{{#slotData['0']}}
-					{{#data.items:j}}
-						{{# filterSlot( (.), '0' ) }}
-							<button proxy-tap="select" proxy-mouseover="hint" proxy-mouseout="clearHint" data-slot="0" data-id="{{ j }}" class="icon sprite-{{ .name }} {{# slotData.0.selectedItem == j}}active{{/selectedItem}}"></button>
-						 {{/ filter slot }}
-					 {{/data.items}}
-				{{/slotData['0']}}
+				<label for="character-name">
+					Clan
+				</label><div class="controls">
+					{{#slotData['0']}}
+						{{#data.items:j}}
+							{{# filterSlot( (.), '0' ) }}
+								<button proxy-tap="select" proxy-mouseover="hint" proxy-mouseout="clearHint" data-slot="0" data-id="{{ j }}" class="icon sprite-{{ .name }} {{# slotData.0.selectedItem == j}}active{{/selectedItem}}"></button>
+							 {{/ filter slot }}
+						 {{/data.items}}
+					{{/slotData['0']}}
+				</div>
 			</div>
 		</div>
 		<div class="screen equipment-screen {{# activeScreen == 'equipment' }}active{{/ activeScreen}}">
