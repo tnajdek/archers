@@ -1,0 +1,49 @@
+<table>
+	<tr>
+		<th>
+			Name
+		</th>
+		<th>
+			Map
+		</th>
+		<th>
+			Players
+		</th>
+		<th>
+			Location
+		</th>
+		<th>
+			Ping
+		</th>
+	</tr>
+	{{#servers}}
+		<tr>
+			<td>
+				<a href="{{.url}}">{{.name}}</a>
+			</td>
+			<td>
+				{{.map}}
+			</td>
+			<td>
+				{{#synced}}
+					{{.players}} / {{.maxPlayers}}
+				{{/synced}}
+			</td>
+			<td>
+				{{.location}}
+			</td>
+			<td>
+				{{#failed}}
+					Unable to Connect
+				{{/failed}}
+				
+				{{#!failed}}
+					{{.ping}}
+				{{/!failed}}
+				
+			</td>
+		</tr>
+	{{/servers}}
+</table>
+
+<button proxy-click="pollServers">Refresh</button>

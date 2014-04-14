@@ -58,7 +58,7 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 			} else {
 				msg = JSON.parse(e.data);
 				if(msg.session_id) {
-					vent.trigger('welcome', msg);
+					that.onWelcomeMsg(msg);
 				} else {
 					vent.trigger('meta', msg);
 				}
@@ -66,18 +66,27 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 		};
 
 		this.ws.onopen = function() {
+			var initMsg = new UserActionMessage({
+				action: 'init',
+				direction: ''
+			});
 			that.ws.onmessage = that.onmessage;
+			that.ws.send(Messaging.toBuffer([initMsg]));
+		};
+
+		this.onWelcomeMsg = function(msg) {
 			vent.trigger('connected');
 			vent.on('spawn', that.onspawn);
-			vent.on('input', that.oninput)
+			vent.on('input', that.oninput);
 
 			// vent.on('username', that.onUsernameChange);
 			vent.on('customize:end', that.onMetaChange);
 			vent.on('localAccountFound', that.onMetaChange);
+			vent.trigger('welcome', msg);
 		};
 
 		this.ws.onclose = function(e) {
 			vent.trigger('disconnected', e);
-		}
+		};
 	};
 });

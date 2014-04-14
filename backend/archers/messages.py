@@ -130,6 +130,7 @@ class UserActionMessage(Message, DirectionMessageMixin):
 	}
 
 	action_lookup = bidict({
+		'init': 0,
 		'spawn': 1,
 		'stop': 2,
 		'move': 3,

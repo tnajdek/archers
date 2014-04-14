@@ -1,5 +1,6 @@
 define(['lodash'], function(_) {
 	var actionLookup = {
+			0:'init',
 			1:'spawn',
 			2:'stop',
 			3:'move',

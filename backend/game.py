@@ -28,16 +28,40 @@ class UserCommunication(WebSocketServerProtocol):
 	def onMessage(self, msg, binary):
 		if(binary):
 			messages = unpack_mesages(msg)
-			for msg in messages:
-				self.interface.trigger('useraction', msg)
+
+			if(not hasattr(self, "interface")):
+				try:
+					if(messages[0]['action'] == 'init'):
+						self.onWantPlay()
+				except (IndexError, KeyError):
+					logging.warning("Got garbage message {}, discarding".format(msg))
+			else:
+				for msg in messages:
+					self.interface.trigger('useraction', msg)
 		else:
 			try:
 				msg = simplejson.loads(msg)
+				self.interface.trigger('usermsg', msg)
 			except Exception:
-				log.warning("Unable to decode meta msg %s coming from the client" % msg)
-			self.interface.trigger('usermsg', msg)
+				#ping pong
+				if(msg == "?"):
+					self.sendMessage("!")
+				else:
+					logging.warning("Unable to decode meta msg %s coming from the client" % msg)
+			
 
 	def onOpen(self):
+		server_pack = {
+			"players": len(self.factory.clients),
+			"location": "London",
+			"maxPlayers": 16,
+			"map": "The Bridge"
+		}
+
+		self.sendMessage(simplejson.dumps(server_pack, separators=(',', ':')))
+
+
+	def onWantPlay(self):
 		self.interface = Connection(self.factory.world, self.factory.cache)
 		self.interface.on('update', self.send_messages)
 		self.interface.on('frame', self.send_messages)

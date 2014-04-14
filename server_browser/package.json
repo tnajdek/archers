@@ -1,0 +1,25 @@
+{
+  "name": "archers-server-browser",
+  "version": "0.1.0",
+  "description": "Archers! Server Browser",
+  "repository": "",
+  "author": "Tom Najdek",
+  "license": "proprietary",
+  "devDependencies": {
+    "assemble": "~0.4.30",
+    "grunt": "~0.4.2",
+    "grunt-autoprefixer": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-connect": "~0.5.0",
+    "grunt-contrib-less": "~0.8.2",
+    "grunt-contrib-clean": "~0.5.0",
+    "yfm": "~0.1.1",
+    "grunt-contrib-symlink": "~0.2.0",
+    "handlebars-helpers": "~0.4.2",
+    "lodash": "~2.4.1",
+    "grunt-contrib-uglify": "~0.2.7",
+    "assemble-yaml": "~0.2.1",
+    "globule": "~0.1.0",
+    "grunt-contrib-requirejs": "^0.4.3"
+  }
+}
