@@ -125,6 +125,17 @@ module.exports = function(grunt) {
 					}
 				]
 			}
+		},
+		font: {
+			icons: {
+				src: ['src/icons/*.svg'],
+				destCss: 'src/less/icons.less',
+				destFonts: "src/fonts/icons.\{svg,woff,eot,ttf\}",
+				cssFormat: 'less',
+				cssRouter: function(fontpath) {
+					return '/fonts/' + fontpath.split('/').pop();
+				}
+			}
 		}
 	});
 
@@ -137,6 +148,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-symlink');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-fontsmith');
 
 	grunt.registerTask('default', [
 		'clean:build',

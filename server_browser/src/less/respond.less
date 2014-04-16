@@ -1,0 +1,24 @@
+@minimal: 320px;
+@small: 480px;
+@medium: 768px;
+@large:1024px;
+@hd: 1920px;
+
+
+@upto-minimal : e(%("screen and (max-width: %d)", @minimal));
+@upto-small : e(%("screen and (max-width: %d)", @small));
+@upto-medium : e(%("screen and (max-width: %d)", @medium));
+@upto-large : e(%("screen and (max-width: %d)", @large));
+@upto-hd : e(%("screen and (max-width: %d)", @hd));
+
+@from-minimal : e(%("screen and (min-width: %d)", (@minimal + 1)));
+@from-small : e(%("screen and (min-width: %d)", (@small + 1)));
+@from-medium : e(%("screen and (min-width: %d)", (@medium + 1)));
+@from-large : e(%("screen and (min-width: %d)", (@large + 1)));
+@from-hd : e(%("screen and (min-width: %d)", (@hd + 1)));
+
+@only-minimal : e(%("screen and (min-width: %d) and (max-width: %d)", (@minimal + 1), @small));
+@only-small : e(%("screen and (min-width: %d) and (max-width: %d)", (@small + 1), @medium));
+@only-medium : e(%("screen and (min-width: %d) and (max-width: %d)", (@medium + 1), @large));
+@only-large : e(%("screen and (min-width: %d) and (max-width: %d)", (@large + 1), @hd));
+@only-hd : e(%("screen and (min-width: %d)", (@hd + 1) ));
