@@ -94,7 +94,7 @@ define(['pc',
 
 			_.each(spriteDef.frames, function(frame, key) {
 				if(frame.name.indexOf("shooting") === 0 && weapon) {
-					spriteDef.frames[key].time = weapon.speed * spriteDef.frames[key].time;
+					spriteDef.frames[key].time = weapon.properties.speed * spriteDef.frames[key].time;
 				}
 
 			});

@@ -48,21 +48,15 @@
 			"name": "clan-wolf",
 			"genderRestrictions": ["male", "female"],
 			"slot": 0,
-			"description": "Clan Wolf",
+			"description": "<h1>Clan Wolf</h1><p>Pale-skinned mountain-dwellers where bow-hunting is taught to children soon after they learn to walk.</p><p>Members of clan wolf are most proficient in bow combat of all clans and ten to shoot faster and further than characters from other clans</p>",
+			"properties": {
+				"speed": 1.1,
+				"movement": 1.0,
+				"defense": 0.0
+			},
 			"spritesheet": {
 				"male": "base.male.light",
 				"female": "base.female.light"
-			}
-		},
-
-		"2": {
-			"name": "clan-grunt",
-			"genderRestrictions": ["male", "female"],
-			"slot": 0,
-			"description": "Clan Grunt",
-			"spritesheet": {
-				"male": "base.male.orc",
-				"female": "base.female.orc"
 			}
 		},
 
@@ -70,7 +64,12 @@
 			"name": "clan-lion",
 			"genderRestrictions": ["male", "female"],
 			"slot": 0,
-			"description": "Clan Lion",
+			"description": "<h1>Clan Lion</h1><p>Olive-skinned people from the southern lands</p><p>Members of clan lion are slightly faster than other characters</p>",
+			"properties": {
+				"speed": 1.0,
+				"movement": 1.05,
+				"defense": 0.0
+			},
 			"spritesheet": {
 				"male": "base.male.olive",
 				"female": "base.female.olive"
@@ -81,7 +80,12 @@
 			"name": "clan-sun",
 			"genderRestrictions": ["male", "female"],
 			"slot": 0,
-			"description": "Clan Sun",
+			"description": "<h1>Clan Sun</h1><p>Dark-skinned people from sunny islands just of the west coast of the known world created community refered to as clan sun.</p><p>Members of clan sun have a small chance of dodging the incoming arrow</p>",
+			"properties": {
+				"speed": 1.0,
+				"movement": 1.0,
+				"defense": 0.025
+			},
 			"spritesheet": {
 				"male": "base.male.dark",
 				"female": "base.female.dark"
@@ -745,6 +749,10 @@
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-leather-armor",
 			"description": "",
+			"properties": {
+				"defense": 10,
+				"speed": 0
+			},
 			"spritesheet": {
 				"male": [
 					"eqp.male.leather.chest",
@@ -767,6 +775,10 @@
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-chain-armor",
 			"description": "",
+			"properties": {
+				"defense": 0.2,
+				"movement": 0.9
+			},
 			"spritesheet": {
 				"male": "eqp.male.chain.chest",
 				"female":"eqp.female.chain.chest"
@@ -779,17 +791,19 @@
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-plate-armor",
 			"description": "",
+			"properties": {
+				"defense": 0.5,
+				"movement": 0.66
+			},
 			"spritesheet": {
 				"male": [
 					"eqp.male.plate.chest",
 					"eqp.male.plate.arms",
-					"eqp.male.plate.gloves",
 					"eqp.male.plate.pants"
 				],
 				"female": [
 					"eqp.female.plate.chest",
 					"eqp.female.plate.arms",
-					"eqp.female.plate.gloves",
 					"eqp.female.plate.pants"
 				]
 			}
@@ -801,17 +815,19 @@
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-gold-armor",
 			"description": "",
+			"properties": {
+				"defense": 0.5,
+				"movement": 0.8
+			},
 			"spritesheet": {
 				"male": [
 					"eqp.male.gold.chest",
 					"eqp.male.gold.arms",
-					"eqp.male.gold.gloves",
 					"eqp.male.gold.pants"
 				],
 				"female": [
 					"eqp.female.gold.chest",
 					"eqp.female.gold.arms",
-					"eqp.female.gold.gloves",
 					"eqp.female.gold.pants"
 				]
 			}
@@ -820,11 +836,13 @@
 			"name": "Short Bow",
 			"price": 0,
 			"slot": 20,
-			"speed": 0.75,
-			"distance": 0.75,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-bow",
 			"description": "",
+			"properties": {
+				"speed": 0.75,
+				"distance": 0.75
+			},
 			"spritesheet": [
 				"eqp.bow",
 				"eqp.arrow"
@@ -834,11 +852,13 @@
 			"name": "Long Bow",
 			"price": 0,
 			"slot": 20,
-			"speed": 1.0,
-			"distance": 1.0,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-greatbow",
 			"description": "",
+			"properties": {
+				"speed": 1.0,
+				"distance": 1.0
+			},
 			"spritesheet": [
 				"eqp.greatbow",
 				"eqp.arrow"
@@ -848,11 +868,13 @@
 			"name": "Holmegaard Bow",
 			"price": 0,
 			"slot": 20,
-			"speed": 0.75,
-			"distance": 1.25,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-greatbow",
 			"description": "",
+			"properties": {
+				"speed": 0.75,
+				"distance": 1.25
+			},
 			"spritesheet": [
 				"eqp.greatbow",
 				"eqp.arrow"
@@ -862,11 +884,13 @@
 			"name": "Yumi",
 			"price": 0,
 			"slot": 20,
-			"speed": 0.75,
-			"distance": 1.5,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-greatbow",
 			"description": "",
+			"properties": {
+				"speed": 0.75,
+				"distance": 1.5
+			},
 			"spritesheet": [
 				"eqp.greatbow",
 				"eqp.arrow"
@@ -876,11 +900,13 @@
 			"name": "Gungdo",
 			"price": 0,
 			"slot": 20,
-			"speed": 0.5,
-			"distance": 0.75,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-recurvebow",
 			"description": "",
+			"properties": {
+				"speed": 0.5,
+				"distance": 0.75
+			},
 			"spritesheet": [
 				"eqp.recurvebow",
 				"eqp.arrow"
@@ -890,11 +916,13 @@
 			"name": "Recurve Bow",
 			"price": 1,
 			"slot": 20,
-			"speed": 0.25,
-			"distance": 0.75,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-recurvebow",
 			"description": "",
+			"properties": {
+				"speed": 0.25,
+				"distance": 0.75
+			},
 			"spritesheet": [
 				"eqp.recurvebow",
 				"eqp.arrow"
@@ -904,11 +932,13 @@
 			"name": "Composite Recurve Bow",
 			"price": 1,
 			"slot": 20,
-			"speed": 0.25,
-			"distance": 1.25,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-recurvebow",
 			"description": "",
+			"properties": {
+				"speed": 0.25,
+				"distance": 1.25
+			},
 			"spritesheet": [
 				"eqp.recurvebow",
 				"eqp.arrow"

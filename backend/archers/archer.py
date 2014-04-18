@@ -163,8 +163,8 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 		if(weapon_slot):
 			bow_id = self.interface.meta['slots'][weapon_slot]
 			bow = items[bow_id]
-			if "distance" in bow:
-				return bow['distance']
+			if "distance" in bow['properties']:
+				return bow['properties']['distance']
 		logging.warning("got invalid weapon_slot (%s) or bow definition (%s)."
 			% (weapon_slot, bow))
 		return 1.0
@@ -174,8 +174,8 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 		if(weapon_slot):
 			bow_id = self.interface.meta['slots'][weapon_slot]
 			bow = items[bow_id]
-			if "speed" in bow:
-				return bow['speed']
+			if "speed" in bow['properties']:
+				return bow['properties']['speed']
 		logging.warning("got invalid weapon_slot (%s) or bow definition (%s)."
 			% (weapon_slot, bow))
 		return 1.0
