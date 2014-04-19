@@ -750,8 +750,8 @@
 			"icon": "eqp-icon-leather-armor",
 			"description": "",
 			"properties": {
-				"defense": 10,
-				"speed": 0
+				"defense": 0.1,
+				"movement": 1.0
 			},
 			"spritesheet": {
 				"male": [

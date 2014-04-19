@@ -118,7 +118,7 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 		self.direction = direction
 		if(not hasattr(self, 'delayed_attack') or not self.delayed_attack.active()):
 			self.delayed_attack = self.reactor.callLater(
-				0.75*self.get_attack_speed(),
+				0.9*self.get_attack_speed(),
 				self.commit_attack,
 				direction
 			)
@@ -174,8 +174,9 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 				if(item_id in items):
 					item = items[item_id]
 					if("properties" in item and property_name in item["properties"]):
+						logging.debug("Property {} affected by slot {}, old value: {}, modifier: {}, new value {}".format(property_name, slots[slot]["name"], attribute_value, item["properties"][property_name], attribute_value * item["properties"][property_name]))
 						attribute_value = attribute_value * item["properties"][property_name]
-						logging.debug("Property {} affected by slot {}, new value {}".format(property_name, slot, attribute_value))
+						
 		return attribute_value
 
 	def get_arrow_lifetime(self):
