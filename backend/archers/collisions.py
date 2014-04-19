@@ -60,9 +60,13 @@ class Collisions(b2ContactListener):
 					archer.player.trigger('die')
 					logging.debug("Arrow of a mob hits {}".format(archer))
 
-			defense = archer.get_property("defense")
-			if(defense > 0 and random.random() < defense):
+			defense = archer.attributes['defense']
+			chance = random.random()
+
+			logging.debug("Fired with {} chance, got defense {}".format(chance, defense))
+			if(defense > 0 and chance < defense):
 				#miss!
+				#todo: fire some visual event
 				logging.debug("Defense!")
 				self.world.kill(arrow)
 			else:
