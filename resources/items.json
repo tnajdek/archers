@@ -50,7 +50,7 @@
 			"slot": 0,
 			"description": "<h1>Clan Wolf</h1><p>Pale-skinned mountain-dwellers where bow-hunting is taught to children soon after they learn to walk.</p><p>Members of clan wolf are most proficient in bow combat of all clans and ten to shoot faster and further than characters from other clans</p>",
 			"properties": {
-				"speed": 0.1,
+				"attack_speed": 0.1,
 				"movement": 1.0,
 				"defense": 0.0
 			},
@@ -66,8 +66,8 @@
 			"slot": 0,
 			"description": "<h1>Clan Lion</h1><p>Olive-skinned people from the southern lands</p><p>Members of clan lion are slightly faster than other characters</p>",
 			"properties": {
-				"speed": 0.0,
-				"movement": 0.05,
+				"attack_speed": 0.0,
+				"movement": 1.05,
 				"defense": 0.0
 			},
 			"spritesheet": {
@@ -82,8 +82,8 @@
 			"slot": 0,
 			"description": "<h1>Clan Sun</h1><p>Dark-skinned people from sunny islands just of the west coast of the known world created community refered to as clan sun.</p><p>Members of clan sun have a small chance of dodging the incoming arrow</p>",
 			"properties": {
-				"speed": 0.0,
-				"movement": 0.0,
+				"attack_speed": 0.0,
+				"movement": 1.0,
 				"defense": 0.025
 			},
 			"spritesheet": {
@@ -840,7 +840,7 @@
 			"icon": "eqp-icon-bow",
 			"description": "",
 			"properties": {
-				"speed": 0.75,
+				"attack_speed": 0.75,
 				"distance": 0.75
 			},
 			"spritesheet": [
@@ -856,7 +856,7 @@
 			"icon": "eqp-icon-greatbow",
 			"description": "",
 			"properties": {
-				"speed": 1.0,
+				"attack_speed": 1.0,
 				"distance": 1.0
 			},
 			"spritesheet": [
@@ -872,7 +872,7 @@
 			"icon": "eqp-icon-greatbow",
 			"description": "",
 			"properties": {
-				"speed": 0.75,
+				"attack_speed": 0.75,
 				"distance": 1.25
 			},
 			"spritesheet": [
@@ -888,7 +888,7 @@
 			"icon": "eqp-icon-greatbow",
 			"description": "",
 			"properties": {
-				"speed": 0.75,
+				"attack_speed": 0.75,
 				"distance": 1.5
 			},
 			"spritesheet": [
@@ -904,7 +904,7 @@
 			"icon": "eqp-icon-recurvebow",
 			"description": "",
 			"properties": {
-				"speed": 0.5,
+				"attack_speed": 0.5,
 				"distance": 0.75
 			},
 			"spritesheet": [
@@ -920,7 +920,7 @@
 			"icon": "eqp-icon-recurvebow",
 			"description": "",
 			"properties": {
-				"speed": 0.25,
+				"attack_speed": 0.25,
 				"distance": 0.75
 			},
 			"spritesheet": [
@@ -936,7 +936,7 @@
 			"icon": "eqp-icon-recurvebow",
 			"description": "",
 			"properties": {
-				"speed": 0.25,
+				"attack_speed": 0.25,
 				"distance": 1.25
 			},
 			"spritesheet": [

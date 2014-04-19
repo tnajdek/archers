@@ -92,7 +92,7 @@ define(['pc',
 
 			_.each(spriteDef.frames, function(frame, key) {
 				if(frame.name.indexOf("shooting") === 0) {
-					spriteDef.frames[key].time = account.attributes['speed'] * spriteDef.frames[key].time;
+					spriteDef.frames[key].time = account.attributes['attack_speed'] * spriteDef.frames[key].time;
 				}
 
 			});

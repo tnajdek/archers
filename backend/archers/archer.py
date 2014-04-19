@@ -27,10 +27,10 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 		self.state = 'unknown'
 
 		self.base_attributes = {
-			"speed": 0.0,
-			"distance": 0.0,
-			"movement": 0.0,
-			"defense": 0.0
+			"attack_speed": 0.0, # how fast you can send an arrow away, lower = better
+			"distance": 0.0, # how far you can send an arrow, higher = better
+			"movement": 0.0, # how fast you can walk, higher = better
+			"defense": 0.0 # % chance of deflecting an arrow, higher = better
 		}
 
 		self.attributes = self.base_attributes.copy()
@@ -194,7 +194,7 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 		return self.attributes["distance"]
 
 	def get_attack_speed(self):
-		return self.attributes["speed"]
+		return self.attributes["attack_speed"]
 
 	def process(self):
 		if(hasattr(self, 'direction') 
