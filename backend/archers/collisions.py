@@ -1,4 +1,5 @@
 import logging
+import random
 from utils import get_class
 
 from Box2D import b2ContactListener
@@ -59,8 +60,14 @@ class Collisions(b2ContactListener):
 					archer.player.trigger('die')
 					logging.debug("Arrow of a mob hits {}".format(archer))
 
-			self.world.kill(arrow)
-			self.world.kill(archer)
+			defense = archer.get_property("defense")
+			if(defense > 0 and random.random() < defense):
+				#miss!
+				logging.debug("Defense!")
+				self.world.kill(arrow)
+			else:
+				self.world.kill(arrow)
+				self.world.kill(archer)
 			return
 
 		pair = self.is_pair(a, b, 'archers.archer.Arrow', 'archers.archer.Skeleton')

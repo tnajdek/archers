@@ -26,14 +26,24 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 		self.group_index = world.get_free_group_index()
 		self.state = 'unknown'
 
-		self.attributes = {
-			"speed": 1.0,
-			"distance": 1.0,
-			"movement": 1.0,
+		self.base_attributes = {
+			"speed": 0.0,
+			"distance": 0.0,
+			"movement": 0.0,
 			"defense": 0.0
 		}
+
+		self.attributes = self.base_attributes.copy()
+
+		# if(self.player):
+		# 	self.player.on("meta", self.update_attributes)
 		
 		super(Archer, self).__init__(world, type="archer", *args, **kwargs)
+
+	def update_attributes(self):
+		for attribute in self.attributes:
+			self.attributes[attribute] = self.get_property(attribute)
+			self.player.trigger('meta', self.player.meta)
 
 	def spawn(self, spawn_point):
 		self.state = 'standing'
@@ -163,7 +173,7 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 			self.delayed_cleanup.cancel()
 
 	def get_property(self, property_name):
-		attribute_value = self.attributes[property_name]
+		attribute_value = self.base_attributes[property_name]
 
 		slot_names = slots.keys()
 		for slot in slot_names:
@@ -174,16 +184,17 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 				if(item_id in items):
 					item = items[item_id]
 					if("properties" in item and property_name in item["properties"]):
-						logging.debug("Property {} affected by slot {}, old value: {}, modifier: {}, new value {}".format(property_name, slots[slot]["name"], attribute_value, item["properties"][property_name], attribute_value * item["properties"][property_name]))
-						attribute_value = attribute_value * item["properties"][property_name]
+						new_value = attribute_value + float(item["properties"][property_name])
+						logging.debug("Property {} affected by slot {}, old value: {}, modifier: {}, new value {}".format(property_name, slots[slot]["name"], attribute_value, item["properties"][property_name], new_value))
+						attribute_value = new_value
 						
 		return attribute_value
 
 	def get_arrow_lifetime(self):
-		return self.get_property("distance")
+		return self.attributes["distance"]
 
 	def get_attack_speed(self):
-		return self.get_property("speed")
+		return self.attributes["speed"]
 
 	def process(self):
 		if(hasattr(self, 'direction') 
@@ -191,7 +202,7 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 			and self.direction
 			and hasattr(self, 'physics')
 			):
-			speed_vector = self.direction * self.get_property("movement") * settings.base_movement_speed
+			speed_vector = self.direction * self.attributes["movement"] * settings.base_movement_speed
 			self.physics.linearVelocity = speed_vector
 			# max_speed_vector = self.direction*self.speed*settings.max_movement_speed
 			# if(getSpeedFromVec(self.physics.linearVelocity) <= getSpeedFromVec(max_speed_vector)):

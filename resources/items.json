@@ -50,7 +50,7 @@
 			"slot": 0,
 			"description": "<h1>Clan Wolf</h1><p>Pale-skinned mountain-dwellers where bow-hunting is taught to children soon after they learn to walk.</p><p>Members of clan wolf are most proficient in bow combat of all clans and ten to shoot faster and further than characters from other clans</p>",
 			"properties": {
-				"speed": 0.9,
+				"speed": 0.1,
 				"movement": 1.0,
 				"defense": 0.0
 			},
@@ -66,8 +66,8 @@
 			"slot": 0,
 			"description": "<h1>Clan Lion</h1><p>Olive-skinned people from the southern lands</p><p>Members of clan lion are slightly faster than other characters</p>",
 			"properties": {
-				"speed": 1.0,
-				"movement": 1.05,
+				"speed": 0.0,
+				"movement": 0.05,
 				"defense": 0.0
 			},
 			"spritesheet": {
@@ -82,8 +82,8 @@
 			"slot": 0,
 			"description": "<h1>Clan Sun</h1><p>Dark-skinned people from sunny islands just of the west coast of the known world created community refered to as clan sun.</p><p>Members of clan sun have a small chance of dodging the incoming arrow</p>",
 			"properties": {
-				"speed": 1.0,
-				"movement": 1.0,
+				"speed": 0.0,
+				"movement": 0.0,
 				"defense": 0.025
 			},
 			"spritesheet": {
@@ -751,7 +751,7 @@
 			"description": "",
 			"properties": {
 				"defense": 0.1,
-				"movement": 1.0
+				"movement": 0
 			},
 			"spritesheet": {
 				"male": [
@@ -777,7 +777,7 @@
 			"description": "",
 			"properties": {
 				"defense": 0.2,
-				"movement": 0.9
+				"movement": -0.1
 			},
 			"spritesheet": {
 				"male": "eqp.male.chain.chest",
@@ -793,7 +793,7 @@
 			"description": "",
 			"properties": {
 				"defense": 0.5,
-				"movement": 0.66
+				"movement": -0.33
 			},
 			"spritesheet": {
 				"male": [
@@ -817,7 +817,7 @@
 			"description": "",
 			"properties": {
 				"defense": 0.5,
-				"movement": 0.8
+				"movement": -0.2
 			},
 			"spritesheet": {
 				"male": [

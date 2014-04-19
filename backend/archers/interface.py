@@ -35,6 +35,7 @@ class Connection(EventsMixins):
 			"deaths": 0,
 			"score": 0,
 			"budget": settings.initial_budget,
+			"attributes": self.archer.attributes
 		}
 
 		self.archer.interface = self
@@ -98,7 +99,8 @@ class Connection(EventsMixins):
 					% (self.meta['username'], meta['slots']))
 
 		if(changed):
-			self.trigger('meta', self.meta)
+			self.archer.update_attributes()
+			# self.trigger('meta', self.meta)
 
 
 	def on_disconnect(self):

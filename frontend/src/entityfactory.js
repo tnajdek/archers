@@ -85,15 +85,6 @@ define(['pc',
 				spriteDef = JSON.parse(JSON.stringify(archerSpritedef)), //clone deep
 				newsprite;
 
-			_.forEach(account.slots, function (itemId, slotId) {
-				if(_.isArray(itemId)) {
-					itemId = itemId[0];
-				}
-
-				if(data.items[itemId] && data.items[itemId].properties && data.items[itemId].properties.speed) {
-					attackSpeed = attackSpeed * data.items[itemId].properties.speed;
-				}
-			});
 
 			if(entity.hasComponentOfType('sprite')) {
 				entity.removeComponentByType('sprite');
@@ -101,7 +92,7 @@ define(['pc',
 
 			_.each(spriteDef.frames, function(frame, key) {
 				if(frame.name.indexOf("shooting") === 0) {
-					spriteDef.frames[key].time = attackSpeed * spriteDef.frames[key].time;
+					spriteDef.frames[key].time = account.attributes['speed'] * spriteDef.frames[key].time;
 				}
 
 			});

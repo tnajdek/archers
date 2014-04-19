@@ -33,7 +33,6 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 		// };
 
 		this.onMetaChange = function(e) {
-			console.info("METAMSG", e);
 			that.ws.send(JSON.stringify(e));
 		};
 
@@ -60,6 +59,7 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 				if(msg.session_id) {
 					that.onWelcomeMsg(msg);
 				} else {
+					console.info("meta update from srv", msg);
 					vent.trigger('meta', msg);
 				}
 			}
