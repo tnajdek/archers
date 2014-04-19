@@ -50,7 +50,7 @@
 			"slot": 0,
 			"description": "<h1>Clan Wolf</h1><p>Pale-skinned mountain-dwellers where bow-hunting is taught to children soon after they learn to walk.</p><p>Members of clan wolf are most proficient in bow combat of all clans and ten to shoot faster and further than characters from other clans</p>",
 			"properties": {
-				"speed": 1.1,
+				"speed": 0.9,
 				"movement": 1.0,
 				"defense": 0.0
 			},
