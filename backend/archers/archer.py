@@ -128,7 +128,7 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 		self.direction = direction
 		if(not hasattr(self, 'delayed_attack') or not self.delayed_attack.active()):
 			self.delayed_attack = self.reactor.callLater(
-				0.9*self.get_attack_speed(),
+				(12.0/13.0)*0.9*self.get_attack_speed(),
 				self.commit_attack,
 				direction
 			)
