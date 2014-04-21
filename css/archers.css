@@ -612,7 +612,7 @@ button.menu.small-screen:before {
   left: 0.75em;
   height: 16px;
   width: 1em;
-  background: -webkit-gradient(linear, top left, bottom left, from(#000), color-stop(12.5%, #000), color-stop(12.5%, transparent), color-stop(43.75%, transparent), color-stop(43.75%, #000), color-stop(56.25%, #000), color-stop(56.25%, transparent), color-stop(87.5%, transparent), color-stop(87.5%, #000), to(#000));
+  background: -webkit-gradient(linear, left top, left bottom, from(#000), color-stop(12.5%, #000), color-stop(12.5%, transparent), color-stop(43.75%, transparent), color-stop(43.75%, #000), color-stop(56.25%, #000), color-stop(56.25%, transparent), color-stop(87.5%, transparent), color-stop(87.5%, #000), to(#000));
   background: -webkit-linear-gradient(top, #000 0, #000 12.5%, transparent 12.5%, transparent 43.75%, #000 43.75%, #000 56.25%, transparent 56.25%, transparent 87.5%, #000 87.5%, #000 100%);
   background: linear-gradient(to bottom, #000 0, #000 12.5%, transparent 12.5%, transparent 43.75%, #000 43.75%, #000 56.25%, transparent 56.25%, transparent 87.5%, #000 87.5%, #000 100%);
 }
