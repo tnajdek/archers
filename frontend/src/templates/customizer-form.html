@@ -123,7 +123,26 @@
 			
 		</div>
 	</div><div class="help">
-		{{{ hint }}}
+		{{# hint.name }}
+			<h2>{{hint.name}}</h2>
+			<p>
+				{{hint.description}}
+			</p>
+			<p>
+				Effects:
+			</p>
+			<dl>
+				{{# hint.properties:prop}}
+					<dt>{{prop}}</dt>
+					<dd>{{.}}</dd>
+				{{/ }}
+			</dl>
+		{{/hint.name}}
+
+		{{# !hint.name }}
+			{{{ hint }}}
+		{{/ }}
+
 	</div>
 	<div class="actions">
 		<button class="action-preview" proxy-tap="preview">

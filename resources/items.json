@@ -734,6 +734,10 @@
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-plain-clothing",
 			"description": "",
+			"properties": {
+				"defense": 0.0,
+				"movement": 0.0
+			},
 			"spritesheet": {
 				"male": [
 					"eqp.male.shirt.white",

@@ -176,7 +176,7 @@ define(['lodash',
 					if(id == "") {
 						ractive.set('hint', "No " + data.slots[slot].name);
 					} else {
-						ractive.set('hint', data.items[id].name + "<br>" + data.items[id].description);
+						ractive.set('hint', data.items[id]);
 					}
 				} else {
 					//@TODO: define descriptions in items.json?
