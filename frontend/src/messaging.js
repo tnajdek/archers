@@ -1,5 +1,5 @@
-define(['require', 'lodash', 'messaging/frame', 'messaging/update', 'messaging/useraction', 'messaging/remove'],
-function(require, _, FrameMessage, UpdateMessage, UserActionMessage, RemoveMessage) {
+define(['require', 'lodash', 'messaging/frame', 'messaging/update', 'messaging/useraction', 'messaging/remove', 'messaging/event'],
+function(require, _, FrameMessage, UpdateMessage, UserActionMessage, RemoveMessage, EventMessage) {
 	var Messaging = {
 		format: {
 			'b': 'Int8',
@@ -17,9 +17,8 @@ function(require, _, FrameMessage, UpdateMessage, UserActionMessage, RemoveMessa
 			'1': FrameMessage,
 			'2': UpdateMessage,
 			'3': UserActionMessage,
-			'4': RemoveMessage
-
-
+			'4': RemoveMessage,
+			'5': EventMessage
 		},
 
 		copyBytes: function(aSource, aTarget, aSourceOffset, aTargetOffset, aLength) {

@@ -151,9 +151,32 @@ class RemoveMessage(Message):
 		'byteformat': '!I'
 	}
 
+
+class EventMessage(Message):
+	schema = {
+		'id': 5,
+		'format': ['type', 'x', 'y'],
+		'byteformat': '!III'
+	}
+
+	event_type_lookup = bidict({
+		'unknown': 0,
+		'deflect': 1
+	})
+
+	def hydrate_type(self, value):
+		return self.event_type_lookup.inv.get(value, None)
+
+	def dehydrate_type(self, value):
+		return self.event_type_lookup.get(value, 0)
+
+
 message_types = {
 	1: FrameMessage,
 	2: UpdateMessage,
 	3: UserActionMessage,
 	4: RemoveMessage,
+	5: EventMessage
 }
+
+
