@@ -28,6 +28,7 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/render', 'systems/play
 
 			this.layer.addSystem(new RenderSystem());
 			this.layer.addSystem(new NetworkSystem());
+			this.layer.addSystem(new pc.systems.Expiration());
 			this.layer.addSystem(this.playercontrol);
 
 
@@ -123,6 +124,15 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/render', 'systems/play
 					// @TODO: test if changed
 					that.factory.updateArcherSprite(entity, msg);
 				}
+			});
+
+			vent.on("event", function(msg) {
+				that.factory.createEntity(
+					that.layer,
+					'deflectEvent',
+					msg.x,
+					msg.y
+				);
 			});
 		},
 

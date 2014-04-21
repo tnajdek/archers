@@ -22,7 +22,7 @@ rotations = {
 	'west': vec2rad(directions['west']),
 }
 
-from archers.messages import UpdateMessage, FrameMessage, RemoveMessage
+from archers.messages import UpdateMessage, FrameMessage, RemoveMessage, EventMessage
 
 
 class ListWithCounter(list):
@@ -420,6 +420,13 @@ class World(EventsMixins):
 	def kill(self, killme):
 		if not killme in self.objects_to_be_destroyed:
 			self.objects_to_be_destroyed.append(killme)
+
+	def trigger_event(self, event_type, x, y):
+		msg = EventMessage()
+		msg['type'] = event_type
+		msg['x'] = limit(m2p(x))
+		msg['y'] = limit(m2p(y))
+		self.networking_factory.broadcast_messages([msg,])
 
 	def get_free_group_index(self):
 		for i in range(10, 32768):

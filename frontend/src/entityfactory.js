@@ -4,6 +4,7 @@ define(['pc',
 	'spritedef/arrow',
 	'spritedef/skeleton',
 	'spritedef/coin',
+	'spritedef/deflect',
 	'components/state',
 	'components/meta',
 	'components/network',
@@ -11,7 +12,7 @@ define(['pc',
 	'filtered-image',
 	'lobbymanager'
 	],
-	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, coinSpritedef, stateComponent, metaComponent, networkComponent, CompositeImage, FilteredImage, lobbyManager) {
+	function(pc, _, archerSpritedef, arrowSpritedef, skeletonSpritedef, coinSpritedef, deflectSpritedef, stateComponent, metaComponent, networkComponent, CompositeImage, FilteredImage, lobbyManager) {
 	var EntityFactory = pc.EntityFactory.extend('pc.archers.EntityFactory', {}, {
 
 		getDynamicSprite: function(account, spriteDef, animationState) {
@@ -247,6 +248,20 @@ define(['pc',
 
 		makeCopperCoin: function() {
 			return this.makeCoin.apply(this, _.toArray(arguments).concat('pickup.coin.copper'));
+		},
+
+		makeDeflectEvent: function(layer, x, y) {
+			var spatial = this.getSpatial(x, y, 32, 32),
+				entity = pc.Entity.create(layer),
+				sprite = this.getSprite(deflectSpritedef, "default"),
+				expiry = pc.components.Expiry.create({
+					lifetime: 750
+				})
+
+			entity.addComponent(spatial);
+			entity.addComponent(sprite);
+			entity.addComponent(expiry);
+			return entity;
 		},
 
 		createEntity: function(layer, type, x, y, dir, point, properties) {

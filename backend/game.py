@@ -114,14 +114,19 @@ class BroadcastServerFactory(WebSocketServerFactory):
 		if client in self.clients:
 			self.clients.remove(client)
 
-	def broadcast(self, msg):
+	def broadcast(self, msg, raw=False):
 		for c in self.clients:
-			c.sendMessage(msg)
+			c.sendMessage(msg, raw)
+
+	def broadcast_messages(self, messages):
+		if(len(messages)):
+			self.broadcast(pack_messages(messages), raw=True)
 
 class Archers():
 	def init_networking(self):
 		factory = BroadcastServerFactory("ws://localhost:9000")
 		factory.world = self.world
+		self.world.networking_factory = factory
 		factory.cache = MessageCache(self.world)
 		factory.protocol = UserCommunication
 		listenWS(factory)

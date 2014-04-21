@@ -54,6 +54,11 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 						vent.trigger('remove', msg);
 					});
 				}
+				if(messages[0].schema.id === 5) {
+					messages.forEach(function(msg) {
+						vent.trigger('event', msg);
+					});
+				}
 			} else {
 				msg = JSON.parse(e.data);
 				if(msg.session_id) {

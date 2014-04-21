@@ -65,9 +65,7 @@ class Collisions(b2ContactListener):
 
 			logging.debug("Fired with {} chance, got defense {}".format(chance, defense))
 			if(defense > 0 and chance < defense):
-				#miss!
-				#todo: fire some visual event
-				logging.debug("Defense!")
+				self.world.trigger_event("deflect", arrow.get_position()['x'], arrow.get_position()['y'])
 				self.world.kill(arrow)
 			else:
 				self.world.kill(arrow)

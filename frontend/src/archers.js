@@ -41,11 +41,12 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 				'/resources/skeleton.png'
 			));
 
+			// @TODO: automate or read from items.json
 			pc.device.loader.add(new pc.Image('pickup.coin.gold', '/resources/pickup/coin.gold.png'));
 			pc.device.loader.add(new pc.Image('pickup.coin.silver', '/resources/pickup/coin.silver.png'));
 			pc.device.loader.add(new pc.Image('pickup.coin.copper', '/resources/pickup/coin.copper.png'));
+			pc.device.loader.add(new pc.Image('event.deflect', '/resources/event/deflect.png'));
 			
-			// @TODO: automate or read from items.json
 			pc.device.loader.add(new pc.Image('base.female.light', '/resources/archer/base.female.light.png'));
 			pc.device.loader.add(new pc.Image('base.female.orc', '/resources/archer/base.female.orc.png'));
 			pc.device.loader.add(new pc.Image('base.male.light', '/resources/archer/base.male.light.png'));

@@ -1,11 +1,11 @@
 define(function() {
 	return {
 		spriteName: "event.deflect",
-		frameDefault:"standing",
-		frameWidth: 64,
-		frameHeight: 64,
+		frameDefault:"default",
+		frameWidth: 32,
+		frameHeight: 32,
 		frames: [
-			{"name":"standing S","frameX":0,"frameY":0,"frameCount":8,"time":1000}
+			{"name":"default","frameX":0,"frameY":0,"frameCount":8,"time":500, "loops":1, "holdOnEnd": true}
 		]
 	};
 });
