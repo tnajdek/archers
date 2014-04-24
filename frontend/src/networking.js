@@ -61,7 +61,10 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 				}
 			} else {
 				msg = JSON.parse(e.data);
-				if(msg.session_id) {
+				if(msg.map) {
+					// server_pack
+				}
+				else if(msg.session_id) {
 					that.onWelcomeMsg(msg);
 				} else {
 					console.info("meta update from srv", msg);
