@@ -50,7 +50,7 @@
 			"slot": 0,
 			"description": "<h1>Clan Wolf</h1><p>Pale-skinned mountain-dwellers where bow-hunting is taught to children soon after they learn to walk.</p><p>Members of clan wolf are most proficient in bow combat of all clans and ten to shoot faster and further than characters from other clans</p>",
 			"properties": {
-				"attack_speed": 0.1,
+				"attack_speed": -0.1,
 				"movement": 1.0,
 				"defense": 0.0
 			},
@@ -955,6 +955,9 @@
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-leather-hood",
 			"description": "",
+			"properties": {
+				"defense": 0.05
+			},
 			"spritesheet": {
 				"male": "eqp.male.leather.hood",
 				"female": "eqp.female.leather.hood"
@@ -967,6 +970,9 @@
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-leather-cap",
 			"description": "",
+			"properties": {
+				"defense": 0.05
+			},
 			"spritesheet": {
 				"male": "eqp.male.leather.cap",
 				"female": "eqp.female.leather.cap"
@@ -979,6 +985,11 @@
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-plate-helm",
 			"description": "",
+			"properties": {
+				"defense": 0.2,
+				"attack_speed": 0.5,
+				"movement": -0.2
+			},
 			"spritesheet": {
 				"male": "eqp.male.plate.helm",
 				"female": "eqp.female.plate.helm"
@@ -986,11 +997,14 @@
 		},
 		"303": {
 			"name": "Kettle Hat",
-			"price": 20,
+			"price": 40,
 			"slot": 11,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-kettle-hat",
 			"description": "",
+			"properties": {
+				"defense": 0.1
+			},
 			"spritesheet": {
 				"male": "eqp.male.kettle.hat",
 				"female": "eqp.female.kettle.hat"
@@ -1003,30 +1017,38 @@
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-gold-helm",
 			"description": "",
+			"properties": {
+				"defense": 0.2,
+				"attack_speed": 0.5
+			},
 			"spritesheet": {
 				"male": "eqp.male.gold.helm",
 				"female": "eqp.female.gold.helm"
 			}
 		},
 		"400": {
-			"name": "Black Shoes",
+			"name": "Shoes",
 			"price": 0,
 			"slot": 12,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-black-boots",
 			"description": "",
+			"properties": {},
 			"spritesheet": {
 				"male": "eqp.male.black.boots",
 				"female": "eqp.female.black.boots"
 			}
 		},
 		"401": {
-			"name": "Brown Shoes",
-			"price": 0,
+			"name": "Boots of speed",
+			"price": 10,
 			"slot": 12,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-brown-boots",
 			"description": "",
+			"properties": {
+				"movement": 0.05
+			},
 			"spritesheet": {
 				"male": "eqp.male.brown.boots",
 				"female": "eqp.female.brown.boots"
@@ -1039,6 +1061,10 @@
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-plate-boots",
 			"description": "",
+			"properties": {
+				"defense": 0.05,
+				"movement": -0.05
+			},
 			"spritesheet": {
 				"male": "eqp.male.plate.boots",
 				"female": "eqp.female.plate.boots"
@@ -1046,11 +1072,14 @@
 		},
 		"403": {
 			"name": "Gold Boots",
-			"price": 10,
+			"price": 25,
 			"slot": 12,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-gold-boots",
 			"description": "",
+			"properties": {
+				"defense": 0.05
+			},
 			"spritesheet": {
 				"male": "eqp.male.gold.boots",
 				"female": "eqp.female.gold.boots"
