@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+import argparse
 from twisted.internet import reactor, task, stdio
 # from autobahn.websocket import listenWS
 # from autobahn.wamp import WampServerFactory, WampServerProtocol, exportRpc
@@ -53,9 +54,9 @@ class UserCommunication(WebSocketServerProtocol):
 	def onOpen(self):
 		server_pack = {
 			"players": len(self.factory.clients),
-			"location": "London",
-			"maxPlayers": 16,
-			"map": "The Bridge"
+			"location": self.factory.game.config['location'],
+			"maxPlayers": self.factory.game.config['maxplayers'],
+			"map": self.factory.world.map.properties['name']
 		}
 
 		self.sendMessage(simplejson.dumps(server_pack, separators=(',', ':')))
@@ -122,18 +123,26 @@ class BroadcastServerFactory(WebSocketServerFactory):
 		if(len(messages)):
 			self.broadcast(pack_messages(messages), raw=True)
 
-class Archers():
-	def init_networking(self):
-		factory = BroadcastServerFactory("ws://localhost:9000")
+class Archers(object):
+	def __init__(self, config):
+		self.config = config
+	
+	def init_networking(self):	
+		factory = BroadcastServerFactory("ws://{}:{}".format(self.config['host'], self.config['port']))
 		factory.world = self.world
+		factory.game = self
 		self.world.networking_factory = factory
 		factory.cache = MessageCache(self.world)
 		factory.protocol = UserCommunication
 		listenWS(factory)
 		logging.info("Server is listening on %s:%i" % (factory.host, factory.port))
 
-	def init_world(self):
-		self.world = World('../resources/map.tmx')
+	def init_world(self):	
+		if(self.config['map'][-3:] != 'tmx'):
+			self.config['map'] = self.config['map'] + ".tmx"
+		self.world = World('../resources/{}'.format(self.config['map']))
+
+		logging.info("Initialised map {}".format(self.world.map.properties['name']))
 		task.LoopingCall(self.world.networking_step).start(settings.NETWORKING_STEP)
 		task.LoopingCall(self.world.processing_step).start(settings.PROCESSING_STEP)
 		task.clock = self.reactor
@@ -166,4 +175,17 @@ class Archers():
 
 
 if __name__ == '__main__':
-	Archers().start()
+	parser = argparse.ArgumentParser(description='Start server for the Archers! game.')
+	parser.add_argument('map', type=str,
+				   help='Map for this server')
+	parser.add_argument('--maxplayers', type=int, default=16,
+				   help='Maximum number of players allowed')
+	parser.add_argument('--location', type=str, default="Unspecified",
+				   help='Location string for the server browser')
+	parser.add_argument('--host', type=str, default="localhost",
+				   help='Hostname to bind to')
+	parser.add_argument('--port', type=int, default=9000,
+				   help='Port number to bind to')
+
+	arguments = vars(parser.parse_args())
+	Archers(arguments).start()

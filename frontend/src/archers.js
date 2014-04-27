@@ -13,7 +13,7 @@ define(['jquery', 'vent', 'pc', 'networking', 'scenes/game', 'scenes/customize',
 
 			pc.device.loader.add(new pc.DataResource(
 				'map',
-				'/resources/map.tmx'
+				'/resources/thebridge.tmx'
 			));
 
 			pc.device.loader.add(new pc.DataResource(
