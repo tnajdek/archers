@@ -116,8 +116,12 @@ define(['jquery', 'lodash', 'pc', 'vent', 'virtualjoystick'],
 			}
 
 			if(input.lastInputState !== currentInput.join()) {
+				if(input.lastInputAction == 'attack' && currentInput[0] == 'stop') {
+					return
+				}
 				vent.trigger('input', currentInput[0], currentInput[1]);
 				input.lastInputState = currentInput.join();
+				input.lastInputAction = currentInput[0];
 				console.warn('UPDATE', currentInput[0], currentInput[1]);
 			}
 		}
