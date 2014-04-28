@@ -79,6 +79,7 @@ define(['jquery', 'lodash', 'pc', 'vent', 'virtualjoystick'],
 			moveDirections = this.getDirections(entity);
 
 			attacking = this.isInputState(entity, 'attacking');
+
 			if(!attacking) {
 				if(this.joystickL.up()) {
 					moveDirections = ['N'];
@@ -113,12 +114,21 @@ define(['jquery', 'lodash', 'pc', 'vent', 'virtualjoystick'],
 
 			if(attacking) {
 				currentInput[0] = 'attack';
+				input.postAttackLock = true;
 			}
 
+			if(input.lastInputAction == 'attack' && currentInput[0] == 'stop' && input.postAttackLock) {
+				// at this point user released the attack key
+				// we prettend that the input is and has been in the 'stop' state and don't serve
+				// anything to the server. Now server will assume we want to continue with current attack
+				// unless a new input comes in which will interrupt ongoing attack
+				input.postAttackLock = false;
+				input.lastInputState = currentInput.join();
+				return;
+			}
+
+
 			if(input.lastInputState !== currentInput.join()) {
-				if(input.lastInputAction == 'attack' && currentInput[0] == 'stop') {
-					return
-				}
 				vent.trigger('input', currentInput[0], currentInput[1]);
 				input.lastInputState = currentInput.join();
 				input.lastInputAction = currentInput[0];
