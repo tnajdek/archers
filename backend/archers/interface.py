@@ -119,7 +119,9 @@ class Connection(EventsMixins):
 				else:
 					logging.info('denying %s spawn, incorrect slots %s' % (self.meta['username'], self.meta['slots']))
 			else:
-				self.archer.kill()
+				pass
+				# logging.warn('got spawn while user is alive! Kill!')
+				# self.archer.kill()
 		if(message['action'] == 'stop'):
 			self.archer.want_stop()
 		if(message['action'] == 'move'):
