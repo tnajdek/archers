@@ -4,7 +4,7 @@ requirejs.config({
 		lodash: '../bower_components/lodash/dist/lodash.compat',
 		playcraft: '../bower_components/playcraftengine/playcraftjs/lib',
 		jquery: '../bower_components/jquery/jquery',
-		virtualjoystick: '../bower_components/virtualjoystick/index',
+		virtualjoystick: '../bower_components/virtualjoystick.js/virtualjoystick',
 		text: '../bower_components/requirejs-text/text',
 		ractive: '../bower_components/ractive/ractive',
 		ractiveTapEvent: '../bower_components/ractive-events-tap/Ractive-events-tap',
@@ -12,6 +12,9 @@ requirejs.config({
 	},
 	// enforceDefine: true,
 	shim: {
+		'virtualjoystick': {
+			exports: 'VirtualJoystick'
+		},
 		'playcraft/boot': ['gamecore', 'playcraft/ext/box2dweb.2.1a-pc'],
 		'playcraft/ext/base64': ['playcraft/boot'],
 		'playcraft/input': ['playcraft/boot'],
