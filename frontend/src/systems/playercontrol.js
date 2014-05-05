@@ -2,6 +2,7 @@ define(['jquery', 'lodash', 'pc', 'vent', 'virtualjoystick'],
 	function($, _, pc, vent, VirtualJoystick) {
 	return pc.systems.Input.extend('PlayerControlSystem', {}, {
 		init: function() {
+
 			
 			this.joystickR = new VirtualJoystick({
 				container: $('#virtualjoystick')[0],
@@ -16,7 +17,9 @@ define(['jquery', 'lodash', 'pc', 'vent', 'virtualjoystick'],
 
 			this.joystickL = new VirtualJoystick({
 				container: $('#virtualjoystick')[0],
-				strokeStyle: 'orange'
+				strokeStyle: 'orange',
+				limitStickTravel: true,
+				stickRadius: 0
 			});
 
 			this.joystickL.addEventListener('touchStartValidation', function(event){
@@ -81,19 +84,7 @@ define(['jquery', 'lodash', 'pc', 'vent', 'virtualjoystick'],
 			attacking = this.isInputState(entity, 'attacking');
 
 			if(!attacking) {
-				if(this.joystickL.up()) {
-					moveDirections = ['N'];
-					attacking = true;
-				} else if(this.joystickL.down()) {
-					moveDirections = ['S'];
-					attacking = true;
-				} else if(this.joystickL.right()) {
-					moveDirections = ['E'];
-					attacking = true;
-				} else if(this.joystickL.left()) {
-					moveDirections = ['W'];
-					attacking = true;
-				}
+				attacking = this.joystickL._pressed;
 			}
 
 			if(moveDirections.length > 0) {
