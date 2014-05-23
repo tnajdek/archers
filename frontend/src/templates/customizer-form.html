@@ -1,4 +1,4 @@
-<div class="customiser {{# preview}}preview{{/ preview}}" proxy-click="closeSlots" proxy-tap="clearPreview">
+<div class="customiser {{# preview}}preview{{/ preview}}" proxy-click="multiple:['closeSlots', 'clearPreview']">
 	<div class="small-secreen-tab-control">
 		<button class="switch-to-character {{# activeScreen == 'character' }}active{{/ activeScreen}}" proxy-tap="switchScreen" data-target-screen="character">
 			Character

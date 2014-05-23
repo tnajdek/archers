@@ -188,8 +188,15 @@ define(['lodash',
 				ractive.set('openedSlot', event.node.getAttribute('data-slot'));
 			});
 
+			ractive.on("multiple", function (event, sequence) {
+				var eventName, i;
+				for(i=0; i < sequence.length; i++) {
+					this.fire( sequence[i], event );
+				}
+			});
+
 			ractive.on('closeSlots', function(event) {
-				if(event.original.originalTarget.getAttribute('data-slot')) {
+				if(event.original.target.getAttribute('data-slot')) {
 					return;
 				}
 				ractive.set('openedSlot', null);
@@ -197,10 +204,12 @@ define(['lodash',
 			});
 
 			ractive.on('clearPreview', function(event) {
-				if(event.original.originalTarget.classList.contains('action-preview')) {
-					return;
+				console.log("clear preview", event);
+				if(!event.original.target.classList.contains('action-preview')) {
+					ractive.set('preview', false);
 				}
-				ractive.set('preview', false);
+				return true;
+				
 			});
 
 			ractive.on('clearHint', function(event) {
