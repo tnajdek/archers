@@ -35,13 +35,16 @@
 
 			{{#account}}
 					{{#spawned}}
-						<button on-tap="spawn">Suicide!</button>
+						<button on-tap="suicide">Suicide!</button>
 					{{/spawned}}
-					{{#!spawned}}
-						{{# currentcost <= player.budget}}
+					{{# currentcost <= player.budget}}
+						{{#!spawned && canspawn}}
 							<button on-tap="spawn">Play!</button>
-						{{/currentcost}}
-					{{/!spawned}}
+						{{/!spawned}}
+						{{#!spawned && !canspawn}}
+							<button>1 sec...</button>
+						{{/!spawned}}
+					{{/currentcost}}
 			{{/account}}
 		{{/connected}}
 		{{# status != 'connected'}}

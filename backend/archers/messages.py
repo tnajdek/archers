@@ -134,7 +134,8 @@ class UserActionMessage(Message, DirectionMessageMixin):
 		'spawn': 1,
 		'stop': 2,
 		'move': 3,
-		'attack': 4
+		'attack': 4,
+		'suicide': 5
 	})
 
 	def hydrate_action(self, value):

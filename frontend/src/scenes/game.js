@@ -93,6 +93,10 @@ define(['lodash', 'pc', 'vent', 'entityfactory', 'systems/render', 'systems/play
 						that.player.removeComponentByType('input');
 					}
 
+					if(entity.hasTag('PLAYER') && msg.state == "unknown") {
+						vent.trigger('player-can-spawn');
+					}
+
 					if(entity.hasTag('PLAYER') && _.contains(badStates, state.state) && !_.contains(badStates, msg.state)) {
 						vent.trigger('player-has-spawned');
 						that.player.addComponent(that.factory.getInput());

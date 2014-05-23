@@ -75,6 +75,7 @@ define(['jquery',
 			vent.on('player-has-spawned', function() {
 				that.ractive.set('visible', false);
 				that.ractive.set('spawned', true);
+				that.ractive.set('canspawn', false);
 				// $('.spawn').text('Suicide');
 				// $('.username').attr('disabled', true);
 			});
@@ -82,6 +83,15 @@ define(['jquery',
 			vent.on('player-has-died', function() {
 				that.ractive.set('visible', true);
 				that.ractive.set('spawned', false);
+				that.ractive.set('canspawn', false);
+				// $('.spawn').text('Play!');
+				// $('.username').attr('disabled', false);
+			});
+
+			vent.on('player-can-spawn', function() {
+				that.ractive.set('visible', true);
+				that.ractive.set('spawned', false);
+				that.ractive.set('canspawn', true);
 				// $('.spawn').text('Play!');
 				// $('.username').attr('disabled', false);
 			});
@@ -103,6 +113,7 @@ define(['jquery',
 					currentcost: 0,
 					spawned: false,
 					visible: true,
+					canspawn: true,
 					sort: function(players) {
 						//sort players by score desc
 						return _.sortBy(_.map(players, function(meta, id) {
@@ -118,6 +129,10 @@ define(['jquery',
 
 			this.ractive.on('spawn', function() {
 				vent.trigger('spawn');
+			});
+
+			this.ractive.on('suicide', function() {
+				vent.trigger('suicide');
 			});
 
 			this.ractive.on('close', function() {

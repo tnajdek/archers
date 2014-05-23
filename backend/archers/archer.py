@@ -85,6 +85,9 @@ class Archer(WorldObject, ReactorMixin, NetworkMixin, ProcessableMixin):
 	def is_alive(self):
 		return self.can_take_action()
 
+	def can_spawn(self):
+		return self.state == 'unknown';
+
 	def can_take_action(self):
 		if(self.state == 'walking' or self.state == 'standing' or self.state == 'shooting'):
 			return True

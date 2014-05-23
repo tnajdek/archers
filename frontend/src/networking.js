@@ -14,8 +14,19 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 		};
 
 		this.onspawn = function(e) {
+			console.log("spawn");
 			var msg = new UserActionMessage({
 				action: 'spawn',
+				direction: 'S'
+			});
+			// console.log(msg.toBuffer());
+			that.ws.send(Messaging.toBuffer([msg]));
+		};
+
+		this.onsuicide = function(e) {
+			console.log("suicide");
+			var msg = new UserActionMessage({
+				action: 'suicide',
 				direction: 'S'
 			});
 			// console.log(msg.toBuffer());
@@ -85,6 +96,7 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 		this.onWelcomeMsg = function(msg) {
 			vent.trigger('connected');
 			vent.on('spawn', that.onspawn);
+			vent.on('suicide', that.onsuicide);
 			vent.on('input', that.oninput);
 
 			// vent.on('username', that.onUsernameChange);

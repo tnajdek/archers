@@ -112,16 +112,15 @@ class Connection(EventsMixins):
 	def on_user_action(self, message):
 		spawn_points = self.world.get_spawn_points()
 		shuffle(spawn_points)
+		logging.info(message);
 		if(message['action'] == 'spawn'):
-			if(not self.archer.is_alive()):
+			if(self.archer.can_spawn()):
 				if(verify_slots(self.meta['slots'], self.meta['budget'])):
 					self.archer.spawn(spawn_points[0])
 				else:
 					logging.info('denying %s spawn, incorrect slots %s' % (self.meta['username'], self.meta['slots']))
-			else:
-				pass
-				# logging.warn('got spawn while user is alive! Kill!')
-				# self.archer.kill()
+		if(message['action'] == 'suicide'):
+			self.archer.kill();
 		if(message['action'] == 'stop'):
 			self.archer.want_stop()
 		if(message['action'] == 'move'):

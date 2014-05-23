@@ -4,7 +4,8 @@ define(['lodash'], function(_) {
 			1:'spawn',
 			2:'stop',
 			3:'move',
-			4:'attack'
+			4:'attack',
+			5:'suicide'
 		},
 		actionRLookup = _.invert(actionLookup),
 		actionMixin = {
