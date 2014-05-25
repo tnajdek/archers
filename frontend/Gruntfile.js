@@ -39,16 +39,43 @@ module.exports = function(grunt) {
 					},
 					prefix: '@@'
 				},
-			files: [
-				{expand: true, flatten: true, src: ['assets/index.html'], dest: 'public/'}
+				files: [
+					{expand: true, flatten: true, src: ['assets/index.html'], dest: 'public/'}
+				]
+			},
+			playcraft: {
+				options: {
+					patterns: [
+						{
+							match: /console.log.apply(.*?);/g,
+							replacement: ""
+						}
+					]
+				},
+				files: [
+					{
+						expand: true,
+						flatten: true,
+						src: ['public/js/archers.js'],
+						dest: 'public/js'
+					}
 				]
 			}
 		},
 		removelogging: {
 			dist: {
-				src: "public/js/archers.js",
-				dest: "public/js/archers.js",
+				options: {
+					namespace: [ 'console', 'window.console']
+				},
+				src: "public/js/*.js"
 			},
+			// playcraftlogging: {
+			// 	options: {
+			// 		namespace: [ 'this'],
+			// 		methods: ['log']
+			// 	},
+			// 	src: "public/js/*.js"	
+			// }
 		},
 		uglify: {
 			archers: {
@@ -75,7 +102,7 @@ module.exports = function(grunt) {
 					yuicompress: true
 				},
 				files: {
-					"css/archers.css": "src/less/archers.less"
+					"public/css/archers.css": "src/less/archers.less"
 				}
 			}
 		},
@@ -131,7 +158,8 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('develop', ['less:develop']);
 	grunt.registerTask('sprites', ['sprite']);
-	grunt.registerTask('build', ['requirejs', 'removelogging', 'uglify', 'replace']);
+	grunt.registerTask('build', ['less:production', 'requirejs', 'removelogging', 'replace', 'uglify']);
+	grunt.registerTask('devbuild', ['less:production', 'requirejs', 'replace']);
 	grunt.registerTask('test', ['karma']);
 	grunt.registerTask('default', ['less:develop', 'autoprefixer:develop', 'connect', 'watch']);
 };

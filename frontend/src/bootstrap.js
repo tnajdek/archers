@@ -12,5 +12,8 @@ define(['pc', 'archers'],
 		};
 
 		window.Archers = Archers;
+		
+		pc.device.showDebug = false;
+		pc.device.devMode = false;
 		pc.device.boot('game', 'Archers');
 });

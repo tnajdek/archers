@@ -78,7 +78,6 @@ define(['lodash', 'vent', 'messaging', 'messaging/useraction'],
 				else if(msg.session_id) {
 					that.onWelcomeMsg(msg);
 				} else {
-					console.info("meta update from srv", msg);
 					vent.trigger('meta', msg);
 				}
 			}

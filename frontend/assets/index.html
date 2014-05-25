@@ -6,7 +6,7 @@
 		<title>Archers! Game</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		 <link rel="stylesheet" href="/css/archers.css">
+		 <link rel="stylesheet" href="/css/archers.css?rel=@@timestamp">
 </head>
 <body class="game">
 	<div id="init">Initializing...</div>
@@ -16,21 +16,8 @@
 			<div id="virtualjoystick"></div>
 		</div>
 	</div>
-	<div class="lobby">
-		<div class="close">&#x274c;</div>
-		<p class="status">Connecting...</p>
-		<input class="username" maxlength="10"></input>
-		<button class="spawn">Play!</button>
-		<div class="leaderboard">
-		</div>
-		<a href="#" class="customize">Customize</a> |
-		<a href="/help.html" target="_blank">Help</a> |
-		<a href="/credits.html" target="_blank">Credits</a>
-	</div>
-	<div class="customiser">
-		<button class="exit">Finish</button>
-	</div>
-	<button class="show-rankings"></button>
+	<div class="overlay overlay-lobby"></div>
+	<div class="overlay overlay-customiser"></div>
 	<script src="js/archers.js?rel=@@timestamp"></script>
 </body>
 </html>

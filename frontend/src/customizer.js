@@ -196,8 +196,9 @@ define(['lodash',
 			});
 
 			ractive.on('closeSlots', function(event) {
-				if(event.original.target.getAttribute('data-slot')) {
-					return;
+				var $button = $(event.original.target).closest("button[data-slot]");
+				if($button.length > 0) {
+					return true;
 				}
 				ractive.set('openedSlot', null);
 				

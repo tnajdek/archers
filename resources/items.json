@@ -870,7 +870,7 @@
 		},
 		"202": {
 			"name": "Holmegaard Bow",
-			"price": 0,
+			"price": 3,
 			"slot": 20,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-greatbow",
@@ -886,7 +886,7 @@
 		},
 		"203": {
 			"name": "Yumi",
-			"price": 0,
+			"price": 5,
 			"slot": 20,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-greatbow",
@@ -902,7 +902,7 @@
 		},
 		"204": {
 			"name": "Gungdo",
-			"price": 0,
+			"price": 5,
 			"slot": 20,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-recurvebow",
@@ -918,7 +918,7 @@
 		},
 		"205": {
 			"name": "Recurve Bow",
-			"price": 1,
+			"price": 10,
 			"slot": 20,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-recurvebow",
@@ -934,7 +934,7 @@
 		},
 		"206": {
 			"name": "Composite Recurve Bow",
-			"price": 1,
+			"price": 20,
 			"slot": 20,
 			"genderRestrictions": ["male", "female"],
 			"icon": "eqp-icon-recurvebow",

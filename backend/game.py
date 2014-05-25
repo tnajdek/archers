@@ -14,12 +14,6 @@ from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerPr
 import logging
 import simplejson
 
-logging.basicConfig(format='%(asctime)s %(message)s',
-	datefmt='%m/%d/%Y %I:%M:%S %p',
-	filename='archers.log',
-	level=settings.DEBUG and logging.DEBUG or logging.INFO
-)
-
 
 class UserCommunication(WebSocketServerProtocol):
 	# def __init__(self, world, *args, **kwargs):
@@ -126,6 +120,12 @@ class BroadcastServerFactory(WebSocketServerFactory):
 class Archers(object):
 	def __init__(self, config):
 		self.config = config
+
+		logging.basicConfig(format='%(asctime)s %(message)s',
+			datefmt='%m/%d/%Y %I:%M:%S %p',
+			filename='archers.log',
+			level=self.config['debug'] and logging.DEBUG or logging.INFO
+		)
 	
 	def init_networking(self):	
 		factory = BroadcastServerFactory("ws://{}:{}".format(self.config['host'], self.config['port']))
@@ -165,7 +165,7 @@ class Archers(object):
 		self.reactor = reactor
 		self.init_world()
 		self.init_networking()
-		if(settings.DEBUG):
+		if(self.config['debug']):
 			self.init_debug_renderer()
 			logging.debug("Debug mode ON")
 		self.init_cmd_support()
@@ -186,6 +186,8 @@ if __name__ == '__main__':
 				   help='Hostname to bind to')
 	parser.add_argument('--port', type=int, default=9000,
 				   help='Port number to bind to')
+	parser.add_argument('--debug', type=bool, default=False,
+				   help='Run in debug mode')
 
 	arguments = vars(parser.parse_args())
 	Archers(arguments).start()

@@ -13,9 +13,12 @@ requirejs.config({
 	// enforceDefine: true,
 	shim: {
 		'virtualjoystick': {
-			exports: 'VirtualJoystick'
+			exports: 'VirtualJoystick',
+			init: function() {
+				this.VirtualJoystick = VirtualJoystick;
+			}
 		},
-		'playcraft/boot': ['gamecore', 'playcraft/ext/box2dweb.2.1a-pc'],
+		'playcraft/boot': ['gamecore', 'playcraft/ext/box2dweb.2.1a-pc', 'virtualjoystick'],
 		'playcraft/ext/base64': ['playcraft/boot'],
 		'playcraft/input': ['playcraft/boot'],
 		'playcraft/hashmap': ['playcraft/boot'],
