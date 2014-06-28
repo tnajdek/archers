@@ -81,6 +81,9 @@ class CmdInterface(basic.LineReceiver):
 				self.out("\t\t %s" % referrer.__class__.__name__)
 				# self.out(str(referrer))
 
+	def m(self, *args):
+		return self.memory()
+
 	def mem(self, *args):
 		return self.memory()
 
@@ -91,28 +94,36 @@ class CmdInterface(basic.LineReceiver):
 	def e(self, *args):
 		return self.entity(*args)
 
-	def entity(self, what, *args):
+	def entity(self, *args):
+		try:
+			what = args[0]
+		except IndexError:
+			what = "help"
+
+		try:
+			entity_id = args[1]
+		except IndexError:
+			entity_id = None
+
 		def get_entity(args):
 			try:
-				return self.world.object_index[int(args[0])]
+				return self.world.object_index[int(args)]
 			except IndexError:
 				self.out("Need entity id to kill")
 			except KeyError:
-				self.out("Invalid entitiy id: %s" % args[0])
+				self.out("Invalid entitiy id: %s" % args)
 			return None
 
 		if(what == 'show'):
-			e = get_entity(args)
+			e = get_entity(entity_id)
 			if(e):
 				self.out(e)
 		elif(what == 'kill'):
-			e = get_entity(args)
+			e = get_entity(entity_id)
 			if(e):
 				self.world.kill(e)
 				self.out("Done")
-		elif(what == 'help'):
-			self.out("Valid options: list, kill, show")
-		else:
+		elif(what == 'list'):
 			ents = list()
 			fmt = [('id', 'id', 5), ('class', 'class', 20), ('type', 'type', 20), ('player', 'player', 20), ('grpindex', 'grpindex', 5)]
 			self.out("World currently holds %i entities:" % len(self.world.object_index))
@@ -130,9 +141,11 @@ class CmdInterface(basic.LineReceiver):
 					ent['grpindex'] = e.group_index
 				ents.append(ent)
 			self.out(TablePrinter(fmt)(ents))
+		else:
+			self.out("Valid options: list, kill, show")
 
 	def help(self, *args):
-		self.out("Options are: entities [list|show|kill], memory")
+		self.out("Options are: (e)ntities [list|show|kill], (m)emory, (c)onnections")
 
 	def lineReceived(self, line):
 		arguments = line.split()
