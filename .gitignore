@@ -47,3 +47,5 @@ blog/build
 
 # pip install dir
 backend/src
+
+fabconfig.py
