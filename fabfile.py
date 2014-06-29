@@ -23,6 +23,7 @@ RSYNC_EXCLUDE = (
 	'.DS_Store',
 	'.git',
 	'.gitignore',
+	'archers.log',
 	'*.pyc',
 )
 
@@ -139,7 +140,10 @@ def bootstrap():
 		create_virtualenv()
 	
 	deploy()
-	
+
+	if(hasattr(env, 'supervisor_config_dir')):
+		supervisor_restart()
+
 	if("virtualenv_root" in env):
 		update_requirements()
 
@@ -150,14 +154,25 @@ def create_virtualenv():
 	run('virtualenv %s %s' % (args, env.virtualenv_root))
 
 @task
-def apache_config():
-	""" install apache config file """
+def httpd_config():
+	""" install httpd (apache/nginx) config file """
 	require('root', provided_by=PROVIDERS)
 
 	rsync_project(
-		env.apache_config_dir,
-		"apache/archers-%s.conf" % env.environment
+		env.httpd_config_dir,
+		os.path.join(BASEDIR, "server-configs", "httpd-archers-%s.conf" % env.environment)
 	)
+
+@task
+def supervisor_config():
+	""" install supervisor config file """
+	require('root', provided_by=PROVIDERS)
+
+	rsync_project(
+		env.supervisor_config_dir,
+		os.path.join(BASEDIR, "server-configs", "supervisor-archers-%s.ini" % env.environment)
+	)
+
 
 @task
 def deploy():
@@ -181,12 +196,22 @@ def deploy():
 		run('mkdir -p {}'.format(os.path.join(env.code_root, dest)))
 		rsync_project(
 			os.path.join(env.code_root, dest),
-			src,
+			os.path.join(BASEDIR, src),
 			exclude=RSYNC_EXCLUDE,
 			delete=True,
 			extra_opts=extra_opts,
 		)
-	apache_config()
+	httpd_config()
+	
+	if(hasattr(env, 'supervisor_config_dir')):
+		supervisor_config()
+	
+	if(hasattr(env, 'folders') and 'backend/' in env.folders):
+		run("touch %s" % os.path.join(env.code_root, env.folders['backend/'], 'archers.log'))
+		run("chown -R nobody:nobody %s" % os.path.join(env.code_root, env.folders['backend/'], 'archers.log'))
+
+	if(hasattr(env, 'supervisor_config_dir')):
+		game_restart()
 
 @task
 def update_requirements():
@@ -203,13 +228,31 @@ def update_requirements():
 
 @task
 def configtest():    
-    """ test Apache configuration """
-    require('root', provided_by=PROVIDERS)
-    run('apachectl configtest')
+	""" test Apache configuration """
+	require('root', provided_by=PROVIDERS)
+	run('apachectl configtest')
 
 
 @task
 def apache_restart():    
-    """ restart Apache on remote host """
-    require('root', provided_by=PROVIDERS)
-    run('sudo systemctl restart httpd')
+	""" restart Apache on remote host """
+	require('root', provided_by=PROVIDERS)
+	run('systemctl restart httpd')
+
+@task
+def nginx_restart():    
+	""" restart Nginx on remote host """
+	require('root', provided_by=PROVIDERS)
+	run('systemctl restart nginx')
+
+@task
+def game_restart():
+	""" Use supervisor to restart game server on the remote host """
+	require('root', provided_by=PROVIDERS)
+	run('supervisorctl restart archers')
+
+@task
+def supervisor_restart():
+	""" Restart supervisor deamon """
+	require('root', provided_by=PROVIDERS)
+	run('systemctl restart supervisord')
