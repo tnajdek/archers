@@ -1,3 +1,7 @@
+Live Demo
+---------
+
+Live version of Archers! game is hosted online, server browser is available here: [www.archersgame.com](http://www.archersgame.com/).
 
 Development prerequisites
 ------------
