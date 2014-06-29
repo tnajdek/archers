@@ -32,7 +32,7 @@ define(['lodash',
 			_.each(data.slots, function(name, slotid) {
 				var candidates = [];
 				_.each(data.items, function(item, itemid) {
-					if(item.slot == slotid) {
+					if(item.slot == slotid && (item.price == null || item.price == 0)) {
 						if(item.variants && !_.isEmpty(item.variants)) {
 							candidates.push([
 								itemid,
