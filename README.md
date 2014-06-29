@@ -107,3 +107,11 @@ On Arch:
 Ideally setup key-based authentication (`ssh-copy-id`) then run `fab build server bootstrap` where `server` is configured in fabconfig (above). After making changes locally, you can redeploy by executing `fab build server bootstrap`.
 
 Server browser is optional, can be configured in fabconfig as shown above and deployed using `fab build server_browser bootstrap`.
+
+License
+-------
+Archers game i.e. all code in this reposity is licensed under [GPL 3.0](http://www.gnu.org/copyleft/gpl.html). All blog posts i.e. contents of the `blog/post/pages` and `blog/posts/posts` folders are licensed under [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/) license.
+
+Archers! game makes use of artwork produced for [Liberated Pixel Cup](http://lpc.opengameart.org/) by the following authors & contributors: Barbara Rivera, Casper Nilsson, Chris Phillips, Anamaris and Krusmira (aka Emilio J Sanchez), Jonas Klinger, Joshua Taylor, Leo Villeveygoux, Matthew Nash, Lanea Zimmerman (AKA Sharm), Stephen Challener (AKA Redshrike), Charles Sanchez (AKA CharlesGabriel), Manuel Riecke (AKA MrBeast), Daniel Armstrong (AKA HughSpectrum), Connor Sherson, Mark Weyer, Daniel Eddeland, Juan Rodriguez, Johann Charlot, Cem Kalyoncu, Skyler Robert Colladay, Roman `Ashiroxzer` Iljin and released under dual license [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/) and [GPL 3.0](http://www.gnu.org/copyleft/gpl.html)
+
+Archers! game makes use of icons by [Game Icons](http://game-icons.net/) by the following authors & contributors: Lorc, Delapouite, John, Felbrigg, John, Carl, sbed, PriorBlue, Willdabeast and released under [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/)
